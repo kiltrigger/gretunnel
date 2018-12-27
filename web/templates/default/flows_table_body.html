@@ -1,0 +1,14 @@
+<tr>
+	<td><?=$date;?></td>			
+	<td><?=$row['Owner'];?></td>
+	<td align="center"><?=$row['SrcIp'];?>:<?=$row['SrcPort'];?> --> <?=$row['DstIp'];?>:<?=$row['DstPort'];?></td>
+	<td><?=$row['Bytes'];?></td>
+	<td>
+	<? if ($row['Local']=='1'): ?>
+	<?=$l_tables['yes'];?>
+	<? endif; ?>
+	<? if ($row['Local']=='0'): ?>
+	<?=$l_tables['no'];?>	
+	<? endif; ?>
+	</td>			
+</tr>

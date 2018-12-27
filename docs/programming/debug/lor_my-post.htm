@@ -1,0 +1,1466 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ru"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="STYLESHEET" type="text/css" href="lor_my-post_files/common.css">
+  
+
+  
+    <link rel="STYLESHEET" type="text/css" href="lor_my-post_files/hover.css">
+  
+
+<script src="lor_my-post_files/jquery.js" type="text/javascript"></script>
+<script src="lor_my-post_files/head.js" type="text/javascript"></script>
+
+
+
+<title>Форум - Development - демон, утечка памяти, краш</title>
+<link rel="parent" title="Форум - Development" href="http://www.linux.org.ru/group.jsp?group=4066">
+
+  <link rel="Previous" id="PrevLink" href="http://www.linux.org.ru/forum/development/4758703?lastmod=1270848211695" title="Как сделать каталог с QT4 портабельным?">
+
+
+
+  <link rel="Next" id="NextLink" href="http://www.linux.org.ru/forum/development/4758852?lastmod=1270897231163" title="[shell] Изменение раскладки">
+
+
+<link rel="alternate" title="Comments RSS" href="http://www.linux.org.ru/forum/development/4758776?output=rss" type="application/rss+xml">
+<script type="text/javascript">
+  <!--
+  $(document).bind('keydown', {combi:'Ctrl+left', disableInInput: true}, function(){ jump(document.getElementById ('PrevLink')) });
+  $(document).bind('keydown', {combi:'Ctrl+right', disableInInput: true}, function(){ jump(document.getElementById ('NextLink')) });
+  -->
+</script>
+
+<script src="lor_my-post_files/addComments.js" type="text/javascript"></script>
+
+
+
+
+
+
+<link rel="search" title="Search L.O.R." href="http://www.linux.org.ru/search.jsp">
+<link rel="top" title="Linux.org.ru" href="http://www.linux.org.ru/">
+<script src="lor_my-post_files/lor.js" type="text/javascript">;</script>
+
+<!-- base href="http://www.linux.org.ru/" -->
+
+
+
+
+
+
+
+<link rel="STYLESHEET" type="text/css" href="lor_my-post_files/combined.css" title="Normal">
+<link rel="shortcut icon" href="http://www.linux.org.ru/favicon.ico" type="image/x-icon">
+</head><body>
+<table class="head" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+        <td rowspan="2" align="left"><a href="http://www.linux.org.ru/"><img src="lor_my-post_files/lor-new.png" alt="Linux.org.ru" border="0" height="60" width="282"></a></td>
+        <td align="right">
+          
+            
+            добро пожаловать, <a style="text-decoration: none;" href="http://www.linux.org.ru/people/metallic/profile">metallic</a>
+            [<a href="http://www.linux.org.ru/logout.jsp?sessionId=44787A47C544DE4129D1E464788CD055" title="Выйти">x</a>]
+          
+
+          
+
+        </td>
+  </tr>
+  <tr>
+        <td valign="bottom" align="right">
+                <a style="text-decoration: none;" href="http://www.linux.org.ru/">Новости</a> -
+                <a style="text-decoration: none;" href="http://www.linux.org.ru/gallery/">Галерея</a> -
+                <a style="text-decoration: none;" href="http://www.linux.org.ru/forum/">Форум</a> -
+                <a style="text-decoration: none;" href="http://www.linux.org.ru/tracker.jsp">Трекер</a> -
+                <a style="text-decoration: none;" href="http://www.linux.org.ru/wiki">Wiki</a> -
+                <a style="text-decoration: none;" href="http://www.linux.org.ru/search.jsp">Поиск</a>
+        </td>
+</tr>
+</tbody></table>
+
+
+
+<!--TopList COUNTER-->
+<img src="lor_my-post_files/counter_002.gif" alt="" height="1" width="1">
+<!--TopList COUNTER-->
+<div id="bd">
+
+<div class="messages">
+
+<form method="GET" action="view-message.jsp">
+<input name="msgid" value="4758776" type="hidden">
+  <table class="nav">
+  <tbody><tr>
+  <td id="navPath" valign="middle" align="left">
+    <a href="http://www.linux.org.ru/forum/">Форум</a> -
+    <a href="http://www.linux.org.ru/forum/development/">Development</a>
+  </td>
+
+    <td align="right">
+      <ul>
+      <li>[<a href="http://www.linux.org.ru/forum/development/4758776?output=rss">RSS</a>]</li>
+
+      
+
+        
+           <li>[<a href="http://www.linux.org.ru/ignore-list.jsp">Фильтр</a>]</li>
+        
+        <li><select name="filter" onchange="submit();">
+<option value="show" selected="selected">все комментарии</option><option value="anonymous">без анонимных</option><option value="list">без игнорируемых</option><option value="listanon">без анонимных и игнорируемых</option>
+          </select></li>
+      
+        </ul>
+    </td>
+  </tr></tbody></table>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- 4758776  -->
+<div class="msg" id="topic-4758776">
+
+  <div class="title">
+    
+    
+      [<a href="http://www.linux.org.ru/forum/development/4758776">#</a>]
+      
+  &nbsp;</div>
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/a90b2be4999e44e6366dce31f4e15f8b.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+  <h1>
+    демон, утечка памяти, краш
+  </h1>
+
+    <p>Написал демона на Си, который постоянно находится в памяти и что-то делает.<br>
+<br>
+Есть две проблемы:<br>
+1) Немного поджирает память, за сутки схедает примерно 10Мб оперативки, как вычислить, где что не остается?<br>
+2) Раз в несколько дней падает, отладчик gdb после анализа дампа говорит:<br>
+Program terminated with signal 8, Arithmetic exception.<br>
+#0  0x0000000000405734 in ?? ()<br>
+<br>
+Какие есть способы вычислить точнее хотя бы примерный участок кода, где это произошло?<br>
+
+
+    
+    
+
+</p><div class="sign">
+<a href="http://www.linux.org.ru/people/metallic/profile">metallic</a>   (09.04.2010 9:22:35)
+  
+  
+    
+  
+  
+    
+</div>
+    
+      <div class="reply">
+[<a href="http://www.linux.org.ru/comment-message.jsp?msgid=4758776">Ответить на это сообщение</a>] [<a href="http://www.linux.org.ru/delete.jsp?msgid=4758776">Удалить</a>][<a href="http://www.linux.org.ru/resolve.jsp?msgid=4758776&amp;resolve=yes">Отметить как решенную</a>]
+        </div>
+      
+</div>
+  <div style="clear: both;"></div>
+</div>
+
+
+
+<table class="nav">
+      <tbody><tr>
+        <td valign="middle" width="35%" align="left">
+          <table>
+            <tbody><tr valign="middle">
+                
+                  <td style="padding-right: 5px;">
+                    <a href="http://www.linux.org.ru/forum/development/4758703?lastmod=1270848211695" rel="prev" rev="next">←</a>
+                  </td>
+                  <td valign="top" align="left">
+                    <a href="http://www.linux.org.ru/forum/development/4758703?lastmod=1270848211695" rel="prev" rev="next">
+                    Как сделать каталог с QT4 портабельным?</a>
+                    
+                  </td>
+                
+            </tr>
+          </tbody></table>
+        </td>
+        <td valign="middle" width="35%" align="left">
+          
+            <table align="right">
+              <tbody><tr valign="middle" align="right">
+                <td>
+                  <a href="http://www.linux.org.ru/forum/development/4758852?lastmod=1270897231163" rel="next" rev="prev">
+                    [shell] Изменение раскладки
+                  </a>
+                  
+                </td>
+                <td style="padding-left: 5px;" valign="middle" align="right">
+                  <a href="http://www.linux.org.ru/forum/development/4758852?lastmod=1270897231163" rel="next" rev="prev">→</a>
+                </td>
+              </tr>
+            </tbody></table>
+          
+        </td>
+      </tr>
+    </tbody></table>
+
+
+  <div style="text-align: center; margin-top: 1em;">
+    
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-6069094673001350";
+/* 728x90, view-message.jsp */
+google_ad_slot = "0977795537";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="lor_my-post_files/show_ads.js">
+</script><script src="lor_my-post_files/expansion_embed.js"></script><script src="lor_my-post_files/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: inline-table; height: 90px; position: relative; visibility: visible; width: 728px;"><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: block; height: 90px; position: relative; visibility: visible; width: 728px;"><iframe allowtransparency="true" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" src="lor_my-post_files/ads.html" style="left: 0pt; position: absolute; top: 0pt;" vspace="0" frameborder="0" height="90" scrolling="no" width="728"></iframe></ins></ins>
+  </div>
+  <br>
+
+
+
+
+
+
+  <div class="nav">
+сообщения отсортированы в порядке возрастания даты их написания
+    </div>
+  
+  
+  <div class="comment">
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4758804 -->
+
+<div class="msg" id="comment-4758804">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4758804">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/ec286c6342c99f2467e905d4cb0487bb.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p><i>&gt; постоянно находится в памяти и что-то делает.</i><br>
+<br>
+Ящитаю, это вин.
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/LamerOk/profile">LamerOk</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9"><img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 9:36:54)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4758804">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4758810 -->
+
+<div class="msg" id="comment-4758810">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4758810">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/7d25e8cdb1bab65a403e5fc3c0be1390.jpeg" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>1. valgrind<br>
+2. собрать с отладочной инфой и смотреть gdb
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/dreamer/profile">dreamer</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9"><img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9"><img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 9:38:28)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4758810">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4758833 -->
+
+<div class="msg" id="comment-4758833">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4758833">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4758804" onclick="highlightMessage(4758804);">комментарий</a> от LamerOk 09.04.2010 9:36:54
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/e9f9a5bcef2a382e765e917417487267.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p><i>&gt;&gt; постоянно находится в памяти и что-то делает. </i><i><br>
+&gt; Ящитаю, это вин. </i><br>
+<br>
+Смеялся всем шредером :)
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/power/profile">power</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 9:50:46)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4758833">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4758953 -->
+
+<div class="msg" id="comment-4758953">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4758953">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4758810" onclick="highlightMessage(4758810);">комментарий</a> от dreamer 09.04.2010 9:38:28
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/a90b2be4999e44e6366dce31f4e15f8b.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p><i>&gt;собрать с отладочной инфой и смотреть gdb </i><br>
+<br>
+Ну я собирал с опцией -g, но отладчик ничего нового не показал (я им смотрел core-файл)<br>
+Или под отладчиком нужно запускать демона и гонять? Я себе это не
+представляю, ведь программа может нормально работать несколько суток,
+мне что сидеть и крутить ее вручную? :) Я просто раньше не пользовался
+отладчиком, не поясните? </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/metallic/profile">metallic</a>   (09.04.2010 10:35:20)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4758953">Ответить на это сообщение</a>] [<a href="http://www.linux.org.ru/delete_comment.jsp?msgid=4758953">Удалить</a>]</div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4758988 -->
+
+<div class="msg" id="comment-4758988">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4758988">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4758953" onclick="highlightMessage(4758953);">комментарий</a> от metallic 09.04.2010 10:35:20
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/ec286c6342c99f2467e905d4cb0487bb.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p><i>&gt;  сидеть и крутить ее вручную?</i><br>
+<br>
+Да, разумеется.
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/LamerOk/profile">LamerOk</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9"><img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 10:48:51)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4758988">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4759009 -->
+
+<div class="msg" id="comment-4759009">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4759009">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/451801335809455.jpg" alt="namezys (фотография)" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>Арефметическое исключение на процессоре? или еще что нить?</p><p>скорее всего проблемы с FPU
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/namezys/profile">namezys</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 10:53:33)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4759009">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4759027 -->
+
+<div class="msg" id="comment-4759027">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4759027">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/33341374765960.png" alt="kranky (фотография)" height="134" width="65">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>Сделай чтоль логирование действий, хотя бы узнаешь, после чего он выпадает.
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/kranky/profile">kranky</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 11:01:41)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4759027">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4759087 -->
+
+<div class="msg" id="comment-4759087">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4759087">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4758953" onclick="highlightMessage(4758953);">комментарий</a> от metallic 09.04.2010 10:35:20
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/962a61b48bae8e3bd9b54828a1d45edb.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>Ну
+там команды bt, list и т.д. должны показать, в каком месте кода
+программа падает. Командой print можно посмотреть содержимое переменных
+в этот момент. Ну и т.д. Можно смотреть core файл, можно запускать
+демон из отладчика (и необязательно при этом сидеть рядом). </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/tim239/profile">tim239</a>   (09.04.2010 11:22:31)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4759087">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4759112 -->
+
+<div class="msg" id="comment-4759112">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4759112">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/ccd5d5b285cbbb4918eca9e38996ebb9.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>Сбилдь с -g -ggdb.<br>
+После анализируйте крэш.<br>
+Если не покажет конструктива (знаки вопроса в кол стэке) - значит съехал стэк.<br>
+Про память Ваv правильно сказали valgrind.
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/Svoloch/profile">Svoloch</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9"><img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9"><img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 11:28:59)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4759112">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4759346 -->
+
+<div class="msg" id="comment-4759346">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4759346">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4758804" onclick="highlightMessage(4758804);">комментарий</a> от LamerOk 09.04.2010 9:36:54
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/45690-1277251442.jpg" alt="shty (фотография)" height="150" width="135">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p><i>&gt;&gt; постоянно находится в памяти и что-то делает.</i><i><br>
+</i><i><br>
+&gt;Ящитаю, это вин. </i><br>
+<br>
++1 :)
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/shty/profile">shty</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 12:39:48)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4759346">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4760092 -->
+
+<div class="msg" id="comment-4760092">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4760092">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/522491212465021.jpg" alt="runtime (фотография)" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>Вопрос - а может ли такой эффект давать фрагментация ?
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/runtime/profile">runtime</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 16:17:51)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4760092">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4760120 -->
+
+<div class="msg" id="comment-4760120">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4760120">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4760092" onclick="highlightMessage(4760092);">комментарий</a> от runtime 09.04.2010 16:17:51
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/522491212465021.jpg" alt="runtime (фотография)" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>Пардон, не заметил, что у автора прога падает. Вопрос отменяется.
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/runtime/profile">runtime</a> <img src="lor_my-post_files/normal-star.gif" alt="*" height="9" width="9">  (09.04.2010 16:24:01)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4760120">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4760179 -->
+
+<div class="msg" id="comment-4760179">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4760179">#</a>]
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>1) man 3 mtrace<br>
+2) ну у вас же написан адрес инструкции (регистр RIP, если это x86_64).
+Стека нет, ну и ладно. objdump -j .text -D 'программа' и ищете там этот
+адрес. Если objdump не показывает имена функций, значит бинарный файл
+стрипованный, перекомпилировать (лучше с отладкой, -g).<br>
+
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/anonymous/profile">anonymous</a>  (09.04.2010 16:36:48)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4760179">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4760616 -->
+
+<div class="msg" id="comment-4760616">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4760616">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4758953" onclick="highlightMessage(4758953);">комментарий</a> от metallic 09.04.2010 10:35:20
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/34581e3dceda499dbca386a018b2c6cf.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>
+<i>&gt;Я просто раньше не пользовался отладчиком, не поясните?
+</i></p><p> ТруЪ! :)
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/slackwarrior/profile">slackwarrior</a>   (09.04.2010 18:36:03)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4760616">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4760622 -->
+
+<div class="msg" id="comment-4760622">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4760622">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4759009" onclick="highlightMessage(4759009);">комментарий</a> от namezys 09.04.2010 10:53:33
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/34581e3dceda499dbca386a018b2c6cf.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p>
+<i>&gt;Арефметическое исключение на процессоре? или еще что нить?
+</i></p><p><i>
+&gt;скорее всего проблемы с FPU 
+</i></p><p> Сказано же, "что-то делает". На ноль делит, например)
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/slackwarrior/profile">slackwarrior</a>   (09.04.2010 18:38:07)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4760622">Ответить на это сообщение</a>] </div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 4770464 -->
+
+<div class="msg" id="comment-4770464">
+
+  <div class="title">
+[<a href="http://www.linux.org.ru/jump-message.jsp?msgid=4758776&amp;cid=4770464">#</a>]
+
+     Ответ на: <a href="http://www.linux.org.ru/forum/development/4758776?lastmod=1271054955673#comment-4760179" onclick="highlightMessage(4760179);">комментарий</a> от anonymous 09.04.2010 16:36:48
+    &nbsp;</div>
+  
+  
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="userpic">
+<img src="lor_my-post_files/a90b2be4999e44e6366dce31f4e15f8b.gif" height="150" width="150">
+</div>
+    
+  
+
+  <div class="msg_body message-w-userpic">
+    
+  <p><i>&gt;
+ну у вас же написан адрес инструкции (регистр RIP, если это x86_64).
+Стека нет, ну и ладно. objdump -j .text -D 'программа' и ищете там этот
+адрес. Если objdump не показывает имена функций, значит бинарный файл
+стрипованный, перекомпилировать (лучше с отладкой, -g).</i><br>
+<br>
+Программа скомпилена с -g, архитекрута да - x86_64. Сделал objdump -j
+.text -D 'программа' - вывалило кучу всего интересного и не понятного :)<br>
+<br>
+Делаем:<br>
+# objdump -j .text -D 'программа' | grep 0000000000405734<br>
+ничего не показало<br>
+<br>
+# objdump -j .text -D 'программа' | grep 405734<br>
+405734:       48 f7 75 d8             divq   0xffffffffffffffd8(%rbp)<br>
+<br>
+Это оно? Эта строчка находится в секции 0000000000405020 &lt;main&gt;:<br>
+<br>
+
+    </p><div class="sign">
+    <a href="http://www.linux.org.ru/people/metallic/profile">metallic</a>   (12.04.2010 10:49:15)
+    </div>
+    <div class="reply">[<a href="http://www.linux.org.ru/add_comment.jsp?topic=4758776&amp;replyto=4770464">Ответить на это сообщение</a>] [<a href="http://www.linux.org.ru/delete_comment.jsp?msgid=4770464">Удалить</a>]</div>
+  </div><div style="clear: both;"></div>
+</div>
+    
+  </div>
+
+  
+
+  <table class="nav">
+      <tbody><tr>
+        <td valign="middle" width="35%" align="left">
+          <table>
+            <tbody><tr valign="middle">
+                
+                  <td style="padding-right: 5px;">
+                    <a href="http://www.linux.org.ru/forum/development/4758703?lastmod=1270848211695" rel="prev" rev="next">←</a>
+                  </td>
+                  <td valign="top" align="left">
+                    <a href="http://www.linux.org.ru/forum/development/4758703?lastmod=1270848211695" rel="prev" rev="next">
+                    Как сделать каталог с QT4 портабельным?</a>
+                    
+                  </td>
+                
+            </tr>
+          </tbody></table>
+        </td>
+        <td valign="middle" align="center">
+          <table>
+            <tbody><tr valign="middle">
+              <td>
+                <a title="Форум - Development" href="http://www.linux.org.ru/forum/development/">
+                  Форум - Development
+                </a>
+              </td>
+            </tr>
+          </tbody></table>
+        </td><td valign="middle" width="35%" align="right">
+          
+            <table align="right">
+              <tbody><tr valign="middle" align="right">
+                <td>
+                  <a href="http://www.linux.org.ru/forum/development/4758852?lastmod=1270897231163" rel="next" rev="prev">
+                    [shell] Изменение раскладки
+                  </a>
+                  
+                </td>
+                <td style="padding-left: 5px;" valign="middle" align="right">
+                  <a href="http://www.linux.org.ru/forum/development/4758852?lastmod=1270897231163" rel="next" rev="prev">→</a>
+                </td>
+              </tr>
+            </tbody></table>
+          
+        </td>
+      </tr>
+    </tbody></table>
+
+</div>
+
+
+<hr>
+<form action="/forum/development/4758776" method="POST">
+<input name="deleted" value="1" type="hidden">
+<input value="Показать удаленные комментарии" type="submit">
+</form>
+<hr>
+
+
+
+
+
+  <script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+      var iframe = $('<iframe src="dw.jsp?width=728&amp;height=90&amp;main=0" width="728" height="90" scrolling="no" frameborder="0"></iframe>');
+      $('#dw').append(iframe);
+    });
+    -->
+  </script>
+<div id="dw" align="center">
+<iframe src="lor_my-post_files/dw.html" frameborder="0" height="90" scrolling="no" width="728"></iframe></div>
+
+
+
+  <div style="display: none;">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form method="POST" action="add_comment.jsp" id="commentForm">
+  <input name="session" value="44787A47C544DE4129D1E464788CD055" type="hidden">
+  
+
+  <input name="topic" value="4758776" type="hidden">
+  
+    <input name="replyto" value="0" type="hidden">    
+  
+
+  <label for="title">Заглавие:</label>
+  <input id="title" name="title" size="40" type="text"><br>
+
+  <label for="msg">Сообщение:</label><br>
+  <font size="2">(В режиме <i>Tex paragraphs</i> игнорируются переносы строк.<br> Пустая строка (два
+    раза Enter) начинает новый абзац.<br> Знак '&gt;' в начале абзаца выделяет абзац курсивом
+    цитирования)</font><br>
+  <font size="2"><b>Внимание:</b> Новый экспериментальный режим - <a href="http://www.linux.org.ru/wiki/en/Lorcode">LORCODE</a></font><br>
+
+  <textarea id="msg" class="required" name="msg" cols="70" rows="20"></textarea><br>
+
+  
+  <select name="mode">
+  <option value="ntobrq">User line breaks w/quoting
+  </option><option value="quot" selected="selected">TeX paragraphs w/quoting
+  </option><option value="tex">TeX paragraphs w/o quoting
+  </option><option value="ntobr">User line breaks w/o quoting
+  </option><option value="lorcode">LORCODE
+  </option></select>  <br>
+
+  
+
+  <br>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <input value="Поместить" type="submit">
+  <input name="preview" value="Предпросмотр" type="submit">
+  
+    <input name="cancel" value="Отменить" id="cancelButton" type="reset">
+  
+</form>
+  </div>
+
+
+
+
+
+</div>
+<div id="ft">
+
+<p id="ft-info">
+  <a href="http://www.linux.org.ru/server.jsp">О Сервере</a> -
+  <a href="http://www.linux.org.ru/rules.jsp">Правила форума</a><br>
+  <a href="http://www.linux.org.ru/">http://www.linux.org.ru/</a>
+</p>
+
+<div id="ft-buttons">
+  <!-- begin of Top100 logo -->
+  <a href="http://top100.rambler.ru/home?id=29833" target="_blank"><img src="lor_my-post_files/banner-88x31-rambler-black2.gif" alt="Rambler's Top100" border="0" height="31" width="88"></a>
+  <!-- end of Top100 logo -->
+  <!--TopList LOGO-->
+  <a target="_top" href="http://top.list.ru/jump?from=71642"><img src="lor_my-post_files/counter.gif" alt="TopList" border="0" height="31" width="88"></a>
+  <!--TopList LOGO-->
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="lor_my-post_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2184304-1");
+pageTracker._setCustomVar(1, "Authorized", "true");
+pageTracker._setCustomVar(2, "Style", "black");
+pageTracker._setCustomVar(3, "Mobile View", "false");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</div>
+
+
+
+<!-- begin of Top100 code -->
+<script id="top100Counter" type="text/javascript" src="lor_my-post_files/top100.js"></script><noscript><img src="http://counter.rambler.ru/top100.cnt?29833" alt="" width="1" height="1" border="0"/></noscript>
+<!-- end of Top100 code -->
+
+</body></html>

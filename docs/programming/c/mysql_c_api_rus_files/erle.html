@@ -1,0 +1,118 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+</head><body leftmargin="0" topmargin="0" scroll="no" marginheight="0" marginwidth="0">
+<!-- AdRiver (c) Flash Loader -->
+<!-- Last Edited 26.01.2009 by ZonovAlexandr -->
+
+<script language="JavaScript">
+<!--
+var ar_img_name     = 'nokia_468x60_soloway.jpg';
+var ar_img_location = '';
+var ar_swf_name     = 'nokia_468x60_soloway2.swf';
+var ar_swf_location = '';
+var ar_flashver     = '6';
+var ar_quality      = 'best';
+var ar_gif_href     = '';
+var ar_wmode        = 'opaque';
+
+var ar_flash_pixel	= '';
+var ar_gif_pixel	= '';
+
+var ar_swf = ar_swf_name||ar_swf_location;
+var ar_img = ar_img_name||ar_img_location;
+
+ar_flashver = parseInt(ar_flashver);if(isNaN(ar_flashver)) ar_flashver = 0;
+
+var ar_plugin = false;
+function ar_flver(d,n,m,f){
+	n=navigator;f='Shockwave Flash';
+	if((m=n.mimeTypes)&&(m=m["application/x-shockwave-flash"])&&m.enabledPlugin&&(n=n.plugins)&&n[f]){d=n[f].description}
+	else if(window.ActiveXObject){try{d=(new ActiveXObject((f+'.'+f).replace(/ /g,''))).GetVariable('$version')}catch(e){}}
+	return d?d.replace(/\D+/,'').split(/\D+/)[0]:0;
+}
+ar_plugin = ar_flver()>=ar_flashver&&ar_swf!='';
+var ar_pix = ar_plugin ? ar_flash_pixel : ar_gif_pixel;
+
+function ar_parse(p, f){
+	p = p.split('&');
+	for (var i in p){
+		if (f(p[i].split('='))) return;
+	}
+}
+
+function ar_p (p, v){
+	return typeof(v) == 'undefined' ? '' : p + '=' + v;
+}
+
+function ar_find_h(p){
+	 if (p[0] == 'html_params'){ ar_parse(unescape(p[1]), ar_parse_h); return 1}
+}
+
+function ar_parse_h(p){
+	var v = p[1];
+	switch (p[0]){
+		case 'rhost':	ar_rhost = v; break;
+		case 'bid':		ar_bid = v; break;
+		case 'ar_ntype':	ar_ntype = v; break;
+		case 'sid':		ar_sid = v; break;
+		case 'rnd':		ar_rnd	= v; break;
+		case 'bn':		ar_bn = v; break;
+		case 'width':	ar_width = v; break;
+		case 'height':	ar_height = v; break;
+		case 'target':	ar_target = v; break;
+		case 'url':		ar_redirect = unescape(v); break;
+		
+		case 'ad':		ar_ad = v; break;
+		case 'nid':		ar_nid = v; break;
+		case 'bt':		ar_bt = v; break;
+		case 'pz':		ar_pz = v;
+	}
+}
+
+
+var ar_rhost = 'ad.adriver.ru', ar_target = '_blank';
+var ar_sid, ar_bid, ar_ntype, ar_bn, ar_width, ar_height, ar_rnd, ar_redirect, ar_ad, ar_nid, ar_bt, ar_pz;
+
+ar_parse(location.href.substring(location.href.indexOf("?")+1), ar_find_h);
+
+ar_pix = ar_pix.replace(/!\[rnd\]/g,ar_rnd);
+
+if (location.href.indexOf('mngcgi')==-1&&ar_pix) {
+	if(document.createElement){
+		var i=document.createElement('img');
+		i.style.display='none';i.style.width=i.style.height='0px';
+		i.src=ar_pix;
+		document.body.appendChild(i);
+	}
+	else{document.write('<img src="'+ar_pix+'" border=0 width=0 height=0>')}
+}
+
+var ar_l = location.href.substring(location.href.indexOf("?")+1);
+var ar_t = '';
+if (ar_l.indexOf("target=")!=-1) ar_t = ar_l.substring(ar_l.indexOf("target=")+7);
+if (ar_t=='_top' || ar_t=='_blank') ar_target=ar_t;
+
+
+ar_redirect = typeof(ar_redirect) == 'undefined' ? 'http://' + ar_rhost + '/cgi-bin/click.cgi?' +
+					ar_p('bid', ar_bid) + ar_p('&ntype', ar_ntype) + ar_p('&sid', ar_sid) + ar_p('&bn', ar_bn) +
+					ar_p('&ad', ar_ad) + ar_p('&nid', ar_nid) + ar_p('&bt', ar_bt) + ar_p('&pz', ar_pz) +
+					ar_p('&rnd', ar_rnd) +  ar_p('&rleurl','') : ar_redirect;
+
+var ar_temp = location.href.substring(0);
+var ar_CompPath = ar_temp.substring(0, ar_temp.indexOf('index.html'));
+
+var ar_html = '';
+var ar_metrics = ar_p(' width', ar_width) + ar_p(' height', ar_height);
+
+ar_gif_href = ar_gif_href.replace(/!\[rnd\]/g,ar_rnd);
+
+if (ar_plugin)
+	ar_html = '<scr'+'ipt src="/flashloader.js"><\/scr'+'ipt>'; 
+else if (ar_img) ar_html = '<a href="' + ar_redirect + escape(ar_gif_href) + '" ' + 'target=' + ar_target + '><img src="'
+			+ (ar_img.indexOf("http://") != 0 ? ar_CompPath : '') + ar_img + (ar_img.indexOf('?')!=-1?'&':'?')
+			+ ar_p('sid', ar_sid)+ '"' + ar_metrics + ' alt="" border=0></a>';
+	
+document.write(ar_html);
+// -->
+</script><script src="erle_data/flashloader.js"></script><object id="ar_flash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" height="60" width="468"><param name="movie" value="http://217.16.18.213/images/0000667/0000667186/0/nokia_468x60_soloway2.swf?link1=http%3A//ad.adriver.ru/cgi-bin/click.cgi%3Fbid%3D667186%26ntype%3D4%26sid%3D10834%26bn%3D0%26bt%3D1%26pz%3D0%26rnd%3D7471235%26rleurl%3D&amp;target=_blank&amp;ar_bid=667186&amp;ar_ntype=4&amp;ar_comppath=http://217.16.18.213/images/0000667/0000667186/0/&amp;sid=10834"><param name="play" value="true"><param name="loop" value="true"><param name="wmode" value="opaque"><param name="quality" value="best"><param name="menu" value="false"><param name="allowScriptAccess" value="always"><param name="flashvars" value="link1=http%3A//ad.adriver.ru/cgi-bin/click.cgi%3Fbid%3D667186%26ntype%3D4%26sid%3D10834%26bn%3D0%26bt%3D1%26pz%3D0%26rnd%3D7471235%26rleurl%3D&amp;target=_blank&amp;ar_bid=667186&amp;ar_ntype=4&amp;ar_comppath=http://217.16.18.213/images/0000667/0000667186/0/&amp;sid=10834"><embed type="application/x-shockwave-flash" src="erle_data/nokia_468x60_soloway2.swf" allowscriptaccess="always" play="true" loop="true" wmode="opaque" quality="best" flashvars="link1=http%3A//ad.adriver.ru/cgi-bin/click.cgi%3Fbid%3D667186%26ntype%3D4%26sid%3D10834%26bn%3D0%26bt%3D1%26pz%3D0%26rnd%3D7471235%26rleurl%3D&amp;target=_blank&amp;ar_bid=667186&amp;ar_ntype=4&amp;ar_comppath=http://217.16.18.213/images/0000667/0000667186/0/&amp;sid=10834" menu="false" height="60" width="468"></object>
+</body></html>

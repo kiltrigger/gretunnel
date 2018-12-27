@@ -1,0 +1,1129 @@
+======= Установка VPNMS. =======
+Для установки нам понадобится **FreeBSD 7.X** и выше. Я тестировал на совместимость с **FreeBSD 7.2** и **FreeBSD 8.0**, с другими, более новыми версиями, проблем тоже быть не должно. В данной документации я буду все делать на примере **FreeBSD 8.0**.
+
+
+
+
+===== Подготовка системы =====
+
+Итак, имеем свежеустановленную систему:
+
+<code>
+# uname -a
+FreeBSD  8.0-RELEASE FreeBSD 8.0-RELEASE #0: Sat Nov 21 15:02:08 UTC 2009     root@mason.cse.buffalo.edu:/usr/obj/usr/src/sys/GENERIC  amd64
+</code>
+
+Для начала нам нужно подготовить систему.
+  * Сконфигурируем сетевую подситему. В простейшем случае два сетевых интерфейса: один(**em0**) смотрит во внутреннюю сеть, второй(**em1**) в мир. Также нужно разрешить нашему серверу работать в качестве шлюза (опция **gateway_enable**), задать имя хоста и прописать наш(и) dns в /etc/resolv.conf (файл надо создать, если его нет). На данный момент файл /etc/rc.conf будет выглядеть примерно так:
+<code>
+gateway_enable="YES"
+hostname="vpn.domain.org"
+ifconfig_em0="inet 10.0.15.3  netmask 255.255.0.0"
+ifconfig_em1="inet 192.168.168.10  netmask 255.255.255.0"
+defaultrouter="192.168.168.1"
+
+keymap="ru.koi8-r"
+sshd_enable="YES"
+</code>
+И файл /etc/resolv.conf:
+<code>
+nameserver 192.168.168.1
+</code>
+<note>Понятное дело, IP-адреса и маски надо вписать свои</note>
+Пока на сервер не будет связи с миром, дальше не продолжаем.
+
+  * Обновляем систему (не обязательно, но желательно)
+
+<code>freebsd-update fetch install</code>
+
+  * Качаем порты, т.к. все ставить будем из них. Но не вижу припятствий, если Вы захотите все поставить из пакетов.
+<code>portsnap fetch extract</code>
+
+  * Установить вспомогательное ПО (ваш любимый редактор, коммандную оболочку, файловый менеджер). На этом пункте я останавливаться не буду, после завершения двигаемся дальше.
+
+  * К этому моменту у нас уже полностью сконфигурирована система и готова к работе. Приступаем к сборке мира из сорцов. Это небоходимо для влючения модуля **ALTQ** для **PF**. Этот пункт можно пропустить и использовать ядро **GENERIC**, если Вам не нужен шейпер(ограничение пропускной способности канала, проще говоря, если вы не планируете ограничивать пользователей по скорости интернета).
+Для начала проверяем, есть ли у нас исходные коды ядра в каталоге /usr/src, если каталог пуст - устанавливаем с диска:
+<code>
+# mount /cdrom
+# cd /cdrom/8.0-RELEASE/src/
+# ./install.sh all
+</code>
+Обновляем ихсодники с помощью **cvsup**. Создаем cvsup-файл /root/sys-supfile:
+<code>
+*default host=cvsup5.ru.freebsd.org
+*default base=/var/db
+*default prefix=/usr
+*default release=cvs tag=RELENG_8_0
+*default delete use-rel-suffix
+*default compress
+
+src-all
+</code>
+<note>
+Для сборки ядра необходимо наличие всех исходных файлов FreeBSD.
+</note>
+Вместо **cvsup5.ru.freebsd.org** можете прописать другое зеркало. Далее выполняем команду **csup /root/sys-supfile**, должно получится что-то вроде:
+<code>
+# csup /root/sys-supfile 
+Connected to 212.5.64.42
+Updating collection src-sys/cvs
+ Edit src/sys/cddl/compat/opensolaris/sys/vnode.h
+ Edit src/sys/cddl/contrib/opensolaris/uts/common/fs/zfs/zfs_replay.c
+<----вырезано---->
+Updating collection src-base/cvs
+ Edit src/UPDATING
+Finished successfully
+</code>
+
+Исходники ядра у нас теперь есть, перед сборкой неплохо бы было сохранить старое ядро на случай, если новое не запустится после неудачной сборки.
+<code># cp -Rp /boot/kernel /boot/kernel.good</code>
+Далее создаем новый конфигурационный файл ядра. Копируем стандартный конфигурационный файл ядра **GENERIC** вашей архитектуры(в моем случае amd64).
+<code>cp /sys/amd64/conf/GENERIC /sys/amd64/conf/MYKERNEL</code>
+Редактируем файл **MYKERNEL** по своему усмотрению, если нужно. Главное, что нам от него нужно - добавить следующие строки:
+<code>
+#ALTQ
+device pf
+device pflog
+device pfsync
+options         ALTQ
+options         ALTQ_CBQ        # Class Bases Queuing (CBQ)
+options         ALTQ_RED        # Random Early Detection (RED)
+options         ALTQ_RIO        # RED In/Out
+options         ALTQ_HFSC       # Hierarchical Packet Scheduler (HFSC)
+options         ALTQ_PRIQ       # Priority Queuing (PRIQ)
+options         ALTQ_NOPCC      # Required for SMP build
+</code>
+Собираем ядро.
+<code>
+# cd /usr/src
+# make buildkernel KERNCONF=MYKERNEL
+# make installkernel KERNCONF=MYKERNEL
+</code>
+Если в конфиге нет ошибок, начнется сборка нового ядра, в зависимости от скорости процессора вашего сервера, это может занять час и более. После того, как ядро установилось - перезагружаемся и если все прошло успешно, загрузится новое ядро:
+<code>
+# uname -a
+FreeBSD vpn.domain.org 8.0-STABLE FreeBSD 8.0-STABLE #0: Thu Mar  4 16:20:24 NOVT 2010     root@vpn.domain.org:/usr/obj/usr/src/sys/MYKERNEL  amd64
+</code>
+
+
+
+
+
+
+
+
+
+
+
+
+===== Установка базового софта=====
+
+Установим весь сопутствующий софт, который понадобится для работы: **Apache, PHP, MySQL**. **Apache** нужен для отображения интерфейса управления, на **PHP** написан сам интерфейс, в базе данных **MySQL** хранятся пользоватлеи и логируется трафик.
+Начнем с индейца, в конфигураторе настраиваете все по своему усмотрению, никаких особых требования нет:
+<code>
+# cd /usr/ports/www/apache22
+# make config
+# make configure
+# make
+# make install
+</code>
+
+Устанавливаем **MySQL**:
+<code>
+# cd /usr/ports/databases/mysql51-server
+# make configure
+# make
+# make install
+</code>
+
+Если все прошло успешно, устанавливаем **PHP**, в конфигураторе выбираем //"Build Apache module"//:
+<code>
+# cd /usr/ports/lang/php5
+# make config
+┌────────────────────────────────────────────────────────────────────┐
+│                     Options for php5 5.2.12                        │  
+│ ┌────────────────────────────────────────────────────────────────┐ │  
+│ │[X] CLI        Build CLI version                                │ │  
+│ │[X] CGI        Build CGI version                                │ │  
+│ │[X] APACHE     Build Apache module                              │ │  
+│ │[ ] DEBUG      Enable debug                                     │ │  
+│ │[X] SUHOSIN    Enable Suhosin protection system (not for jails) │ │  
+│ │[ ] MULTIBYTE  Enable zend multibyte support                    │ │  
+│ │[ ] IPV6       Enable ipv6 support                              │ │  
+│ │[ ] MAILHEAD   Enable mail header patch                         │ │  
+│ │[ ] REDIRECT   Enable force-cgi-redirect support (CGI only)     │ │  
+│ │[ ] DISCARD    Enable discard-path support (CGI only)           │ │  
+│ │[X] FASTCGI    Enable fastcgi support (CGI only)                │ │  
+│ │[X] PATHINFO   Enable path-info-check support (CGI only)        │ │  
+│ │                                                                │ │  
+│ │                                                                │ │  
+│ │                                                                │ │  
+├─└────────────────────────────────────────────────────────────────┘─┤  
+│                       [  OK  ]       Cancel                        │  
+└────────────────────────────────────────────────────────────────────┘
+# make configure
+# make
+# make install
+</code>
+Устанавливаем дополнения для **PHP**, обязательно нужно ставить **CURL** и **MYSQL**, остальное по желанию:
+<code>
+# cd /usr/ports/lang/php5-extensions
+# make config
+┌────────────────────────────────────────────────────────────────────┐
+│                 Options for php5-extensions 1.3                    │  
+│ ┌────────────────────────────────────────────────────────────────┐ │  
+│ │   [ ] BCMATH      bc style precision math functions            │ │  
+│ │   [ ] BZ2         bzip2 library support                        │ │  
+│ │   [ ] CALENDAR    calendar conversion support                  │ │  
+│ │   [X] CTYPE       ctype functions                              │ │  
+│ │   [X] CURL        CURL support                                 │ │  
+│ │   [ ] DBA         dba support                                  │ │  
+│ │   [ ] DBASE       dBase library support                        │ │  
+│ │   [X] DOM         DOM support                                  │ │  
+│ │   [ ] EXIF        EXIF support                                 │ │  
+│ │   [ ] FILEINFO    fileinfo support                             │ │  
+│ │   [X] FILTER      input filter support                         │ │  
+│ │   [ ] FRIBIDI     FriBidi support                              │ │  
+│ │   [ ] FTP         FTP support                                  │ │  
+│ │   [ ] GD          GD library support                           │ │  
+│ │   [ ] GETTEXT     gettext library support                      │ │  
+│ │   [X] HASH        HASH Message Digest Framework                │ │  
+│ │   [X] ICONV       iconv support                                │ │  
+│ │   [ ] IMAP        IMAP support                                 │ │  
+│ │   [ ] INTERBASE   Interbase 6 database support (Firebird)      │ │  
+│ │   [X] JSON        JavaScript Object Serialization support      │ │  
+│ │   [ ] LDAP        OpenLDAP support                             │ │  
+│ │   [ ] MBSTRING    multibyte string support                     │ │  
+│ │   [ ] MCRYPT      Encryption support                           │ │  
+│ │   [ ] MHASH       Crypto-hashing support                       │ │  
+│ │   [ ] MING        ming shockwave flash support                 │ │  
+│ │   [ ] MSSQL       MS-SQL database support                      │ │  
+│ │   [X] MYSQL       MySQL database support                       │ │  
+│ │   [ ] MYSQLI      MySQLi database support                      │ │  
+│ │   [ ] NCURSES     ncurses support (CLI only)                   │ │  
+│ │   [ ] ODBC        unixODBC support                             │ │
+│ │   [ ] OPENSSL     OpenSSL support                              │ │  
+│ │   [ ] PCNTL       pcntl support (CLI only)                     │ │  
+│ │   [X] PCRE        Perl Compatible Regular Expression support   │ │  
+│ │   [ ] PDF         PDFlib support (implies GD)                  │ │  
+│ │   [X] PDO         PHP Data Objects Interface (PDO)             │ │  
+│ │   [X] PDO_SQLITE  PDO sqlite driver                            │ │  
+│ │   [ ] PGSQL       PostgreSQL database support                  │ │  
+│ │   [X] POSIX       POSIX-like functions                         │ │  
+│ │   [ ] PSPELL      pspell support                               │ │  
+│ │   [ ] READLINE    readline support (CLI only)                  │ │  
+│ │   [ ] RECODE      recode support                               │ │  
+│ │   [X] SESSION     session support                              │ │  
+│ │   [ ] SHMOP       shmop support                                │ │  
+│ │   [X] SIMPLEXML   simplexml support                            │ │  
+│ │   [ ] SNMP        SNMP support                                 │ │
+│ │   [ ] SOAP        SOAP support                                 │ │  
+│ │   [ ] SOCKETS     sockets support                              │ │  
+│ │   [X] SPL         Standard PHP Library                         │ │  
+│ │   [X] SQLITE      sqlite support                               │ │  
+│ │   [ ] SYBASE_CT   Sybase database support                      │ │  
+│ │   [ ] SYSVMSG     System V message support                     │ │  
+│ │   [ ] SYSVSEM     System V semaphore support                   │ │  
+│ │   [ ] SYSVSHM     System V shared memory support               │ │  
+│ │   [ ] TIDY        TIDY support                                 │ │  
+│ │   [X] TOKENIZER   tokenizer support                            │ │  
+│ │   [ ] WDDX        WDDX support (implies XML)                   │ │  
+│ │   [X] XML         XML support                                  │ │  
+│ │   [X] XMLREADER   XMLReader support                            │ │  
+│ │   [ ] XMLRPC      XMLRPC-EPI support                           │ │  
+│ │   [X] XMLWRITER   XMLWriter support                            │ │
+│ │   [ ] XSL         XSL support (Implies DOM)                    │ │  
+│ │   [ ] YAZ         YAZ support (ANSI/NISO Z39.50)               │ │  
+│ │   [ ] ZIP         ZIP support                                  │ │  
+│ │   [ ] ZLIB        ZLIB support                                 │ │  
+├─└───────v(+)─────────────────────────────────────────────────────┘─┤  
+│                       [  OK  ]       Cancel                        │  
+└────────────────────────────────────────────────────────────────────┘  
+# make configure
+┌────────────────────────────────────────────────────────────────────┐
+│                    Options for curl 7.19.7_1                       │  
+│ ┌────────────────────────────────────────────────────────────────┐ │  
+│ │   [ ] CARES        Asynchronous DNS resolution via c-ares      │ │  
+│ │   [ ] CURL_DEBUG   Enable curl diagnostic output               │ │  
+│ │   [ ] GNUTLS       Use GNU TLS if OPENSSL is OFF               │ │  
+│ │   [ ] IPV6         IPv6 support                                │ │  
+│ │   [ ] KERBEROS4    Kerberos 4 authentication                   │ │  
+│ │   [ ] LDAP         LDAP support                                │ │  
+│ │   [ ] LDAPS        LDAPS support (requires LDAP and SSL)       │ │  
+│ │   [ ] LIBIDN       Internationalized Domain Names via libidn   │ │  
+│ │   [ ] LIBSSH2      SCP/SFTP support via libssh2                │ │  
+│ │   [ ] NTLM         NTLM authentication                         │ │  
+│ │   [ ] OPENSSL      OpenSSL support                             │ │  
+│ │   [ ] PROXY        Proxy support                               │ │  
+│ │   [ ] TRACKMEMORY  Enable curl memory diagnostic output        │ │  
+│ │                                                                │ │  
+│ │                                                                │ │  
+├─└────────────────────────────────────────────────────────────────┘─┤  
+│                       [  OK  ]       Cancel                        │  
+└────────────────────────────────────────────────────────────────────┘
+# make
+# make install
+</code>
+
+В каталоге /usr/local/etc/apache22/Includes создаем файл php.conf с таким содержимым:
+<code>
+<IfModule mod_php5.c>                                                                                                                                                                                          
+AddType application/x-httpd-php .php .phtml .php3                                                                                                                                                              
+AddType application/x-httpd-php-source .phps                                                                                                                                                                   
+</IfModule>
+</code>
+
+Конфигурируем **PHP**:
+<code>
+mv /usr/local/etc/php.ini-recommended /usr/local/etc/php.ini
+</code>
+Включаем short_open_tag и display_errors в /usr/local/etc/php.ini
+<code>
+...
+short_open_tag = On
+...
+display_errors = On
+...
+</code>
+
+Добавляем в /etc/rc.conf следующие строки:
+<code>
+mysql_enable="YES"
+apache22_enable="YES"
+</code>
+и запускаем **Apache** и **MySQL**:
+<code>
+# /usr/local/etc/rc.d/apache22 star
+# /usr/local/etc/rc.d/mysql-server start
+</code>
+
+Устанавливаем пароль для суперпользователя **MySQL**:
+<code>
+# mysqladmin password "passwd"
+</code>
+
+Протестируем **PHP**. В каталоге /usr/local/www/apache22/data/ создаем файл test.php такого содержания:
+<code>
+<?
+mysql_connect("localhost", "root", "passwd") or die(mysql_error());
+echo "Test OK. Connected to MySQL<br />";
+?>
+</code>
+Открываем в браузере адрес http://10.0.15.3/test.php Если мы видим сообщение:
+<code>
+Fatal error: Call to undefined function mysql_connect() in ...
+</code>
+значит **PHP** собран без поддержки **MySQL**, либо модуль mysql.so не подгружен. Если мы видим исходный код файла, значит **PHP** собран без поддержки **Apache**, либо не подгружен модуль mod_php.
+
+Мы должны увидеть сообщение:
+<code>
+Test OK. Connected to MySQL
+</code>
+либо
+<code>
+Access denied for user 'root'@'localhost' (using password: YES)
+</code>
+Значит все работает. Не забываем потом удалить test.php
+
+Итак, к этому моменту мы должны иметь работающую связку **Apache** + **PHP** + **MySQL**.
+
+
+
+
+
+===== Установка FreeRADIUS + MPD5 =====
+Устанавливаем **FreeRADIUS**, обязательно с поддержкой **MySQL**:
+<code>
+# cd /usr/ports/net/freeradius2
+# make config
+┌────────────────────────────────────────────────────────────────────┐
+│                   Options for freeradius 2.1.6                     │  
+│ ┌────────────────────────────────────────────────────────────────┐ │  
+│ │[X] USER          Run as user freeradius, group freeradius      │ │  
+│ │[ ] KERBEROS      With Kerberos support                         │ │  
+│ │[ ] HEIMDAL       With Heimdal Kerberos support                 │ │  
+│ │[ ] LDAP          With LDAP database support                    │ │  
+│ │[X] MYSQL         With MySQL database support                   │ │  
+│ │[ ] PGSQL         With PostgreSQL database support              │ │  
+│ │[ ] UNIXODBC      With unixODBC database support                │ │  
+│ │[ ] FIREBIRD      With Firebird database support (EXPERIMENTAL) │ │  
+│ │[ ] PERL          With Perl support                             │ │  
+│ │[ ] PYTHON        With Python support                           │ │  
+│ │[ ] OCI8          With Oracle support (currently experimental)  │ │  
+│ │[ ] RUBY          With Ruby support (EXPERIMENTAL)              │ │  
+│ │[ ] DHCP          With DHCP support (EXPERIMENTAL)              │ │  
+│ │[ ] EXPERIMENTAL  Build experimental modules                    │ │  
+│ │                                                                │ │  
+├─└────────────────────────────────────────────────────────────────┘─┤  
+│                       [  OK  ]       Cancel                        │
+└────────────────────────────────────────────────────────────────────┘
+# make configure
+# make
+# make install
+</code>
+
+Устанавливаем **MPD**, включаем NG_IPACCT:
+<code>
+# cd /usr/ports/net/mpd5
+# make config
+┌────────────────────────────────────────────────────────────────────┐
+│                       Options for mpd 5.3                          │  
+│ ┌────────────────────────────────────────────────────────────────┐ │  
+│ │ [ ] NG_CAR     Use ng_car kernel module from port (< 7.0 only) │ │  
+│ │ [X] NG_IPACCT  Use ng_ipacct kernel module from port           │ │  
+│ │                                                                │ │  
+│ │                                                                │ │  
+├─└────────────────────────────────────────────────────────────────┘─┤  
+│                       [  OK  ]       Cancel                        │  
+└────────────────────────────────────────────────────────────────────┘ 
+# make
+# make install
+</code>
+<note>
+Если при выполнении команды make configure вы увидели такую ошибку:
+<code>
+Warning: Object directory not changed from original /usr/ports/net-mgmt/ng_ipacct/work/ng_ipacct/ipacctctl
+cc -O2 -pipe -DMEM_USE_ZONE -fno-strict-aliasing  -g -Wall -Wformat -std=gnu99 -fstack-protector  -c ipacctctl.c
+ipacctctl.c:146: error: 'NG_PATHLEN' undeclared here (not in a function)
+ipacctctl.c: In function 'ip_account_get_info':
+ipacctctl.c:505: warning: unused variable 'path'
+ipacctctl.c: In function 'ip_account_show':
+ipacctctl.c:602: warning: unused variable 'path'
+*** Error code 1
+</code>
+Тогда редактируем файл /usr/ports/net-mgmt/ng_ipacct/work/ng_ipacct/ipacctctl/ipacctctl.c В 146, 505 и 602 строках меняете NG_PATHLEN на NG_PATHSIZ и заново выполняем команду make configure.
+</note>
+
+
+
+
+==== Настройка MySQL ====
+
+Создаем БД и пользователя:
+<code>
+# mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 5.1.41 FreeBSD port: mysql-server-5.1.41
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database vpnms character set utf8;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create user 'vpnms'@'localhost' identified by 'my_password';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> grant all privileges on vpnms.* to 'vpnms'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> quit
+Bye
+
+# mysql -uroot -p vpnms < /tmp/vpnms/db/vpnms.sql
+Enter password:
+#
+</code>
+
+
+
+==== Настройка MPD5 ====
+
+Редактируем файл /usr/local/etc/mpd5/mpd.conf
+<code>
+startup:
+	set user admin pass passwd
+	set console self 127.0.0.1 5005
+	set console open
+	set web self 0.0.0.0 5006
+	set web open
+	set netflow peer 127.0.0.1 9999
+	set netflow timeouts 5 10
+	
+default:
+	load pptp_server
+	
+pptp_server:
+	set ippool add pool1 10.10.0.2 10.10.0.254
+	create bundle template B
+	set iface idle 1800
+	set iface enable tcpmssfix
+	set iface up-script "/usr/local/sbin/onconnect.sh"
+	set iface down-script "/usr/local/sbin/ondisconnect.sh"
+	set ipcp yes vjcomp
+	set ipcp ranges 10.10.10.1/32 ippool pool1
+	set ipcp dns 10.0.15.1
+	
+	set iface enable netflow-in
+	set iface enable netflow-out
+	
+	set bundle enable compression
+	set ccp yes mppc
+	set mppc yes e128
+	set mppc yes stateless
+	create link template L pptp
+	set link action bundle B
+	set link enable multilink
+	set link yes acfcomp protocomp
+	set link no pap chap
+	set link enable chap
+	load radius
+	set link keep-alive 5 30
+	set link mtu 1460
+	set link enable incoming
+
+radius:
+	set radius server localhost testing123 1812 1813
+	set radius retries 3
+	set radius timeout 3
+	set radius me 127.0.0.1
+	set auth enable radius-auth
+	set radius enable message-authentic
+</code>
+Краткое описание основных параметров:
+  * **set user admin pass passwd** - задаем пользователя и пароль admin/passwd для доступа к веб-интерфейсу управления **MPD**(обязательно) и консоли (не обязательно).
+  * **set netflow peer 127.0.0.1 9999** - указываем куда слать netflow-поток, собственно обрабатывать его будет **vpnmsd**, поэтому шлем на localhost порт 9999.
+  * **set netflow timeouts 5 10** - интервал сброса статистики демону **vpnmsd** (в секундах), 5 - номинальный, 10 - для просроченных сессий. Если у вас слабый сервер - увеличте эти значения.
+  * **set ippool add pool1 10.10.0.2 10.10.0.254** - задаем пул виртуальных IP-адресов.
+  * **set iface up-script "/usr/local/sbin/onconnect.sh"** и **set iface down-script "/usr/local/sbin/ondisconnect.sh"** пути к скриптам, которые запускаются при начале и конце сессии. Необходимы для работы **vpnmsd**
+  * **set ipcp ranges 10.10.10.1/32 ippool pool1** - задаем виртуальный адрес сервера.
+  * **set ipcp dns 192.168.168.1** - dns-сервер, которые будет выдаваться клиентам.
+  * **set iface enable netflow-in** и **set iface enable netflow-out** - разрешаем учитывать трафик по протоколу netflow.
+  * **set link keep-alive 5 30** - разрешает слать LCP пакеты, нужно для завершени некоректно закрытых соединений.
+  * **set radius server localhost testing123 1812 1813** - указываем адрес, секрет и порты **FreeRADIUS**-сервера.
+<note important>
+Секрет(testing123) в конфиге **MPD** и **FreeRADIUS** должен быть одинаковым! Также настоятельно рекомендую после завершения конфигурирования и отладки заменить секрет testing123 на что-то более серъезное.
+</note>
+
+Редактируем /etc/syslog.conf, в самый конец добавляем:
+<code>
+!mpd                                                                                                                                                                                    
+*.*                                             /var/log/mpd.log
+</code>
+
+Создаем файл лога и перезапускаем **syslog**
+<code>
+# touch /var/log/mpd.log
+
+# /etc/rc.d/syslogd restart
+Stopping syslogd.
+Starting syslogd.
+</code>
+
+==== Настройка FreeRADIUS ====
+
+Редактируем файл /usr/local/etc/raddb/radiusd.conf.Ниже показаны тольоко те опции, которые я редактировал, целиком конфигурационный файл без коментариев можно поглядеть [[radiusd.conf | тут]].
+
+<code>
+Тут указываем на каком адресе будем слушать запросы (в нашем случае freeradius и mpd на одном хосте)
+listen {
+	...
+	ipaddr = 127.0.0.1
+	...
+}
+
+Вторую секцию listen удаляем или коментим:
+
+#listen {
+#	ipaddr = *
+#	port = 0
+#	type = acct
+#}
+
+Проксирование запросов тоже выключаем
+
+#proxy_requests  = yes
+#$INCLUDE proxy.conf
+
+Раскоментируем строку
+modules {
+	...
+	$INCLUDE sql.conf
+	...
+}
+</code>
+
+Редактируем файл /usr/local/etc/raddb/sql.conf.Ниже показаны тольоко те опции, которые я редактировал, целиком конфигурационный файл без коментариев можно поглядеть [[sql.conf | тут]].
+
+<code>
+sql {
+	...
+	port = 3306
+	login = "vpnms"
+	password = "my_password"
+
+	radius_db = "vpnms"
+	...
+}
+</code>
+
+Редактируем файл /usr/local/etc/raddb/sites-available/default Он изменился слишком сильно, поэтому привожу его полностью:
+
+<code>
+authorize {
+	preprocess
+
+	chap
+
+	mschap
+
+	suffix
+
+	expiration
+	logintime
+
+	pap
+	
+	sql
+}
+
+authenticate {
+	Auth-Type PAP {
+		pap
+	}
+
+	Auth-Type CHAP {
+		chap
+	}
+
+	Auth-Type MS-CHAP {
+		mschap
+	}
+}
+
+post-auth {
+	exec
+
+	Post-Auth-Type REJECT {
+		attr_filter.access_reject
+	}
+}
+
+</code>
+
+Редактируем файл /usr/local/etc/raddb/clients.conf Также привожу полностью:
+
+<code>
+client localhost {
+	ipaddr = 127.0.0.1
+
+	secret		= testing123
+
+	require_message_authenticator = no
+}
+</code>
+
+<note>
+Обратите внимание, тут в опции secret должно быть указано тоже самое, что и в конфиге mpd.conf в секции radius (set radius server localhost testing123 1812 1813)
+</note>
+
+Протестируем. Запустим **FreeRADIUS** в отладочном режиме:
+<code>
+# radiusd -X
+...
+Listening on authentication address 127.0.0.1 port 1812
+Listening on command file /var/run/radiusd/radiusd.sock
+Listening on proxy address 127.0.0.1 port 1814
+Ready to process requests.
+</code>
+Открываем вторую консоль и пробуем авторизоваться с неправильным паролем:
+<code>
+# radtest test testtest 127.0.0.1 0 testing123
+Sending Access-Request of id 130 to 127.0.0.1 port 1812
+	User-Name = "test"
+	User-Password = "testtest"
+	NAS-IP-Address = 216.34.94.184
+	NAS-Port = 0
+rad_recv: Access-Reject packet from host 127.0.0.1 port 1812, id=130, length=20
+</code>
+Теперь с правильным:
+<code>
+# radtest test test123 127.0.0.1 0 testing123
+Sending Access-Request of id 172 to 127.0.0.1 port 1812
+	User-Name = "test"
+	User-Password = "test123"
+	NAS-IP-Address = 216.34.94.184
+	NAS-Port = 0
+rad_recv: Access-Accept packet from host 127.0.0.1 port 1812, id=172, length=38
+	Framed-IP-Address = 10.10.1.60
+	Framed-Protocol = PPP
+	Framed-IP-Netmask = 255.255.255.255
+</code>
+Отлично, все работает, если что-то не так, смотрим в первом окне, что там пишет **FreeRADIUS**. После останавливае его и добавляем в rc.conf следующие строки:
+<code>
+mpd_enable="YES"
+radiusd_enable="YES"
+</code>
+И запускаем **FreeRADIUS** и **MPD**
+<code>
+# /usr/local/etc/rc.d/radiusd start
+Starting radiusd.
+# /usr/local/etc/rc.d/mpd5 start   
+Starting mpd5.
+</code>
+
+
+
+==== Тестирование FreeRADIUS + MPD5 ====
+
+Теперь протестируем связку с помощью реального клиента под управлением Windows или Linux. Для начала создаем само подключение по мануалу, который расположен [[создание_vpn-соединеия|тут]]. Далее в конфиге **MPD** (/usr/local/etc/mpd5/mpd.conf) закоментируем несколько строк:
+<code>
+#       set iface up-script "/usr/local/sbin/onconnect.sh"                                                                                                                              
+#       set iface down-script "/usr/local/sbin/ondisconnect.sh" 
+</code>
+и перезапускаем **MPD**:
+<code>
+# /usr/local/etc/rc.d/mpd5 restart
+</code>
+Далее пробуем установить соединение с пользователем test и паролем test123. Если все получилось - продолжаем, если возникли какие-то проблемы, то проверяем конфигурационные файлы, смортим логи mpd.log, также можно попробовать снова запустить **FreeRADIUS** в отладочном режиме с помощью команды radiusd -X и проанализировать отладочную информацию. Вобщем устраняем проблемы и продолжаем дальше.
+
+
+
+
+
+
+===== Установка vpnmsd и vpnms-web =====
+
+Устанавливаем **vpnmsd**: скачиваем [[http://vpnms.org/files/vpnms-1.0.0.tar.gz|исходники]], распаковываем во временную папку, затем make и make install
+<code>
+# cd /tmp
+
+# fetch http://vpnms.org/files/vpnms-1.0.0.tar.gz
+vpnms-1.0.0.tar.gz                            100% of   29 kB   50 kBps
+
+# tar -xf vpnms-1.0.0.tar.gz
+
+# cd vpnms-1.0.0
+
+# make
+gcc -L/usr/local/lib/mysql -Wall -c monthlyreset.c -o bin/monthlyreset.o
+gcc -L/usr/local/lib/mysql -Wall -c hourlystat.c -o bin/hourlystat.o
+gcc -L/usr/local/lib/mysql -Wall -c vpnmsd.c -o bin/vpnmsd.o
+gcc -L/usr/local/lib/mysql -Wall -c vpnmsd_nf_thread.c -o bin/vpnmsd_nf_thread.o
+vpnmsd_nf_thread.c: In function 'vpnmsd_nf_thread':
+vpnmsd_nf_thread.c:52: warning: passing argument 2 of 'bind' from incompatible pointer type
+vpnmsd_nf_thread.c:67: warning: assignment from incompatible pointer type
+gcc -L/usr/local/lib/mysql -Wall -c config.c -o bin/config.o
+gcc -L/usr/local/lib/mysql -Wall -c vpnms_functions.c -o bin/vpnms_functions.o
+vpnms_functions.c: In function 'StopDaemon':
+vpnms_functions.c:24: warning: suggest parentheses around assignment used as truth value
+vpnms_functions.c:16: warning: unused variable 'cmd'
+gcc -L/usr/local/lib/mysql -Wall -c onconnect.c -o bin/onconnect.o
+gcc -L/usr/local/lib/mysql -Wall -c ondisconnect.c -o bin/ondisconnect.o
+gcc -L/usr/local/lib/mysql -Wall -o bin/onconnect bin/config.o bin/vpnms_functions.o bin/onconnect.o -lmysqlclient -lz
+gcc -L/usr/local/lib/mysql -Wall -o bin/ondisconnect bin/config.o bin/vpnms_functions.o bin/ondisconnect.o -lmysqlclient -lz
+gcc -L/usr/local/lib/mysql -Wall -o bin/hourlystat bin/config.o bin/vpnms_functions.o bin/hourlystat.o -lmysqlclient -lz
+gcc -L/usr/local/lib/mysql -Wall -o bin/monthlyreset bin/config.o bin/vpnms_functions.o bin/monthlyreset.o -lmysqlclient -lz
+gcc -L/usr/local/lib/mysql -Wall -o bin/vpnmsd bin/config.o bin/vpnms_functions.o bin/vpnmsd_nf_thread.o bin/vpnmsd.o -lmysqlclient -lz -lpthread
+
+# make install 
+cp bin/hourlystat /usr/local/bin/hourlystat
+cp bin/onconnect /usr/local/sbin/onconnect
+cp bin/ondisconnect /usr/local/sbin/ondisconnect
+cp bin/monthlyreset /usr/local/sbin/monthlyreset
+cp bin/vpnmsd /usr/local/sbin/vpnmsd
+cp onconnect.sh /usr/local/sbin/onconnect.sh
+cp ondisconnect.sh /usr/local/sbin/ondisconnect.sh
+cp config.cfg /usr/local/etc/vpnms.conf
+chmod 755 /usr/local/bin/hourlystat
+chmod 744 /usr/local/sbin/onconnect
+chmod 744 /usr/local/sbin/ondisconnect
+chmod 744 /usr/local/sbin/monthlyreset
+chmod 744 /usr/local/sbin/vpnmsd
+chmod 744 /usr/local/sbin/onconnect.sh
+chmod 744 /usr/local/sbin/ondisconnect.sh
+</code>
+
+Устанавливаем **vpnms-web**. Скачиваем [[http://vpnms.org/files/vpnms-web-1.0.0.tar.gz|vpnms-web]], распаковываем и копируем в /usr/local/vpnms-web или в другой каталог на свое усмотрение, главное, чтобы конфигурация **apache** и **php** позволяла получать туда доступ.
+
+<code>
+# cd /tmp
+
+# fetch http://vpnms.org/files/vpnms-web-1.0.0.tar.gz
+vpnms-web-1.0.0.tar.gz                        100% of  106 kB   71 kBps
+
+# tar -xf vpnms-web-1.0.0.tar.gz
+
+# cp -R vpnms-web-1.0.0 /usr/local/vpnms-web
+</code>
+
+
+
+
+==== Настройка vpnmsd ====
+В конфигурационный файл **syslog** (/etc/syslog.conf) добавляем в самый конец строки:
+<code>
+!vpnmsd                                                                                                                                                                                    
+*.*                                             /var/log/vpnms.log
+</code>
+Создаем файл лога
+<code>
+# touch /var/log/vpnms.log
+</code>
+Перезапускаем **syslog**
+<code>
+# /etc/rc.d/syslogd restart
+Stopping syslogd.
+Starting syslogd.
+</code>
+
+Редактируем конфиг /usr/local/etc/vpnms.conf
+<code>
+[mysql]
+host = localhost
+username = vpnms
+password = my_password
+database = vpnms
+port = 3306
+
+[vpnms]
+close_console = yes
+daemon_interval = 3
+network = 10.10.1.0
+netmask = 255.255.255.0
+altq = yes
+transparent_proxy = yes
+transparent_proxy_port = 3128
+hourly_stat = yes
+sql_debug = no
+cmd_debug = no
+pf_file_debug = no
+
+[vars]
+pfctl = /sbin/pfctl
+echo = /bin/echo
+ond = /usr/local/sbin/ondisconnect
+mpd_rc_script = /usr/local/etc/rc.d/mpd5
+</code>
+  * В секции mysql все понятно, там указываем хост, логин, пароль, имя базы и номер порта для **MySQL**.
+  * В секции vars прописаны пути до нужных **vpnmsd** утилит, обычно тут ничего редактировать не нужно.
+Параметры секции vpnms рассмотрим более подробно:
+  * **close_console** - запрещает или разрешает выводить демону сообщения на stdout
+  * **daemon_interval** - интервал в секундах, с которым демон будет обрабатывать трафик, накопленный в буфере и проверять лимит пользователей. Если сервер не очень сильный и сильно загруженный, не рекомендуется ставить слишком маленький интервал.
+  * **network** - указываем нашу виртуальную сеть (виртуальные адреса, которые выдаются пользователю при подключении)
+  * **netmask** - указываем маску виртуальной сети
+  * **altq** - использовать или не использовать **ALTQ**. Т.е. если наше ядро собрано с поддержкой **ALTQ** и мы хотим ограничевать пропускную способность канала пользователей, ставми yes
+  * **transparent_proxy** - используется или нет у нас прозрачный прокси, например squid
+  * **transparent_proxy_port** - соответственно порт прозрачного прокси, если он используетс
+  * **hourly_stat** - использовать или не использовать почасовую статистику. Если сервер слабенький - рекомендую поставить no. При включенной опции демон будет сохранять все потоки netflow в БД, а потом каждый час обрабатывать и генерить отчеты. Достаточно затратное занятие по ресурсам,т.к. даже десяток пользователей генерит огромное кол-во потоков, у меня на сервере low-end двухядерник и почти сотня пользователей, вроде бы справляется.
+
+Следующие три опции нужны для отладки, вряд ли они Вам понадобятся, хотя если что-то не работает, можно включить и посмотреть логи.
+  * **sql_debug** - логировать все sql-запросы в лог-файл, записей будет очень много :)
+  * **cmd_debug** - логировать все комманды, которые в шеле выполняет **VPNMS**
+  * **pf_file_debug** - сохранять файлы с правилами для **PF**, которые **VPNMS** временно создает при подключении пользователя
+
+Для отладки также можно поглядеть какой конфиг загружает **VPNMS** с помощью следующей команды:
+<code>
+# /usr/local/sbin/vpnmsd --showconfig
+</code>
+Добавляем в /etc/rc.conf строку
+<code>
+vpnmsd_enable="YES"
+</code>
+
+
+
+
+==== Настройка vpnms-web ====
+Редактируем файл /usr/local/vpnms-web/includes/config.inc.php
+<code>
+<?
+if (!defined('IN_VPNMS'))                                                                                                                                                               
+        die("");                                                                                                                                                                        
+                                                                                                                                                                                        
+//---------------------------------------------------------                                                                                                                             
+//                DB configuration                                                                                                                                                      
+//---------------------------------------------------------                                                                                                                             
+$config['db_name'] = "vpnms";                                                                                                                                                           
+$config['db_host'] = "localhost";                                                                                                                                                       
+$config['db_user'] = "vpnms";                                                                                                                                                           
+$config['db_passwd'] = "my_password";                                                                                                                                                   
+                                                                                                                                                                                        
+//---------------------------------------------------------                                                                                                                             
+//                 Path                                                                                                                                                                 
+//---------------------------------------------------------                                                                                                                             
+$config['reports_path'] = "/usr/local/vpnms/reports/";                                                                                                                       
+                                                                                                                                                                                        
+//---------------------------------------------------------                                                                                                                             
+//                 VPNMS config                                                                                                                                                         
+//---------------------------------------------------------                                                                                                                             
+$config['template'] = "default";                                                                                                                                                        
+$config['lang'] = "ru";                                                                                                                                                                 
+$config['redirection_time'] = "20";                                                                                                                                                     
+$config['mb'] = 1024;                                                                                                                                                                   
+$config['precision'] = 2;                                                                                                                                                               
+$config['time_correction'] = 0;                                                                                                                                                         
+$config['session_ttl'] = 5 * 60;                                                                                                                                                        
+$config['unix_time'] = mktime();                                                                                                                                                        
+                                                                                                                                                                                        
+//mpd                                                                                                                                                                                   
+$config['mpd_url'] = "http://10.0.15.5:5006";                                                                                                                                           
+$config['mpd_user'] = "admin";                                                                                                                                                          
+$config['mpd_pass'] = "pass";                                                                                                                                                           
+?>
+</code>                                                                                                                                                                                                
+
+  * Тут с настройками все просто, в самом начале прописываем имя базы, логин, пароль и хост для **MySQL**.
+  * **$config['reports_path']** - путь к отчетам парсера логов **lightsquid** (нужен, если используется прозрачный прокси)
+  * В самом конце указываем адрес, логин и пароль для web-интерфейса админиатратора **MPD** (нужно для отключения пользователей через vpnms-web)
+
+Далее нужно сконфигурировать **Apache**. Редактируем файл /usr/local/etc/apache22/httpd.conf, добавляем index.php в индексные файлы директории.
+<code>
+...
+<IfModule dir_module>                                                                                                                                                                   
+    DirectoryIndex index.html index.php                                                                                                                                                 
+</IfModule>
+...
+</code>
+Далее создаем в /usr/local/etc/apache22/Includes файл vpnms-web.conf такого содержания:
+<code>
+AddDefaultCharset UTF-8                                                                                                                                                                 
+                                                                                                                                                                                        
+Alias "/vpnms"  "/usr/local/vpnms-web"                                                                                                                                                  
+<Directory "/usr/local/vpnms-web">                                                                                                                                                      
+    Options FollowSymLinks                                                                                                                                                              
+    AllowOverride All                                                                                                                                                                   
+    Order deny,allow                                                                                                                                                                    
+    Allow from all                                                                                                                                                                      
+</Directory>
+</code>
+И перезапускаем **Apache**
+<code>
+# /usr/local/etc/rc.d/apache22 restart
+</code>
+
+Далее пробуем открыть в браузере http://10.0.15.3/vpnms и залогиниться с логином //admin// и паролем //passwd//
+
+
+
+
+
+
+===== Настройка PF =====
+Включаем **PF**, добавляем в /etc/rc.conf строки
+<code>
+pf_enable="YES"                                                                                                                                                                         
+pf_rules="/etc/pf.conf"                                                                                                                                                                 
+pf_flags=""
+</code>
+
+Далее создаем конфиг /etc/pf.conf В приведенном мною конфиге для простоты понимания, показан минимальный набор правил, без фильтрации входящий соединений, только nat и перенаправление http-трафика на прозрачный прокси (пока у нас прозрачный прокси не сконфгурирован, эта строчка закоментирована).
+
+<code>
+int_if="em0"                                                                                                                                                                            
+ext_if="em1"                                                                                                                                                                            
+vpn_net="10.10.1.0/24"                                                                                                                                                                  
+icmp_types="echoreq"                                                                                                                                                                    
+bws="{ bw-256 bw-512 bw-1024 bw-1536 bw-2048 bw-3072 bw-4096 bw-5120 bw-unlim }"                                                                                                        
+                                                                                                                                                                                        
+set limit { states 20000, frags 20000, src-nodes 5000 }                                                                                                                                 
+set block-policy return                                                                                                                                                                 
+                                                                                                                                                                                        
+scrub in all                                                                                                                                                                            
+                                                                                                                                                                                        
+altq on $int_if cbq bandwidth 100Mb queue $bws
+altq on $ext_if cbq bandwidth 100Mb queue $bws
+queue bw-unlim bandwidth 50Mb cbq(default)
+queue bw-256 bandwidth 256Kb cbq 
+queue bw-512 bandwidth 512Kb cbq 
+queue bw-1024 bandwidth 1024Kb cbq
+queue bw-1536 bandwidth 1536Kb cbq
+queue bw-2048 bandwidth 2048Kb cbq
+queue bw-3072 bandwidth 3072Kb cbq
+queue bw-4096 bandwidth 4096Kb cbq
+queue bw-5120 bandwidth 5120Kb cbq
+                                                                                                                                                                                        
+set skip on lo0                                                                                                                                                                         
+                                                                                                                                                                                        
+nat pass from $vpn_net to any -> $ext_if                                                                                                                                                
+                                                                                                                                                                                        
+#rdr-anchor "vpnmsp/*" proto tcp from $vpn_net to any port www                                                                                                                           
+                                                                                                                                                                                        
+block in                                                                                                                                                                                
+pass out keep state                                                                                                                                                                     
+antispoof quick for { lo $int_if }                                                                                                                                                      
+pass in quick on $int_if                                                                                                                                                                
+pass in inet proto icmp  from $vpn_net to any icmp-type $icmp_types                                                                                                                     
+anchor "vpnms/*" from $vpn_net to any
+</code>
+
+Если Вы собирали ядро без **ALTQ**, то конфига нужно убрать описание очередей **ALTQ**
+
+<code>
+int_if="em0"                                                                                                                                                                            
+ext_if="em1"                                                                                                                                                                            
+vpn_net="10.10.1.0/24"                                                                                                                                                                  
+icmp_types="echoreq"                                                                                                                                                                    
+                                                                                                                                                                                        
+set limit { states 20000, frags 20000, src-nodes 5000 }                                                                                                                                 
+set block-policy return                                                                                                                                                                 
+                                                                                                                                                                                        
+scrub in all                                                                                                                                                                            
+                                                                                                                                                                                                       
+set skip on lo0                                                                                                                                                                         
+                                                                                                                                                                                        
+nat pass from $vpn_net to any -> $ext_if                                                                                                                                                
+                                                                                                                                                                                        
+#rdr-anchor "vpnmsp/*" proto tcp from $vpn_net to any port www                                                                                                                           
+                                                                                                                                                                                        
+block in                                                                                                                                                                                
+pass out keep state                                                                                                                                                                     
+antispoof quick for { lo $int_if }                                                                                                                                                      
+pass in quick on $int_if                                                                                                                                                                
+pass in inet proto icmp  from $vpn_net to any icmp-type $icmp_types                                                                                                                     
+anchor "vpnms/*" from $vpn_net to any
+</code>
+Опишу ключевые правила, об остальном можно почитать в документации к **PF**
+  * **int_if="em0"** - макрос, задает интерфейс, который смотрит в локальную сеть
+  * **ent_if="em1"** - макрос, задает интерфейс, который смотрит в интернет
+  * **vpn_net="10.10.1.0/24"** - макрос, в котором указана наша виртуальная сеть
+  * **rdr-anchor "vpnmsp/*" proto tcp from $vpn_net to any port www** - этим правилом мы заставляем фильтр пропускать все пакеты от нашей виртуальной сети идущие на порт 80 через вложенные якоря vpnmsp. Вложенные якоря создает и удаляет onconnect и ondisconnect соответственно.
+  * **anchor "vpnms/*" from $vpn_net to any** - тоже самое, только для nat и для всех протоколов, пропускаем весь трафик от нашей виртуальной сети через якоря вложенные в vpnms. Аналогично, якоря создает и удаляет onconnect и ondisconnect соответственно. 
+
+Запускаем **PF**
+<code>
+# /etc/rc.d/pf start
+</code>
+
+Теперь в конфиге **MPD** раскоментируем строки
+<code>
+	set iface up-script "/usr/local/sbin/onconnect.sh"
+	set iface down-script "/usr/local/sbin/ondisconnect.sh"
+</code>
+и перезапустим его
+<code>/usr/local/etc/rc.d/mpd5 restart</code>
+Теперь можно поробовать подключиться на клиентском компьютере и проверить, есть ли доступ в интернет, к этому моменту все уже должно работать.
+<note>
+В конфиге **vpnmsd** на данный момент опция **transparent_proxy** должна быть выключена!
+</note>
+
+
+
+==== Отладка PF ====
+
+Для отладки привожу несколько удобных команд.
+  * Просмотр всех вложенных якорей nat
+<code>
+# pfctl -a 'vpnms' -sA
+  vpnms/test123
+</code>
+  * Просмотр всех вложенных якорей rdr (для прозрачного прокси)
+<code>
+# pfctl -a 'vpnmsp' -sA
+  vpnmsp/test123
+</code>
+  * Просмотр списка правил во вложенном якоре nat
+<code>
+# pfctl -a vpnms/test123 -s rules
+pass in inet from 10.10.1.62 to any flags S/SA keep state queue bw-512
+</code>
+  * Просмотр списка правил во вложенном якоре rdr (для прозрачного прокси)
+<code>
+# pfctl -a 'vpnmsp/test123' -sn
+rdr on ng0 inet proto tcp from 10.10.1.62 to any port = http -> 127.0.0.1 port 3128
+</code>
+  * Удаление всех правил в якоре nat
+<code>
+# pfctl -a vpnms/test123 -F rules
+</code>
+  * Удаление всех правил в якоре rdr
+<code>
+# pfctl -a 'vpnmsp/test123' -Fn
+</code>
+  * Завершение всех активных сессий
+<code>
+# pfctl -k 10.10.1.62
+</code>
+
+===== Прозрачный прокси =====
+
+
+==== Установка SQUID ====
+Устанавливаем **SQUID** обязательно с опцией SQUID_PF Остальные параметры по желанию.
+<code>
+# cd /usr/ports/www/squid30
+# make config 
+...
+[X] SQUID_PF             Enable transparent proxying with PF
+...
+
+# make configure
+# make
+# make install
+</code>
+
+
+
+
+
+==== Настройка SQUID ====
+
+Редакритуем файл /usr/local/etc/squid/squd.conf , приводим его к такому виду:
+<code>
+http_port 127.0.0.1:3128 transparent                                           
+                                                                               
+emulate_httpd_log on                                                           
+                                                                               
+cache_access_log /usr/local/squid/logs/access.log                              
+                                                                               
+########################################################                       
+
+acl localhost src 127.0.0.1/255.255.255.255                                    
+acl vpn src 10.10.1.0/255.255.255.0                                            
+acl Safe_ports port 80                                                         
+
+########################################################                       
+# HTTP ACCESS ##########################################                       
+########################################################                       
+
+http_access allow localhost                                                    
+http_access deny !Safe_ports                                                   
+http_access allow vpn                                                          
+http_access deny all                                                           
+
+########################################################                       
+
+icp_access deny all                                                            
+
+cache_mgr admin@domain.org
+                                                                               
+visible_hostname VPNMS
+</code>
+
+Тут все просто и понятно, особо коментировать нечего. Простейшая конфиграция, прокси работает в прозрачном режиме, ждет подключений на локалхосте на стандарном порту 3128. Добавляем в /etc/rc.conf
+<code>squid_enable="YES"</code>
+и запускаем
+<code>
+# /usr/local/etc/rc.d/squid start
+</code>
+
+<note>
+Перед первым запуском **SQUID** нужно выполнить команду 
+<code>
+# squid -z
+</code>
+</note>
+
+В конфиге **PF** раскоментируем строку
+<code>
+...
+rdr-anchor "vpnmsp/*" proto tcp from $vpn_net to any port www
+...
+</code>
+В конфиге **vpnmsd** включаем опцию transparent_proxy
+<code>
+...
+transparent_proxy = yes
+...
+</code>
+
+Перезапускам **PF** и **vpnmsd**
+<code>
+# /etc/rc.d/pf restart
+# /usr/local/etc/rc.d/vpnmsd restart
+</code>
+
+На клиенте пробуем подключаться и погулять по интернету через http, затем смотрим лог /usr/local/squid/logs/access.log, если там появились записи - значит все в порядке, прозрачный прокси работает. По желанию можно к нему прикрутить различные контент-фильтры и прочие ограничители, вроде **SQUIDGUARD**
+
+==== Настройка LightSQUID ====

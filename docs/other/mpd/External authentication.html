@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!-- saved from url=(0044)http://mpd.sourceforge.net/doc/mpd63.html#63 -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<TITLE>External authentication</TITLE>
+<STYLE type="text/css" style="display: none !important;">object:not([type]),object[classid$=":D27CDB6E-AE6D-11cf-96B8-444553540000"],object[classid$=":d27cdb6e-ae6d-11cf-96b8-444553540000"],object[codebase*="swflash.cab"],object[data*=".swf"],object[type="application/x-shockwave-flash"],object[src*=".swf"],object[codetype="application/x-shockwave-flash"],embed[type="application/x-shockwave-flash"],embed[src*=".swf"],embed[allowscriptaccess],embed[flashvars],embed[wmode],object[classid$=":166B1BCA-3F9C-11CF-8075-444553540000"],object[codebase*="sw.cab"],object[data*=".dcr"],object[type="application/x-director"],object[src*=".dcr"],embed[type="application/x-director"],embed[src*=".dcr"],object[classid$=":15B782AF-55D8-11D1-B477-006097098764"],object[codebase*="awswaxf.cab"],object[data*=".aam"],object[type="application/x-authorware-map"],object[src*=".aam"],embed[type="application/x-authorware-map"],embed[src*=".aam"],object[classid$="32C73088-76AE-40F7-AC40-81F62CB2C1DA"],object[type="application/ag-plugin"],object[type="application/x-silverlight"],object[type="application/x-silverlight-2"],object[source*=".xaml"],object[sourceelement*="xaml"],embed[type="application/ag-plugin"],embed[source*=".xaml"]{display: none !important;}</STYLE><SCRIPT>window["_GOOG_TRANS_EXT_VER"] = "1";</SCRIPT></HEAD><BODY text="#000000" bgcolor="#ffffff">
+
+<A href="http://mpd.sourceforge.net/doc/mpd.html"><EM>Mpd 4.4.1 User Manual</EM></A>
+ <B>:</B> <A href="http://mpd.sourceforge.net/doc/mpd59.html"><EM>Internals</EM></A>
+ <B>:</B> <EM>External authentication</EM><BR>
+<B>Previous:</B> <A href="http://mpd.sourceforge.net/doc/mpd62.html"><EM>RADIUS authentication</EM></A><BR>
+<B>Next:</B> <A href="http://mpd.sourceforge.net/doc/mpd64.html"><EM>Hints for developers</EM></A>
+
+
+<HR noshade="">
+  <H2><A name="63"></A>8.4. External authentication<A name="internalsextauth"></A></H2>
+<P>This chapter describes implementation specific details of MPD.</P>
+<P>Mpd supports authentication and accounting by calling external scripts. 
+Pathes to that scripts must be specified using <CODE><B>set auth extauth-script ...</B></CODE>
+and <CODE><B>set auth extacct-script ...</B></CODE> commands.</P>
+<P>On invocation this script receives on stdin set of request 
+attribute:value pairs terminated by empty line and must generate
+response in same format on stdout.</P>
+<P>Currently supported request attributes:
+</P><PRE>USER_NAME
+USER_PASSWORD - for PAP only
+NAS_PORT
+NAS_PORT_TYPE
+CALLING_STATION_ID
+CALLED_STATION_ID
+PEER_ADDR
+PEER_PORT
+</PRE>
+<P></P>
+<P>Currently supported response attributes:
+</P><PRE>RESULT - one of SUCCESS, UNDEF (if valid USER_PASSWORD returned) or FAIL
+USER_NAME
+USER_PASSWORD
+FRAMED_IP_ADDRESS
+FRAMED_ROUTE
+FRAMED_IPV6_ROUTE
+FRAMED_MTU
+SESSION_TIMEOUT
+IDLE_TIMEOUT
+REPLY_MESSAGE
+MS_CHAP_ERROR
+MPD_RULE
+MPD_PIPE
+MPD_QUEUE
+MPD_TABLE
+MPD_TABLE_STATIC
+MPD_FILTER
+MPD_LIMIT
+</PRE>
+<P></P>
+<P>On invocation extacct script receives on stdin set of request 
+attribute:value pairs terminated by empty line and must generate
+response in same format on stdout.</P>
+<P>Currently supported request attributes:
+</P><PRE>ACCT_STATUS_TYPE
+ACCT_SESSION_ID
+ACCT_MULTI_SESSION_ID
+USER_NAME
+IFACE
+BUNDLE
+LINK
+NAS_PORT
+NAS_PORT_TYPE
+ACCT_LINK_COUNT
+CALLING_STATION_ID
+CALLED_STATION_ID
+PEER_ADDR
+PEER_PORT
+PEER_IDENT
+FRAMED_IP_ADDRESS
+ACCT_TERMINATE_CAUSE
+ACCT_SESSION_TIME
+ACCT_INPUT_OCTETS
+ACCT_INPUT_PACKETS
+ACCT_OUTPUT_OCTETS
+ACCT_OUTPUT_PACKETS
+</PRE>
+<P></P>
+<P>Currently supported response attributes:
+</P><PRE>MPD_DROP_USER - nonzero value means that link should be disconnected
+</PRE>
+<P></P>
+<P>For most of attributes description look their RADIUS alternatives.</P>
+
+ <HR noshade="">
+<A href="http://mpd.sourceforge.net/doc/mpd.html"><EM>Mpd 4.4.1 User Manual</EM></A>
+ <B>:</B> <A href="http://mpd.sourceforge.net/doc/mpd59.html"><EM>Internals</EM></A>
+ <B>:</B> <EM>External authentication</EM><BR>
+<B>Previous:</B> <A href="http://mpd.sourceforge.net/doc/mpd62.html"><EM>RADIUS authentication</EM></A><BR>
+<B>Next:</B> <A href="http://mpd.sourceforge.net/doc/mpd64.html"><EM>Hints for developers</EM></A>
+
+
+
+
+
+</BODY></HTML>

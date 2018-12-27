@@ -1,0 +1,878 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=KOI8-R">
+
+  <meta name="Author" content="Alexey V. Pautov">
+  
+  <meta name="GENERATOR" content="Created by Dos Navigator.">
+  <title>Интерфейс для С (C API)</title>
+</head><body bgcolor="#dde1c2">
+<link rel="stylesheet" href="mysql_c_api_files/opennet2.css" type="text/css">
+<!--htdig_noindex-->
+<form method="get" action="http://www.opennet.ru/search.shtml">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td style="background: rgb(233, 234, 214) url(/back.gif) repeat-x scroll left bottom; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="BOTTOM" bgcolor="#e9ead6">
+<a href="http://www.opennet.ru/"><img src="mysql_c_api_files/opennet2.gif" alt="The OpenNET Project" height="60" width="249" border="0"></a><br>
+</td>
+
+<td width="1" bgcolor="#b0b190"><img src="mysql_c_api_files/p.gif" alt="" height="1" width="1"></td>
+
+<td valign="TOP" width="470" align="RIGHT" bgcolor="#d9dac6">
+<table width="470" border="0" cellpadding="1">
+<tbody><tr>
+<td height="60" bgcolor="#d9dac6">
+
+<script language="JavaScript">      
+var plugin=(navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;     
+     
+if ( plugin ) {     
+     
+ plugin=parseInt(plugin.description.substring(plugin.description.indexOf(".")-2))>=6;     
+     
+}     
+     
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0      
+     
+   && (navigator.userAgent.indexOf("Windows 95")>=0 || navigator.userAgent.indexOf("Windows 98")>=0 || navigator.userAgent.indexOf("Windows NT")>=0)) {     
+     
+ document.write('<SCR'+'IPT LANGUAGE=VBScript\> \n');     
+     
+ document.write('on error resume next \n');     
+     
+ document.write('plugin=( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.6")))\n');     
+     
+ document.write('</SCRIPT\> \n');     
+     
+}     
+     
+if ( plugin ) {     
+     
+     var swf_url = '/img/securit3.swf' + '?link1=' + 'http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit3';                                            
+        document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0" width=468 height=60>');                                            
+        document.write('<param name=movie value="' + swf_url + '"><param name=menu value=false><param name=section value=1629><param name=quality value=high>');                                            
+        document.write('<EM' + 'BED src="' + swf_url + '" quality=high ');                                            
+        document.write('menu=false swLiveConnect=FALSE WIDTH=468 HEIGHT=60');                                            
+        document.write('TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">');                                                
+        document.write('</embed>');                                            
+        document.write(' </object>');                                               
+}else{ 
+document.write('<a href=http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit_gif target=_blank><img src=/img/securit.gif width=468 height=60 border=0></a>'); 
+} 
+</script><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0" height="60" width="468"><param name="movie" value="/img/securit3.swf?link1=http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit3"><param name="menu" value="false"><param name="section" value="1629"><param name="quality" value="high"><embed src="mysql_c_api_files/securit3.swf" quality="high" menu="false" swliveconnect="FALSE" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" height="60TYPE=&quot;application/x-shockwave-flash&quot;" width="468"> </object> 
+<noscript><a
+href=http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit_gif
+target=_blank><img src=/img/securit.gif width=468 height=60
+border=0></a></noscript>
+
+
+</td>
+</tr>
+</tbody></table>
+</td>
+
+<td width="1" bgcolor="#b0b190"><img src="mysql_c_api_files/p.gif" alt="" height="1" width="1"></td>
+<td style="background: rgb(233, 234, 214) url(/back.gif) repeat-x scroll left bottom; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" width="40" bgcolor="#e9ead6">&nbsp;</td>
+<td width="1" bgcolor="#b0b190"><img src="mysql_c_api_files/p.gif" alt="" height="1" width="1"></td>
+
+<td rowspan="3" valign="TOP" width="130" align="RIGHT" bgcolor="#e9ead6">
+<a href="http://www.lanbilling.ru/" target="_blank"><img src="mysql_c_api_files/lanbilling6.gif" height="125" width="130" border="0"></a>
+</td>
+
+</tr>
+
+<tr bgcolor="#b0b190"><td colspan="6"><img src="mysql_c_api_files/p.gif" alt="" height="1" width="1"></td></tr>
+
+
+<tr bgcolor="#e9ead6">
+<td colspan="5" align="CENTER">
+<table width="100%">
+<tbody><tr>
+<td rowspan="2" class="h" nowrap="nowrap" width="300">
+<input name="exclude" value="index|/man.shtml" type="hidden"><a href="http://www.opennet.ru/search.shtml" class="h"><u>Поиск</u></a>&nbsp;(<a href="http://www.opennet.ru/keywords/" class="h">ключи</a>):&nbsp;<input size="20" name="words" type="text">
+</td><td width="25%">
+   <a href="http://www.opennet.ru/prog/sml/" class="h"><b><u>ПРОГРАММЫ</u></b></a>
+</td><td width="25%">
+   <a href="http://www.opennet.ru/filebase.shtml" class="h"><b><u>СТАТЬИ</u></b></a>
+</td><td width="25%">
+   <a href="http://www.opennet.ru/tips/sml/" class="h"><b><u>СОВЕТЫ</u></b></a>
+</td><td width="25%">
+   <a href="http://www.opennet.ru/forum/" class="h"><b><u>ФОРУМ</u></b></a>
+</td></tr>
+<tr><td>
+   <a href="http://www.opennet.ru/links/sml/" class="h"><b><u>ССЫЛКИ</u></b></a>
+</td><td class="h">
+   <a href="http://www.opennet.ru/opennews/" class="h"><b><u>НОВОСТИ</u></b></a> (<a href="http://www.opennet.ru/news/opennet.shtml" class="h">+</a>)
+</td><td>
+   <a href="http://www.opennet.ru/man.shtml" class="h"><b><u>MAN'ы</u></b></a>
+</td><td>
+   <a href="http://www.opennet.ru/docs/" class="h"><b><u>ДОКУМЕНТАЦИЯ</u></b></a>
+</td></tr>
+</tbody></table>
+</td>
+<td width="1" bgcolor="#b0b190"><img src="mysql_c_api_files/p.gif" alt="" height="1" width="1"></td>
+</tr>
+<tr bgcolor="#b0b190"><td colspan="7"><img src="mysql_c_api_files/p.gif" alt="" height="2" width="1"></td></tr>
+</tbody></table>
+
+<div style="float: left; width: 279px; text-align: left; padding-right: 100px;" id="adv"><a href="http://www.ip-as.ru/" target="_blank"><img src="mysql_c_api_files/ipas2.gif" height="40" width="279" border="0"></a></div>
+<div style="padding-top: 10px;" id="adv2">
+<!-- #include virtual="/cgi-bin/opennet/rb2?adv"-->
+</div>
+<br>
+
+<script language="JavaScript"><!--
+d=document;a='';r=escape(d.referrer);a+=';r='+r;
+js=10; d.write('<img src="http://top.list.ru/counter'+
+'?id=77689;js='+js+a+';rand='+Math.random()+
+'" alt="" height=1 width=1>');
+if(js>11)d.write('<'+'!-- ')//--></script><img src="mysql_c_api_files/counter.gif" alt="" height="1" width="1"><noscript><img
+src="http://top.list.ru/counter?js=na;id=77689"
+height=1 width=1 alt="">
+</noscript>
+
+</form>
+<!--/htdig_noindex-->
+
+
+<table style="margin-bottom: 5px; margin-top: 5px;" width="100%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td>
+<table width="100%" bgcolor="#e9ead6" border="0" cellpadding="4" cellspacing="0">
+<tbody><tr bgcolor="#c7cbb1"><td><font color="#000090">
+<b><a href="http://www.opennet.ru/docs/">Каталог документации</a> / 
+<a href="http://www.opennet.ru/docs/121.shtml">Раздел "Базы данных, SQL"</a> /
+<a href="http://www.opennet.ru/docs/RUS/mysqlrus/">Оглавление документа</a>
+</b>
+</font></td></tr>
+</tbody></table>
+</td></tr>
+<tr bgcolor="#b0b190"><td><img src="mysql_c_api_files/p.gif" alt="" height="3" width="1"></td></tr>
+</tbody></table>
+
+
+<h1 align="CENTER">Интерфейс для С (C API)</h1>
+
+<ul><li><b>Интерфейс для С (C API)</b>
+<ul><li><a href="#Overview">Коротко о главном</a></li>
+<li><a href="#Preparation">Подготовка</a></li>
+<li><a href="#DStruct">Клиентские функции</a></li>
+<li><a href="#mysql_affected_rows">mysql_affected_rows</a></li>
+<li><a href="#mysql_close">mysql_close</a></li>
+<li><a href="#mysql_connect">mysql_connect</a></li>
+<li><a href="#mysql_create_db">mysql_create_db</a></li>
+<li><a href="#mysql_data_seek">mysql_data_seek</a></li>
+<li><a href="#mysql_drop_db">mysql_drop_db</a></li>
+<li><a href="#mysql_eof">mysql_eof</a></li>
+<li><a href="#mysql_error">mysql_error</a></li>
+<li><a href="#mysql_fetch_field">mysql_fetch_field</a></li>
+<li><a href="#mysql_fetch_lengths">mysql_fetch_lengths</a></li>
+<li><a href="#mysql_fetch_row">mysql_fetch_row</a></li>
+<li><a href="#mysql_field_seek">mysql_field_seek</a></li>
+<li><a href="#mysql_free_result">mysql_free_result</a></li>
+<li><a href="#mysql_get_client_info">mysql_get_client_info</a></li>
+<li><a href="#mysql_get_host_info">mysql_get_host_info</a></li>
+<li><a href="#mysql_get_proto_info">mysql_get_proto_info</a></li>
+<li><a href="#mysql_get_server_info">mysql_get_server_info</a></li>
+<li><a href="#mysql_insert_id">mysql_insert_id</a></li>
+<li><a href="#mysql_list_dbs">mysql_list_dbs</a></li>
+<li><a href="#mysql_list_fields">mysql_list_fields</a></li>
+<li><a href="#mysql_list_processes">mysql_list_processes</a></li>
+<li><a href="#mysql_list_tables">mysql_list_tables</a></li>
+<li><a href="#mysql_num_fields">mysql_num_fields</a></li>
+<li><a href="#mysql_num_rows">mysql_num_rows</a></li>
+<li><a href="#mysql_query">mysql_query</a></li>
+<li><a href="#mysql_real_query">mysql_real_query</a></li>
+<li><a href="#mysql_reload">mysql_reload</a></li>
+<li><a href="#mysql_select_db">mysql_select_db</a></li>
+<li><a href="#mysql_shutdown">mysql_shutdown</a></li>
+<li><a href="#mysql_stat">mysql_stat</a></li>
+<li><a href="#mysql_store_result">mysql_store_result</a></li>
+<li><a href="#mysql_use_result">mysql_use_result</a></li></ul></li></ul><hr>
+
+<h2 align="CENTER"><a name="Overview"></a>Коротко о главном</h2>
+<p>API поддерживает богатый ассортимент функций, которые обеспечивают доступ
+к СУБД MySQL из программы пользователя, независимо от того, запущена ли она в
+локальной или на удаленной системе.
+
+</p><p></p><h2 align="CENTER"><a name="Preparation"></a>Подготовка</h2>
+<p>Вы должны подключить файл mysql.h в начале Вашей программы на C:
+
+</p><ul><p><tt>#include "mysql.h"</tt></p></ul>
+
+<p>Вы также должны компоновать программу с математической (для шифрования) и
+mysqlclient библиотеками:
+</p><ul><p><tt>$ <b>cc -I/usr/include/mysql -L/usr/lib/mysql myapp.c -o myapp
+-lm -lmysqlclient</b></tt></p></ul>
+
+<p>Включаемые файлы обычно размещены в /usr/include/mysql, а библиотеки могут
+быть найдены в /usr/lib/mysql.
+
+</p><p>Если Вы имеете утечку памяти в вашей программе-клиенте, Вы можете
+компилировать с опцией <tt>--with-debug=yes</tt>. Это заставит код клиента
+использовать пакет 'safe_malloc' в библиотеке клиентов MySQL. Вызовите
+TERMINATE(stdout) или my_end(1) в вашей прикладной программе-клиенте перед
+выходом, чтобы получить список всех утечек памяти. Детали - в файле
+mysys/safemalloc.c из дистрибутива MySQL.
+
+</p><p>Рассмотрим простой пример MySQL-клиента, который только выполнит SELECT
+и выведет все возвращенные строки в STDOUT. В нем использованы далеко не все
+функции С API, он должен только дать Вам представление о типичном виде
+программы-клиента.
+
+</p><p><table bgcolor="black" border="0" cellpadding="10"><tbody><tr><td>
+<pre><font color="white">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "mysql.h"
+
+MYSQL mysql;
+MYSQL_RES *res;
+MYSQL_ROW row;
+
+void exiterr(int exitcode)
+{
+  fprintf(stderr, "%s\n", mysql_error(&amp;mysql));
+  exit(exitcode);
+}
+
+int main()
+{
+  uint i = 0;
+
+  if (!(mysql_connect(&amp;mysql,"host","username","password")))
+     exiterr(1);
+  if (mysql_select_db(&amp;mysql,"payroll")) exiterr(2);
+  if (mysql_query(&amp;mysql,"SELECT name,rate FROM emp_master"))
+     exiterr(3);
+  if (!(res = mysql_store_result(&amp;mysql))) exiterr(4);
+  while((row = mysql_fetch_row(res))) {
+    for (i=0 ; i &lt; mysql_num_fields(res); i++)
+      printf("%s\n",row[i]);
+  }
+  if (!mysql_eof(res)) exiterr(5);
+  mysql_free_result(res);
+  mysql_close(&amp;mysql);
+}
+</font></pre></td></tr></tbody></table>
+
+</p><p></p><h2 align="CENTER"><a name="DStruct"></a>Клиентские функции</h2>
+<p>MySQL API использует структуры данных MYSQL (определены в mysql.h)
+чтобы установить связь с СУБД. Вы можете устанавливать много соединений из
+одной программы-клиента, однако, каждое соединений должно быть связано с
+собственной отдельной структурой MYSQL.
+
+</p><p>После успешного запроса, если данные должны быть возвращены пользователю,
+набор результатов должен быть передан через функции <tt>mysql_use_result</tt>
+или через функцию <tt>mysql_store_result</tt>. Обе эти функции сохраняют
+набор результатов в структуре MYSQL_RES. Разница в том, что
+<tt>mysql_store_result</tt> передает весь набор результатов в память клиента,
+а <tt>mysql_use_result</tt> инструктирует клиента, чтобы он мог получить
+строку динамически с сервера с каждым обращением к mysql_fetch_row. Имейте в
+виду, что <tt>mysql_use_result</tt> занимает ресурсы сервера, и не должен
+использоваться для интерактивных прикладных программ, где действия
+пользователя часто непредсказуемы и могут привести к большим задержкам.
+Обратите внимание также, что Вы можете держать только одно соединение,
+которое использует <tt>mysql_user_result</tt>, открытым, и это должно быть
+последнее созданное соединение. По умолчанию процесс mysqld закроет
+соединение после тридцати секунд неактивности.
+
+</p><p>Данные, переданные из набора результатов с помощью mysql_fetch_row, будут
+помещены в структуру MYSQL_ROW, которая является просто массивом указателей
+на начало каждого поля.
+
+</p><hr width="100%">
+<center><h2><a name="mysql_affected_rows"></a>mysql_affected_rows</h2>
+</center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_affected_rows(MYSQL *mysql)</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul>Возвращает число строк, на которые воздействует последний UPDATE,
+    DELETE или INSERT.</ul>
+<p><b>ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:</b>
+</p><ul type="DISC"><li>Целое число &gt; 0 показывает число измененных строк.</li>
+<li>Ноль, если никакие записи не соответствовали предложению WHERE в
+    UPDATE или DELETE.</li>
+<li>-1, если запрос возвратил ошибку, например, была сделана попытка
+    добавить двойной первичный ключ в течение одного INSERT.</li></ul>
+
+<p><b>ПРИМЕР:</b>
+</p><pre>mysql_query(&amp;mysql,"INSERT INTO gl_transact(acctnbr, amount) VALUES(12345,
+            651.30)");
+if (mysql_affected_rows(&amp;mysql) &lt; 0)
+   fprintf(stderr, "Attempted to add duplicate primary key\n");
+</pre>
+
+<p>MySQL оптимизирован для случая удаления всех записей в таблице. Побочный
+эффект этой оптимизации - то, что MySQL возвратится, ноль для числа строк,
+на которые воздействовал в этой ситуации. Выполнение 'select count(*) from
+the_table' перед удалением всех записей даст Вам значение = на сколько строк
+воздействовала система, хотя это значение может изменяться между SELECT и
+DELETE. MySQL 3.20.X не поддерживает блокировку таблицы. Это исправлено в
+версии 3.21.X
+
+</p><hr width="100%">
+<center><h2><a name="mysql_close"></a>mysql_close</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>void mysql_close(MYSQL *mysql);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Закрывает открытое соединение подключение. <tt>mysql_close</tt> должен
+быть вызван после завершения всех операций, выполняемых через соединение с
+MySQL. Если это не сделать, поток, созданный <tt>mysql_connect</tt>, зависнет
+до окончания тайм-аута сервера. На сервере, работающем с сильной нагрузкой,
+это может быстро израсходовать много памяти, хотя нужно очень немного времени
+центрального процессора.
+</p><p>Если подключение закрыто до того, как запущенный запрос завершился, запрос
+   будет продолжаться, пока не попытается вернуть результат пользователю. При
+   этом он завершится аварийно, узнав, что соединение не активно.
+</p><p>По умолчанию тайм-аут = 30 секундам для активного запроса и 8 часам для
+   открытого подключения.</p></ul>
+<p><b>ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:</b>
+</p><p></p><ul>Нет.</ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_connect"></a>mysql_connect</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL *mysql_connect(MYSQL *mysql, const char *host, const char
+                                *user, const char *passwd) </tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><p>Пытается установить соединение с сервером MySQL, работающем на компьютере
+<tt>host</tt>. Значение <tt>host</tt> может быть сетевым именем или IP
+адресом. Параметр <tt>user</tt> задает логин пользователя MySQL, параметр
+<tt>passwd</tt> задает пароль для <tt>user</tt>. <b>ОБРАТИТЕ ВНИМАНИЕ:</b> Не
+пытайтесь шифровать passwd перед вызовом mysql_connect. Шифрование
+выполняется автоматически клиентским API.
+
+</p><p></p><ul type="DISC">
+<li>Если <tt>host</tt> не задан, то подразумевается '<i>localhost</i>'.</li>
+<li>Если <tt>user</tt> не задан, то подразумевается '<i>current user</i>'.
+    Под Windows ODBC, текущий пользователь должен быть определен явно. Под
+    Unix подразумевается текущий логин.</li>
+<li>Если <tt>password</tt> не задан, то будут проверены только те записи в
+    таблице пользователей, которые не имеют пароля. Это позволяет
+    db-администратору настроить систему привилегий MySQL так, чтобы
+    пользователь получал различные привилегии в зависимости от того,
+    определен пароль или нет. Иногда полезно.</li></ul>
+
+<p><tt>mysql_connect</tt> должен успешно завершиться до каких-либо действий
+с базой данных.
+
+</p><p>Вы можете опционально задать первый аргумент <tt>mysql_connect</tt> как
+<tt>(MYSQL*) 0</tt>. Это вынудит C API к автоматическому распределению памяти
+для структуры подключения и освобождению ее при завершении. Расплатой за это
+служит то, что Вы не сможете получать сообщения об ошибках из mysql_connect,
+когда используете эту опцию.
+
+</p><p><b>ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:</b>
+</p><p></p><ul type="DISC">
+<li><tt>mysql</tt>, если соединение выполнено успешно.</li>
+<li>NULL в случае, если связаться не удалось.</li></ul>
+
+<p><b>ПРИМЕР:</b>
+</p><p><table bgcolor="black" border="0" cellpadding="10"><tbody><tr><td>
+<pre><font color="white">
+MYSQL *mysql;
+
+if ((mysql = malloc(sizeof(MYSQL))) != NULL)
+{
+   if (!(mysql_connect(mysql, "pr_server", "jqpublic", "mypasswd")))
+   {
+      free(mysql);
+      exit(1);
+   }
+}
+free(mysql);
+</font></pre></td></tr></tbody></table>
+
+</p><hr width="100%">
+<center><h2><a name="mysql_create_db"></a>mysql_create_db</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_create_db(MYSQL *mysql, const char *db);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul>Создает базу данных, именованную как <tt>db</tt> на машине, указанной в
+    <tt>mysql</tt>. MySQL подключение должно быть выполнено с правами
+    пользователя, который <i>имеет право</i> создавать базы данных.
+    Обратитесь к главе <a href="http://www.opennet.ru/docs/RUS/mysqlrus/admin.html">"Администрирование пакета"</a>
+    за подробностями о правах доступа.</ul>
+
+<p><b>ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:</b>
+</p><p></p><ul type="DISC">
+<li>0, если база данных создана успешно.</li>
+<li>Не 0, если произошла ошибка. Сообщение об ошибке можно получить с
+    помощью функции <tt><a href="#mysql_error">mysql_error</a></tt>.</li>
+    </ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_data_seek"></a>mysql_data_seek</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>void mysql_data_seek(MYSQL_RES *res, uint offset);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul>Переходит на указанную строку в наборе результатов запросов. Не может
+    использоваться вместе с <tt>mysql_use_result</tt>.</ul>
+
+<p><b>ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:</b>
+</p><p></p><ul>Нет.</ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_drop_db"></a>mysql_drop_db</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_drop_db(MYSQL *mysql, const char *db);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul>Удаляет базу данных с именем, указанным в db на сервере, указанном в
+    mysql. Подключение должно быть выполнено с правами пользователя, который
+    имеет на это право. Обратитесь к главе <a href="http://www.opennet.ru/docs/RUS/mysqlrus/admin.html">
+    "Администрирование пакета"</a> за подробностями о правах доступа.</ul>
+
+<p><b>ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:</b>
+</p><p></p><ul type="DISC">
+<li>0, если база данных удалена успешно.</li>
+<li>Не 0, если произошла ошибка. Сообщение об ошибке можно получить с
+    помощью функции <tt><a href="#mysql_error">mysql_error</a></tt>.</li>
+    </ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_eof"></a>mysql_eof</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><p></p><ul><tt>int mysql_eof(MYSQL_RES *)</tt></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><p>Возвращает значение != 0, если последний вызов <tt>mysql_fetch_row</tt> не
+вернул ничего потому, что достигнут конец набора результатов.
+
+</p><hr width="100%">
+<center><h2><a name="mysql_error"></a>mysql_error</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><p></p><ul><tt>char *mysql_error(MYSQL *mysql)</tt></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><p></p><ul>Выводит сообщение об ошибке, если ошибку вернула последняя вызванная
+       функция MySQL. В противном случае возвращает пустую строку.</ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_fetch_field"></a>mysql_fetch_field</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_FIELD *mysql_fetch_field(MYSQL_RES *handle);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Находит тип поля таблицы.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_fetch_lengths"></a>mysql_fetch_lengths</h2>
+</center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>unsigned int *mysql_fetch_lengths(MYSQL_RES *mysql)</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Возвращает длину всех столбцов в наборе результатов запросов. Если Вы
+       планируете получение данных, содержащих \0, Вы должны использовать эту
+       функцию, чтобы получить фактическую длину значения поля.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_fetch_row"></a>mysql_fetch_row</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_ROW mysql_fetch_row(MYSQL_RES *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Выбирает следующую строку в результате запроса. Возвратит пустой
+       указатель, когда все строки были получены.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_field_seek"></a>mysql_field_seek</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><p></p><ul><tt>void mysql_field_seek(MYSQL_RES *result, int field)</tt></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><p></p><ul>Помещает курсор столбца в поле номер <tt>field</tt>, который должен
+       быть в диапазоне от 0 до <tt>mysql_num_fields(MYSQL_RES*)-1</tt>.</ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_free_result"></a>mysql_free_result</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>void mysql_free_result(MYSQL_RES *result);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Освобождает память, использованную, чтобы сохранить результат запроса.
+       Должна быть вызвана всякий раз, когда Вы закончили использовать
+       результаты вызова <tt>mysql_store_result()</tt>.</p></ul>
+
+<p></p><hr width="100%">
+<center><h2><a name="mysql_get_client_info"></a>mysql_get_client_info</h2>
+</center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>char *mysql_get_client_info(void);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><p>Эта функция просто возвращает строку с информацией о версии используемой в
+настоящее время клиентской библиотеки. Иногда полезно.
+
+</p><p></p><hr width="100%">
+<center><h2><a name="mysql_get_host_info"></a>mysql_get_host_info</h2>
+</center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>char *mysql_get_host_info(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Возвращает имя сервера (заданное в аргументе "host" при вызове
+       <tt>mysql_connect</tt>).</p></ul>
+
+<p></p><hr width="100%">
+<center><h2><a name="mysql_get_proto_info"></a>mysql_get_proto_info</h2>
+</center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_get_proto_info(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Получает версию протокола, используемую подключением. MySQL
+       поддерживает динамические протоколы, основанные на возможностях
+       клиента. В версии 3.20.X это не делает ничего, но в будущих версиях,
+       эта возможность позволит, например, одному пользователю подключать
+       использование текущего протокола, в то время как другой использует
+       шифрование и сжатие.</p></ul>
+
+<p></p><hr width="100%">
+<center><h2><a name="mysql_get_server_info"></a>mysql_get_server_info</h2>
+</center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>char *mysql_get_server_info(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><p>Возвращает версию сервера.
+
+</p><p></p><hr width="100%">
+<center><h2><a name="mysql_insert_id"></a>mysql_insert_id</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><p></p><ul><tt>int mysql_insert_id(MYSQL *mysql)</tt></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><p></p><ul>Возвращает ID, сгенерированный для поля AUTO_INCREMENT
+       переменной результата 'res'.</ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_list_dbs"></a>mysql_list_dbs</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_RES *mysql_list_dbs(MYSQL *mysql, const char *wild);</tt>
+</p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Предоставляет простой способ переноса mSQL прикладных программ.
+       Подобно выполнению '<tt>SHOW databases [ LIKE wild-card ]</tt>',
+       как запроса.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_list_fields"></a>mysql_list_fields</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_RES *mysql_list_fields(MYSQL *mysql, const char *table,
+                                        const char *wild);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Предоставляет простой способ переноса mSQL прикладных программ.
+       Подобно выполнению '<tt>SHOW fields [FROM table] [FROM database] [LIKE
+       wild-card]</tt>', как запроса.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_list_processes"></a>mysql_list_processes</h2>
+</center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_RES *mysql_list_processes(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Получает список потоков, в настоящее время запущенных на сервере MySQL.
+       Вы должны иметь привилегии <i>process</i>.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_list_tables"></a>mysql_list_tables</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_RES *mysql_list_tables(MYSQL *mysql, const char *wild);</tt>
+</p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Предоставляет простой способ переноса mSQL прикладных программ.
+</p><p>Вызывает как запрос '<tt>SHOW tables [FROM database]</tt>'.</p></ul>
+
+<hr width="100%"><br>
+<center><h2><a name="mysql_num_fields"></a>mysql_num_fields</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_num_fields(MYSQL_RES *result);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Возвращает количество столбцов (полей) в результате запроса.</p></ul>
+
+<p><b>ПРИМЕР:</b>
+</p><p><table bgcolor="black" border="0" cellpadding="10"><tbody><tr><td>
+<pre><font color="white">
+MYSQL mysql;
+MYSQL_RES *result;
+int fields;
+
+if (mysql_query(&amp;mysql, "SELECT&nbsp;*&nbsp;FROM emp_master") == 0)
+{
+   result = mysql_store_result( &amp;mysql&nbsp;);
+   if (result != NULL )
+   {
+      fields = mysql_num_fields( result );
+      printf( "Retrieved %u fields\n", fields );
+   }
+   else printf( "Query failed\n" );
+}
+else abort();
+</font></pre></td></tr></tbody></table>
+
+</p><p><b>См. также:</b>
+</p><ul><p><a href="#mysql_list_dbs">mysql_list_dbs</a>,
+<a href="#mysql_list_fields">mysql_list_fields</a>,
+<a href="#mysql_list_processes">mysql_list_processes</a>,
+<a href="#mysql_list_tables">mysql_list_tables</a>,
+<a href="#mysql_store_result">mysql_store_result</a>,
+<a href="#mysql_use_result">mysql_use_result</a></p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_num_rows"></a>mysql_num_rows</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_num_rows(MYSQL_RES *result);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Возвращает количество строк, возвращенных последним вызовом
+<a href="#mysql_list_dbs">mysql_list_dbs</a>,
+<a href="#mysql_list_fields">mysql_list_fields</a>,
+<a href="#mysql_list_processes">mysql_list_processes</a>,
+<a href="#mysql_list_tables">mysql_list_tables</a> или
+<a href="#mysql_store_result">mysql_store_result</a>.</p></ul>
+
+<p><b>ПРИМЕР:</b>
+</p><p><table bgcolor="black" border="0" cellpadding="10"><tbody><tr><td>
+<pre><font color="white">
+MYSQL mysql;
+MYSQL_RES *result;
+int rows;
+
+if (mysql_query(&amp;mysql, "SELECT&nbsp;*&nbsp;FROM emp_master") == 0)
+{
+   result = mysql_store_result(&amp;mysql&nbsp;);
+   if (result != NULL)
+   {
+      rows = mysql_num_rows(result);
+      printf("Retrieved %u rows\n", rows);
+   }
+   else printf("Query failed\n");
+}
+else abort();
+</font></pre></td></tr></tbody></table>
+
+</p><p><b>См. также:</b>
+</p><ul><p><a href="#mysql_list_dbs">mysql_list_dbs</a>,
+<a href="#mysql_list_fields">mysql_list_fields</a>,
+<a href="#mysql_list_processes">mysql_list_processes</a>,
+<a href="#mysql_list_tables">mysql_list_tables</a>,
+<a href="#mysql_store_result">mysql_store_result</a>,
+<a href="#mysql_use_result">mysql_use_result</a></p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_query"></a>mysql_query</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_query(MYSQL *mysql, const char *query);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Выполняет SQL запрос указанный <tt>query</tt> к базе данных, указанной
+       в <tt>mysql</tt>. Эта функция возвращает 0, если запрос выполнен
+       успешно. Результат, отличный от нуля, указывает на ошибку. Обращение к
+       <tt>mysql_error</tt> выведет текстовое сообщение об ошибке.
+</p><p>Вызов <tt>mysql_num_rows</tt> даст Вам число строк, возвращенных запросом.
+</p><p>Если Вы имеете поле AUTO_INCREMENT в модифицируемой таблице, и выполняете
+оператор INSERT, Вы можете получить последнее назначенное значение поля,
+проверяя <tt>mysql_insert_id</tt>.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_real_query"></a>mysql_real_query</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_real_query(MYSQL *mysql, const char *query, uint length);
+</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Эта функция вызывается <tt>mysql_query</tt> после того, как она
+    выполнила обращение к функции <tt>strlen</tt> чтобы вычислить длину
+    строки запроса. Это можно использовать, если Ваша программа распределяет
+    фиксированный буфер для строки запроса.
+
+</p><p>Вы будете должны использовать эту функцию, если Вы имеете данные, в
+   которые значение \0 входит не как последнее.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_reload"></a>mysql_reload</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_reload(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Перезагружают таблицу доступа пользователей, очищает все кэши и
+       закрывает все открытые неиспользуемые таблицы. Должна быть вызвана
+       перед запуском <tt>isamchk</tt> на любой таблице. Требует, чтобы
+       пользователь имел право на перезагрузку (reload).</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_select_db"></a>mysql_select_db</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_select_db(MYSQL *mysql, const char *db);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+
+</p><ul><p>Пытается соединиться с базой данных, указанной в <tt>db</tt>, на
+сервере, указанном в <tt>mysql</tt>. Сервер СУБД MySQL использует логин и
+пароль, содержащиеся в <tt>mysql</tt>, чтобы опознать подключение. Перед
+использованием <tt>mysql_select_db</tt> необходимо успешно вызвать
+<tt>mysql_connect</tt>.
+
+</p><p><tt>mysql_select_db</tt> должен быть вызван успешно перед попыткой сделать
+запрос к базе данных. Исключительные ситуации - запросы типа:
+
+</p><p><tt>SHOW DATABASES like 'A%';</tt></p><p>
+<tt>SELECT 1+1;     # SELECT без использования таблиц(ы).</tt></p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_shutdown"></a>mysql_shutdown</h2></center>
+
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>int mysql_shutdown(MYSQL *mysql);</tt></p></ul>
+
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Останавливает сервер СУБД MySQL. Пользователь должен иметь право
+       <i>shutdown</i>.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_stat"></a>mysql_stat</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>char *mysql_stat(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Возвращает информацию, которую выдает команда '<tt>mysqladmin
+       version</tt>' в виде строки символов. Эквивалентно опции stat
+       программы mysqladmin. В строку включается информация о простое в
+       секундах, запущенных потоках, запросах, перезагрузках и открытых
+       таблицах.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_store_result"></a>mysql_store_result</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_RES *mysql_store_result(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>Передает результат клиенту. Вы должны использовать эту функцию или
+       <tt>mysql_use_result()</tt> чтобы получить результат с сервера. Вы
+       обязательно должны использовать <tt>mysql_store_result()</tt> или
+       <tt>mysql_use_result()</tt> после того, как выполнили успешный запрос.
+
+</p><p><tt>mysql_store_result()</tt> вернет NULL при ошибке или если инструкция
+   не вернула никаких данных. Вы можете обрабатывать ошибки так:
+
+</p><p><table bgcolor="black" border="0" cellpadding="10"><tbody><tr><td>
+<pre><font color="white">if (!(result=mysql_store_result(&amp;mysql)) &amp;&amp;
+        mysql_num_fields(&amp;mysql))
+        fputs(mysql_error(&amp;mysql),stderr);
+</font></pre></td></tr></tbody></table>
+
+</p><p>Вызов <tt>mysql_free_result()</tt> должен быть выполнен, чтобы освободить
+   память.</p></ul>
+
+<hr width="100%">
+<center><h2><a name="mysql_use_result"></a>mysql_use_result</h2></center>
+<p><b>СИНТАКСИС:</b>
+</p><ul><p><tt>MYSQL_RES *mysql_use_result(MYSQL *mysql);</tt></p></ul>
+<p><b>ОПИСАНИЕ:</b>
+</p><ul><p>То же, что и <tt>mysql_store_result()</tt>, за исключением того, что
+       результат выдается сервером динамически для каждого вызова
+       <tt>mysql_fetch_row()</tt>. Эта функция не должна использоваться в
+       интерактивных прикладных программах, так как она связывает сервер.
+       Зато она помогает уменьшить использование памяти на стороне клиента.
+</p></ul>
+
+<p>В заключение хочется попросить Вас, если Вам понравилась эта страничка или
+пригодилась изложенная здесь информация,
+<a href="mailto:rldp@ftp.botik.ru?subject=%D0%A1%D0%BF%D0%B0%D1%81%D0%B8%D0%B1%D0%BE%21&amp;body=%D0%A1%D0%BF%D0%B0%D1%81%D0%B8%D0%B1%D0%BE%20%D0%B7%D0%B0%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%83%21">
+послать благодарность автору.</a> Это поможет мне
+вести статистику того, скольким людям пригодилось хоть что-то из моих трудов.
+
+</p><p><a href="http://www.opennet.ru/docs/RUS/mysqlrus/c_api.html">Локальное оглавление.</a>
+</p><p><a href="http://www.opennet.ru/docs/RUS/mysqlrus/index.html">На главную страничку.</a>
+
+
+<!--htdig_noindex-->
+<br>
+
+<table><tbody><tr valign="top"><td width="383">
+<iframe src="mysql_c_api_files/adv_ibm.html" name="ibm" border="0" target="_blank" frameborder="0" height="240" scrolling="no" width="383"></iframe>
+</td><td>
+ 
+
+     <table width="95%" align="center" bgcolor="#441144" border="1" cellpadding="2" cellspacing="0">
+     <tbody> 
+
+       <tr>
+            <td align="center" bgcolor="#fff8e8">
+               <a target="_blank" href="http://www.linuxcenter.ru/linux-format-2009/?sid=nP5OTFA1" title="Спешите подписаться на Linux Format!">
+                  <font face="sans-serif" size="4" color="#5b1900">
+<b>Спешите подписаться на Linux Format!</b>
+                  </font>
+               </a>
+            </td>
+            </tr>
+       <tr>
+		<td align="left" bgcolor="#fff8e8">
+               <p width="20%" size="2" color="#5b1900" face="sans-serif">
+               <a target="_blank" href="http://www.linuxcenter.ru/">
+                   <img src="mysql_c_api_files/id1996.png" title="Журнал Linux Format" height="150" hspace="0" vspace="0" width="150" align="right" border="0">
+               </a>
+      
+Заканчивается подписка на журнал Linux Format. Спешите оформить подписку 
+на единственный в России ежемесячный журнал о Linux и получить электронный подарок от ГНУ/Линуксцентра!
+</p>
+<p>
+Все, оформившие подписку на печатную версию журнала, получают в подарок электронные версии этих же журналов.
+Теперь вы можете приступить к чтению журнала сразу в момент выхода свежего номера, не дожидаясь, пока вам доставят 
+бумажную версию!
+</p>
+<p>
+Подпишитесь сегодня и сразу же получите именные электронные копии журналов за январь и февраль 2009!
+</p>
+<p>
+<a target="_blank" href="http://www.linuxcenter.ru/linux-format-2009/?sid=nP5OTFA1">Подпишись сейчас!</a>
+</p>
+ 	</td>
+
+  </tr>
+ </tbody>
+</table>
+
+		</td></tr></tbody></table>
+
+<!--/htdig_noindex-->
+
+
+<!-- footer -->
+<!--htdig_noindex-->
+<br>
+<table width="100%" bgcolor="#b0b190" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr><td>
+<table valign="MIDDLE" width="100%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td width="35%" align="LEFT" bgcolor="#e9ead6">
+<font size="-1">
+&nbsp;&nbsp;<a href="http://www.opennet.ru/cgi-bin/opennet/bookmark.cgi">Закладки&nbsp;на&nbsp;сайте</a><br>
+&nbsp;&nbsp;<a href="http://www.opennet.ru/cgi-bin/opennet/bookmark.cgi?submit=add" target="blank_">Проследить&nbsp;за&nbsp;страницей</a>
+</font>
+</td>
+<td width="65%" align="RIGHT" bgcolor="#e9ead6">
+<font size="-1">Created&nbsp;1996-2009&nbsp;by&nbsp;<b><a href="http://www.opennet.ru/contact.shtml" title="email mc@tyumen.ru">Maxim&nbsp;Chirkov</a></b></font>&nbsp;&nbsp;<br>
+<font size="-1"><a href="http://www.opennet.ru/guestbook.shtml">Добавить</a>,&nbsp;<a href="http://www.opennet.ru/reklama.shtml">Реклама</a>,&nbsp;<a href="http://www.opennet.ru/banners2.shtml">Вебмастеру</a>,&nbsp;<a href="http://www.opennet.ru/cup.shtml">ЦУП</a>,&nbsp;<a href="http://www.opennet.ru/guide.shtml">ГИД</a></font>&nbsp;&nbsp;
+</td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+
+
+</p><div align="right"><table><tbody><tr><td>
+<a target="_blank" href="http://www.runnet.ru/"><img src="mysql_c_api_files/runnet.gif" alt="RUNNet" height="31" width="88" border="0"></a>
+<a target="_blank" href="http://top.list.ru/jump?from=77689"><img src="mysql_c_api_files/counter_002.gif" alt="TopList" height="31" width="38" border="0"></a>
+<a target="_blank" href="http://counter.rambler.ru/top100/"><img src="mysql_c_api_files/top100.asc" height="1" width="1" border="0"><img src="mysql_c_api_files/banner.gif" height="31" width="88" border="0"></a>
+</td></tr></tbody></table>
+</div>
+
+<!--/htdig_noindex-->
+<!-- end of footer -->
+
+</body></html>

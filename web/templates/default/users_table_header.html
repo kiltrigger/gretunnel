@@ -1,0 +1,35 @@
+<? if ($_GET['group'] != ''): ?>
+<table border=0 cellpadding=2 cellspacing=0 bordercolor=#d0d0d0>
+	<tbody>
+	<tr bgColor=#bdddc6>
+		<td>
+		<b>
+		<?=$l_forms['group'];?>:</b> <?=$_GET['group'];?>		
+		</td>
+	</tr>
+	</tbody>
+</table>
+<br>
+<? endif; ?>
+
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=#d0d0d0 width=100% align=center>
+  <tbody>
+    <tr bgColor=#d0d0d0 align = center>
+      <td width=3%><strong><a href=index.php?module=Users&orderby=id><?=$l_tables['number'];?></a></strong></td>
+      <td width=10%><strong><a href=index.php?module=Users&orderby=UserName><?=$l_tables['username'];?></a></strong></td>
+      <td width=10%><strong><a href=index.php?module=Users&orderby=limit><?=$l_tables['limit'];?></a></strong></td>
+      <td width=10%><strong><?=$l_tables['groupname'];?></strong></td>
+      <td width=7%><strong><?=$l_tables['in'];?></strong></td>
+      <td width=7%><strong><?=$l_tables['out'];?></strong></td>
+      <td width=7%><strong><?=$l_tables['l_in'];?></strong></td>
+      <td width=8%><strong><?=$l_tables['l_out'];?></strong></td>
+      <td width=8%><strong><?=$l_tables['bonus'];?></strong></td>
+      <td width=8%><strong><?=$l_tables['rest'];?></strong></td>
+      
+      <? if (empty($_GET['month']) OR $_GET['month'] == 'current'): ?>
+      <td width=15%><strong><a href=index.php?module=Users&orderby=status><?=$l_tables['status'];?></a></strong></td>
+      <? endif; ?>
+      
+      <td width=15%><strong><?=$l_tables['operations'];?></strong></td>
+    </tr>
+    

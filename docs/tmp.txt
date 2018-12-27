@@ -1,0 +1,6 @@
+cat flows_summ | grep "10.3.0.184" | awk '{a+=$2}END{print a}'
+
+SELECT SUM( Bytes ) 
+FROM  `flows` 
+WHERE Owner =  'test'
+AND DstIP LIKE  '10.3.0.%' 

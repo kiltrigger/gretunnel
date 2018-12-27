@@ -1,0 +1,40 @@
+int_if="em0"
+ext_if="em1"
+vpn_net="10.10.1.0/24"
+icmp_types="echoreq"
+tarifs="{ tarif-256 tarif-512 tarif-1024 tarif-1536 tarif-2048 tarif-3072 tarif-4096 tarif-5120 tarif-unlim }"
+
+set limit { states 20000, frags 20000, src-nodes 5000 }
+set block-policy return
+
+scrub in all
+
+altq on $int_if cbq bandwidth 100Mb queue $tarifs
+altq on $ext_if cbq bandwidth 100Mb queue $tarifs
+queue tarif-unlim bandwidth 50Mb cbq(default)
+queue tarif-256 bandwidth 256Kb cbq
+queue tarif-512 bandwidth 512Kb cbq
+queue tarif-1024 bandwidth 1024Kb cbq
+queue tarif-1536 bandwidth 1536Kb cbq
+queue tarif-2048 bandwidth 2048Kb cbq
+queue tarif-3072 bandwidth 3072Kb cbq
+queue tarif-4096 bandwidth 4096Kb cbq
+queue tarif-5120 bandwidth 5120Kb cbq
+
+set skip on lo0
+
+#table <inetusers> { }
+#nat pass from <inetusers> to any -> 10.0.15.5
+#nat pass from $vpn_net to any port { 21 80 443 } -> $ext_if
+#rdr on ng0 inet proto tcp from any to any port www -> 127.0.0.1 port 3128
+
+nat pass from $vpn_net to any -> $ext_if
+rdr-anchor "vpnmsp/*" proto tcp from $vpn_net to any port www
+
+block in
+pass out keep state
+antispoof quick for { lo $int_if }
+#pass in quick from $vpn_net to any
+pass in quick on $int_if
+pass in inet proto icmp  from $vpn_net to any icmp-type $icmp_types
+anchor "vpnms/*" from $vpn_net to any

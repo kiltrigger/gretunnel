@@ -1,0 +1,22 @@
+if ('undefined'==typeof tbe_cset) {
+function tbe_esc(str){var r=''
+for (var i=0;i<str.length;i++){var n=str.charCodeAt(i)
+if(n==0x401)n=0xA8;else if(n==0x451)n=0xB8;else if(n>=0x410 && n<=0x44F)n=n-0x350
+if(n<=0xFF)r+=String.fromCharCode(n)}
+return escape(r)}
+var tbecvar
+if (tbecvar=document.getElementById('tbec')){
+var a=document.createElement('a')
+a.href='http://tbe.tom.ru/site/inet.tom.ru/'
+a.target='_blank'
+var i=document.createElement('img')
+i.border=0
+i.src='http://c.tbex.ru/x/0!8831!inet.tom.ru!c.gif?jsc=1&res='+screen.width+'x'+screen.height+'x'+screen.colorDepth+'&t='+tbe_esc(document.title)+'&sk='+((window.top==window && typeof tbecvar=='undefined')?0:1)+'&ref='+tbe_esc(document.referrer)+'&rnd='+(new Date().getTime())
+i.alt='TBE: 296 163/579 3'
+i.title='| 296 \u043c\u0435\u0441\u0442\u043e \n| inet.tom.ru\n| 163 \u0445\u043e\u0441\u0442\u0430\n| 579 \u0445\u0438\u0442\u043e\u0432\n| 3 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043e\u043d\u043b\u0430\u0439\u043d'
+a.appendChild(i)
+tbecvar.appendChild(a)
+var tbe_cset=1
+var tbe_addr='inet.tom.ru';
+}
+}

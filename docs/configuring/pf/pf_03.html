@@ -1,0 +1,445 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=KOI8-R"><title>
+        Учебник по FreeBSD, OpenBSD, NetBSD, DragonFly: C.3. Управление пакетным фильтром OpenBSD
+      при помощи утилиты pfctl(8)</title><link rel="stylesheet" href="pf_03_files/default.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><meta name="keywords" content="BSD, OpenBSD, FreeBSD, NetBSD, DragonFly"><link rel="start" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html" title="BSDA в вопросах и ответах"><link rel="up" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html" title="Приложение C. Пакетный фильтр OpenBSD&nbsp;&#8212; pf(4)"><link rel="prev" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html" title="C.2. Конфигурационный файл pf.conf(5)"><link rel="next" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html" title="C.4. Интеграция пакетного фильтра с програмным окружением"></head><body link="#0000ff" text="black" vlink="#840084" alink="#0000ff" bgcolor="white"><div class="navheader"><table summary="Navigation header" width="100%"><tbody><tr><th></th><th align="center">C.3. Управление пакетным фильтром <span class="acronym">OpenBSD</span>
+      при помощи утилиты <span><strong class="command">pfctl(8)</strong></span></th><th align="right"><script type="text/javascript" src="pf_03_files/orphus.js"></script><a title="Система Orphus" href="http://orphus.ru/" id="orphus" target="_blank"><img alt="Система Orphus" src="pf_03_files/orphus.gif" border="0"></a></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html"><img src="pf_03_files/prev.gif" alt="Пред."></a>&nbsp;</td><th width="60%" align="center">Приложение C. Пакетный фильтр <span class="acronym">OpenBSD</span>&nbsp;&#8212; <span><strong class="command">pf(4)</strong></span></th><td width="20%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html"><img src="pf_03_files/next.gif" alt="След."></a></td></tr></tbody></table><hr></div><div class="section" lang="ru"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="pf-pfctl"></a>C.3. Управление пакетным фильтром <span class="acronym">OpenBSD</span>
+      при помощи утилиты <span><strong class="command">pfctl(8)</strong></span></h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs03.html#pfctl-ex"><img name="cover" src="pf_03_files/button-yellow.png" alt="[*]">C.3.1. Примеры</a></span></dt></dl></div><p>
+      Программа <span><strong class="command">pfctl(8)</strong></span> предназначена для
+      управления системой <span><strong class="command">pf(4)</strong></span>. Она позволяет
+      устанавливать правила, менять значения параметров и выводить
+      статистическую информацию. Ниже описаны опции данной команды.
+    </p><div class="variablelist"><dl><dt><span class="term"><code class="option">-e</code></span></dt><dd>
+          Включить пакетный фильтр
+        </dd><dt><span class="term"><code class="option">-d</code></span></dt><dd>
+          Отключить пакетный фильтр
+        </dd><dt><span class="term"><code class="option">-h</code></span></dt><dd>
+            Справка
+          </dd><dt><span class="term"><code class="option">-n</code></span></dt><dd>
+            Не загружать правила, только проверить синтаксис.
+          </dd><dt><span class="term"><code class="option">-f</code> file</span></dt><dd>
+            Загрузить правила из файла. См. так же опцию
+            <code class="option">-n</code>
+          </dd><dt><span class="term"><code class="option">-o</code></span></dt><dd><p>
+            Включить опимизацию правил. Оптимизатор может улучшить
+            производительность пакетного фильтра путём удаления повторов и
+            расположения правил в другом порядке. Вот что он делает:
+          </p><div class="orderedlist"><ol type="1"><li>
+              Удаляет дублирующиеся правила
+            </li><li>
+              Удаляет правила, которые являются подмножеством других
+              правил. Например, если вы в одном правиле блокируете весь
+              трафик от хоста A, а в другом весь трафик от этого хоста на
+              22-й порт, то второе правило, очевидно, избыточно.
+            </li><li>
+              Когда это возможно, объединяет несколько правил в одно, при
+              помощи использования таблиц.
+            </li><li>
+              Меняет порядок расположения правил для увеличения
+              эффективности работы.
+            </li></ol></div><p>
+            При указании второй опции <code class="option">-o</code>, оптимизатор
+            начинает вставлять ключевое слово <code class="code">quick</code> в правила.
+          </p><p>
+            Побочным эффектом оптимизации может явиться изменение
+            статистической информации по правилам. Если это важно для
+            системы учёта трафика (биллинговой системы), вам придётся
+            расставить опцию <code class="code">lable</code>, дабы
+            предотвратить пересортировку правил оптимизатором.
+          </p></dd><dt><span class="term"><code class="option">-z</code></span></dt><dd>
+            Очистить статистику по правилам
+          </dd><dt><span class="term"><code class="option">-i</code> interface</span></dt><dd>
+            Ограничить действия указанным интерфейсом
+          </dd><dt><span class="term"><code class="option">-p</code> device</span></dt><dd>
+            Использовать устройство альтернативное
+            <code class="filename">/dev/pf</code>.
+          </dd><dt><span class="term"><code class="option">-A</code></span></dt><dd>
+            Загружать только очереди
+          </dd><dt><span class="term"><code class="option">-N</code></span></dt><dd>
+            Загрузить только правила NAT
+          </dd><dt><span class="term"><code class="option">-O</code></span></dt><dd>
+            Загрузить только опции.
+          </dd><dt><span class="term"><code class="option">-R</code></span></dt><dd>
+            Загружать только правила фильтрации
+          </dd><dt><span class="term"><code class="option">-a</code> anchor</span></dt><dd><p>
+            Применять опции <code class="option">-f</code>, <code class="option">-F</code> и
+            <code class="option">-s</code> только к правилам соответствующим якорю
+            anchor. Например, следующая команда позволит просмотреть
+            правила добавленные при помощи команды
+            <span><strong class="command">authpf(8)</strong></span> для пользователя smith, при
+            условии, что программа authpf имеет pid 1234:
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -a "authpf/smith(1234)" -s rules
+            </pre></div><p>
+            Кроме того, данная опция позволяет ограничивать область
+            видимости таблицы:
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -a foo/bar -t mytable -T add 1.2.3.4 5.6.7.8
+            </pre></div><p>
+            Данная команда изменит таблицу созданную в якоре <code class="code">foo/bar</code> но не тронет глобальную
+            таблицу, даже в случае конфликта имён.
+          </p></dd><dt><span class="term"><code class="option">-k</code> host</span></dt><dd><p>
+            Сбросить все записи в таблице состояний, относящиеся к
+            указанному хосту. Можно употребить несколько раз:
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -k host1 -k host2
+            </pre></div><p>
+            Сбросит все записи относящиеся к соединениям между host1 и
+            host2.
+          </p></dd><dt><span class="term"><code class="option">-m</code></span></dt><dd><p>
+            Установить явно заданные опции без сброса прочих:
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> echo "set loginterface fxp0" | pfctl -mf -
+            </pre></div></dd><dt><span class="term"><code class="option">-D</code> macro=value</span></dt><dd>
+            Эта опция позволяет переопределять в командной строке значения
+            макросов определённые в конфигурационном файле.
+          </dd><dt><span class="term"><code class="option">-F</code> modifier</span></dt><dd><p>
+            Сбросить параметр modifier в пакетном фильтре. Можно указать
+            всего одной буквой:
+          </p><p>
+            </p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody><tr><td align="left"><code class="option">-F nat</code></td><td align="left">Сбросить правила nat</td></tr><tr><td align="left"><code class="option">-F queue</code></td><td align="left">Сбросить правила queue</td></tr><tr><td align="left"><code class="option">-F rules</code></td><td align="left">Сбросить правила фильтрации</td></tr><tr><td align="left"><code class="option">-F state</code></td><td align="left">
+                      Сбросить таблицу состояния (для nat и фильтрации)
+                    </td></tr><tr><td align="left"><code class="option">-F Sources</code></td><td align="left">
+                      Сбросить информацию о источниках пакетов (см.
+                      <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-pf.conf-rule-state-opts" title="C.2.1.4.7. Опции таблицы состояний">Раздел&nbsp;C.2.1.4.7, &#171;Опции таблицы состояний&#187;</a>)
+                    </td></tr><tr><td align="left"><code class="option">-F info</code></td><td align="left">
+                      Сбросить статистическую информацию (не привязанную к
+                      правилам фильтрации)
+                    </td></tr><tr><td align="left"><code class="option">-F Tables</code></td><td align="left">Сбросить содержимое всех таблиц</td></tr><tr><td align="left"><code class="option">-F osfp</code></td><td align="left">
+                      Сбросить содержимое таблицы для пассивного
+                      детектирования операционной системы
+                    </td></tr><tr><td align="left"><code class="option">-F all</code></td><td align="left">Сбросить всё</td></tr></tbody></table></div>
+          <p></p></dd><dt><span class="term"><code class="option">-s</code> modifier</span></dt><dd><p>
+            Показывать параметры пакетного фильтра, указанные в modifier:
+          </p><p>
+            </p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody><tr><td align="left"><code class="option">-s nat</code></td><td align="left">Показать загруженные правила nat</td></tr><tr><td align="left"><code class="option">-s queue</code></td><td align="left">
+                      Показать загруженные очереди. При указании совместно
+                      с опцией <code class="option">-v</code> показывается статистика
+                      по очередям. При указании двух флагов
+                      <code class="option">-v -v</code>, пакетный фильтр входит в
+                      цикл и показывает информацию on-line обновляя её раз
+                      в 5 минут. При этом видна так же измеренная полоса
+                      пропускания по каждой очереди.
+                    </td></tr><tr><td align="left"><code class="option">-s rules</code></td><td align="left">
+                      Показать загруженные правила фильтрации. При
+                      использовании совместно с ключём <code class="option">-v</code>
+                      показывается статистика по каждому правилу:
+                      количество срабатываний, количество пакетов и байт
+                      прошедших через правило. Оптимизация &#171;set
+                      step&#187;, включённая в ядре по умолчанию,
+                      отключает вычисление статистики, когда это только
+                      возможно. Пакеты соответствующие правилу учитывающему
+                      состояни (keep state) учитываются только в этом
+                      правиле.
+                    </td></tr><tr><td align="left"><code class="option">-s Anchors</code></td><td align="left">
+                      Показать якоря, загруженные непосредственно из
+                      главного набора правил. Если надо просмотреть
+                      вложенные якоря, надо употребить аргумент
+                      <code class="option">-a anchor</code>. При указании опции
+                      <code class="option">-v</code> все якоря рекурсивно
+                      разворачиваются.
+                    </td></tr><tr><td align="left"><code class="option">-s state</code></td><td align="left">Показать таблицу состояний</td></tr><tr><td align="left"><code class="option">-s Sources</code></td><td align="left">
+                      Показать информацию о источниках пакетов (см.
+                      <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-pf.conf-rule-state-opts" title="C.2.1.4.7. Опции таблицы состояний">Раздел&nbsp;C.2.1.4.7, &#171;Опции таблицы состояний&#187;</a>)
+                    </td></tr><tr><td align="left"><code class="option">-s info</code></td><td align="left">
+                      Показать статистическую информацию и счётчики. При
+                      использовании совместно с <code class="option">-v</code>
+                      показывает информацию об источниках пакетов.
+                    </td></tr><tr><td align="left"><code class="option">-s labels</code></td><td align="left">
+                      Показать статистику по каждому правилу. (Метки,
+                      количество срабатываний, количество пакетов,
+                      количество байт).
+                    </td></tr><tr><td align="left"><code class="option">-s timeouts</code></td><td align="left">Показать установленные таймауты.</td></tr><tr><td align="left"><code class="option">-s memory</code></td><td align="left">
+                      Показать текущие ограничения на размеры пулов
+                      памяти.
+                    </td></tr><tr><td align="left"><code class="option">-s Tables</code></td><td align="left">Показать список загруженных таблиц.</td></tr><tr><td align="left"><code class="option">-s osfp</code></td><td align="left">
+                      Показать список известных операционных систем для
+                      пассивного детектирования операцонной системы.
+                    </td></tr><tr><td align="left"><code class="option">-s Interfaces</code></td><td align="left">
+                      Показать список интерфейсов и драйверов интерфейсов,
+                      доступных пакетному фильтру. Совметстно с двумя
+                      аргументами <code class="option">-v -v</code> может показать
+                      статистикку на интерфейсе. Можно ограничить
+                      статистику одним интерфейсом, если использовать
+                      совместно с опцией <code class="option">-i interface</code>.
+                    </td></tr><tr><td align="left"><code class="option">-s all</code></td><td align="left">
+                      Паказать всю информацию, кроме списка интерфейсов и
+                      списка операционных систем.
+                    </td></tr></tbody></table></div>
+          <p></p></dd><dt><span class="term"><code class="option">-t</code> table</span></dt><dd>
+            Указание, с какой таблицей мы работаем.
+          </dd><dt><span class="term"><code class="option">-T</code> команда [адреса ...]</span></dt><dd><p>
+            Указывает действие, которое можно совершить с таблицей.
+            Команда может быть сокращена до одной буквы. Допустимы
+            следующие команды:
+          </p><p>
+            </p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody><tr><td align="left"><code class="option">-T kill</code></td><td align="left">Уничтожить таблицу</td></tr><tr><td align="left"><code class="option">-T flush</code></td><td align="left">Очистить таблицу</td></tr><tr><td align="left"><code class="option">-T add</code></td><td align="left">
+                      Добавить адреса в таблицу. Если таблица не
+                      существует, она автоматически создаётся
+                    </td></tr><tr><td align="left"><code class="option">-T delete</code></td><td align="left">Удалить указанные адреса из таблицы</td></tr><tr><td align="left"><code class="option">-T replace</code></td><td align="left">Заменить адреса в таблице. Если таблица не
+                      существует, она автоматически создаётся
+                    </td></tr><tr><td align="left"><code class="option">-T show</code></td><td align="left">Показать содержимое таблицы</td></tr><tr><td align="left"><code class="option">-T test</code></td><td align="left">
+                      Проверить, принадлежит ли указанный адрес таблице
+                    </td></tr><tr><td align="left"><code class="option">-T zero</code></td><td align="left">
+                      Очистить статистическую информацию по таблице
+                    </td></tr><tr><td align="left"><code class="option">-T load</code></td><td align="left">
+                      Загрузить только определения таблиц. Используется
+                      совместно с опцией <code class="option">-f</code>
+                    </td></tr></tbody></table></div>
+          <p></p><p>
+            Для опций <code class="option">add</code>, <code class="option">delete</code>,
+            <code class="option">replace</code> и <code class="option">test</code> адреса
+            можно задавать как в командной строке, так и в файле,
+            с помощью опции <code class="option">-f</code>. Комментарии в
+            текстовом файле с перечнем адресов, можно начинать с
+            символа <code class="code">#</code>. Можно использовать
+            один или два раза флаг <code class="option">-v</code> для того, чтобы
+            информация о проделанных действиях печаталась подробнее.
+            При этом перед каждым адресом будет печататься следующий
+            флаг:
+          </p><p>
+            </p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody><tr><td align="left">A</td><td align="left">Добавлен адрес (сеть)</td></tr><tr><td align="left">C</td><td align="left">Адрес (сеть) изменены</td></tr><tr><td align="left">D</td><td align="left">Адрес (сеть) удалены</td></tr><tr><td align="left">M</td><td align="left">
+                      Адрес (сеть) найдены в таблице (для операции
+                      <code class="option">test</code>)
+                    </td></tr><tr><td align="left">X</td><td align="left">
+                      Адрес (сеть) дублируются (уже есть в таблице),
+                      поэтому игнорированы
+                    </td></tr><tr><td align="left">Y</td><td align="left">
+                      Адрес (сеть) не могут быть добавлены или удалены,
+                      так как конфликтуют с записью с знаком <code class="code">!</code>
+                    </td></tr><tr><td align="left">Z</td><td align="left">Статистика по этому адресу сброшена</td></tr></tbody></table></div>
+          <p></p><p>
+            В каждой таблице есть счётчики, которые можно просмотреть
+            при помощи флага <code class="option">-v</code>. Например, следующая
+            команда создаёт открытый всем ветрам брандмауэр и посылает
+            десять пингов на сервер ftp.openbsd.org:
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> printf "table &lt;test&gt; { ftp.openbsd.org }\n \
+    pass out to &lt;test&gt; keep state\n" | pfctl -f-
+<code class="prompt">$</code> ping -qc10 ftp.openbsd.org
+            </pre></div><p>
+            Теперь мы можем использовать команду <code class="code">show</code> для того, чтобы просмотреть
+            статистику по адресам из таблицы:
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -t test -vTshow
+   129.128.5.191
+        Cleared:     Thu Feb 13 18:55:18 2003
+        In/Block:    [ Packets: 0        Bytes: 0        ]
+        In/Pass:     [ Packets: 10       Bytes: 840      ]
+        Out/Block:   [ Packets: 0        Bytes: 0        ]
+        Out/Pass:    [ Packets: 10       Bytes: 840      ]
+            </pre></div><p>
+            Строка Cleared показывает когда начался учёт.
+          </p><p>
+            Аналогично можно просматривать общую информацию о таблицах
+            используя флаг <code class="option">-v</code> дважды с командой
+            <code class="option">-s Tables</code>. Таким образом, мы получим
+            информацию о количестве адресов в таблицах, количестве
+            правил ссылающихся на таблицу, и общую статистику по
+            таблице.
+          </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -vvsTables
+--a-r-  test
+    Addresses:   1
+    Cleared:     Thu Feb 13 18:55:18 2003
+    References:  [ Anchors: 0        Rules: 1        ]
+    Evaluations: [ NoMatch: 3496     Match: 1        ]
+    In/Block:    [ Packets: 0        Bytes: 0        ]
+    In/Pass:     [ Packets: 10       Bytes: 840      ]
+    In/XPass:    [ Packets: 0        Bytes: 0        ]
+    Out/Block:   [ Packets: 0        Bytes: 0        ]
+    Out/Pass:    [ Packets: 10       Bytes: 840      ]
+    Out/XPass:   [ Packets: 0        Bytes: 0        ]
+            </pre></div><p>
+            Как видно из строки Evaluations, только один пакет
+            соответствовал правилу, остальные, однако корректно учтены
+            таблицей, так как соответствовали записи в таблице
+            состояний. Перезагрузка правил не влияет на счётчики в
+            таблице. Строки XPass увеличиваются в том случае, если пакет
+            пропускается благодаря записи в таблице состояний, но при
+            этом более не соответствует таблице. (Например, если адрес
+            удалён из таблицы, уже открытые соединения не должны
+            оборваться, если они соответвуют таблице состояний.)
+          </p><p>
+            С одним флагом <code class="option">-v</code> будет выведена только
+            первая строка, в которой приведены флаги таблицы и её
+            названия. Вот перечень флагов:
+          </p><p>
+            </p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody><tr><td align="left">c</td><td align="left">
+                      Константа. Содержимое таблицы не может быть
+                      изменено вне <code class="filename">pf.conf(5)</code>
+                    </td></tr><tr><td align="left">p</td><td align="left">
+                      persist&nbsp;&#8212; таблица не удаляется
+                      автоматически, когда на неё не ссылается ни одно
+                      правило.
+                    </td></tr><tr><td align="left">a</td><td align="left">
+                      Активная таблица. Таблицы без этого флага реально
+                      не существуют, они не могут содержать адреса и
+                      видны только если задан флаг <code class="option">-g</code>.
+                    </td></tr><tr><td align="left">i</td><td align="left">
+                      inactive&nbsp;&#8212; неактивная таблица. Этот
+                      влаг выставляется на таблице, на время, в течение
+                      которого в неё &#171;заливаются&#187; данные.
+                    </td></tr><tr><td align="left">r</td><td align="left">
+                      На данную таблицу есть ссылки, т.е. на неё реально
+                      ссылаются какие-то правила.
+                    </td></tr><tr><td align="left">h</td><td align="left">
+                      Таблица скрыта (на время), так как при помощи
+                      якоря загружена другая таблица с таким же именем.
+                    </td></tr></tbody></table></div>
+          <p></p></dd><dt><span class="term"><code class="option">-v</code></span></dt><dd>
+            Увеличить подробность отчёта. Данный флаг можно указывать
+            дважды (см. пояснения у других флагов).
+          </dd><dt><span class="term">-q</span></dt><dd>
+            Печатать только сообщения об ошибках и предупреждения.
+          </dd><dt><span class="term"><code class="option">-g</code></span></dt><dd>
+          Отладочная информация
+        </dd><dt><span class="term"><code class="option">-x</code> level</span></dt><dd><p>
+            Уровень отладки. Можно сокращать до одной буквы:
+          </p><p>
+            </p><div class="informaltable"><table border="1"><colgroup><col><col></colgroup><tbody><tr><td align="left"><code class="option">-x none</code></td><td align="left">Не выводить отладочных сообщений</td></tr><tr><td align="left"><code class="option">-x urgent</code></td><td align="left">
+                      Выводить отладочные сообщения только для серьёзных
+                      ошибок. По умолчанию включён он.
+                    </td></tr><tr><td align="left"><code class="option">-x misc</code></td><td align="left">
+                      Выводить отладочные сообщения только для различных
+                      ошибок.
+                    </td></tr><tr><td align="left"><code class="option">-x loud</code></td><td align="left">Выводить всяческую отладочную информацию</td></tr></tbody></table></div>
+          <p></p></dd></dl></div><div class="section" lang="ru"><div class="titlepage"><div><div><h3 class="title"><a name="pfctl-ex"></a>C.3.1. Примеры</h3></div></div></div><div class="example"><a name="pfctl-ex1"></a><p class="title"><b>Пример C.1. Просмотр статистики на интерфейсе выбранном при помощи
+          опции <code class="option">loginterface</code></b></p><p>
+          Опция <code class="option">loginterface</code> в файле
+          <code class="filename">/etc/pf.conf</code> может указать один (и только
+          один) интерфейс, для которого собирается полная статистическая
+          информация. (См. <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-options" title="C.2.2.1. Опции в пакетном фильтре">Раздел&nbsp;C.2.2.1, &#171;Опции в пакетном фильтре&#187;</a>.)
+        </p><pre class="screen"><code class="prompt">#</code> pfctl -s info
+Status: Enabled for 14 days 10:02:15          Debug: Urgent
+
+Hostid: 0xd56f1383
+
+Interface Stats for rl1               IPv4             IPv6
+  Bytes In                       193781803                0
+  Bytes Out                     1799932863                0
+  Packets In
+    Passed                         1716610                0
+    Blocked                           7973                0
+  Packets Out
+    Passed                         2013028                0
+    Blocked                              0                0
+
+State Table                          Total             Rate
+  current entries                        5               
+  searches                         3848785            3.1/s
+  inserts                            77192            0.1/s
+  removals                           77187            0.1/s
+Counters
+  match                             206160            0.2/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                       604            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+        </pre></div><div class="example"><a name="pfctl-ex2"></a><p class="title"><b>Пример C.2. Кто из заблокированных взломщиков пытался пройти в
+          систему в последнее время?</b></p><pre class="screen"><code class="prompt">#</code> pfctl -t crackers -v -v -Ts | grep "In/Block:.*Packets: [^0]" -B2
+   59.124.47.229
+        Cleared:     Fri Apr 20 19:29:30 2007
+        In/Block:    [ Packets: 159                Bytes: 9540               ]
+--
+   61.109.245.208
+        Cleared:     Mon Apr 23 03:13:25 2007
+        In/Block:    [ Packets: 159                Bytes: 9540               ]
+--
+   62.193.224.155
+        Cleared:     Sun Apr 15 00:03:19 2007
+        In/Block:    [ Packets: 1                  Bytes: 60                 ]
+--
+   66.34.136.28
+        Cleared:     Wed Apr 25 00:06:03 2007
+        In/Block:    [ Packets: 3744               Bytes: 164736             ]
+--
+   67.15.8.50
+        Cleared:     Tue Apr 24 03:44:28 2007
+        In/Block:    [ Packets: 568                Bytes: 34080              ]
+--
+   88.2.123.116
+        Cleared:     Sat Apr 21 11:31:02 2007
+        In/Block:    [ Packets: 48                 Bytes: 2880               ]
+--
+   210.87.136.171
+        Cleared:     Sun Apr 15 00:03:19 2007
+        In/Block:    [ Packets: 1                  Bytes: 60                 ]
+--
+   219.153.32.201
+        Cleared:     Mon Apr 23 10:54:24 2007
+        In/Block:    [ Packets: 164                Bytes: 9840               ]
+        </pre></div><div class="example"><a name="pfctl-ex3"></a><p class="title"><b>Пример C.3. Просмотр таблицы состояний</b></p><pre class="screen"><code class="prompt">#</code> pfctl -ss 
+self tcp 172.19.0.2:22 &lt;- 172.19.0.34:60730       ESTABLISHED:ESTABLISHED
+self tcp 172.19.0.2:22 &lt;- 172.19.0.34:43768       ESTABLISHED:ESTABLISHED
+self pfsync 172.19.0.2 -&gt; 0.0.0.0       SINGLE:NO_TRAFFIC
+<code class="prompt">#</code> pfctl -vvss 
+self tcp 172.19.0.2:22 &lt;- 172.19.0.34:60730       ESTABLISHED:ESTABLISHED
+   [3302985293 + 64096] wscale 1  [3073141737 + 66608] wscale 5
+   age 06:30:34, expires in 24:00:00, 16093:13420 pkts, 1181656:3943411 bytes, rule 5
+   id: 4621338700019ddb creatorid: d56f1383
+self tcp 172.19.0.2:22 &lt;- 172.19.0.34:43768       ESTABLISHED:ESTABLISHED
+   [2485562129 + 63136] wscale 1  [4004983129 + 66608] wscale 5
+   age 05:08:21, expires in 23:59:58, 2743:2321 pkts, 184400:1056475 bytes, rule 5
+   id: 4621338700019f1d creatorid: d56f1383
+self pfsync 172.19.0.2 -&gt; 0.0.0.0       SINGLE:NO_TRAFFIC
+   age 02:33:08, expires in 00:00:29, 15314:14760 pkts, 6238352:826560 bytes, rule 14
+   id: 462133870001ca8b creatorid: d56f1383
+        </pre><p>
+          При наличии на интерфейсе NAT трансляции, она отображается в
+          данном отчёте. Это было показано при обсуждении
+          <code class="filename">pf.conf(5)</code> в <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-pf.conf-nat-state" title="C.2.1.5.7. Проверка состояния правил NAT">Раздел&nbsp;C.2.1.5.7, &#171;Проверка состояния правил NAT&#187;</a>.
+        </p><p>
+          См. так же <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html#pf-pftop" title="C.5.2. pftop">Раздел&nbsp;C.5.2, &#171;<span><strong class="command">pftop</strong></span>&#187;</a>.
+        </p></div><div class="example"><a name="pfctl-ex4"></a><p class="title"><b>Пример C.4. Сколько пакетов на какое правило попало?</b></p><pre class="screen"><code class="prompt">#</code> pfctl -vvsr 
+@0 scrub in all fragment reassemble
+  [ Evaluations: 8292326   Packets: 3818454   Bytes: 0           States: 0     ]
+@0 block return in log all
+  [ Evaluations: 389809    Packets: 2153      Bytes: 935446      States: 0     ]
+@1 pass quick on lo0 all
+  [ Evaluations: 389809    Packets: 237302    Bytes: 62225678    States: 0     ]
+@2 pass in quick on rl1 inet proto udp from any to 172.19.0.2 port = domain
+  [ Evaluations: 152507    Packets: 19368     Bytes: 1286672     States: 0     ]
+@3 pass in quick on rl1 inet proto tcp from &lt;trusted_ip:8&gt; to 172.19.0.2 port = ssh keep state
+  [ Evaluations: 48415     Packets: 19371     Bytes: 2672486     States: 0     ]
+@4 block return in log quick on rl1 inet proto tcp from &lt;crackers:314&gt; to 172.19.0.2 port = ssh
+  [ Evaluations: 46532     Packets: 7310      Bytes: 371716      States: 0     ]
+@5 pass in on rl1 inet proto tcp from any to 172.19.0.2 port = ssh flags S/SA keep state
+  [ Evaluations: 39219     Packets: 822253    Bytes: 144372004   States: 2     ]
+@6 pass in on rl1 inet proto tcp from any to 172.19.0.2 port = smtp flags S/SA keep state
+  [ Evaluations: 39400     Packets: 49654     Bytes: 41860091    States: 0     ]
+@7 pass in on rl1 inet proto tcp from any to 172.19.0.2 port = domain flags S/SA keep state
+  [ Evaluations: 39400     Packets: 763       Bytes: 44898       States: 0     ]
+@8 pass in on rl1 inet proto tcp from any to 172.19.0.2 port = http flags S/SA keep state
+  [ Evaluations: 39400     Packets: 2409271   Bytes: 1888003875  States: 0     ]
+@9 pass in on rl1 inet proto tcp from any to 172.19.0.2 port = imap flags S/SA keep state
+  [ Evaluations: 39400     Packets: 53382     Bytes: 36933799    States: 0     ]
+@10 pass in on rl1 inet proto udp from any port = domain to 172.19.0.2 keep state
+  [ Evaluations: 41095     Packets: 293       Bytes: 21590       States: 0     ]
+@11 pass in inet proto icmp all keep state
+  [ Evaluations: 47877     Packets: 0         Bytes: 0           States: 0     ]
+@12 pass in on rl1 from &lt;internal_ip:3&gt; to any keep state
+  [ Evaluations: 47877     Packets: 23966     Bytes: 2072826     States: 0     ]
+@13 pass out on rl1 from any to &lt;internal_ip:3&gt; keep state
+  [ Evaluations: 125819    Packets: 0         Bytes: 0           States: 0     ]
+@14 pass out on rl1 all keep state
+  [ Evaluations: 77942     Packets: 1184788   Bytes: 239933074   States: 1     ]
+        </pre><p>
+          В отчёте, там, где даны имена таблиц, указано сколько в них
+          записей.
+        </p></div><p>
+        Все эти данные позволяют применять утилиту
+        <span><strong class="command">pfctl(8)</strong></span> не только для управления пакетным
+        фильтром, но и для сбора разнообразных данных и постоения
+        биллинговых систем. Некоторое уже готовое програмное обеспечение
+        на эту тему предствлено в <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html" title="C.4. Интеграция пакетного фильтра с програмным окружением">Раздел&nbsp;C.4, &#171;Интеграция пакетного фильтра с програмным окружением&#187;</a>.
+      </p></div></div><hr><div class="itemizedlist"><ul type="disc"><li><a href="http://house.hcn-strela.ru/BSDCert/">Легенда (условные обозначения)</a>.</li><li>Свежая версия данного <a href="http://house.hcn-strela.ru/BSDCert/">учебника по *BSD</a>.</li><li>Если вы нашли ошибку, выделите её в браузере и нажмите
+                    клавиши &lt;Ctrl&gt;+&lt;Enter&gt; (пожалуйста,
+                    &#171;зачёрпывайте&#187; окрестности ошибки, чтобы её было
+                    легче найти в тексте)</li><li>Замечания и предложения можно высылать по адресу <img src="pf_03_files/email.png"></li><li>Автор, <a href="http://house.hcn-strela.ru/%7Eemin/cv.html">Евгений Миньковский</a>, ведёт
+                    <a href="http://www.a-sys.ru/default.aspx?t13=7">курсы по администрированию
+                        <acronym class="acronym">FreeBSD</acronym> и
+                        <acronym class="acronym">Linux</acronym></a>.
+                    в Академии Корпоративных Систем:
+                    <a href="http://www.a-sys.ru/">http://www.a-sys.ru/</a></li></ul></div><div class="navfooter"><hr><table summary="Navigation footer" width="100%"><tbody><tr><td width="40%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html"><img src="pf_03_files/prev.gif" alt="Пред."></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html"><img src="pf_03_files/up.gif" alt="Уровень выше"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html"><img src="pf_03_files/next.gif" alt="След."></a></td></tr><tr><td valign="top" width="40%" align="left">C.2. Конфигурационный файл <code class="filename">pf.conf(5)</code>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html"><img src="pf_03_files/home.gif" alt="Начало"></a></td><td valign="top" width="40%" align="right">&nbsp;C.4. Интеграция пакетного фильтра с програмным окружением</td></tr></tbody></table></div></body></html>

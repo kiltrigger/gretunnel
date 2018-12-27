@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="KEYWORDS" content="Configuring transparent proxy">
+<meta name="robots" content="index,follow">
+<link rel="shortcut icon" href="http://schools.coe.ru.ac.za/favicon.ico">
+<link title="Creative Commons" type="application/rdf+xml" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=creativecommons" rel="meta">
+<link rel="copyright" href="http://www.gnu.org/copyleft/fdl.html">
+    <title>Configuring transparent proxy - GrahamstownSchoolWiki</title>
+    <style type="text/css" media="screen,projection">/*<![CDATA[*/ @import "/mediawiki/skins/monobook/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="Configuring_transparent_proxy_files/commonPrint.css">
+    <!--[if lt IE 5.5000]><style type="text/css">@import "/mediawiki/skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "/mediawiki/skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if gte IE 6]><style type="text/css">@import "/mediawiki/skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="/mediawiki/skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="Configuring_transparent_proxy_files/index.php"></script>    <script type="text/javascript" src="Configuring_transparent_proxy_files/wikibits.js"></script>
+    <style type="text/css">/*<![CDATA[*/
+@import "/mediawiki/index.php?title=MediaWiki:Monobook.css&action=raw&ctype=text/css&smaxage=18000";
+@import "/mediawiki/index.php?title=-&action=raw&gen=css";
+/*]]>*/</style>          </head><body class="ns-0">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="contentTop"></a>
+	  	  <h1 class="firstHeading">Configuring transparent proxy</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">From GrahamstownSchoolWiki</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <p><br>
+</p>
+<p>This how-to was written to present how to configure tranparent proxying in Linux (specifically <a href="http://www.ubuntu.com/" class="external" title="http://www.ubuntu.com" rel="nofollow">Ubuntu</a><span class="urlexpansion">&nbsp;(<i>http://www.ubuntu.com</i>)</span>) and <a href="http://freebsd.org/" class="external" title="http://freebsd.org/" rel="nofollow">FreeBSD</a><span class="urlexpansion">&nbsp;(<i>http://freebsd.org/</i>)</span>, specifically for the <a href="http://schools.coe.ru.ac.za/" class="external" title="http://schools.coe.ru.ac.za/" rel="nofollow">School's group</a><span class="urlexpansion">&nbsp;(<i>http://schools.coe.ru.ac.za/</i>)</span> context here at <a href="http://www.ru.ac.za/" class="external" title="http://www.ru.ac.za/" rel="nofollow">RU</a><span class="urlexpansion">&nbsp;(<i>http://www.ru.ac.za/</i>)</span>.
+So there will be things that will not apply to those who are looking at
+doing similar things in other places, but the ideas should be similar
+enough and provide you with a basic idea of where to start and how to
+go about things. I do not profess to be any sort of authority on any of
+this stuff, this is all based on what I have learnt while recently
+trying to solve the problem of transparent proxying for one of our
+schools, <a href="http://schools.coe.ru.ac.za/wiki/Good_Shepherd" title="Good Shepherd">Good Shepherd</a> Primary.</p>
+<table id="toc" border="0"><tbody><tr id="toctitle"><td align="center">
+<b>Table of contents</b> <script type="text/javascript">showTocToggle("show","hide")</script><span class="toctoggle">[<a href="javascript:toggleToc()" class="internal"><span id="showlink" style="display: none;">show</span><span id="hidelink">hide</span></a>]</span>
+</td></tr><tr id="tocinside"><td>
+<div class="tocline"><a href="#What_software_components_do_I_need_to_make_transparent_proxying_possible.3F">1 What software components do I need to make transparent proxying possible?</a><br></div>
+<div class="tocline"><a href="#The_Proxy_Server">2 The Proxy Server</a><br></div>
+<div class="tocline"><a href="#The_Firewall">3 The Firewall</a><br></div>
+<div class="tocindent">
+<p><a href="#FreeBSD_Configurations">3.1 FreeBSD Configurations</a><br>
+</p>
+<div class="tocindent">
+<p><a href="#Using_IPFW">3.1.1 Using IPFW</a><br>
+<a href="#Using_pf">3.1.2 Using pf</a><br>
+</p>
+</div>
+<p><a href="#Linux_Configurations">3.2 Linux Configurations</a><br>
+</p>
+</div>
+<div class="tocline"><a href="#Transparent_proxy_program">4 Transparent proxy program</a><br></div>
+<div class="tocindent">
+<p><a href="#Transproxy_config_in_FreeBSD">4.1 Transproxy config in FreeBSD</a><br>
+<a href="#Transproxy_config_in_Linux">4.2 Transproxy config in Linux</a><br>
+</p>
+</div>
+<div class="tocline"><a href="#The_Browser">5 The Browser</a><br></div>
+<div class="tocline"><a href="#Diagram">6 Diagram</a><br></div>
+<div class="tocline"><a href="#Conclusions">7 Conclusions</a><br></div>
+<div class="tocline"><a href="#The_Alternative">8 The Alternative</a><br></div>
+</td></tr></tbody></table>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=1" title="Configuring transparent proxy">edit</a>]</div><a name="What_software_components_do_I_need_to_make_transparent_proxying_possible.3F"></a><h2> What software components do I need to make transparent proxying possible? </h2>
+<p>There are 4 software components that are necessary in making transparent proxying work, these are:
+</p>
+<ul><li> A browser (on the client machine)
+</li><li> A <a href="http://en.wikipedia.org/wiki/Firewall_%28networking%29" class="external" title="http://en.wikipedia.org/wiki/Firewall (networking)" rel="nofollow">firewall</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Firewall_%28networking%29</i>)</span> with appropriate rules (on a server machine)
+</li><li> A transparent proxying program (also on a server machine)
+</li><li> A <a href="http://en.wikipedia.org/wiki/Proxy_server" class="external" title="http://en.wikipedia.org/wiki/Proxy server" rel="nofollow">proxy server</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Proxy_server</i>)</span> (also on a server machine)
+</li></ul>
+<p>Note: the 3 components that would run on a server machine can all be
+on the same machine or dedicated machines for each service. It depends
+on the organisation and the amount of money you want to through at your
+problem. In the case of this project we have the firewall and
+transparent proxying program running on the school's server and we make
+use of the <a href="http://www.ru.ac.za/" class="external" title="http://www.ru.ac.za/" rel="nofollow">Rhodes University</a><span class="urlexpansion">&nbsp;(<i>http://www.ru.ac.za/</i>)</span> proxy servers.</p>
+<p>The specific software packages that we use here are:</p>
+<ul><li> <a href="http://en.wikipedia.org/wiki/Firefox" class="external" title="http://en.wikipedia.org/wiki/Firefox" rel="nofollow">Firefox</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Firefox</i>)</span> for the browser
+</li><li> <a href="http://en.wikipedia.org/wiki/Iptables" class="external" title="http://en.wikipedia.org/wiki/Iptables" rel="nofollow">Iptables</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Iptables</i>)</span> for <a href="http://en.wikipedia.org/wiki/Linux" class="external" title="http://en.wikipedia.org/wiki/Linux" rel="nofollow">Linux</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Linux</i>)</span> firewalls or <a href="http://en.wikipedia.org/wiki/Ipfirewall" class="external" title="http://en.wikipedia.org/wiki/Ipfirewall" rel="nofollow">ipfw</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Ipfirewall</i>)</span> or <a href="http://en.wikipedia.org/wiki/PF_%28firewall%29" class="external" title="http://en.wikipedia.org/wiki/PF (firewall)" rel="nofollow">pf</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/PF_%28firewall%29</i>)</span> for FreeBSD firewalls (pf was originally written for <a href="http://www.openbsd.org/" class="external" title="http://www.openbsd.org/" rel="nofollow">OpenBSD</a><span class="urlexpansion">&nbsp;(<i>http://www.openbsd.org/</i>)</span> but has now been ported to FreeBSD)
+</li><li> <a href="http://transproxy.sourceforge.net/" class="external" title="http://transproxy.sourceforge.net/" rel="nofollow">Transproxy</a><span class="urlexpansion">&nbsp;(<i>http://transproxy.sourceforge.net/</i>)</span> as the transparent proxying program
+</li><li> <a href="http://en.wikipedia.org/wiki/Squid_proxy" class="external" title="http://en.wikipedia.org/wiki/Squid proxy" rel="nofollow">Squid</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Squid_proxy</i>)</span> is run by the University on the proxy servers
+</li></ul>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=2" title="Configuring transparent proxy">edit</a>]</div><a name="The_Proxy_Server"></a><h2> The Proxy Server </h2>
+<p>The first step in transparent proxying is to make sure you have a
+working proxy server. Because this organisation is a part of a bigger
+body, namely Rhodes University we are able to make use of their proxy
+server configuration for <a href="http://schools.coe.ru.ac.za/wiki/List_of_Schools" class="external" title="http://schools.coe.ru.ac.za/wiki/List of Schools" rel="nofollow">the schools</a><span class="urlexpansion">&nbsp;(<i>http://schools.coe.ru.ac.za/wiki/List_of_Schools</i>)</span> that we work with in <a href="http://www.grahamstown.co.za/" class="external" title="http://www.grahamstown.co.za/" rel="nofollow">Grahamstown</a><span class="urlexpansion">&nbsp;(<i>http://www.grahamstown.co.za/</i>)</span>.
+So we have not had to set up and install proxy servers on the school
+servers, we can just point those servers at the Rhodes proxy server and
+everything else is taken care of by the guys at RU IT division. However
+proxy configuration is a well documented process and thus there are
+many resources on the web telling you how to install and configure your
+own proxy servers. The most popular software used by such servers seems
+to be <a href="http://www.squid-cache.org/" class="external" title="http://www.squid-cache.org/" rel="nofollow">SQUID</a><span class="urlexpansion">&nbsp;(<i>http://www.squid-cache.org/</i>)</span> and is what we at RU are making use of. You can find helpful links to pages off the <a href="http://en.wikipedia.org/wiki/Squid_proxy" class="external" title="http://en.wikipedia.org/wiki/Squid proxy" rel="nofollow">SQUID proxy page</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Squid_proxy</i>)</span> on wikipedia and you can have a look at some of the following as well in order to help you set up your proxy server:</p>
+<ul><li> <a href="http://squid-docs.sourceforge.net/latest/html/book1.html" class="external" title="http://squid-docs.sourceforge.net/latest/html/book1.html" rel="nofollow">Squid: A User's Guide</a><span class="urlexpansion">&nbsp;(<i>http://squid-docs.sourceforge.net/latest/html/book1.html</i>)</span>
+</li><li> <a href="http://www.linuxheadquarters.com/howto/networking/squid.shtml" class="external" title="http://www.linuxheadquarters.com/howto/networking/squid.shtml" rel="nofollow">Squid Proxy Server Configuration</a><span class="urlexpansion">&nbsp;(<i>http://www.linuxheadquarters.com/howto/networking/squid.shtml</i>)</span>
+</li><li> <a href="http://squid.visolve.com/squid/squid30/contents.html" class="external" title="http://squid.visolve.com/squid/squid30/contents.html" rel="nofollow">Squid 3.0 Configuration Manual</a><span class="urlexpansion">&nbsp;(<i>http://squid.visolve.com/squid/squid30/contents.html</i>)</span>
+</li></ul>
+<p>If you are from RU and want to make your own SQUID proxy server talk
+to the Rhodes proxy server than have a look at the following web page
+provided by RU IT division:</p>
+<ul><li> <a href="http://help.ru.ac.za/ask_index.php?submit_selected=1&amp;thoughtId=88&amp;rulink=1" class="external" title="http://help.ru.ac.za/ask index.php?submit selected=1&amp;thoughtId=88&amp;rulink=1" rel="nofollow">How do I configure my squid to talk to Rhodes' proxy server?</a><span class="urlexpansion">&nbsp;(<i>http://help.ru.ac.za/ask_index.php?submit_selected=1&amp;thoughtId=88&amp;rulink=1</i>)</span>
+</li></ul>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=3" title="Configuring transparent proxy">edit</a>]</div><a name="The_Firewall"></a><h2> The Firewall </h2>
+<p>The tasks of most firewalls is security, preventing forbidden
+communications and controlling traffic between different zones of
+trust, for example between the <a href="http://en.wikipedia.org/wiki/Internet" class="external" title="http://en.wikipedia.org/wiki/Internet" rel="nofollow">Internet</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Internet</i>)</span> and your own <a href="http://en.wikipedia.org/wiki/Intranet" class="external" title="http://en.wikipedia.org/wiki/Intranet" rel="nofollow">internal network</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Intranet</i>)</span>.
+We are making use of a firewall here as a packet filter. This means
+that we use the firewall to identify html (tcp) traffic bound for port
+80 and then redirect that traffic to our transparent proxying program
+for the next step. In FreeBSD we make use of the ipfw of pf firewall
+packages and in Linux we use iptables.</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=4" title="Configuring transparent proxy">edit</a>]</div><a name="FreeBSD_Configurations"></a><h3> FreeBSD Configurations </h3>
+<p>As mentioned above, in FreeBSD one can use pf (ported to FreeBSD
+from OpenBSD) or ipfw - these two firewall packages seem to be the most
+popular within FreeBSD.</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=5" title="Configuring transparent proxy">edit</a>]</div><a name="Using_IPFW"></a><h4> Using IPFW </h4>
+<p>In order to learn more about ipfw and how to build rulesets, etc we
+would recommend that you read some of the tutorials on the web,
+especially if you want to know more about how to use them beyond just
+transproxying. You can find a some tutorials at the following sites:</p>
+<ul><li> <a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/firewalls-ipfw.html" class="external" title="http://www.freebsd.org/doc/en US.ISO8859-1/books/handbook/firewalls-ipfw.html" rel="nofollow">FreeBSD Handbook Chapter 26 Firewalls: IPFW</a><span class="urlexpansion">&nbsp;(<i>http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/firewalls-ipfw.html</i>)</span>
+</li><li> <a href="http://www.freebsd-howto.com/HOWTO/Ipfw-HOWTO" class="external" title="http://www.freebsd-howto.com/HOWTO/Ipfw-HOWTO" rel="nofollow">ipfw-HOWTO</a><span class="urlexpansion">&nbsp;(<i>http://www.freebsd-howto.com/HOWTO/Ipfw-HOWTO</i>)</span>
+</li><li> <a href="http://www.onlamp.com/pub/a/bsd/2001/04/25/FreeBSD_Basics.html" class="external" title="http://www.onlamp.com/pub/a/bsd/2001/04/25/FreeBSD Basics.html" rel="nofollow">BSD Firewalls: IPFW</a><span class="urlexpansion">&nbsp;(<i>http://www.onlamp.com/pub/a/bsd/2001/04/25/FreeBSD_Basics.html</i>)</span>
+</li><li> <a href="http://freebsd.peon.net/tutorials/13/" class="external" title="http://freebsd.peon.net/tutorials/13/" rel="nofollow">Setting up the ipfw firewall</a><span class="urlexpansion">&nbsp;(<i>http://freebsd.peon.net/tutorials/13/</i>)</span>
+</li></ul>
+<p>However just for the purposes of getting transproxy working, add a rule similar to the following to your firewall ruleset:
+
+</p><pre>fwd localhost,8081 tcp from any to not 146.231.0.0/16 dst-port 80
+</pre>
+
+<p>The "fwd localhost,8081" action specifies that the packets should be
+redirected to tproxy listening on localhost:8081. The remaining
+keywords select the packets to be redirected.</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=6" title="Configuring transparent proxy">edit</a>]</div><a name="Using_pf"></a><h4> Using pf </h4>
+<p>One of the authors of pf has a tutorial on <a href="http://www.benzedrine.cx/transquid.html" class="external" title="http://www.benzedrine.cx/transquid.html" rel="nofollow">Transparent proxying with squid and pf</a><span class="urlexpansion">&nbsp;(<i>http://www.benzedrine.cx/transquid.html</i>)</span>
+-- see under "Configuring pf". The instructions about allowing squid
+access to /dev/pf can probably be safely ignored, since they're only
+really necessary for pre-HTTP/1.1 clients.</p>
+<p>It is important to read through some of the tutorial, but the
+sections from "Configuring pf" that you really want to take note of are:</p><pre>int_if="gem0"
+ext_if="kue0"
+
+rdr on $int_if inet proto tcp from any to any port www -&gt; 127.0.0.1 port 3128
+
+pass in on $int_if inet proto tcp from any to 127.0.0.1 port 3128 keep state
+pass out on $ext_if inet proto tcp from any to any port www keep state
+</pre>
+<p>Other pf tutorials that you might find useful can be found at:</p>
+<ul><li> <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=pfctl&amp;sektion=8" class="external" title="http://www.openbsd.org/cgi-bin/man.cgi?query=pfctl&amp;sektion=8" rel="nofollow">PF man page</a><span class="urlexpansion">&nbsp;(<i>http://www.openbsd.org/cgi-bin/man.cgi?query=pfctl&amp;sektion=8</i>)</span>
+</li><li> <a href="http://www.openbsd.org/faq/pf/" class="external" title="http://www.openbsd.org/faq/pf/" rel="nofollow">PF: The OpenBSD Packet Filter</a><span class="urlexpansion">&nbsp;(<i>http://www.openbsd.org/faq/pf/</i>)</span>
+</li><li> <a href="http://www.bgnett.no/%7Epeter/pf/en/long-firewall.html" class="external" title="http://www.bgnett.no/~peter/pf/en/long-firewall.html" rel="nofollow">Firewalling with OpenBSD's PF packet filter</a><span class="urlexpansion">&nbsp;(<i>http://www.bgnett.no/~peter/pf/en/long-firewall.html</i>)</span>
+</li><li> <a href="http://home.nyc.rr.com/computertaijutsu/pf.html" class="external" title="http://home.nyc.rr.com/computertaijutsu/pf.html" rel="nofollow">A Beginner's Guide To Firewalling with pf</a><span class="urlexpansion">&nbsp;(<i>http://home.nyc.rr.com/computertaijutsu/pf.html</i>)</span>
+</li></ul>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=7" title="Configuring transparent proxy">edit</a>]</div><a name="Linux_Configurations"></a><h3> Linux Configurations </h3>
+<p>In Linux the most commonly used firewall, today, seems to be
+iptables. In Ubuntu iptables come pre-built in to the kernel, in other
+Linux operating systems you may find you need to reconfigure your
+kernel to include iptables and then rebuild it. In order to learn how
+to install iptables you can have a look at the following sites:</p>
+<ul><li> <a href="http://www.cae.wisc.edu/site/public/?title=iptables-installing" class="external" title="http://www.cae.wisc.edu/site/public/?title=iptables-installing" rel="nofollow">Installing iptables</a><span class="urlexpansion">&nbsp;(<i>http://www.cae.wisc.edu/site/public/?title=iptables-installing</i>)</span>
+</li><li> <a href="http://howtos.linux.com/howtos/Querying-libiptc-HOWTO/install.shtml" class="external" title="http://howtos.linux.com/howtos/Querying-libiptc-HOWTO/install.shtml" rel="nofollow">Installing iptables + libiptc</a><span class="urlexpansion">&nbsp;(<i>http://howtos.linux.com/howtos/Querying-libiptc-HOWTO/install.shtml</i>)</span>
+</li></ul>
+<p>Otherwise try googling for your linux distro + "installing iptables", eg. "Red Hat and installing iptables", etc.</p>
+<p>Once you have iptables functionality in your system (as is the default with Ubuntu and thus also <a href="http://www.kubuntu.org/" class="external" title="http://www.kubuntu.org/" rel="nofollow">Kubuntu</a><span class="urlexpansion">&nbsp;(<i>http://www.kubuntu.org/</i>)</span> and <a href="http://www.edubuntu.org/" class="external" title="http://www.edubuntu.org/" rel="nofollow">Edubuntu</a><span class="urlexpansion">&nbsp;(<i>http://www.edubuntu.org/</i>)</span>) you can move onto using those tools to "filter" the http traffic to your proxy program. For achieving this I found the <a href="http://iptables-tutorial.frozentux.net/iptables-tutorial.html" class="external" title="http://iptables-tutorial.frozentux.net/iptables-tutorial.html" rel="nofollow">Iptables Tutorial by Oskar Andreasson</a><span class="urlexpansion">&nbsp;(<i>http://iptables-tutorial.frozentux.net/iptables-tutorial.html</i>)</span> really helpful in teaching me how iptables work. There are many more tutorials to choose from off the <a href="http://www.netfilter.org/" class="external" title="http://www.netfilter.org/" rel="nofollow">iptables website</a><span class="urlexpansion">&nbsp;(<i>http://www.netfilter.org/</i>)</span>, under their <a href="http://netfilter.org/documentation/index.html#documentation-howto" class="external" title="http://netfilter.org/documentation/index.html#documentation-howto" rel="nofollow">documentation section</a><span class="urlexpansion">&nbsp;(<i>http://netfilter.org/documentation/index.html#documentation-howto</i>)</span>.</p>
+<p>After reading through tutorials, the firewall rules that I used for the schools were:</p>
+<pre># iptable entries for the OUTPUT chain in the nat table, this will allow
+# the local server to connect transparently to the network - for people
+# using it as a desktop as well
+iptables -t nat -A OUTPUT -p tcp -d 146.231.0.0/16 --dport 80 -j ACCEPT
+iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDIRECT --to-port 8081
+
+# iptable entries fo the PREROUTING chain in the nat table, this will
+# allow the machines within the local network to transparently access
+# the network through the server
+iptables -t nat -A PREROUTING -p tcp -d 146.231.0.0/16 --dport 80 -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8081
+</pre>
+<p>You will more than likely find that copying these rules exactly
+might not work for you. You have to base you rules on your own systems
+and networks and naturally any other rules you already have within the
+ruleset! It is also conceivable that these would change if the schools
+were no longer part of the greater Rhodes network (which might happen
+one day) in which case they will change and others would be added as
+schools would no longer be protected by Rhodes' firewall.</p>
+<p>Basically, these rules are catching tcp traffic heading for port 80
+that are not destined for Rhodes web servers and redirects them to port
+8081 where the transparent proxy program is listening and waiting. In
+order to automate their set up after each reboot I added those lines to
+the file /etc/rc.local. Make sure that they work first before you do
+this - you can test them by either typing them directly into the
+command line or by writing your own executable bash script and then
+running that. Once you are sure that everything works fine you can then
+add them to rc.local, remembering that the last line of the script must
+be "exit 0".</p>
+<p>Updated for newer Ubuntu:
+</p>
+<pre>iptables -t nat -A OUTPUT -p tcp -d 146.231.0.0/16 --dport http -j ACCEPT
+iptables -t nat -A OUTPUT -p tcp --dport https -j ACCEPT
+iptables -t nat -A OUTPUT -p tcp --dport http -j REDIRECT --to-port 8081
+iptables -t nat -A POSTROUTING -p tcp -d 146.231.0.0/16 --dport http -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -p tcp --dport https -o eth0 -j MASQUERADE
+iptables -t nat -A PREROUTING -p tcp -d \! 146.231.0.0/16 --dport http -j REDIRECT --to-port 8081
+</pre>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=8" title="Configuring transparent proxy">edit</a>]</div><a name="Transparent_proxy_program"></a><h2> Transparent proxy program </h2>
+<p>The next step is to install a transparent proxy program. For this I chose <a href="http://transproxy.sourceforge.net/" class="external" title="http://transproxy.sourceforge.net/" rel="nofollow">transproxy</a><span class="urlexpansion">&nbsp;(<i>http://transproxy.sourceforge.net/</i>)</span>.
+I am sure that there are many more such programs which you can probably
+find via googling for something like "transparent proxying" or the
+like. However, transproxy seemed to be relatively popular and its easy
+to use so I went with that.</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=9" title="Configuring transparent proxy">edit</a>]</div><a name="Transproxy_config_in_FreeBSD"></a><h3> Transproxy config in FreeBSD </h3>
+<p>In FreeBSD you will need to install the transproxy port. If you have your system configured to use portinstall then </p><pre>portinstall -vi transproxy</pre> else <pre>cd /usr/ports/www/transproxy</pre> and <pre>make install clean</pre>
+<p>Once the program is installed you need to add some lines to your rc.conf file in </p><pre>/etc/rc.conf</pre>
+so that you enable the program to be run at start up and pass it the
+correct values that it needs in order to work in your network. In our
+case, for the school's project, the lines added to rc.conf looked as
+follows: <pre>tproxy_enable="YES"
+tproxy_user="tproxy"
+tproxy_flags="-p -s 8080 -a 192.168.0.0/16 wwwproxy.ru.ac.za 3128"</pre>
+"man transproxy" will help you understand the variables and parameters
+that transproxy can take in order that you may run your transproxy just
+as you would like to.
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=10" title="Configuring transparent proxy">edit</a>]</div><a name="Transproxy_config_in_Linux"></a><h3> Transproxy config in Linux </h3>
+<p>Transproxy in Linux is slightly more complicated, but nothing
+hair-raising! Again you will need to install the program, depending on
+your distro of Linux, this installation process can vary. In Ubuntu you
+use the synaptic package manager and in Kubuntu you use the Adept
+package manager - both have nice, easy to use graphical front ends.
+Otherwise you can install the program with apt-get on the command line.</p>
+<p>Once the program has been installed you need to hack at the file </p><pre>/etc/init.d/transproxy</pre>
+and make changes to the two lines in the script that start the daemon
+and force-start the daemon. In the case of the schools this eventually
+looked as follows:
+<pre>#! /bin/sh
+#
+# This file was automatically customized by debmake on Wed, 19 Feb 1997 12:12:57 -0800
+#
+# Written by Miquel van Smoorenburg &lt;miquels@drinkel.ow.org&gt;.
+# Modified for Debian GNU/Linux by Ian Murdock &lt;imurdock@gnu.ai.mit.edu&gt;.
+# Modified for Debian by Christoph Lameter &lt;clameter@debian.org&gt;
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DAEMON=/usr/sbin/tproxy
+# The following value is extracted by debstd to figure out how to generate
+# the postinst script. Edit the field to change the way the script is
+# registered through update-rc.d (see the manpage for update-rc.d!)
+FLAGS="defaults 50"
+
+test -f $DAEMON || exit 0
+
+case "$1" in
+  start)
+    start-stop-daemon --start --verbose --exec $DAEMON -- -p -a 192.168.0.0/16 -s 8081 -r nobody wwwproxy.ru.ac.za 3128
+   &nbsp;;;
+  stop)
+    start-stop-daemon --stop --verbose --exec $DAEMON
+   &nbsp;;;
+  force-reload|restart)
+    start-stop-daemon --stop --verbose --exec $DAEMON
+    start-stop-daemon --start --verbose --exec $DAEMON -- -p -a 192.168.0.0/16 -s 8081 -r nobody wwwproxy.ru.ac.za 3128
+   &nbsp;;;
+  *)
+    echo "Usage: /etc/init.d/transproxy {start|stop|restart|force-reload}"
+    exit 1
+   &nbsp;;;
+esac
+
+exit 0</pre>It is then possible to add the script <pre>/etc/init.d/transproxy</pre>
+to the list of scripts that must be run at boot-up. In Kubuntu this can
+be done with the graphical interface to the "systems settings" by
+choosing the "systems services" option and telling the OS to run the
+service at start up. There will be similar methods in Ubuntu. For other
+distros you will need to do what ever is most appropriate.
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=11" title="Configuring transparent proxy">edit</a>]</div><a name="The_Browser"></a><h2> The Browser </h2>
+<p>In terms of the browser all you need to do is make sure that the the
+connection settings are set to "Direct connection to the Internet". In
+Firefox that is the default upon installation.</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=12" title="Configuring transparent proxy">edit</a>]</div><a name="Diagram"></a><h2> Diagram </h2>
+<p>I have made a little diagram of how it should all be fitting together:</p>
+<p><a href="http://schools.coe.ru.ac.za/wiki/Image:Transproxy.png" class="image" title="Image:Transproxy.png"><img src="Configuring_transparent_proxy_files/Transproxy.png" alt="Image:Transproxy.png" longdesc="/wiki/Image:Transproxy.png"></a>
+</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=13" title="Configuring transparent proxy">edit</a>]</div><a name="Conclusions"></a><h2> Conclusions </h2>
+<p>Once all these steps have been taken and all are working well they
+should hopefully all work together and you would now have a working
+transparent proxy system in place. Again, I stress that I don't claim
+to be an expert in any of this, this entire entry is based on what I
+did and what I learnt while setting this up for one of the schools in
+the e-Yethu project. So best of luck to you&nbsp;:)</p>
+<div class="editsection" style="float: right; margin-left: 5px;">[<a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit&amp;section=14" title="Configuring transparent proxy">edit</a>]</div><a name="The_Alternative"></a><h2> The Alternative </h2>
+<p>The alternative to all of this is to use <a href="http://en.wikipedia.org/wiki/Network_address_translation" class="external" title="http://en.wikipedia.org/wiki/Network address translation" rel="nofollow">NAT</a><span class="urlexpansion">&nbsp;(<i>http://en.wikipedia.org/wiki/Network_address_translation</i>)</span> (Network address translation). This can be done with iptables in Linux as follows:</p><pre>iptables -t nat -A POSTROUTING -j MASQUERADE</pre>The resulting table and chains that you will see look as follows:<pre>Chain POSTROUTING (policy ACCEPT)
+<p>target     prot opt source               destination
+MASQUERADE  all  --  anywhere             anywhere
+</p>
+</pre>You can see this output by typing the following in the command line:<pre>iptables -t nat -L</pre>
+<p>In FreeBSD this can also be achieved using firewall rules and the NAT daemon.</p>
+<p>At RU the schools are exempt from logging into the proxy but not
+from quota, so using NAT together with setting the proxy in the
+connection settings of the browser will produce the desired results for
+schools here. This might not be the case for other organisations!</p>
+
+<!-- Saved in parser cache with key schools_wiki:pcache:idhash:1276-1!1!0!1!0!1!0!!en and timestamp 20090721093718 -->
+<div class="printfooter">
+Retrieved from "<a href="http://schools.coe.ru.ac.za/wiki/Configuring_transparent_proxy">http://schools.coe.ru.ac.za/wiki/Configuring_transparent_proxy</a>"</div>
+	    <div id="catlinks"><p class="catlinks"><a href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Special:Categories&amp;article=Configuring_transparent_proxy" title="Special:Categories">Categories</a>: <a href="http://schools.coe.ru.ac.za/wiki/Category:HowTo" title="Category:HowTo">HowTo</a></p></div>	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main" class="selected"><a title="View the content page [alt-c]" accesskey="c" href="http://schools.coe.ru.ac.za/wiki/Configuring_transparent_proxy">Article</a></li><li id="ca-talk" class="new"><a title="Discussion about the content page [alt-t]" accesskey="t" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Talk:Configuring_transparent_proxy&amp;action=edit">Discussion</a></li><li id="ca-edit"><a title="You can edit this page. Please use the preview button before saving. [alt-e]" accesskey="e" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=edit">Edit</a></li><li id="ca-history"><a title="Past versions of this page. [alt-h]" accesskey="h" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Configuring_transparent_proxy&amp;action=history">History</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-personal">
+	  <h5>Personal tools</h5>
+	  <div class="pBody">
+	    <ul>
+	    <li id="pt-login"><a title="You are encouraged to log in, it is not mandatory however. [alt-o]" accesskey="o" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Special:Userlogin&amp;returnto=Configuring_transparent_proxy">Create an account or log in</a></li>	    </ul>
+	  </div>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(/mediawiki/skins/common/images/wiki.png);" href="http://schools.coe.ru.ac.za/wiki/Main_Page" title="Main Page"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+	<div class="portlet" id="p-nav">
+	  <h5>Navigation</h5>
+	  <div class="pBody">
+	    <ul>
+	      	      <li id="n-mainpage"><a title="Visit the Main Page [alt-z]" accesskey="z" href="http://schools.coe.ru.ac.za/wiki/Main_Page">Main Page</a></li>	      <li id="n-portal"><a title="About the project, what you can do, where to find things" href="http://schools.coe.ru.ac.za/wiki/Contribute">Contribute</a></li>	      <li id="n-currentevents"><a title="Find background information on current events" href="http://schools.coe.ru.ac.za/wiki/Current_events">Current events</a></li>	      <li id="n-recentchanges"><a title="The list of recent changes in the wiki. [alt-r]" accesskey="r" href="http://schools.coe.ru.ac.za/wiki/Special:Recentchanges">Recent changes</a></li>	      <li id="n-randompage"><a title="Load a random page [alt-x]" accesskey="x" href="http://schools.coe.ru.ac.za/wiki/Contact">Contact us</a></li>	      <li id="n-help"><a title="The place to find out." href="http://schools.coe.ru.ac.za/wiki/Help:Contents">Help</a></li>	    </ul>
+	  </div>
+	</div>
+	<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">Search</label></h5>
+	  <div class="pBody">
+	    <form name="searchform" action="/wiki/Special:Search" id="searchform">
+	      <input id="searchInput" name="search" accesskey="f" type="text">
+	      <input name="go" class="searchButton" id="searchGoButton" value="Go" type="submit">&nbsp;<input name="fulltext" class="searchButton" value="Search" type="submit">
+	    </form>
+	  </div>
+	</div>
+	<div class="portlet" id="p-tb">
+	  <h5>Toolbox</h5>
+	  <div class="pBody">
+	    <ul>
+		  		  <li id="t-whatlinkshere"><a title="List of all wiki pages that link here [alt-j]" accesskey="j" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Special:Whatlinkshere&amp;target=Configuring_transparent_proxy">What links here</a></li>
+		  		  <li id="t-recentchangeslinked"><a title="Recent changes in pages linked from this page [alt-k]" accesskey="k" href="http://schools.coe.ru.ac.za/mediawiki/index.php?title=Special:Recentchangeslinked&amp;target=Configuring_transparent_proxy">Related changes</a></li>
+		  	      	      	      	      	      	      	      	      	      <li id="t-specialpages"><a title="List of all special pages [alt-q]" accesskey="q" href="http://schools.coe.ru.ac.za/wiki/Special:Specialpages">Special pages</a></li>	      	    </ul>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="Configuring_transparent_proxy_files/poweredby_mediawiki_88x31.png" alt="MediaWiki"></a></div>	<div id="f-copyrightico"><a href="http://www.gnu.org/copyleft/fdl.html"><img src="Configuring_transparent_proxy_files/gnu-fdl.png" alt="GNU Free Documentation License 1.2"></a></div>	<ul id="f-list">
+	  <li id="f-lastmod"> This page was last modified 21:56, 12 Aug 2008.</li>	  <li id="f-viewcount">This page has been accessed 11819 times.</li>	  	  <li id="f-copyright">Content is available under <a href="http://www.gnu.org/copyleft/fdl.html" class="external" title="http://www.gnu.org/copyleft/fdl.html" rel="nofollow">GNU Free Documentation License 1.2</a>.</li>	  <li id="f-about"><a href="http://schools.coe.ru.ac.za/wiki/GrahamstownSchoolWiki:About" title="GrahamstownSchoolWiki:About">About GrahamstownSchoolWiki</a></li>	  <li id="f-disclaimer"><a href="http://schools.coe.ru.ac.za/wiki/GrahamstownSchoolWiki:General_disclaimer" title="GrahamstownSchoolWiki:General disclaimer">Disclaimers</a></li>	</ul>
+      </div>
+    </div>
+    <!-- Served by coe.ict in 0.14 secs. -->
+  </body></html>

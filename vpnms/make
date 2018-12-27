@@ -1,0 +1,19 @@
+#!/bin/sh
+
+rm -f bin/vpnmsd bin/onconnect obin/ndisconnect bin/hourlystat
+
+gcc -c vpnmsd_nf_thread.c -o bin/vpnmsd_nf_thread.o
+gcc -c config.c -o bin/config.o
+gcc -c vpnmsd.c -o bin/vpnmsd.o
+gcc -c vpnms_functions.c -o bin/vpnms_functions.o
+gcc -c onconnect.c -o bin/onconnect.o
+gcc -c ondisconnect.c -o bin/ondisconnect.o
+gcc -c hourlystat.c -o bin/hourlystat.o
+gcc -c monthlyreset.c -o bin/monthlyreset.o
+gcc -o bin/vpnmsd bin/config.o bin/vpnms_functions.o bin/vpnmsd_nf_thread.o bin/vpnmsd.o -lmysqlclient -lpthread
+gcc -o bin/onconnect bin/config.o bin/vpnms_functions.o bin/onconnect.o -lmysqlclient
+gcc -o bin/ondisconnect bin/config.o bin/vpnms_functions.o bin/ondisconnect.o -lmysqlclient
+gcc -o bin/hourlystat bin/config.o bin/vpnms_functions.o bin/hourlystat.o -lmysqlclient
+gcc -o bin/monthlyreset bin/config.o bin/vpnms_functions.o bin/monthlyreset.o -lmysqlclient -lcurl
+
+rm -f bin/*.o

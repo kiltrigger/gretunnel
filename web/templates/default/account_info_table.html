@@ -1,0 +1,103 @@
+<table style="text-align: left; width: 40%;" border="0" cellpadding="0" cellspacing="2" align=center>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['name'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$info['name'];?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['lastname'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$info['lastname'];?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['username'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$info['username'];?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['ip'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$ip; ?>
+    </td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['limit'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center>
+      <? if ( $info['limit_type'] =='unlimited' ): ?> 
+      unlimited
+      <? endif; ?>
+      <? if ( $info['limit_type'] =='limited' ): ?>
+	  <?=$balance["limit_mb"];?>
+	  <? endif; ?>
+    </td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['out_limit'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center>
+      <? if ( $info['limit_type'] =='unlimited' ): ?> 
+      unlimited
+      <? endif; ?>
+      <? if ( $info['limit_type'] =='limited' ): ?>
+	  <?=$balance["out_limit"];?>
+	  <? endif; ?>   
+    </td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['sum_in'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$balance["input_mb"]; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['sum_out'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$balance["output_mb"]; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['sum_loc_in'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$balance["local_input_mb"]; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['sum_loc_out'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$balance["local_output_mb"]; ?></td>
+  </tr>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_forms['bonus'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$balance["bonus_mb"]; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['rest'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$balance["balance_mb"]; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['tcp_ports'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$info['allow_tcp_port']; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_tables['udp_ports'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$info['allow_udp_port']; ?></td>
+  </tr>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_forms['speed'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center><?=$bw_name; ?></td>
+  </tr>  
+  </tr>
+  <?if($scriptname == 'showinfo.php'):?>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_forms['pass'];?></td>
+    <td width=60% height=19 bgColor=000000 align=center onmousedown="this.style.background='#bdddc6';"><? echo $info['value']; ?></td>
+  </tr>
+  <?endif;?>
+  <tr>
+    <td width=40% height=19 bgColor=c0c0c0><?=$l_forms['status'];?></td>
+    <td width=60% height=19 bgColor=#bdddc6 align=center>
+			<? if ($info['status']=='working'): ?>
+			<b><font color=green><?=$l_tables['working'];?></font></b>
+			<? endif; ?>
+			<? if ($info['status']=='blocked'): ?>
+			<b><font color=red><?=$l_tables['blocked'];?></font></b>
+			<? endif; ?>
+			<? if ($info['status']=='limit_expire'): ?>
+			<b><font color=red><?=$l_tables['limit_expire'];?></font></b>
+			<? endif; ?>
+			<? if ($info['status']=='local_only'): ?>
+			<b><font color=orange><?=$l_tables['local_only'];?></font></b>
+			<? endif; ?>    
+    </td>
+  </tr>
+
+</table>

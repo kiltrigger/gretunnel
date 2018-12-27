@@ -1,0 +1,920 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=KOI8-R"><title>
+OpenNET: статья - Выявление ошибок работы с памятью при помощи valgrind (memory debug profile gcc valgrind)
+</title>
+<meta name="KeyWords" content="memory, debug, profile, gcc, valgrind">
+</head><body bgcolor="#dde1c2" text="#002040">
+<link rel="stylesheet" href="valgrind_memory.txt_files/opennet3.css" type="text/css">
+<!--htdig_noindex-->
+<form method="get" action="http://www.opennet.ru/search.shtml">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td style="background: rgb(233, 234, 214) url(/back.gif) repeat-x scroll left bottom; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" bgcolor="#e9ead6" valign="BOTTOM">
+<a href="http://www.opennet.ru/"><img src="valgrind_memory.txt_files/opennet2.gif" alt="The OpenNET Project" border="0" height="60" width="249"></a><br>
+</td>
+
+<td bgcolor="#b0b190" width="1"><img src="valgrind_memory.txt_files/p.gif" alt="" height="1" width="1"></td>
+
+<td bgcolor="#d9dac6" valign="TOP" width="470" align="RIGHT">
+<table border="0" cellpadding="1" width="470">
+<tbody><tr>
+<td bgcolor="#d9dac6" height="60">
+
+<script language="JavaScript">          
+var plugin=(navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;         
+         
+if ( plugin ) {         
+         
+ plugin=parseInt(plugin.description.substring(plugin.description.indexOf(".")-2))>=6;         
+         
+}         
+         
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0          
+         
+   && (navigator.userAgent.indexOf("Windows 95")>=0 || navigator.userAgent.indexOf("Windows 98")>=0 || navigator.userAgent.indexOf("Windows NT")>=0)) {         
+         
+ document.write('<SCR'+'IPT LANGUAGE=VBScript\> \n');         
+         
+ document.write('on error resume next \n');         
+         
+ document.write('plugin=( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash.6")))\n');         
+         
+ document.write('</SCRIPT\> \n');         
+         
+}         
+         
+if ( plugin ) {         
+         
+     var swf_url = '/img/securit2.swf' + '?link1=' + 'http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit2';                                                
+        document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0" width=468 height=60>');                                                
+        document.write('<param name=movie value="' + swf_url + '"><param name=menu value=false><param name=section value=1629><param name=quality value=high>');                                                
+        document.write('<EM' + 'BED src="' + swf_url + '" quality=high ');                                                
+        document.write('menu=false swLiveConnect=FALSE WIDTH=468 HEIGHT=60');                                                
+        document.write('TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">');                                                    
+        document.write('</embed>');                                                
+        document.write(' </object>');                                                   
+}else{     
+document.write('<a href=http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit_gif target=_blank><img src=/img/securit.gif width=468 height=60 border=0></a>');     
+}     
+</script><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0" height="60" width="468"><param name="movie" value="/img/securit2.swf?link1=http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit2"><param name="menu" value="false"><param name="section" value="1629"><param name="quality" value="high"><embed src="valgrind_memory.txt_files/securit2.swf" quality="high" menu="false" swliveconnect="FALSE" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" height="60TYPE=&quot;application/x-shockwave-flash&quot;" width="468"> </object>     
+<noscript><a
+href=http://click.opennet.ru/cgi-bin/opennet/hjump.cgi?securit_gif
+target=_blank><img src=/img/securit.gif width=468 height=60
+border=0></a></noscript>
+
+
+</td>
+</tr>
+</tbody></table>
+</td>
+
+<td bgcolor="#b0b190" width="1"><img src="valgrind_memory.txt_files/p.gif" alt="" height="1" width="1"></td>
+<td style="background: rgb(233, 234, 214) url(/back.gif) repeat-x scroll left bottom; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" bgcolor="#e9ead6" width="40">&nbsp;</td>
+<td bgcolor="#b0b190" width="1"><img src="valgrind_memory.txt_files/p.gif" alt="" height="1" width="1"></td>
+
+<td rowspan="3" bgcolor="#e9ead6" valign="TOP" width="130" align="RIGHT">
+<a href="http://www.lanbilling.ru/" target="_blank"><img src="valgrind_memory.txt_files/lanbilling6.gif" border="0" height="125" width="130"></a>
+</td>
+
+</tr>
+
+<tr bgcolor="#b0b190"><td colspan="6"><img src="valgrind_memory.txt_files/p.gif" alt="" height="1" width="1"></td></tr>
+
+
+<tr bgcolor="#e9ead6">
+<td colspan="5" align="CENTER">
+<table width="100%">
+<tbody><tr>
+<td rowspan="2" class="h" nowrap="nowrap" width="300">
+<input name="exclude" value="index|/man.shtml" type="hidden"><a href="http://www.opennet.ru/search.shtml" class="h"><u>Поиск</u></a>&nbsp;(<a href="http://www.opennet.ru/keywords/" class="h">ключи</a>):&nbsp;<input size="20" name="words" type="text">
+</td><td width="25%">
+&nbsp;   <a href="http://www.opennet.ru/prog/sml/" class="h"><b><u>ПРОГРАММЫ</u></b></a>
+</td><td width="25%">
+   <a href="http://www.opennet.ru/filebase.shtml" class="h"><b><u>СТАТЬИ</u></b></a>
+</td><td width="25%">
+   <a href="http://www.opennet.ru/tips/sml/" class="h"><b><u>СОВЕТЫ</u></b></a>
+</td><td width="25%">
+   <a href="http://www.opennet.ru/forum/" class="h"><b><u>ФОРУМ</u></b></a>
+</td></tr>
+<tr><td>
+&nbsp;   <a href="http://wiki.opennet.ru/" class="h"><b><u>WIKI</u></b></a>
+</td><td class="h">
+   <a href="http://www.opennet.ru/opennews/" class="h"><b><u>НОВОСТИ</u></b></a> (<a href="http://www.opennet.ru/news/opennet.shtml" class="h">+</a>)
+</td><td>
+   <a href="http://www.opennet.ru/man.shtml" class="h"><b><u>MAN'ы</u></b></a>
+</td><td>
+   <a href="http://www.opennet.ru/docs/" class="h"><b><u>ДОКУМЕНТАЦИЯ</u></b></a>
+</td></tr>
+</tbody></table>
+</td>
+<td bgcolor="#b0b190" width="1"><img src="valgrind_memory.txt_files/p.gif" alt="" height="1" width="1"></td>
+</tr>
+<tr bgcolor="#b0b190"><td colspan="7"><img src="valgrind_memory.txt_files/p.gif" alt="" height="2" width="1"></td></tr>
+</tbody></table>
+
+<div style="float: left; width: 279px; text-align: left; padding-right: 60px;" id="adv"><a href="http://www.ip-as.ru/" target="_blank"><img src="valgrind_memory.txt_files/ipas2.gif" border="0" height="40" width="279"></a></div>
+<div style="padding-top: 10px; float: left;" id="adv2">
+<script language="javascript" type="text/javascript"><!--
+var RndNum4NoCash = Math.round(Math.random() * 1000000000);
+var ar_Tail='unknown'; if (document.referrer) ar_Tail = escape(document.referrer);
+document.write(
+'<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi?'
++ 'sid=137477&bn=1&target=blank&bt=1&pz=0&rnd=' + RndNum4NoCash + '&tail256=' + ar_Tail
++ '" frameborder=0 vspace=0 hspace=0 width=468 height=60 marginwidth=0'
++ ' marginheight=0 scrolling=no></iframe>');
+//--></script><iframe src="valgrind_memory.txt_files/erle.html" vspace="0" hspace="0" marginwidth="0" marginheight="0" frameborder="0" height="60" scrolling="no" width="468"></iframe>
+<noscript>
+<a
+href="http://ad.adriver.ru/cgi-bin/click.cgi?sid=137477&bn=1&bt=1&pz=0&rnd=988794273"
+target=_blank>
+<img
+src="http://ad.adriver.ru/cgi-bin/rle.cgi?sid=137477&bn=1&bt=1&pz=0&rnd=988794273"
+alt="-AdRiver-" border=0 width=468 height=60></a>
+</noscript>
+
+</div>
+<div style="width: 279px; float: right;" id="adv3"><a href="http://job.samsung.ru/" target="_blank"><img src="valgrind_memory.txt_files/samsung_line6.gif" border="0" height="40" width="279"></a></div>
+<div style="clear: both;"></div>
+<br>
+
+<script language="JavaScript"><!--
+d=document;a='';r=escape(d.referrer);a+=';r='+r;
+js=10; d.write('<img src="http://top.list.ru/counter'+
+'?id=77689;js='+js+a+';rand='+Math.random()+
+'" alt="" height=1 width=1>');
+if(js>11)d.write('<'+'!-- ')//--></script><img src="valgrind_memory.txt_files/counter.gif" alt="" height="1" width="1"><noscript><img
+src="http://top.list.ru/counter?js=na;id=77689"
+height=1 width=1 alt="">
+</noscript>
+
+</form>
+<!--/htdig_noindex-->
+
+
+<script language="JavaScript" src="valgrind_memory.txt_files/print.js"></script>
+<center><h3><font color="#000090">
+Выявление ошибок работы с памятью при помощи valgrind (memory debug profile gcc valgrind)
+</font></h3></center>
+<br>
+<table bgcolor="#b0b190" border="0" cellpadding="1" cellspacing="0" width="100%">
+<tbody><tr><td>
+<table bgcolor="#e9ead6" border="0" cellpadding="0" cellspacing="0" width="100%" align="CENTER">
+<col span="5" width="5*">
+<tbody><tr align="CENTER">
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=prev">&lt;&lt; Предыдущая</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=index">ИНДЕКС</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=edit" title="Общедоступная правка в wiki-стиле">Исправить</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=raw">src</a> / <a href="#" onclick="pr('none');">Печать</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=next">Следующая &gt;&gt;</a></small></td>
+</tr><tr bgcolor="#b0b190"><td colspan="5"><img src="valgrind_memory.txt_files/p.gif" alt="" height="2" width="1"></td></tr>
+</tbody></table></td></tr></tbody></table>
+<pre><b>Ключевые слова:</b> <a href="http://www.opennet.ru/cgi-bin/opennet/ks.cgi?mask=memory">memory</a>, <a href="http://www.opennet.ru/cgi-bin/opennet/ks.cgi?mask=debug">debug</a>, <a href="http://www.opennet.ru/cgi-bin/opennet/ks.cgi?mask=profile">profile</a>, <a href="http://www.opennet.ru/cgi-bin/opennet/ks.cgi?mask=gcc">gcc</a>, <a href="http://www.opennet.ru/cgi-bin/opennet/ks.cgi?mask=valgrind">valgrind</a>,  (<a href="http://www.opennet.ru/cgi-bin/opennet/ks.cgi?mask=memory%20debug%20profile%20gcc%20valgrind">найти похожие документы</a>)<br>
+<font color="#0000c0">From: Alex Ott &lt;<a href="http://xtalk.msk.su/%7Eott/%3E">http://xtalk.msk.su/~ott/&gt;</a>;</font>
+<font color="#0000c0">Date: Sun, 23 Feb 2008 17:02:14 +0000 (UTC)</font>
+<font color="#0000c0"><b>Subject: Выявление ошибок работы с памятью при помощи valgrind</b></font>
+
+Оригинал: <a href="http://xtalk.msk.su/%7Eott/ru/linux/valgrind/">http://xtalk.msk.su/~ott/ru/linux/valgrind/</a>
+
+
+Что такое valgrind и зачем он нужен
+-----------------------------------
+
+   Valgrind хорошо известен как мощное средство поиска ошибок работы с
+   памятью. Но кроме этого, в его составе имеется некоторое количество
+   дополнительных утилит, предназначенных для профилирования программ,
+   анализа потребления памяти и поиска ошибок связанных с синхронизацией в
+   многопоточных программах.
+
+   Данная статья содержит краткое описание принципов работы с valgrind и
+   использования различных его модулей. Данное описание соответствует
+   valgrind версии 3.3. Дополнительную информацию о работе с valgrind вы
+   можете найти на его <a href="http://valgrind.org/">сайте,</a> который содержит руководства разного
+   уровня сложности, начиная от достаточно легкого <a href="http://valgrind.org/docs/manual/quick-start.html">Quick</a> Start, и
+   заканчивая подробными <a href="http://valgrind.org/docs/manual/manual.html">руководством</a> пользователя и <a href="http://valgrind.org/docs/manual/tech-docs.html">техническим</a>
+   описанием системы.
+
+
+<b style="color: rgb(153, 0, 0);">Архитектура valgrind
+</b>
+
+   Valgrind имеет модульную архитектуру, и состоит из ядра, которое
+   выполняет эмуляцию процессора, а конкретные модули выполняют сбор и
+   анализ информации, полученной во время выполнения кода на эмуляторе.
+   Valgrind работает под управлением ОС Linux на процессорах x86, amd64,
+   ppc32 и ppc64, при этом существуют некоторые <a href="http://valgrind.org/docs/manual/manual-core.html#manual-core.limits">ограничения,</a> которые
+   потенциально могут повлиять на работу исследуемых программ.
+
+   В поставку valgrind входят следующие модули-анализаторы:
+
+   memcheck
+          основной модуль, обеспечивающий обнаружение утечек памяти, и
+          прочих ошибок, связанных с неправильной работой с областями
+          памяти -- чтением или записью за пределами выделенных регионов и
+          т.п.
+
+   cachegrind
+          анализирует выполнение кода, собирая данные о (не)попаданиях в
+          кэш, и точках перехода (когда процессор неправильно
+          предсказывает ветвление). Эта статистика собирается для всей
+          программы, отдельных функций и строк кода
+
+   callgrind
+          анализирует вызовы функций, используя примерно ту же методику,
+          что и модуль cachegrind. Позволяет построить дерево вызовов
+          функций, и соответственно, проанализировать узкие места в работе
+          программы.
+
+   massif
+          позволяет проанализировать выделение памяти различными частями
+          программы
+
+   helgrind
+          анализирует выполняемый код на наличие различных ошибок
+          синхронизации, при использовании многопоточного кода,
+          использующего POSIX Threads.
+
+   Имеется еще некоторое количество модулей, но они считаются
+   экспериментальными и не отличаются особой стабильностью. Кроме того,
+   пользователь может создавать свои модули, выполняющие анализ
+   выполняемого кода.
+
+
+<b style="color: rgb(153, 0, 0);">Начало работы с valgrind
+</b>
+
+   В настоящее время valgrind входит в состав практически всех
+   дистрибутивов Linux, и только в редких случаях требуется его установка
+   вручную, поэтому я пропущу описание этого процесса^<a href="http://xtalk.msk.su/%7Eott/ru/linux/valgrind/#fn.1">1.</a>
+
+   Работа с valgrind достаточно проста -- его поведение полностью
+   управляется опциями командной строки, а также не требует специальной
+   подготовки программы, которую вы хотите проанализировать. Если
+   программа запускается командой "программа аргументы", то для ее запуска
+   под управлением valgrind, необходимо в начало этой командной строки
+   добавить слово valgrind, и указать опции, необходимые для его работы.
+   Например, так:
+<font color="#461b7e">
+        valgrind --leak-check=full --leak-resolution=med программа аргументы
+
+</font>
+   что приведет к запуску нужной программы c заданными аргументами, и для
+   нее будет проведен поиск утечек памяти.
+
+   По умолчанию, valgrind запускает модуль memcheck, однако пользователь
+   может указать какой модуль должен выполняться с помощью опции --tool,
+   передав в качестве аргумента имя нужного модуля, например, вот так:
+<font color="#461b7e">
+        valgrind --tool=callgrind ./test
+
+</font>
+   Стоит отметить, что часто используемые опции можно задать один раз,
+   используя глобальный файл конфигурации (~/.valgrindrc), так что вам не
+   придется их набирать при каждом запуске valgrind.
+
+
+<b style="color: rgb(153, 0, 0);">Общие опции запуска программы
+</b>
+
+   Valgrind имеет некоторое количество опций командной строки, общих для
+   всех модулей. К наиболее часто используемым можно отнести^<a href="http://xtalk.msk.su/%7Eott/ru/linux/valgrind/#fn.2">2:</a>
+
+   --quiet
+          (или -q) подавляет вывод лишней информации, приводя к выводу
+          только информации об ошибках.
+
+   --verbose
+          (или -v) заставляет valgrind выводить подробную информацию о
+          своей работе.
+
+   --log-file
+          позволяет задать имя файла в который будет выводиться отчет о
+          работе. В заданном имени могут использоваться специальные
+          шаблоны, куда будут подставляться различные значения, например,
+          идентификатор процесса (шаблон %p).
+
+   --log-socket
+          позволяет задать адрес и порт на который будет передаваться
+          отчет о работе.
+
+   --log-fd
+          позволяет указать дескриптор файла, в который будет выводиться
+          отчет о работе (по умолчанию это число 2 -- стандартный вывод
+          сообщений об ошибках).
+
+   --track-fds
+          (yes или no, по умолчанию no) заставляет valgrind выдать список
+          открытых дескрипторов файлов при окончании работы.
+
+   --trace-children
+          (yes или no, по умолчанию no) разрешает трассировку процессов,
+          запущенных анализируемой программой с помощью системного вызова
+          exec.
+
+   --time-stamp
+          (yes или no, по умолчанию no) приводит к выдаче временных меток
+          в отчет о работе (время отсчитывается от начала работы
+          программы).
+
+
+<b style="color: rgb(153, 0, 0);">Опции управления обработкой ошибок
+</b>
+
+   Пользователь valgrind имеет достаточно большой набор опций,
+   предназначенных для управления процессом, обработки ошибок -- начиная
+   от опций управления форматом вывода, и заканчивая опциями, задающими
+   размер стека.
+
+   По умолчанию, valgrind при печати сообщения об ошибке выдает стек
+   вызова функций, которые привели к появлению данной ошибки. По умолчанию
+   глубина вложенности функций равна 12, но это значение можно изменить с
+   помощью опции --num-callers. При этом стоит отметить, что увеличение
+   этого параметра приведет к некоторому замедлению работы valgrind.
+
+   Пользователь также может управлять тем, сколько и каких ошибок будет
+   выведено в отчет. Для этого имеется опция --error-limit (yes или no, по
+   умолчанию yes), которая позволяет ограничить отчет выводом 1000
+   различных ошибок. Если пользователь не ограничивает вывод ошибок, то
+   это также сказывается на производительности.
+
+   Кроме того, пользователь может управлять тем, какие ошибки будут
+   выдаваться в отчет, а какие нет. Это делается с помощью задания
+   специальных директив (suppressions), которые записываются в файлы,
+   имена которых можно передать с помощью опции --suppressions. В поставке
+   valgrind есть файл (обычно это /usr/lib/valgrind/default.supp), в
+   котором перечислены известные ошибки glibc, но кроме того, пользователь
+   может изготовить собственный файл, для чего можно использовать опцию
+   --gen-suppressions, которая будет запрашивать пользователя, нужно ли
+   сгенерировать директиву для данной ошибки, или нет.
+
+   Пользователь также имеет возможность запуска отладчика при нахождении
+   ошибок. Для этого существует опция --db-attach (yes или no, по
+   умолчанию no), при использовании которой у пользователя будет
+   запрашиваться разрешение на запуск отладчика. Опции для запуска
+   отладчика могут быть указаны с помощью опции --db-command, но значений
+   по умолчанию вполне достаточно для большинства случаев.
+
+
+<b style="color: rgb(153, 0, 0);">Поиск утечек памяти
+</b>
+
+   Valgrind приобрел популярность в первую очередь за свои возможности по
+   нахождению утечек памяти в программах. За этот реализацию этих функций
+   отвечает модуль memcheck, для которого определены отдельные опции,
+   управляющие процессом проверки.
+
+   --leak-check
+          включает (значение yes, summary или full) или отключает
+          (значение no) функцию обнаружения утечек памяти. Стоит отметить,
+          что при использовании значения summary, memcheck выдает лишь
+          краткую информацию об утечках памяти, тогда как при других
+          значениях, кроме сводной информации, будет выдаваться еще и
+          информация о месте, в котором происходит эта утечка памяти.
+
+   --leak-resolution
+          (возможные значения low, med или high) указывает способ
+          сравнения стека вызовов функций. При значениях low и med, в
+          сравнении используются два или четыре последних вызова,
+          соответственно, а при high, сравнивается полный стек вызова. Эта
+          опция влияет лишь на способ представления результатов поиска
+          ошибок.
+
+   --undef-value-errors
+          (yes или no) определяет, будут ли показывать ошибки об
+          использовании не инициализированных значений.
+
+   Прочие опции используются значительно реже, и в случае необходимости вы
+   можете найти их описание в руководстве пользователя.
+
+
+<b style="color: rgb(153, 0, 0);">Интерпретация полученных результатов
+</b>
+
+   Существует несколько видов ошибок, обнаруживаемых модулем memcheck.
+   Ошибки чтения и записи за пределами выделенной памяти (и еще несколько
+   видов ошибок) выдаются сразу, в процессе работы программы. А ошибки,
+   ведущие к утечкам памяти, выдаются valgrind'ом после завершения работы
+   анализируемой программы. Формат выдачи этих ошибок немного отличается,
+   поэтому они будут описаны по отдельности.
+
+   Каждая строка в выводе valgrind имеет префикс вида
+<font color="#461b7e">
+        ==12345==
+
+</font>
+   где число обозначает идентификатор запущенного процесса.
+
+
+<b style="color: rgb(153, 0, 0);">Ошибки работы с памятью
+</b>
+
+   В ходе своей работы, модуль memcheck определяет несколько видов ошибок
+   работы с памятью:
+<font color="#461b7e">
+     * чтение или запись по неправильным адресам памяти -- за границами
+       выделенных блоков памяти и т.п.
+
+</font><font color="#461b7e">
+     * использование не инициализированных значений, в том числе и для
+       переменных выделяемых на стеке
+
+</font><font color="#461b7e">
+     * ошибки освобождения памяти, например, когда блок памяти уже был
+       освобожден в другом месте
+
+</font><font color="#461b7e">
+     * использование "неправильной" функции освобождения памяти, например
+       использование delete для памяти, выделенной с помощью new []
+
+</font><font color="#461b7e">
+     * передача некорректных параметров системным вызовам, например
+       указание неправильных указателей для операций чтения из буфера,
+       указанного пользователем
+
+</font><font color="#461b7e">
+     * пересечение границ блоков памяти при использовании операций
+       копирования/перемещения данных между двумя блоками памяти
+
+</font>
+   Для этих ошибок данные выдаются по мере их обнаружения, и обычно они
+   выглядят следующим образом:
+<font color="#461b7e">
+        Mismatched free() / delete / delete []
+           at 0x40043249: free (vg_clientfuncs.c:171)
+           by 0x4102BB4E: QGArray::~QGArray(void) (tools/qgarray.cpp:149)
+           by 0x4C261C41: PptDoc::~PptDoc(void) (include/qmemarray.h:60)
+           by 0x4C261F0E: PptXml::~PptXml(void) (pptxml.cc:44)
+         Address 0x4BB292A8 is 0 bytes inside a block of size 64 alloc'd
+           at 0x4004318C: operator new[](unsigned int) (vg_clientfuncs.c:152)
+           by 0x4C21BC15: KLaola::readSBStream(int) const (klaola.cc:314)
+           by 0x4C21C155: KLaola::stream(KLaola::OLENode const *) (klaola.cc:416)
+           by 0x4C21788F: OLEFilter::convert(QCString const &amp;) (olefilter.cc:272)
+
+</font>
+   В первой строке приводится описание соответствующей ошибки, а затем
+   идет стек вызова функций, приведших к появлению данной ошибки. В том
+   случае, где это необходимо (как в нашем примере), выдается также адрес
+   блока памяти и место где этот блок памяти был выделен.
+
+
+<b style="color: rgb(153, 0, 0);">Нахождение утечек памяти
+</b>
+
+   При окончании работы программы valgrind выдает сводную таблицу,
+   описывающую количество найденных ошибок, а также выделение памяти в
+   программе, например:
+<font color="#461b7e">
+        ERROR SUMMARY: 2569904 errors from 493 contexts (suppressed: 17962 from 9)
+        malloc/free: in use at exit: 85,066,939 bytes in 313,004 blocks.
+        malloc/free: 10,552,914 allocs, 10,239,910 frees, 565,747,810 bytes allocated.
+        For counts of detected errors, rerun with: -v
+        searching for pointers to 313,004 not-freed blocks.
+        checked 117,623,772 bytes.
+
+</font>
+   И в самом конце отчета, выдается сводная таблица по каждому из типов
+   ошибок работы с памятью:
+<font color="#461b7e">
+        LEAK SUMMARY:
+           definitely lost: 2,260 bytes in 47 blocks.
+           indirectly lost: 1,680 bytes in 66 blocks.
+             possibly lost: 2,703,124 bytes in 13,791 blocks.
+           still reachable: 82,359,875 bytes in 299,100 blocks.
+                suppressed: 0 bytes in 0 blocks.
+
+</font>
+   Definitely lost означает, что valgrind нашел область памяти, на которую
+   нет указателей, т.е. программист не освободил память, при выходе
+   указателя за область видимости. Possibly lost показывает, что найден
+   указатель, указывающий на часть области памяти, но valgrind не уверен в
+   том, что указатель на начало области памяти до сих пор существует (это
+   может происходить в тех случаях, когда программист вручную управляет
+   указателями). Still reachable обычно означает, что valgrind нашел
+   указатель на начало не освобожденного блока памяти, что во многих
+   случаях связано с выделением глобальных переменных и т.п. вещей. Обычно
+   эта информация показывается только при указании опции --show-reachable
+   со значением yes.
+
+   Между двумя этими таблицами выдаются данные по каждой из найденных
+   ошибок работы с памятью, вида:
+<font color="#461b7e">
+        756 bytes in 27 blocks are definitely lost in loss record 1,077 of 1,267
+           at 0x4022AB8: malloc (vg_replace_malloc.c:207)
+           by 0x7C485DA: __libc_res_nsend (res_send.c:425)
+           by 0x7C47276: __libc_res_nquery (res_query.c:171)
+           by 0x7C47B5B: __res_nquery (res_query.c:223)
+           by 0x834A618: LookUp::LookUp(std::string&amp;) (LookUp.cpp:83)
+           by 0x8637C29: ClientThread::Connect(LogFileEntry&amp;) (ClientThread.cpp:359)
+           by 0x86394D5: ClientThread::Run() (ClientThread.cpp:215)
+           by 0x80FD839: Thread::StartRunLoop(void*) (Thread.cpp:315)
+           by 0x4163FD9: start_thread (pthread_create.c:297)
+           by 0x43843AD: clone (in /usr/lib/debug/libc-2.7.so)
+
+</font>
+   Первой строкой идет описание ошибки, вместе с указанием номера блока в
+   списке потенциально потерянных блоков памяти, а также размером
+   "потерянного" блока памяти. "Важность" ошибки соответствует описанию в
+   итоговой таблице. После строки описания, приводится стек вызовов
+   функций, которые привели к возникновению "потерянного" блока памяти.
+   Этот список достаточно подробен для того, чтобы обнаружить точное место
+   возникновения данной утечки памяти.
+
+
+<b style="color: rgb(153, 0, 0);">Полезные советы при работе с valgrind
+</b>
+
+  Отсутствие информации об исходном коде
+  При анализе программ, которые используют подгружаемые модули
+  может возникнуть ситуация, когда valgrind не может выдать
+  информацию о коде, приведшем к выделению "потерянных" блоков
+  памяти. Это происходит из-за того, что в момент, когда valgrind
+  собирает информацию о выделении и использовании памяти, модуль
+  может быть уже выгружен, и valgrind не может найти отладочную
+  информацию. Это приводит к тому, что при выводе отчета такие
+  места будут отмечены знаками ???, что означает отсутствие
+  отладочной информации. Чтобы избежать этого, необходимо не
+  использовать вызовы dlclose для выгрузки модуля до завершения
+  программы (но это, соответственно, потребует изменение исходного
+  кода программы).
+
+
+<b style="color: rgb(153, 0, 0);">Профилирование программ
+</b>
+
+   Профилирование программ может осуществляться с помощью двух модулей --
+   callgrind и cachegrind. Каждый из них собирает разную информацию. При
+   этом нельзя полагаться на результаты работы только одного из модулей,
+   лучше проводить поиск "узких" мест в программах на основе анализа
+   вывода каждого из модулей.
+
+
+<b style="color: rgb(153, 0, 0);">cachegrind
+</b>
+
+   Модуль cachegrind проводит сбор статистики по попаданию в кэш первого и
+   второго уровней процессора при выполнении операций чтения и записи
+   данных и инструкций программ, а также статистику по работе модуля
+   предсказания ветвлений в программах. По умолчанию, сбор статистики о
+   предсказании ветвления инструкций (branch prediction) не проводится, и
+   если вы хотите получить эти данные, то вы должны указать опцию
+   --branch-sim со значением yes. Кроме этого, пользователь имеет
+   возможность указания дополнительных опций, например, задающих размеры
+   кэшей и т.п.
+
+   Результаты собранные данным модулем по умолчанию выводятся в файл с
+   именем cachegrind.out.&lt;pid&gt; (pid -- идентификатор процесса). Если вы
+   хотите использовать другое имя файла, то можете воспользоваться опцией
+   --cachegrind-out-file.
+
+   После завершения программы, valgrind выдаст таблицу с суммарными
+   данными, собранными во время выполнения программы, например:
+<font color="#461b7e">
+        I   refs:      1,873,023
+        I1  misses:        2,222
+        L2i misses:        2,057
+        I1  miss rate:      0.11%
+        L2i miss rate:      0.10%
+
+        D   refs:        808,914  (578,685 rd   + 230,229 wr)
+        D1  misses:        9,785  (  9,212 rd   +     573 wr)
+        L2d misses:        5,119  (  4,757 rd   +     362 wr)
+        D1  miss rate:       1.2% (    1.5%     +     0.2%  )
+        L2d miss rate:       0.6% (    0.8%     +     0.1%  )
+
+        L2 refs:          12,007  ( 11,434 rd   +     573 wr)
+        L2 misses:         7,176  (  6,814 rd   +     362 wr)
+        L2 miss rate:        0.2% (    0.2%     +     0.1%  )
+
+</font>
+   в которой перечислены данные по выборке инструкций и данных
+   процессором. А в файл cachegrind.out (достаточно большой даже для очень
+   простых программ), попадут детальные данные, которые можно использовать
+   для поиска "узких" мест в программах. Удобным средством анализа
+   является программа kcachegrind, но и в поставке valgrind есть программа
+   cg_annotate, которая позволяет проводить анализ производительности
+   программ^<a href="http://xtalk.msk.su/%7Eott/ru/linux/valgrind/#fn.3">3.</a>
+
+   Для получения данных, в качестве параметров программы cg_annotate
+   указывают имя файла с результатами, собранными cachegrind, а также
+   (опционально) список файлов с исходными текстами, которые будут
+   аннотированы по результатам работы cg_annotate. Чтобы не указывать все
+   файлы с исходными текстами вручную, cg_annotate принимает опцию --auto
+   со значением yes, и автоматически ищет нужные файлы (с помощью опции -I
+   можно указать каталоги, в которых должен производиться поиск файлов).
+
+   cg_annotate выводит на экран аннотированные исходные тексты, в которых
+   для каждой функции (и строки кода, в зависимости от опций) указывается
+   количество операций чтения или записи, а также другая статистика по
+   работе программы. Используя эту информацию, разработчик получает
+   возможность оптимизировать места, наиболее сильно влияющие на работу
+   программы.
+
+
+<b style="color: rgb(153, 0, 0);">callgrind
+</b>
+   Данный модуль позволяет собрать информацию о дереве вызова функций в
+   программе. По умолчанию он собирает данные о количестве выполненных
+   инструкций, зависимостях между вызывающей и вызываемой функциями и
+   количество вызовов конкретных функций. Кроме того, можно включить
+   эмуляцию кэшей, аналогичную cachegrind, что позволит собрать данные о
+   доступе к памяти.
+
+   Данные собранные модулем выводятся в файл callgrind.out.&lt;pid&gt;, который
+   затем может быть проанализирован с помощью программ kcachegrind или
+   callgrind_annotate (входящей в поставку valgrind).
+
+   callgrind_annotate выводит на экран данные о выполнении различных
+   функций, и может представлять их в различном виде, в зависимости от
+   указанных опций. Также как и для cg_annotate, можно указать опцию
+   --auto, чтобы избежать указания файлов с исходными текстами вручную.
+
+   По умолчанию, callgrind выводит информацию один раз, в конце выполнения
+   программы. Но пользователи, которым это нужно, могут использовать
+   программу callgrind_control из поставки valgrind для получения
+   промежуточных данных по запросу, или периодически.
+
+
+<b style="color: rgb(153, 0, 0);">Анализ выделения памяти в программе
+</b>
+
+   Для анализа выделения памяти в программах используется модуль massif.
+   Он собирает сведения не только о размерах блоков, выделяемых
+   программой, но также и о том, сколько дополнительной памяти потребуется
+   для хранения служебной информации.
+
+   После завершения программы под управлением massif, valgrind выдает
+   краткую сводку использования памяти, а подробные данные выводятся в
+   файл massif.out.&lt;pid&gt;. Для анализа этих данных может использоваться
+   программа ms_print, входящая в поставку valgrind. Эта программа может
+   выдавать данные в виде графиков, демонстрирующих выделение памяти в
+   программе в процессе работы, например вот так:
+<font color="#461b7e">
+            MB
+        12.46^                                                            #... . ...
+             |                                                            #::: : :::
+             |                                                           :#::: : :::
+             |                                                        .@ :#::: : :::
+             |                                                      . :@ :#::: : :::
+             |                                                     .: :@ :#::: : ::::
+             |                                                    ::: :@ :#::: : ::::
+             |                                                  : ::: :@ :#::: : ::::
+             |                                                . : ::: :@ :#::: : ::::
+             |                                              . : : ::: :@ :#::: : ::::
+             |                          ,. .,..,.. ,.., . ,.: : : ::: :@ :#::: : ::::
+             |                       . :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::,
+             |                    . :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |                  .:: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |               . :::: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |            ,: : :::: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |         . :@: : :::: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |       ,:: :@: : :::: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |    ,: @:: :@: : :::: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+             |  : @: @:: :@: : :::: :: :@: :@::@:: @::@ : @:: : : ::: :@ :#::: : ::::@
+           0 +-----------------------------------------------------------------------&gt;Gi
+             0                                                                   3.539
+
+</font>
+        Number of snapshots: 56
+         Detailed snapshots: [3, 5, 9, 19, 22, 25, 28, 31, 33, 42, 44 (peak), 54]
+
+
+   Пользователь может использовать дополнительные опции massif для
+   управления частотой снятия снапшотов, их количеством, списком функций,
+   для которых будет производиться анализ (можно, например, отслеживать
+   только new или malloc) и т.п.
+
+
+<b style="color: rgb(153, 0, 0);">Поиск ошибок синхронизации
+</b>
+
+   За поиск этого класса ошибок отвечает модуль helgrind. Он позволяет
+   найти ошибки синхронизации в программах на языках C, C++ &amp; Fortran,
+   использующих POSIX Thread API. Helgrind помогает обнаружить следующие
+   классы ошибок:
+<font color="#461b7e">
+     * потенциальные блокировки (deadlocks), возникающие из-за
+       неправильного порядка выставления блокировок
+
+</font><font color="#461b7e">
+     * повреждение данных (data races) из-за неправильных, или
+       отсутствующих блокировок на доступ к памяти
+
+</font><font color="#461b7e">
+     * неправильное использование функций POSIX API. Этот класс ошибок
+       включает в себя разные ошибки, например рекурсивное блокирование не
+       рекурсивного мутекса, освобождение памяти, хранящей блокировку
+       (мутекс) и т.д.
+
+</font>
+   Helgrind позволяет найти эти ошибки за счет отслеживания состояния
+   каждого из байтов памяти, используемой программой, а также за счет
+   мониторинга различных событий, связанных с выполнением нитей (threads)
+   -- их создания и завершения, получение и освобождения блокировок и т.п.
+
+   Формат вывода информации немного похож на формат вывода ошибок модулем
+   memcheck:
+<font color="#461b7e">
+        Possible data race during write of size 4 at 0x42B6530
+           at 0x41E5027: _IO_file_sync@@GLIBC_2.1 (fileops.c:923)
+           by 0x41D9B5F: fflush (iofflush.c:43)
+           by 0x40C6941: __gnu_cxx::stdio_sync_filebuf&lt;.... &gt;::sync() (stdio_sync_filebuf.h:156)
+           by 0x40D2B93: std::basic_streambuf&lt;... &gt;::pubsync() (streambuf:255)
+           by 0x40C8573: std::ostream::flush() (ostream.tcc:514)
+           by 0x40C863A: std::basic_ostream&lt;... &gt;&amp; std::flush&lt;...&gt;(std::basic_ostream&lt;...&gt;&amp;) (ostream:520)
+           by 0x40CD025: std::basic_ostream&lt;... &gt;&amp; std::endl&lt;... &gt;(std::basic_ostream&lt;... &gt;&amp;) (ostream:499)
+           by 0x40C74A0: std::ostream::operator&lt;&lt;(std::ostream&amp; (*)(std::ostream&amp;)) (ostream.tcc:72)
+           by 0x804A208: f1(int) (test-threads.cpp:19)
+           by 0x804A534: void boost::_bi::list1&lt;... &gt;::operator()&lt;...&gt;(boost::_bi::type&lt;void&gt;, void (*)(int)&amp;, boost::_bi::list0&amp;, int) (bind.hpp:232)
+           by 0x804A578: boost::_bi::bind_t&lt;...&gt;::operator()() (bind_template.hpp:20)
+           by 0x804A592: boost::detail::function::void_function_obj_invoker0&lt;...&gt;::invoke
+              (boost::detail::function::function_buffer&amp;) (function_template.hpp:158)
+          Old state: shared-readonly by threads #2, #3
+          New state: shared-modified by threads #2, #3
+          Reason:    this thread, #3, holds no consistent locks
+          Location 0x42B6530 has never been protected by any lock
+
+</font>
+   В данном примере helgrind указывает на возможное повреждение данных при
+   одновременном выводе данных на экран несколькими нитями исполнения.
+   Кроме стека вызова функций, приводящего к ошибке, также выдается
+   состояние памяти до и после возникновения ошибки (old и new state), а
+   также причина возникновения ошибки (в нашем случае -- отсутствие
+   блокировок для данного участка памяти).
+
+   Для управления поведением модуля определено некоторое количество опций,
+   описание которых вы можете найти в руководстве пользователя, но
+   значений по умолчанию обычно достаточно для нормальной проверки
+   пользовательских программ.
+
+
+<b style="color: rgb(153, 0, 0);">Дополнительные программы для работы с valgrind
+</b>
+   Для упрощения работы с valgrind, имеется несколько внешних программ,
+   выполняющих ту или иную задачу.
+<font color="#461b7e">
+     * Программа <a href="http://alleyoop.sourceforge.net/">aleyoop</a> позволяет работать с valgrind, используя
+       графический интерфейс пользователя. Она позволяет выбрать нужную
+       утилиту, и запустить valgrind с нужными опциями, а затем
+       проанализировать вывод valgrind, и обеспечить навигацию по коду,
+       который вызывает ошибки. В настоящее время поддерживается работа с
+       модулями memcheck, helgrind и cachegrind.
+
+</font><font color="#461b7e">
+     * Для визуализации данных, полученных от модулей callgrind и
+       cachegrind, существует программа -- <a href="http://kcachegrind.sourceforge.net/">kcachegrind,</a> которая
+       отображает полученные данный, и позволяет выполнять навигацию по
+       исходному коду программы. Программа позволяет отображать собранные
+       данные различными способами -- в виде таблиц, карт и графов вызова
+       функций. Пример отображения этих данных вы можете видеть на
+       рисунке.
+
+</font>
+
+<b style="color: rgb(153, 0, 0);">Уточнения
+</b>
+   1. Интересующиеся, могут найти <a href="http://valgrind.org/docs/manual/manual-core.html#manual-core.install">описание</a> процесса сборки и
+   установки в руководстве пользователя valgrind.
+
+   2. Для задания опция используется стандартная форма. Некоторые
+   опции могут иметь одно-буквенные сокращения, и если они имеют
+   аргументы, то аргументы задаются через пробел после указания
+   соответствующей опции. Для опций, с полным названием, таких как
+   &lt;code&gt;--log-file
+   , аргументы указываются сразу после опции, используя знак = в качестве
+   разделителя имени и значения.
+
+   3. В руководстве пользователя valgrind есть описание формата
+   данных, выводимых модулем cachegrind, так что пользователь может писать
+   и свои анализаторы.
+
+
+</pre><br>
+<table bgcolor="#b0b190" border="0" cellpadding="1" cellspacing="0" width="100%">
+<tbody><tr><td>
+<table bgcolor="#e9ead6" border="0" cellpadding="0" cellspacing="0" width="100%" align="CENTER">
+<col span="5" width="5*">
+<tbody><tr align="CENTER">
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=prev">&lt;&lt; Предыдущая</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=index">ИНДЕКС</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=edit" title="Общедоступная правка в wiki-стиле">Исправить</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=raw">src</a> / <a href="#" onclick="pr('none');">Печать</a></small></td>
+<td><small><a href="http://www.opennet.ru/cgi-bin/opennet/jump.cgi?name=valgrind_memory.txt&amp;ref=next">Следующая &gt;&gt;</a></small></td>
+</tr><tr bgcolor="#b0b190"><td colspan="5"><img src="valgrind_memory.txt_files/p.gif" alt="" height="2" width="1"></td></tr>
+</tbody></table></td></tr></tbody></table>
+<br><table bgcolor="#b0b190" border="0" cellpadding="1" cellspacing="0" width="100%">
+<tbody><tr><td>
+<table bgcolor="#e9ead6" border="0" cellpadding="5" cellspacing="0" width="100%">
+<tbody><tr bgcolor="#c7cbb1"><td><font color="#000090"><b>Ваш комментарий</b></font></td></tr>
+<tr bgcolor="#dde1c2"><td>
+<form method="post" action="http://www.opennet.ru/cgi-bin/openforum/vsluhboard.cgi">
+<input name="key_section" value="topic" type="hidden">
+<input name="key_sub" value="dev" type="hidden">
+<input name="key_item" value="valgrind_memory" type="hidden">
+<input name="forum" value="vsluhforumID3" type="hidden">
+<input name="omm" value="" type="hidden">
+<input name="az" value="a_mesg" type="hidden">
+
+Имя:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input name="name" value="metallic" size="30" type="text"><br>
+E-Mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input name="email" value="%21metallicvrn@gmail.com" size="30" type="text"><br>
+Заголовок: <input name="subject" value="Выявление ошибок работы с памятью при помощи valgrind (memory debug profile gcc valgrind)" size="30" maxlength="60" type="text"><br>
+Текст:<br>
+<textarea name="body" cols="50" rows="8" wrap="virtual"></textarea><br>
+<input name="post" value="Отправить" type="submit">
+</form>
+</td></tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+<br>
+<!--htdig_noindex-->
+<br>
+
+<table><tbody><tr valign="top"><td width="383">
+<iframe src="valgrind_memory.txt_files/adv_ibm.html" name="ibm" border="0" target="_blank" frameborder="0" height="240" scrolling="no" width="383"></iframe>
+</td><td>
+ 
+
+     <table bgcolor="#441144" border="1" cellpadding="2" cellspacing="0" width="95%" align="center">
+     <tbody> 
+
+       <tr>
+            <td bgcolor="#ffffff" align="center">
+               <a target="_blank" href="http://www.linuxcenter.ru/shop/licence/mandriva/?sid=nP5OTFA1" title="Подписки на Mandriva Enterprise и Powerpack">
+                  <font color="#5b1900" face="sans-serif" size="4">
+                  <b>Закажите подписки на Mandriva Enterprise Server 5 и Mandriva 2010 Powerpack</b>
+                  </font>
+               </a>
+            </td>
+            </tr>
+       <tr>
+		<td bgcolor="#ffffff" align="left">
+           <p width="20%" size="2" color="#5b1900" face="sans-serif">
+            <a target="_blank" href="http://www.linuxcenter.ru/shop/licence/mandriva/?sid=nP5OTFA1">
+              <img src="valgrind_memory.txt_files/id5574.jpg" title="Подписки на Mandriva Enterprise Server 5 и Powerpack 2010" border="0" height="130" hspace="8" vspace="0" width="130" align="left">
+            </a>
+			</p><p>
+			Подписки на Mandriva Enterprise Server 5 и Mandriva 2010 Powerpack включают получение обновлений и 
+			технической поддержки.
+			</p>
+			<p>
+			Техническая поддержка оказывается на русском языке по телефону, электронной почте и через web-форму. 
+			Предлагается подписка трех  уровней - "Базовый", "Стандартный", "VIP", отличающихся скоростью реакции 
+			службы технической поддержки на проблему заказчика.
+			</p>
+			<p>
+			Mandriva Enterprise Server 5 (MES 5) - это надежный и производительный дистрибутив GNU/Linux для 
+			корпоративного сервера. В MES 5 интегрированы серверные разработки программистов Mandriva, а также ведущие 
+			свободные серверные приложения, которые помогут настроить и поддерживать необходимые вам серверы.
+			</p>
+			<p>
+			Mandriva 2010 Powerpack - это идеальный вариант для перехода на Linux новых пользователей в офисе и дома. 
+			В то же время, Mandriva 2010 Powerpack полностью удовлетворяет запросы опытных пользователей и администраторов.
+			</p>
+			<p>
+			Более подробно познакомиться с подписками вы можете здесь:
+			<a href="http://www.linuxcenter.ru/shop/licence/mandriva/?sid=nP5OTFA1">http://www.linuxcenter.ru/shop/licence/mandriva/</a>
+			</p>
+ 	    </td>
+       </tr>
+     </tbody>
+     </table>
+
+		</td></tr></tbody></table>
+
+<!--/htdig_noindex-->
+
+
+<!-- footer -->
+<!--htdig_noindex-->
+<br>
+<table bgcolor="#b0b190" border="0" cellpadding="1" cellspacing="0" width="100%">
+<tbody><tr><td>
+<table valign="MIDDLE" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td bgcolor="#e9ead6" width="35%" align="LEFT">
+<font size="-1">
+&nbsp;&nbsp;<a href="http://www.opennet.ru/cgi-bin/opennet/bookmark.cgi">Закладки&nbsp;на&nbsp;сайте</a><br>
+&nbsp;&nbsp;<a href="http://www.opennet.ru/cgi-bin/opennet/bookmark.cgi?submit=add" target="blank_">Проследить&nbsp;за&nbsp;страницей</a>
+</font>
+</td>
+<td bgcolor="#e9ead6" width="65%" align="RIGHT">
+<font size="-1">Created&nbsp;1996-2010&nbsp;by&nbsp;<b><a href="http://www.opennet.ru/contact.shtml" title="email mc@tyumen.ru">Maxim&nbsp;Chirkov</a></b></font>&nbsp;&nbsp;<br>
+<font size="-1"><a href="http://www.opennet.ru/add.shtml">Добавить</a>,&nbsp;<a href="http://www.opennet.ru/reklama.shtml">Реклама</a>,&nbsp;<a href="http://www.opennet.ru/banners2.shtml">Вебмастеру</a>,&nbsp;<a href="http://www.opennet.ru/guide.shtml">ГИД</a></font>&nbsp;&nbsp;
+</td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+
+
+<div align="right"><table><tbody><tr><td>
+<a target="_blank" href="http://www.runnet.ru/"><img src="valgrind_memory.txt_files/runnet.gif" alt="RUNNet" border="0" height="31" width="88"></a>
+<a target="_blank" href="http://top.list.ru/jump?from=77689"><img src="valgrind_memory.txt_files/counter_002.gif" alt="TopList" border="0" height="31" width="38"></a>
+<a target="_blank" href="http://counter.rambler.ru/top100/"><img src="valgrind_memory.txt_files/top100.gif" border="0" height="1" width="1"><img src="valgrind_memory.txt_files/banner.gif" border="0" height="31" width="88"></a>
+</td></tr></tbody></table>
+</div>
+
+<!--/htdig_noindex-->
+<!-- end of footer -->
+
+
+
+</body></html>

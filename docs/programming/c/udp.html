@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+
+
+
+  <title>Writing a simple UDP client/server in a Unix environment</title>
+  <meta name="description" content="Writing a simple UDP client/server in a C/Unix environment.">
+  <meta name="keywords" content="UDP, C, Unix, Linux, client, server, introduction, tutorial, simple, example">
+
+<style type="text/css">
+<!--
+  BODY {margin-left: 2%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%}
+  H1 {font-size: 20pt; text-align: left; font-weight: bold; margin-bottom: 0em;
+          font-family: arial, helvetica}
+-->
+</style>
+</head><body bgcolor="#d3c598">
+<h1>UDP made simple</h1>
+
+<p><b>Abstract:</b> This page describes how to write a simple UDP client/server
+system in a C/Unix environment. The code is explained step by step.
+
+</p><p><b>Motivation:</b> I needed a page like this when working with a small
+test program for my master's
+thesis at Appius / 
+<a href="http://www.faltcom.se/">Fält Communications</a>. It is quite hard
+to remember all the socket API details off the top of your head, so I wanted
+a small reference page to get me started quickly without having to wade
+through tons of <tt>man</tt> pages. As I did not find a page I liked, I
+decided to write one. I hope it will be useful for others, too.
+
+</p><p><b>Caveats:</b> The code is known to work under recent (fall 1999) versions of Linux.
+It should work on other Unices too, though some of the header files may
+be located in other directories on your system.
+
+</p><h2>The server</h2>
+
+<code></code><pre>     1  #include &lt;arpa/inet.h&gt;
+     2  #include &lt;netinet/in.h&gt;
+     3  #include &lt;stdio.h&gt;
+     4  #include &lt;sys/types.h&gt;
+     5  #include &lt;sys/socket.h&gt;
+     6  #include &lt;unistd.h&gt;
+     7
+     8  #define BUFLEN 512
+     9  #define NPACK 10
+    10  #define PORT 9930
+    11
+    12  void diep(char *s)
+    13  {
+    14    perror(s);
+    15    exit(1);
+    16  }
+    17
+    18  int main(void)
+    19  {
+    20    struct sockaddr_in si_me, si_other;
+    21    int s, i, slen=sizeof(si_other);
+    22    char buf[BUFLEN];
+    23
+    24    if ((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1)
+    25      diep("socket");
+    26
+    27    memset((char *) &amp;si_me, 0, sizeof(si_me));
+    28    si_me.sin_family = AF_INET;
+    29    si_me.sin_port = htons(PORT);
+    30    si_me.sin_addr.s_addr = htonl(INADDR_ANY);
+    31    if (bind(s, &amp;si_me, sizeof(si_me))==-1)
+    32        diep("bind");
+    33
+    34    for (i=0; i&lt;NPACK; i++) {
+    35      if (recvfrom(s, buf, BUFLEN, 0, &amp;si_other, &amp;slen)==-1)
+    36        diep("recvfrom()");
+    37      printf("Received packet from %s:%d\nData: %s\n\n", 
+    38             inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port), buf);
+    39    }
+    40
+    41    close(s);
+    42    return 0;
+    43 }
+</pre>
+
+<h2>Comments</h2>
+
+<ul>
+<li>Lines 8-10 define the buffer size (quite arbitrary), the number of
+packets to receive and the UDP port number to listen at. You could use
+any port number above 1023, although <code>bind()</code> will fail if
+someone else is using the same port simultaneously.
+</li><li>The function <code>diep()</code> is used for error handling. 
+</li><li>21: Declare receive buffer.
+</li><li>22: <code>sockaddr_in</code> is a structure containing an Internet 
+  socket address. Basically, it contains:
+  <ul>
+    <li>an address family (always AF_INET for our purposes)
+    </li><li>a port number
+    </li><li>an IP address
+  </li></ul>
+  <code>si_me</code> defines the socket where the server will listen.
+  <code>si_other</code> defines the socket at the other end of the
+  link (that is, the client).
+</li><li>24: Create a socket. <code>AF_INET</code> says that it will be an Internet socket.
+  <code>SOCK_DGRAM</code> says that it will use datagram delivery instead of virtual 
+  circuits. <code>IPPROTO_UDP</code> says that it will use the UDP protocol (the
+  standard transport layer protocol for datagrams in IP networks). Generally
+	you can use zero for the last parameter; the kernel will figure out
+	what protocol to use (in this case, it would choose IPPROTO_UDP 
+	anyway).
+</li><li>27: We need to initialize the <code>si_me</code> structure. The first step is
+  to fill it with binary zeroes, which is done on this line. (I doubt this step
+  is actually necessary in modern Unix implementations, but better safe than sorry.)
+</li><li>28: We will use Internet addresses.
+</li><li>29: Here, the port number is defined. <code>htons()</code> ensures that the
+  byte order is correct (Host TO Network order/Short integer).
+</li><li>30: This line is used to tell what IP address we want to bind to. Most machines
+  have more than one network interface (for example, 127.0.0.1 for the loopback
+  interface and some other address for the network card; there may be more than
+  one network card). In the general case, you want to accept packets from any
+  interface, so you use INADDR_ANY instead of a specific address.
+</li><li>31: Now we are ready to bind the socket to the address we created above.
+  This line tells the system that the socket <code>s</code> should be bound to 
+  the address in <code>si_me</code>.
+</li><li>35: This call says that we want to receive a packet from <code>s</code>, that
+  the data should be put info <code>buf</code>, and that <code>buf</code> can
+  store at most <code>BUFLEN</code> characters. The zero parameter says that no
+  special flags should be used. Data about the sender should be stored in
+  <code>si_other</code>, which has room for <code>slen</code> byte. Note that
+  <code>recvfrom()</code> will set <code>slen</code> to the number of bytes
+  actually stored. If you want to play safe, set <code>slen</code> to 
+  <code>sizeof(si_other)</code> after each call to <code>recvfrom()</code>.
+</li><li>37: The information about the sender we got from <code>recvfrom()</code> is
+  displayed (IP:port), along with the data in the packet. <code>inet_ntoa()</code> 
+  takes
+  a <code>struct in_addr</code> and converts it to a string in dot notation,
+  which is rather useful if you want to display the address in a legible form.
+</li></ul>
+
+<h2>The client</h2>
+
+<code></code><pre>     1  #define SRV_IP "999.999.999.999"
+     2  /* diep(), #includes and #defines like in the server */
+     3
+     4  int main(void)
+     5  {
+     6    struct sockaddr_in si_other;
+     7    int s, i, slen=sizeof(si_other);
+     8    char buf[BUFLEN];
+     9
+    10    if ((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1)
+    11      diep("socket");
+    12
+    13    memset((char *) &amp;si_other, 0, sizeof(si_other));
+    14    si_other.sin_family = AF_INET;
+    15    si_other.sin_port = htons(PORT);
+    16    if (inet_aton(SRV_IP, &amp;si_other.sin_addr)==0) {
+    17      fprintf(stderr, "inet_aton() failed\n");
+    18      exit(1);
+    19    }
+    20
+    21    for (i=0; i&lt;NPACK; i++) {
+    22      printf("Sending packet %d\n", i);
+    23      sprintf(buf, "This is packet %d\n", i);
+    24      if (sendto(s, buf, BUFLEN, 0, &amp;si_other, slen)==-1)
+    25        diep("sendto()");
+    26    }
+    27
+    28    close(s);
+    29    return 0;
+    30  }
+</pre>
+
+<p><b>Note:</b> The client is quite similar to the server. Only the differences
+  will be discussed.
+
+</p><ul>
+  <li>1: You need to know the IP address of the machine where the server runs.
+    If you run the client and the server on the same machine, try 127.0.0.1.
+    "999.999.999.999" is not a legal IP address; you need to substitute your
+    own server's address.
+  </li><li>12: You may call <code>bind()</code> after the call to <code>socket()</code>,
+    if you wish to specify which port and interface that should be used for the client
+    socket. However, this is almost never necessary. The system will decide
+    what port and interface to use.
+  </li><li>13-19: Here, we set up a <code>sockaddr_in</code> corresponding to the
+    socket address where the server is listening. <code>inet_aton()</code> is
+    used to convert a string in dotted-decimal ASCII notation to a binary address.
+  </li><li>24: Send <code>BUFLEN</code> bytes from <code>buf</code> to <code>s</code>,
+    with no flags (<code>0</code>). The receiver is specified in <code>si_other</code>,
+    which contains <code>slen</code> byte.
+</li></ul>
+
+<h2>General tips</h2>
+
+<ul>
+<li>Remember to always check return values from system calls! By doing so, you 
+  <i>will</i> save time in the long run, I promise. Many people do not test
+  return values in small quick-and-dirty test programs. However, in such cases
+  it is <i>especially</i> important to check return values, because if you
+  don't really know what you are doing you are much more likely to make
+  a mistake. The checks help you understand what went wrong and why.
+</li><li>There is a tool called <code>netcat</code> (the actual command is <code>nc</code>)
+  which is very useful for testing and debugging socket code. Check the <code>man</code>
+  page if you are curious (of course, it might not be installed on your system).
+</li><li>If you want to cut and paste the code above, use <code>cut -c9-</code> to get
+  rid of the line numbers. (The exact syntax of <code>cut</code> may be different
+  on your system, and you may have to remove more or less than 9 characters.)
+</li><li>The command <code>netstat</code> can be useful to check which sockets are active.
+  Try <code>netstat -a</code>.
+</li><li>For an overview over some of the structures used in socket programming, check
+  out the code examples from 
+  <a href="http://www.cs.umu.se/kurser/TDBB40/HT99/kodex/f13.html">lecture 13</a>
+  on my course in Unix system programming. You will also find some material
+  on TCP programming there.
+  Disregard the initial material on <code>select()</code> and friends.
+  There are some comments in Swedish, but most of the page is written in C. 
+</li></ul>
+
+<hr>
+
+Last modified 07-10-12 by <a href="mailto:gunnar.gunnarsson@abc.se">Gunnar Gunnarsson</a>. 
+Comments, bug fixes, and suggestions welcome.
+
+
+</body></html>

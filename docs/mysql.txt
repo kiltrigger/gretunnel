@@ -1,0 +1,15 @@
+For MySQL:
+
+create database redmine character set utf8;
+create user 'redmine'@'localhost' identified by 'my_password';
+grant all privileges on redmine.* to 'redmine'@'localhost';
+
+For versions of MySQL prior to 5.0.2 - skip the 'create user' step and instead:
+
+grant all privileges on redmine.* to 'redmine'@'localhost' identified by 'my_password';
+
+For PostgreSQL:
+
+CREATE ROLE redmine LOGIN ENCRYPTED PASSWORD 'my_password' NOINHERIT VALID UNTIL 'infinity';
+CREATE DATABASE redmine WITH ENCODING='UTF8' OWNER=redmine;
+

@@ -1,0 +1,1206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="ru-RU"><head profile="http://gmpg.org/xfn/11">
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Настраиваем PPPoE server на FreeBSD используя порт MPD5 | Subnets.ru blog</title>
+
+<link rel="stylesheet" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/print.css" type="text/css" media="print">
+<link rel="alternate" type="application/rss+xml" title="Subnets.ru blog RSS Feed" href="http://subnets.ru/blog/?feed=rss2">
+<link rel="pingback" href="http://subnets.ru/blog/xmlrpc.php">
+
+<link rel="alternate" type="application/rss+xml" title="Subnets.ru blog » Лента комментариев к «Настраиваем PPPoE server на FreeBSD используя порт MPD5»" href="http://subnets.ru/blog/?feed=rss2&amp;p=192">
+<link rel="stylesheet" id="wp-email-css" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/email-css.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-polls-css" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/polls-css.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-postratings-css" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/postratings-css.css" type="text/css" media="all">
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/jquery.js"></script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/external-tracking.js"></script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/wp-ajax-response.js"></script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/jquery_002.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpajaxeditcomments = {
+	AEC_PluginUrl: "http://subnets.ru/blog/wp-content/plugins/wp-ajax-edit-comments",
+	AEC_CanScroll: "0",
+	AEC_Minutes: "минут",
+	AEC_Minute: "минута",
+	AEC_And: "и",
+	AEC_Seconds: "секунд",
+	AEC_Second: "сеунда",
+	AEC_Moderation: "Пометить для модерации?",
+	AEC_Approve: "Подтвердить комментарий?",
+	AEC_Spam: "Пометить как спам?",
+	AEC_Delete: "Удалить этот комментарий?",
+	AEC_Anon: "Анонимные пользователи",
+	AEC_Loading: "Загружаем...",
+	AEC_Ready: "Ready",
+	AEC_Sending: "Sending...",
+	AEC_Sent: "Message Sent",
+	AEC_LoadSuccessful: "Комментарий успешно загружен",
+	AEC_Saving: "Сохраняем...",
+	AEC_Blacklisting: "Blacklisting...",
+	AEC_Saved: "Комментарий успешно сохранен",
+	AEC_Delink: "Успешно удалено",
+	AEC_MoreOptions: "Еще параметры",
+	AEC_LessOptions: "Less Options",
+	AEC_UseRTL: "false",
+	AEC_RequestDeletionSuccess: "Request has been sent successfully",
+	AEC_RequestError: "Error sending request"
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/wp-ajax-edit-comments.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://subnets.ru/blog/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://subnets.ru/blog/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="Subnets.ru blog" href="http://subnets.ru/blog">
+<link rel="start" title="VoIP полезные ссылки" href="http://subnets.ru/blog/?p=4">
+<meta name="generator" content="WordPress 2.9.2">
+<style type="text/css">.addtoany_subscribe img{border:0;}</style>
+
+<!-- All in One SEO Pack 1.6.10.2 by Michael Torbert of Semper Fi Web Design[301,437] -->
+<meta name="description" content="В данной статье рассматривается возможность использование MPD 5-й версии в качестве">
+<meta name="keywords" content="freebsd,networks">
+<link rel="canonical" href="http://subnets.ru/blog/?p=192">
+<!-- /all in one seo pack -->
+<link rel="shortlink" href="http://wp.me/ph36B-36"><link rel="stylesheet" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/edit-comments.css" type="text/css" media="screen">                <!-- Ajax Edit Comments -->
+                <!--[if IE]>
+                <style>
+                  .clearfix {display: inline-block;}
+                  /* Hides from IE-mac \*/
+                  * html .clearfix {height: 1%;}
+                  .clearfix {display: block;}
+                  /* End hide from IE-mac */
+                </style>
+                <![endif]-->
+<link rel="stylesheet" href="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/colorbox.css" type="text/css" media="screen"><style type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background-image: url('http://subnets.ru/blog/wp-content/plugins/wp-polls/images/default/pollbg.gif');
+	border: 1px solid #c8c8c8;
+}
+</style>
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<!-- Google Analytics Tracking by Google Analyticator 6.0.2: http://ronaldheft.com/code/analyticator/ -->
+<script type="text/javascript">
+	var analyticsFileTypes = [''];
+	var analyticsOutboundPrefix = '/outgoing/';
+	var analyticsDownloadsPrefix = '/download/';
+	var analyticsEventTracking = 'ga_enable';
+</script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-4905493-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/ga.js" type="text/javascript"></script>
+<script src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/ru.js" charset="UTF-8"></script><style type="text/css">.a2a_menu *{margin:0;padding:0}.a2a_menu table{border-collapse:collapse;border-spacing:0;width:auto}.a2a_menu table,.a2a_menu tbody,.a2a_menu td,.a2a_menu tr{border:0;margin:0;padding:0;background-color:transparent;_background-color:#FFF}.a2a_menu td{vertical-align:top}.a2a_menu,.a2a_menu_border{display:none;z-index:9999999;position:absolute;margin:0;padding:0;-webkit-border-radius:16px;-moz-border-radius:16px}.a2a_menu{display:none;direction:ltr;min-width:200px;background-color:#FFF;font:12px Arial,Helvetica,sans-serif;color:#000;line-height:12px;border:1px solid #CCC;vertical-align:baseline;padding:8px;overflow:hidden}.a2a_menu_border{border:1px solid #EEE;background-color:#EEE;opacity:.6;filter:alpha(opacity=60)}.a2a_menu a,#a2a_hist_list a,.a2a_tabs div{color:#00F;text-decoration:none;font:12px Arial,Helvetica,sans-serif;line-height:12px;height:auto;width:auto;clear:none;outline:none;-moz-outline:none;-webkit-border-radius:8px;-moz-border-radius:8px}.a2a_menu a:visited,#a2a_hist_list a:visited{color:#00F;clear:right}.a2a_menu a:hover,.a2a_menu a:active,.a2a_menu a.a2a_i:focus,.a2a_tabs div:hover{color:#000;border:1px solid #CCC;background-color:#EEE;text-decoration:none}.a2a_menu img,.a2a_menu a img,.a2a_img{width:16px;height:16px;border:0;padding:0;background:url(http://static.addtoany.com/menu/icons_18.png) no-repeat}.a2a_menu img{display:inline;vertical-align:middle;margin:0 4px 2px 0}.a2a_menu img.a2a_i_find{position:absolute;left:5px;top:2px}#a2a_menu_container{display:inline-block}#a2a_menu_container{_display:inline}.a2a_menu_title_container{margin-bottom:2px;padding:6px}.a2a_menu_find_container{position:relative;text-align:left;margin:4px 1px;padding:1px 24px 1px 0;border:1px solid #CCC;-webkit-border-radius:8px;-moz-border-radius:8px}input.a2a_menu_title{display:block;color:#000;background-color:#FFF;border:0;margin:0;padding:0;width:100%}input.a2a_menu_find{display:block;position:relative;left:24px;color:#000;font-size:12px;padding:2px 0;outline:0;border:0;background-color:transparent;_background-color:#FFF;width:250px}table.a2a_cols_container{width:100%}.a2a_cols{width:50%}.a2a_clear{clear:both} .a2a_default_style a{float:left;padding:0 2px}.a2a_default_style .a2a_img{display:block;line-height:16px;overflow:hidden}.a2a_default_style .a2a_img,.a2a_default_style .a2a_dd{float:left}.a2a_kit a{cursor:pointer}.a2a_hr{margin:0 12px 12px;padding:1px;background:none;background-color:#EEE}.a2a_nowrap{white-space:nowrap}.a2a_note{margin:0 auto;padding:9px;font-size:11px;text-align:center}.a2a_note .a2a_note_note{margin:0 0 9px;color:#000}.a2a_wide a{display:block;margin-top:3px;border:1px solid #EEE;padding:3px;text-align:center}.a2a_tabs{float:left;margin:0 0 3px}.a2a_tabs a,.a2a_tabs div{margin:1px;background-color:#EEE;border:1px solid #EEE;font-size:11px;padding:6px 12px 2px;white-space:nowrap}.a2a_tabs a img,.a2a_tabs div img{margin-bottom:4px}.a2a_tabs a,.a2a_tabs a:visited,.a2a_tabs a:hover,.a2a_tabs div,.a2a_tabs div:hover{cursor:pointer;border-bottom:1px solid #EEE;color:#000;-webkit-border-bottom-left-radius:0;-moz-border-radius-bottomleft:0;-webkit-border-bottom-right-radius:0;-moz-border-radius-bottomright:0}a.a2a_tab_selected,a.a2a_tab_selected:visited,a.a2a_tab_selected:hover,a.a2a_tab_selected:active,a.a2a_tab_selected:focus,div.a2a_tab_selected,div.a2a_tab_selected:hover{color:#00F;background-color:#FFF;border:1px solid #CCC;border-bottom:1px solid #FFF}a.a2a_i{display:block;padding:4px 6px 2px;border:1px solid #FFF;text-align:left;white-space:nowrap}a.a2a_sss{font-weight:700}a.a2a_ind{display:inline;margin:0;padding:0}a.a2a_emailer{display:inline-block;border:1px solid #EEE;margin:0 9px;text-align:center}a.a2a_menu_show_more_less{margin:4px 0 8px;padding:0}a.a2a_menu_show_more_less img{vertical-align:baseline;height:12px}a.a2a_menu_powered_by,a.a2a_menu_powered_by:visited{background-color:#EEE;font-size:9px;color:#999}.a2a_i_agregator{background-position:0 0 !important}.a2a_i_aiderss{background-position:0 -17px !important}.a2a_i_aim{background-position:0 -34px !important}.a2a_i_allvoices{background-position:0 -51px !important}.a2a_i_amazon{background-position:0 -68px !important}.a2a_i_aol{background-position:0 -85px !important}.a2a_i_apple_mail{background-position:0 -102px !important}.a2a_i_arto{background-position:0 -119px !important}.a2a_i_ask{background-position:0 -136px !important}.a2a_i_avantgo{background-position:0 -153px !important}.a2a_i_backflip{background-position:0 -170px !important}.a2a_i_bebo{background-position:0 -187px !important}.a2a_i_bibsonomy{background-position:0 -204px !important}.a2a_i_bitty{background-position:0 -221px !important}.a2a_i_blinklist{background-position:0 -238px !important}.a2a_i_blogger{background-position:0 -255px !important}.a2a_i_bloglines{background-position:0 -272px !important}.a2a_i_blogmarks{background-position:0 -289px !important}.a2a_i_blogrovr{background-position:0 -306px !important}.a2a_i_bookmark{background-position:0 -323px !important}.a2a_i_bookmarks_fr{background-position:0 -340px !important}.a2a_i_box{background-position:0 -357px !important}.a2a_i_buddymarks{background-position:0 -374px !important}.a2a_i_buzmob{background-position:0 -391px !important}.a2a_i_buzz{background-position:0 -408px !important}.a2a_i_bzzster{background-position:0 -425px !important}.a2a_i_care2{background-position:0 -442px !important}.a2a_i_citeulike{background-position:0 -459px !important}.a2a_i_clear{background-position:0 -476px !important}.a2a_i_connotea{background-position:0 -493px !important}.a2a_i_current{background-position:0 -510px !important}.a2a_i_dailyme{background-position:0 -527px !important}.a2a_i_dailyrotation{background-position:0 -544px !important}.a2a_i_darr{background-position:0 -561px !important}.a2a_i_darr_wt{background-position:0 -578px !important}.a2a_i_default{background-position:0 -595px !important}.a2a_i_delicious{background-position:0 -612px !important}.a2a_i_designfloat{background-position:0 -629px !important}.a2a_i_digg{background-position:0 -646px !important}.a2a_i_diglog{background-position:0 -663px !important}.a2a_i_diigo{background-position:0 -680px !important}.a2a_i_dzone{background-position:0 -697px !important}.a2a_i_email{background-position:0 -714px !important}.a2a_i_eskobo{background-position:0 -731px !important}.a2a_i_evernote{background-position:0 -748px !important}.a2a_i_excitemix{background-position:0 -765px !important}.a2a_i_expression{background-position:0 -782px !important}.a2a_i_facebook{background-position:0 -799px !important}.a2a_i_fark{background-position:0 -816px !important}.a2a_i_faves{background-position:0 -833px !important}.a2a_i_feed{background-position:0 -850px !important}.a2a_i_feedblitz{background-position:0 -867px !important}.a2a_i_feedbucket{background-position:0 -884px !important}.a2a_i_feedlounge{background-position:0 -901px !important}.a2a_i_feedm8{background-position:0 -918px !important}.a2a_i_feedmailer{background-position:0 -935px !important}.a2a_i_feedreader_net{background-position:0 -952px !important}.a2a_i_feedshow{background-position:0 -969px !important}.a2a_i_find{background-position:0 -986px !important}.a2a_i_fireant{background-position:0 -1003px !important}.a2a_i_flurry{background-position:0 -1020px !important}.a2a_i_folkd{background-position:0 -1037px !important}.a2a_i_foxiewire{background-position:0 -1054px !important}.a2a_i_friendfeed{background-position:0 -1071px !important}.a2a_i_friendster{background-position:0 -1088px !important}.a2a_i_funp{background-position:0 -1105px !important}.a2a_i_furl{background-position:0 -1122px !important}.a2a_i_fwicki{background-position:0 -1138px !important}.a2a_i_gabbr{background-position:0 -1155px !important}.a2a_i_global_grind{background-position:0 -1172px !important}.a2a_i_gmail{background-position:0 -1189px !important}.a2a_i_google{background-position:0 -1206px !important}.a2a_i_healthranker{background-position:0 -1223px !important}.a2a_i_hellotxt{background-position:0 -1240px !important}.a2a_i_hemidemi{background-position:0 -1257px !important}.a2a_i_hi5{background-position:0 -1274px !important}.a2a_i_hubdog{background-position:0 -1291px !important}.a2a_i_hugg{background-position:0 -1308px !important}.a2a_i_hyves{background-position:0 -1325px !important}.a2a_i_identica{background-position:0 -1342px !important}.a2a_i_im{background-position:0 -1359px !important}.a2a_i_imera{background-position:0 -1376px !important}.a2a_i_instapaper{background-position:0 -1393px !important}.a2a_i_iterasi{background-position:0 -1410px !important}.a2a_i_itunes{background-position:0 -1427px !important}.a2a_i_jamespot{background-position:0 -1444px !important}.a2a_i_jots{background-position:0 -1461px !important}.a2a_i_jumptags{background-position:0 -1478px !important}.a2a_i_khabbr{background-position:0 -1495px !important}.a2a_i_kledy{background-position:0 -1512px !important}.a2a_i_klipfolio{background-position:0 -1529px !important}.a2a_i_linkagogo{background-position:0 -1546px !important}.a2a_i_linkatopia{background-position:0 -1563px !important}.a2a_i_linkedin{background-position:0 -1580px !important}.a2a_i_live{background-position:0 -1597px !important}.a2a_i_livejournal{background-position:0 -1614px !important}.a2a_i_ma_gnolia{background-position:0 -1631px !important}.a2a_i_maple{background-position:0 -1648px !important}.a2a_i_meneame{background-position:0 -1665px !important}.a2a_i_mindbodygreen{background-position:0 -1682px !important}.a2a_i_miro{background-position:0 -1699px !important}.a2a_i_mister-wong{background-position:0 -1716px !important}.a2a_i_mixx{background-position:0 -1733px !important}.a2a_i_mobile{background-position:0 -1750px !important}.a2a_i_mozillaca{background-position:0 -1767px !important}.a2a_i_msdn{background-position:0 -1784px !important}.a2a_i_multiply{background-position:0 -1801px !important}.a2a_i_my_msn{background-position:0 -1818px !important}.a2a_i_mylinkvault{background-position:0 -1835px !important}.a2a_i_myspace{background-position:0 -1852px !important}.a2a_i_netimechannel{background-position:0 -1869px !important}.a2a_i_netlog{background-position:0 -1886px !important}.a2a_i_netomat{background-position:0 -1903px !important}.a2a_i_netvibes{background-position:0 -1920px !important}.a2a_i_netvouz{background-position:0 -1937px !important}.a2a_i_newgie{background-position:0 -1954px !important}.a2a_i_newsalloy{background-position:0 -1971px !important}.a2a_i_newscabby{background-position:0 -1988px !important}.a2a_i_newsgator{background-position:0 -2005px !important}.a2a_i_newshutch{background-position:0 -2022px !important}.a2a_i_newsisfree{background-position:0 -2039px !important}.a2a_i_newstrust{background-position:0 -2056px !important}.a2a_i_newsvine{background-position:0 -2073px !important}.a2a_i_nowpublic{background-position:0 -2090px !important}.a2a_i_odeo{background-position:0 -2107px !important}.a2a_i_oneview{background-position:0 -2124px !important}.a2a_i_openbm{background-position:0 -2141px !important}.a2a_i_orkut{background-position:0 -2158px !important}.a2a_i_outlook{background-position:0 -2175px !important}.a2a_i_pageflakes{background-position:0 -2192px !important}.a2a_i_pdf{background-position:0 -2209px !important}.a2a_i_phonefavs{background-position:0 -2226px !important}.a2a_i_ping{background-position:0 -2243px !important}.a2a_i_plaxo{background-position:0 -2260px !important}.a2a_i_plurk{background-position:0 -2277px !important}.a2a_i_plusmo{background-position:0 -2294px !important}.a2a_i_podnova{background-position:0 -2311px !important}.a2a_i_posterous{background-position:0 -2328px !important}.a2a_i_printfriendly{background-position:0 -2345px !important}.a2a_i_propeller{background-position:0 -2362px !important}.a2a_i_protopage{background-position:0 -2379px !important}.a2a_i_pusha{background-position:0 -2396px !important}.a2a_i_rapidfeeds{background-position:0 -2413px !important}.a2a_i_rasasa{background-position:0 -2430px !important}.a2a_i_reader{background-position:0 -2447px !important}.a2a_i_reddit{background-position:0 -2464px !important}.a2a_i_rssfwd{background-position:0 -2481px !important}.a2a_i_segnalo{background-position:0 -2498px !important}.a2a_i_share{background-position:0 -2515px !important}.a2a_i_shoutwire{background-position:0 -2532px !important}.a2a_i_shyftr{background-position:0 -2549px !important}.a2a_i_simpy{background-position:0 -2566px !important}.a2a_i_sitejot{background-position:0 -2583px !important}.a2a_i_skimbit{background-position:0 -2600px !important}.a2a_i_slashdot{background-position:0 -2617px !important}.a2a_i_smaknews{background-position:0 -2634px !important}.a2a_i_sodahead{background-position:0 -2651px !important}.a2a_i_sofomo{background-position:0 -2668px !important}.a2a_i_spaces{background-position:0 -2685px !important}.a2a_i_sphere{background-position:0 -2702px !important}.a2a_i_sphinn{background-position:0 -2718px !important}.a2a_i_spurl{background-position:0 -2735px !important}.a2a_i_squidoo{background-position:0 -2752px !important}.a2a_i_startaid{background-position:0 -2769px !important}.a2a_i_strands{background-position:0 -2786px !important}.a2a_i_stumbleupon{background-position:0 -2803px !important}.a2a_i_stumpedia{background-position:0 -2820px !important}.a2a_i_symbaloo{background-position:0 -2837px !important}.a2a_i_taggly{background-position:0 -2854px !important}.a2a_i_tagza{background-position:0 -2871px !important}.a2a_i_tailrank{background-position:0 -2888px !important}.a2a_i_technet{background-position:0 -2905px !important}.a2a_i_technorati{background-position:0 -2922px !important}.a2a_i_technotizie{background-position:0 -2939px !important}.a2a_i_thefreedictionary{background-position:0 -2956px !important}.a2a_i_thefreelibrary{background-position:0 -2973px !important}.a2a_i_thunderbird{background-position:0 -2990px !important}.a2a_i_tipd{background-position:0 -3007px !important}.a2a_i_toolbar_google{background-position:0 -3024px !important}.a2a_i_tumblr{background-position:0 -3041px !important}.a2a_i_twiddla{background-position:0 -3058px !important}.a2a_i_twine{background-position:0 -3075px !important}.a2a_i_twitter{background-position:0 -3092px !important}.a2a_i_txtvox{background-position:0 -3109px !important}.a2a_i_typepad{background-position:0 -3126px !important}.a2a_i_uarr{background-position:0 -3143px !important}.a2a_i_uarr_wt{background-position:0 -3160px !important}.a2a_i_unalog{background-position:0 -3177px !important}.a2a_i_viadeo{background-position:0 -3194px !important}.a2a_i_webnews{background-position:0 -3211px !important}.a2a_i_webwag{background-position:0 -3229px !important}.a2a_i_wikio{background-position:0 -3246px !important}.a2a_i_windows_mail{background-position:0 -3263px !important}.a2a_i_wink{background-position:0 -3280px !important}.a2a_i_winksite{background-position:0 -3297px !important}.a2a_i_wists{background-position:0 -3314px !important}.a2a_i_wordpress{background-position:0 -3331px !important}.a2a_i_xanga{background-position:0 -3348px !important}.a2a_i_xerpi{background-position:0 -3365px !important}.a2a_i_xianguo{background-position:0 -3382px !important}.a2a_i_yahoo{background-position:0 -3399px !important}.a2a_i_yample{background-position:0 -3416px !important}.a2a_i_yigg{background-position:0 -3433px !important}.a2a_i_yim{background-position:0 -3450px !important}.a2a_i_yoolink{background-position:0 -3467px !important}.a2a_i_youmob{background-position:0 -3484px !important}.a2a_i_yourminis{background-position:0 -3501px !important}.a2a_i_zaptxt{background-position:0 -3518px !important}.a2a_i_zhuaxia{background-position:0 -3535px !important}.a2a_i_zune{background-position:0 -3552px !important}</style></head><body><div style="display: none;" id="cboxOverlay"></div><div style="padding-bottom: 57px; padding-right: 28px; display: none;" id="colorbox"><div id="cboxWrapper"><div><div style="float: left;" id="cboxTopLeft"></div><div style="float: left;" id="cboxTopCenter"></div><div style="float: left;" id="cboxTopRight"></div></div><div><div style="float: left;" id="cboxMiddleLeft"></div><div style="float: left;" id="cboxContent"><div class="" style="width: 0px; height: 0px; display: none;" id="cboxLoadedContent"></div><div style="display: none;" class="" id="cboxLoadingOverlay"></div><div style="display: none;" class="" id="cboxLoadingGraphic"></div><div style="display: none;" class="" id="cboxTitle"></div><div style="display: none;" class="" id="cboxCurrent"></div><div style="display: none;" class="" id="cboxSlideshow"></div><div style="display: none;" class="" id="cboxNext"></div><div style="display: none;" class="" id="cboxPrevious"></div><div style="display: none;" class="" id="cboxClose"></div></div><div style="float: left;" id="cboxMiddleRight"></div></div><div><div style="float: left;" id="cboxBottomLeft"></div><div style="float: left;" id="cboxBottomCenter"></div><div style="float: left;" id="cboxBottomRight"></div></div></div></div><iframe src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/sm1.html" allowtransparency="true" transparency="true" style="border: 0pt none ; left: 0pt; top: 0pt; position: absolute; z-index: 100000; display: none;" id="a2afeed_sm_ifr" frameborder="0" height="1" width="1"></iframe><div style="position: static;"><div id="a2afeed_border" class="a2a_menu_border" onmouseover="a2a.onMouseOver_stay()" onmouseout="a2a.onMouseOut_delay()"></div><div id="a2afeed_dropdown" class="a2a_menu" onmouseover="a2a.onMouseOver_stay()" onmouseout="a2a.onMouseOut_delay()"><table><tbody><tr><td><div id="a2afeed_title_container" class="a2a_menu_title_container" style="display: none;"><input id="a2afeed_title" class="a2a_menu_title"></div><div class="a2afeed_wide a2a_wide"><div class="a2a_tabs"><a href="http://subnets.ru/blog/A2A_LINKURL" id="a2afeed_DEFAULT" class="a2a_tab_selected" style="margin-left: 1px;" target="_top" onclick="return a2a.tabs('DEFAULT')"><img class="a2a_i_feed" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif">Subscribe</a></div><div class="a2a_tabs"><a href="#" title="Subscribe via e-mail" id="a2afeed_EMAIL" style="margin-right: 1px;" onclick="return a2a.tabs('EMAIL');return false"><img class="a2a_i_email" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif">E-mail</a></div></div><div class="a2a_clear"></div><div id="a2afeed_find_container" class="a2a_menu_find_container"><input id="a2afeed_find" class="a2a_menu_find" onclick="a2a.focus_find()" onkeyup="a2a.do_find()" autocomplete="off" onfocus="a2a['feed'].find_focused=true;a2a.onMouseOver_stay()" onblur="a2a.blur_find()" title="Instantly find any service to add to" type="text"><img id="a2afeed_find_icon" class="a2a_i_find" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" onclick="a2a.focus_find()"></div><table id="a2afeed_cols_container" class="a2a_cols_container"><tbody><tr><td class="a2a_cols"><div id="a2afeed_col1"><a target="_blank" href="http://subnets.ru/" class="a2a_i a2a_sss" rel="nofollow" id="a2afeed_google"><img class="a2a_i_google" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Google</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_pageflakes"><img class="a2a_i_pageflakes" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Pageflakes</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_my_yahoo"><img class="a2a_i_yahoo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">My Yahoo</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_my_aol"><img class="a2a_i_aol" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">My AOL</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_my_msn"><img class="a2a_i_my_msn" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">My MSN</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_protopage_news_feeds"><img class="a2a_i_protopage" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Protopage News Feeds</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_zune"><img class="a2a_i_zune" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Zune</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_podnova"><img class="a2a_i_podnova" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">PodNova</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_hubdog"><img class="a2a_i_hubdog" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Hubdog</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_newsisfree"><img class="a2a_i_newsisfree" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">NewsIsFree</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_netime_channel"><img class="a2a_i_netimechannel" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">NETime Channel</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_rocket_rss_reader"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Rocket RSS Reader</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_flurry"><img class="a2a_i_flurry" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Flurry</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_sofomo"><img class="a2a_i_sofomo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Sofomo</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedmarker"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedMarker</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_the_free_library"><img class="a2a_i_thefreelibrary" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">The Free Library</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_blogrovr"><img class="a2a_i_blogrovr" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">BlogRovR</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_daily_rotation"><img class="a2a_i_dailyrotation" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Daily Rotation</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_google_toolbar"><img class="a2a_i_toolbar_google" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Google Toolbar</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_rss_2_pdf"><img class="a2a_i_pdf" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">RSS 2 PDF</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_gritwire"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Gritwire</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedreader"><img class="a2a_i_feedreader_net" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedReader</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_i_metarss"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">i metaRSS</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_xian_guo"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Xian Guo</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_odeo"><img class="a2a_i_odeo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Odeo</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_fwicki"><img class="a2a_i_fwicki" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Fwicki</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_miro"><img class="a2a_i_miro" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Miro</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_zaptxt"><img class="a2a_i_zaptxt" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">ZapTXT</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_newsalloy"><img class="a2a_i_newsalloy" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">NewsAlloy</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_yourminis"><img class="a2a_i_yourminis" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Yourminis</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_alesti"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Alesti</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_avantgo"><img class="a2a_i_avantgo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">AvantGo</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_xanga"><img class="a2a_i_xanga" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Xanga</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_friendster"><img class="a2a_i_friendster" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Friendster</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_agregator"><img class="a2a_i_agregator" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Agregator</a></div><div id="a2afeed_2_col1" style="display: none;"><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedblitz"><img class="a2a_i_feedblitz" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedBlitz</a></div></td><td class="a2a_cols"><div id="a2afeed_col2"><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_netvibes"><img class="a2a_i_netvibes" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Netvibes</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_bloglines"><img class="a2a_i_bloglines" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Bloglines</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_windows_live"><img class="a2a_i_live" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Windows Live</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_excite_mix"><img class="a2a_i_excitemix" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Excite MIX</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_the_free_dictionary"><img class="a2a_i_thefreedictionary" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">The Free Dictionary</a><a target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_itunes"><img class="a2a_i_itunes" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">iTunes</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedm8"><img class="a2a_i_feedm8" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedM8</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_winksite"><img class="a2a_i_winksite" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">WINKsite</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_buzmob"><img class="a2a_i_buzmob" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">BUZmob</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_klipfolio"><img class="a2a_i_klipfolio" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">KlipFolio</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feed_mailer"><img class="a2a_i_feedmailer" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Feed Mailer</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_blogger"><img class="a2a_i_blogger" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Blogger</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_fireant"><img class="a2a_i_fireant" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FireAnt</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_netomat_hub"><img class="a2a_i_netomat" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Netomat HUB</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedbucket"><img class="a2a_i_feedbucket" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedBucket</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_wikio"><img class="a2a_i_wikio" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Wikio</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_webwag"><img class="a2a_i_webwag" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Webwag</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_outlook"><img class="a2a_i_outlook" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Outlook</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_bitty_browser_preview"><img class="a2a_i_bitty" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Bitty Browser Preview</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_litefeeds"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">LiteFeeds</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedlounge"><img class="a2a_i_feedlounge" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedLounge</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedonsite"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedOnSite</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_zhua_xia"><img class="a2a_i_zhuaxia" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Zhua Xia</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_mobilerss"><img class="a2a_i_default" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">mobilerss</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_aiderss"><img class="a2a_i_aiderss" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">AideRSS</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_rapidfeeds"><img class="a2a_i_rapidfeeds" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">RapidFeeds</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_shyftr"><img class="a2a_i_shyftr" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Shyftr</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_newgie"><img class="a2a_i_newgie" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Newgie</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_plusmo"><img class="a2a_i_plusmo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Plusmo</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_eskobo"><img class="a2a_i_eskobo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Eskobo</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_rasasa"><img class="a2a_i_rasasa" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Rasasa</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_feedshow"><img class="a2a_i_feedshow" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">FeedShow</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_myspace_profile"><img class="a2a_i_myspace" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">MySpace Profile</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_hi5"><img class="a2a_i_hi5" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Hi5</a><a style="display: none;" target="_blank" href="http://subnets.ru/" class="a2a_i" rel="nofollow" id="a2afeed_symbaloo_bookmarks"><img class="a2a_i_symbaloo" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif" height="16" width="16">Symbaloo Bookmarks</a></div><div id="a2afeed_2_col2" style="display: none;"></div></td></tr></tbody></table><div id="a2afeed_note_BROWSER" class="a2a_note" style="display: none;"></div><div id="a2afeed_note_EMAIL" class="a2a_note" style="display: none;"><div class="a2a_hr"></div><div class="a2a_note_note">Send from any e-mail address or e-mail program:</div><div class="a2a_nowrap"><a href="http://subnets.ru/" id="a2afeed_any_email" class="a2a_i a2a_emailer" target="_blank" servicename="Email (form)" safename="email_form" customserviceuri="http://www.addtoany.com/email?linkurl=A2A_LINKURL_ENC&amp;linkname=A2A_LINKNAME_ENC" onkeydown="a2a.linker(this)" onmousedown="a2a.linker(this)" onmouseup="a2a.a2a_track('testShare1', 'Email');if(a2a.c.track_pub)a2a.a2a_track('z_'+a2a.c.track_pub+'Share', 'Email')" style="margin-right: 9px;"><img class="a2a_i_email" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif">Any e-mail</a><a href="http://subnets.ru/" class="a2a_i a2a_emailer" id="a2afeed_email_client" servicename="Email (mailto)" safename="email_mailto" customserviceuri="mailto:?subject=A2A_LINKNAME_ENC&amp;body=A2A_LINKURL_ENC" onkeydown="a2a.linker(this)" onmousedown="a2a.linker(this)" onmouseup="a2a.a2a_track('testShare1', 'Email');if(a2a.c.track_pub)a2a.a2a_track('z_'+a2a.c.track_pub+'Share', 'Email')" style="margin-left: 9px;"><img class="a2a_i_outlook" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif"><img class="a2a_i_windows_mail" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif"><img class="a2a_i_apple_mail" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif"><img class="a2a_i_thunderbird" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif"></a></div></div><div class="a2afeed_wide a2a_wide"><a href="javascript:void(0)" id="a2afeed_show_more_less" class="a2a_menu_show_more_less" onclick="return a2a.show_more_less(0)" onmouseover="img=this.firstChild;if(a2a.c.color_arrow_hover=='fff'){if(img.className.indexOf('_wt')==-1)img.className+='_wt'}else img.className=img.className.replace(/_wt/,'')" onmouseout="img=this.firstChild;if(a2a.c.color_arrow=='fff'){if(img.className.indexOf('_wt')==-1)img.className+='_wt'}else img.className=img.className.replace(/_wt/,'')" title="Show all"><img class="a2a_i_darr" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/transparent.gif"></a></div><div class="a2afeed_wide a2a_wide"><a href="http://www.addtoany.com/" id="a2afeed_powered_by" class="a2a_menu_powered_by" target="_blank" title="Share &amp; Subscribe buttons" onmouseover="if(!window.opera)this.innerHTML=this.orig;this.style.textAlign='center'">Powered by AddToAny</a></div></td></tr></tbody></table></div></div>
+<div id="page">
+
+<div id="header">
+<div><div>	
+	<div class="header-title">
+		<h1><a href="http://subnets.ru/blog" title="Subnets.ru blog: Сети, настройка оборудования, сетевые сервисы.">Subnets.ru blog</a></h1>
+		<p>Сети, настройка оборудования, сетевые сервисы.</p>
+	</div> 
+	<!-- Search box (If you prefer having search form as a sidebar widget, remove this block) -->
+	<div class="search">
+		<form method="get" id="searchform" action="http://subnets.ru/blog/">
+<input size="12" name="s" id="s" value="search..." onblur="if(this.value=='') this.value='search...';" onfocus="if(this.value=='search...') this.value='';" type="text">
+</form>
+	</div> 
+	<!-- Search ends here-->
+</div></div>	
+</div>
+<div id="wrapper">
+<style>
+#reklama a {
+    font-size: 10px; 
+    background-color: #00bfff;
+    color: #000080;
+    text-decoration: underline;
+    text-align: center;
+    font-family: Verdana, Tahoma, Arial;
+}
+</style><br><div>
+<table border="0" align="center">
+<tbody><tr>
+    <td><a href="http://mega-net.ru/" target="_blank"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/megabanner.gif" alt="ISP`s IT Аутсорсинг" title="ISP`s IT Аутсорсинг" border="0"></a></td>
+    <td><table border="1" align="center">
+	<tbody>
+	    <tr bgcolor="#c0c0c0">
+		<td><strong>Быстрый переход:</strong></td>
+		<td><a href="http://subnets.ru/blog/">Главная блога</a></td>
+		<td><a href="http://subnets.ru/" target="_blank">Главная сайта</a></td>
+		<td><a href="http://subnets.ru/forum/" target="_blank">Форум</a></td>
+	</tr>
+	<tr bgcolor="#c0c0c0">
+	    <td colspan="4">Если Вы чего то недопоняли или не нашли - задайте<br>вопрос на нашем <a href="http://subnets.ru/forum/" target="_blank">форуме</a> и мы попробуем Вам помочь.</td>
+	</tr>
+	</tbody>
+    </table></td>
+    <td><a href="http://www.ip-as.ru/?from=subnets.ru" target="_blank"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/ip-as.gif" alt="Регистрация IP и Автономных систем" title="Регистрация IP и Автономных систем" border="0"></a></td>
+</tr>
+<tr align="center">
+    <td colspan="3"><small><b>Subnets.ru</b> ресурс компании ООО "Меганет-2003" <a href="http://mega-net.ru/" target="_blank" title="ISP`s IT Аутсорсинг" alt="ISP`s IT Аутсорсинг">mega-net.ru</a></small></td>
+</tr>
+</tbody></table>
+</div><br><div style="text-align: center;"></div><a href="http://subnets.ru/blog/&amp;print=1" title="Версия для печати" rel="nofollow"><img class="WP-PrintIcon" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/print.gif" alt="Версия для печати" title="Версия для печати" style="border: 0px none ;"></a>&nbsp;<a href="http://subnets.ru/blog/&amp;print=1" title="Версия для печати" rel="nofollow">Версия для печати</a>
+
+	<div id="content">
+			
+		<div class="navigation">
+			<div class="alignleft">« <a href="http://subnets.ru/blog/?p=198" rel="prev">Настраиваем 802.1Q trunk между свичами Cisco Catalyst 3560G и сервером FreeBSD</a></div>
+			<div class="alignright"><a href="http://subnets.ru/blog/?p=256" rel="next">Записи типа «Pointer». Домен IN-ADDR.ARPA. Делегирование «обратных» зон. Инверсные запросы.</a> »</div>
+		</div>
+
+		<div class="post" id="post-192">
+			<div class="post-title"><div>
+				<h2><a href="http://subnets.ru/blog/?p=192" rel="bookmark" title="Постоянная ссылка на Настраиваем PPPoE server на FreeBSD используя порт MPD5">Настраиваем PPPoE server на FreeBSD используя порт MPD5</a></h2>
+			</div></div>
+			<div class="post-entry">
+				<p>В данной статье рассматривается возможность использование MPD 5-й версии в качестве сервиса PPPoE на серверах FreeBSD.</p>
+<p style=""><strong>Введение</strong></p>
+<p>Mpd – реализация multi-link PPP протокола для FreeBSD, основанная на
+netgraph(4). В его основу легли концепции скорости и гибкости настроек.
+Исходя из этих принципов настройка соединений происходит на
+пользовательском уровне (user land), в то время как передача данных
+является функцией ядра (kernel).</p>
+<p>Mpd поддерживает множество типов соединений:</p>
+<ul>
+<li><strong>модем</strong> – для соединения различных асинхронных
+последовательных соединений (asychronous serial connections), включая
+модем, ISDN адаптеры, и нуль-модемное соединение (null-modem). Mpd
+включает в себя скриптовый язык обработки данных основанный на событиях
+(event-driven scripting language) для установки типа модема, утановки
+соединения, авторизации и т.д.</li>
+<li><strong>pptp</strong> – соединение точка-точка через Internet по
+протоколу PPTP (Point-to-Point Tunnelling Protocol). Данный протокол
+поддерживается большинством производителей операционных систем и
+оборудования.</li>
+<li><strong>l2tp</strong> – соединение через Internet используя
+протокол 2-го уровня L2TP (Layer Two Tunnelling Protocol). L2TP
+является дальнейшей реализацией протокола PPTP и также поддерживается
+современными производителями операционных систем и оборудования.</li>
+<li><strong>pppoe</strong> – соединение поверх Ethernet по протоколу PPP (PPP-over-Ethernet). Данный протокол в основном используется DSL провайдерами.</li>
+<li><strong>tcp</strong> – тунелирование PPP сессии поверх TCP
+соединения. Кодирование фреймов (Frames) происходит по аналогии с
+асинхронным соедиениеним (asychronous serial connections).</li>
+<li><strong>udp</strong> – туннелирование PPP сессии поверх UDP
+соединения. Каждый фрейм инкапсулируется в пакет с UDP датаграммой (UDP
+datagram packet).</li>
+<li><strong>ng</strong> – соединение различных устройств,
+поддерживаемых netgraph. Netgraph – система сетевых модулей уровня
+ядра, поддерживает синхронные последовательные соединения (synchronous
+serial connections), Cisco HDLC, Frame Relay, и многие другие протоколы.</li>
+</ul>
+<p>MPD поддерживает некоторые реализации субпротоколов PPP и их расширений, таких как:</p>
+<ul>
+<li>Multi-link PPP</li>
+<li>PAP, CHAP, MS-CHAP и EAP автроризация</li>
+<li>сжатие трафика (traffic compression (MPPC, Deflate, Predictor-1))</li>
+<li>криптование трафика (traffic encryption (MPPE, DESE, DESE-bis))</li>
+<li>IPCP и IPV6CP параметры согласования</li>
+</ul>
+<p>В зависимости от конфигурационных правил и параметров соединения,
+mpd может функционировать как обычный PPP клиент/сервер (client/server)
+или передавать пакеты без изменения другому хосту, используя
+поддерживаемый тип соединения, обеспечивая при этом LAC/PAC/TSA
+функциональность для построения распределенных сетей.</p>
+<p>Mpd включает в себя следующие дополнительлные возможности:</p>
+<ul>
+<li>поддержка IPv4 и IPv6.</li>
+<li>управление по Telnet и HTTP.</li>
+<li>различные типы авторизации и методы подсчета трафика (RADIUS, PAM, авторизация по скрипту, авторизация по файлу, …)</li>
+<li>подсчет трафика по NetFlow</li>
+<li>Network address translation (NAT)</li>
+<li>Dial-on-demand с выключением по неактивности (idle timeout)</li>
+<li>Динамическое управление соединением (Dynamic demand based link management (также известное как «rubber bandwidth»))</li>
+<li>Функциональный язык написания скриптов для асинхронных последовательных соединений (synchronous serial ports)</li>
+<li>Готовые скрипты для некоторых основных типов модемов и ISDN адаптеров</li>
+<li>Интерфейс, независимый от типа устройств</li>
+<li>Обширные возможности авторизации</li>
+</ul>
+<p>Mpd изначально разрабатывался Whistle Communications, Inc. для
+ипользования во внутренней сети Whistle InterJet. В его основе лежит <code>iij-ppp</code>
+user-mode PPP код, сильно изменившийся до сего дня. Домашняя страница
+разработчиков Mpd в настоящее время хостится на сайте sourceforge.net <a href="http://sourceforge.net/projects/mpd/" target="_blank">MPD Project Page</a></p>
+<p>Отличия от 4 версии:</p>
+<ul>
+<li> Изменения структуры:
+<ul>
+<li> Устранены статические линки (static link) – реализация
+зависимостей бандла (bundle). Линки выбирает бандл, используя параметры
+согласования на сетевой стадии (NETWORK phase). Этим достигается
+простота и полная работоспособность клиента и мультифункциональность
+сервера. Также это дает возможность реализовать боелее сложные LAC, PAC
+и TSA настройки, чем было до 5 версии.</li>
+<li> Внедрены шаблоны, основанные на динамическом создании
+линках/бандлах. Это позволило значительно сократить конфигурацию для
+серверов с большим количеством клиентов. Линк может автоматически
+создаваться входящим запросом (call request) от устройства или DoD/BoD
+запросом (Dial on Demand/Brake on Demand) из бандла. Бандл может
+автоматически создаваться при достижении сетевой стадии NETWORK phase.</li>
+<li>Для упрощения объединена конфигурация физического и канального уровня, разделенных с верии 4.2.</li>
+</ul>
+</li>
+<li> Новые возможности:
+<ul>
+<li>PAM авторизация.</li>
+<li> Добавлена поддержка динамического пула IP адресов.</li>
+<li> Добавлена поддержка внешних скриптов авторизации ‘ext-acct’ как альтернатива ‘radius-acct’.</li>
+</ul>
+</li>
+<li> Изменения:
+<ul>
+<li> Значительные изменения в конфигурации комманд. Следует прочитать мануал и примеры.</li>
+<li> FreeBSD 4.x и старые релизы DragonFly не поддерживаются.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Установка</strong></p>
+<p>Перед установкой следует решить для себя, как MPD будет загружать
+модули netgraph – через ядро или самостоятельно по мере необходимости.</p>
+<p>Опции:<br>
+<span style="color: rgb(128, 128, 128);"># netgraph options<br>
+options HZ=1000<br>
+options NETGRAPH<br>
+options NETGRAPH_PPPOE<br>
+options NETGRAPH_SOCKET<br>
+options NETGRAPH_CISCO<br>
+options NETGRAPH_ECHO<br>
+options NETGRAPH_FRAME_RELAY<br>
+options NETGRAPH_HOLE<br>
+options NETGRAPH_KSOCKET<br>
+options NETGRAPH_LMI<br>
+options NETGRAPH_RFC1490<br>
+options NETGRAPH_TTY<br>
+options NETGRAPH_ASYNC<br>
+options NETGRAPH_BPF<br>
+options NETGRAPH_ETHER<br>
+options NETGRAPH_IFACE<br>
+options NETGRAPH_KSOCKET<br>
+options NETGRAPH_L2TP<br>
+options NETGRAPH_MPPC_ENCRYPTION<br>
+options NETGRAPH_PPP<br>
+options NETGRAPH_PPTPGRE<br>
+options NETGRAPH_TEE<br>
+options NETGRAPH_UI<br>
+options NETGRAPH_VJC</span></p>
+<p>Можно включать в конфиг ядра не все подряд, а только то, что нужно вам.<br>
+При установке на FreeBSD черед пэкедж или порт, mpd автоматически установится в <span style="color: rgb(0, 0, 255);">/usr/local/sbin/mpd5</span>
+с компиллированием дефолтового набора поддерживаемых устройств. Для
+запуска mpd требуются несколько конфигурационных файлов, которые
+находятся в директории <span style="color: rgb(0, 0, 255);">/usr/local/etc/mpd5</span>. В этой директории вы можете найти примеры конфигурационных файлов.</p>
+<p>Перед запуском mpd, нужно выполнить настроики следующих файлов:</p>
+<dl>
+<dt><strong> </strong><strong><code>mpd.conf</code></strong></dt>
+<dd>Файл описывает одну или более конфигурации. При старте mpd через
+консоль указывается название конфигурации (которая может состоять из
+нескольких mpd комманд), которая и загружается. Если название не
+указывается, загружается конфигурация, описанная в разделе ‘default’.
+Каждая конфигурация определяет один или несколько бандлов (bundle),
+линков (link) или репитеров (repeater). Их описание начинаются с
+комманды <strong><code>create</code></strong>. Последующие комманды в конфигурации описывают различные уровни этих блоков. </dd>
+<dt><strong> </strong><strong><code>mpd.secret</code></strong></dt>
+<dd>Файл содержит пары логин-пароль. MPD просматривает файл при авторизации. Файл должен быть доступен для чтения только <code>root</code>. </dd>
+<dt><strong> </strong><strong><code>mpd.script</code></strong></dt>
+<dd>Файл содержит скрипты для модемных устройств. </dd>
+</dl>
+<p>Прикручиваем логи:</p>
+<p>В файл <span style="color: rgb(0, 0, 255);">/etc/syslog.conf</span> добавляем:<br>
+<span style="color: rgb(153, 51, 0);">!mpd<br>
+*.*                                             /var/log/mpd.log</span></p>
+<p>Создаем файл <span style="color: rgb(0, 0, 255);">/var/log/mpd.log</span> ручками командой:</p>
+<p><span style="color: rgb(255, 0, 255);"> touch /var/log/mpd.log</span></p>
+<p>Задаем ротацию логов в файле <span style="color: rgb(0, 0, 255);">/etc/newsyslog.conf</span></p>
+<p><span style="color: rgb(153, 51, 0);">/var/log/mpd.log                        600  7     100  *     JC</span></p>
+<p>Файл <span style="color: rgb(0, 0, 255);">/etc/rc.conf</span> должен содержать запись:</p>
+<p><span style="color: rgb(153, 51, 0);">mpd_enable=»YES»</span></p>
+<p>иначе система не даст запустить процесс mpd.</p>
+<p>Старт MPD проходит через загрузчик <span style="color: rgb(0, 0, 255);">/usr/local/etc/rc.d/mpd5</span> с опцией <em>start</em>.</p>
+<p><span style="color: rgb(255, 0, 255);">/usr/local/etc/rc.d/mpd5 start</span></p>
+<p>Стандартные опции {start|stop|restart}.</p>
+<p style=""><strong> Системные настройки сервера</strong></p>
+<p>Есть некоторые моменты, которые следует учесть, если ваш сервер
+имеет большое количество соединений. Например, можно столкнуться с
+ситуацией, когда при выводе комманды <strong>ngctl list </strong>будет выдававаться <strong>No buffer space available</strong>. Чтобы этого избежать следует добавить в <span style="color: rgb(0, 0, 255);">/boot/loader.conf</span>:</p>
+<p><span style="color: rgb(153, 51, 0);">kern.ipc.nmbclusters=16384<br>
+kern.ipc.maxsockets=16384<br>
+net.graph.maxalloc=2048<br>
+kern.maxusers=512<br>
+kern.ipc.maxpipekva=32000000</span></p>
+<p>в <span style="color: rgb(0, 0, 255);">/etc/sysctl.conf</span>:</p>
+<p><span style="color: rgb(153, 51, 0);">net.graph.maxdgram=128000<br>
+net.graph.recvspace=128000</span></p>
+<p>Более подробную информацию об этих настройках можно найти <a href="http://www.freebsdonline.com/content/view/452/468/" target="_blank">здесь</a>.</p>
+<p>Если MPD работает на вланах (<a href="http://subnets.ru/blog/?p=70" target="_blank">vlan</a>), которые поднимаются из <span style="color: rgb(0, 0, 255);">/etc/rc.local</span>,
+я наблюдал такую картину. Процесс MPD стартует раньше, чем поднимаются
+вланы на интерфейсах. В итоге получается, что вроде как сервер рабоатет
+нормально, только никто подключиться не может. Из этой ситуации есть
+два выхода (напоминает: из любой ситуации всегда есть два выхода). Либо
+поднимать вланы через <span style="color: rgb(0, 0, 255);">/etc/rc.conf</span>, либо в загрузчик MPD <span style="color: rgb(0, 0, 255);">/usr/local/etc/rc.d/mpd5</span> в начало добавляем строчку:</p>
+<p><span style="color: rgb(153, 51, 0);">`/bin/sh /etc/rc.local`</span></p>
+<p>Будьте осторожны, возможно через этот файл у вас прописывается маршрутизация или еще что-нибудь.</p>
+<p>Убедитесь, что этот способ не затронет другие сервисы в вашей системе.</p>
+<p><strong>Файл конфига <span style="color: rgb(0, 0, 255);">mpd.conf</span></strong></p>
+<p>В этой главе я постараюсь по подробнее рассмотреть файл своего
+рабочего конфига. Если вы мигрируете с более ранней версии MPD,
+конфигурационный файл придется переписывать. Напомню также, что в 5-ой
+версии отказались от <span style="color: rgb(0, 0, 255);">mpd.links</span>. Для начала полный листинг <span style="color: rgb(0, 0, 255);">mpd.conf</span>:</p>
+<pre><span style="color: rgb(153, 51, 0);">startup:
+#configure mpd users
+ set user admin PASSWORD
+#configure the console
+ set console self 127.0.0.1 5005
+ set console open
+#configure the web server
+ set web self 0.0.0.0 5006
+ set web open
+default:
+ load def_conf
+def_conf:
+ create bundle template B
+ set iface up-script /usr/local/etc/mpd5/vpn_up_mpd.pl
+ set iface down-script /usr/local/etc/mpd5/vpn_down_mpd.pl
+ set bundle enable compression
+ set bundle enable encryption
+ set iface idle 0
+ set iface disable proxy-arp
+ set iface enable tcpmssfix
+ set ipcp yes vjcomp
+ set ipcp ranges aaa.bbb.ccc.ddd/32 0.0.0.0/0
+ set ipcp dns xxx.yyy.zzz.ddd qqq.www.eee.rrr
+ set ccp yes mppc
+ set mppc yes e40
+ set mppc yes e56
+ set mppc yes e128
+ set mppc yes stateless
+ set ecp disable dese-bis dese-old
+ log -echo -ipv6cp -radius -rep
+ load common
+common:
+ create link template PPPoE pppoe
+ set link enable no-orig-auth
+ set link max-children 300
+ set auth max-logins 0
+ load pppoe
+pppoe:
+ set link action bundle B
+ set link enable multilink
+ set link yes acfcomp protocomp
+ set link disable chap pap eap
+ set link enable chap chap-msv1 chap-msv2 chap-md5
+ set link keep-alive 10 60
+#pppoe on bge1 with service name "service_name0"
+ create link template bge1_0 PPPoE
+ set pppoe iface bge1
+ set link enable incoming
+ set pppoe service service_name0
+#pppoe on bge1 with service name "service_name1"
+ create link template bge1_1 PPPoE
+ set pppoe iface bge1
+ set link enable incoming
+ set pppoe service service_name1
+#pppoe on bge2 with service name "service_name0"
+ create link template bge2_0 PPPoE
+ set pppoe iface bge2
+ set link enable incoming
+ set pppoe service service_name0</span></pre>
+<hr><span style="color: rgb(255, 0, 0);"><strong>Примечание:</strong></span>
+<p><span style="color: rgb(255, 0, 0);">Все строки, кроме комментариев и ссылок</span> <span style="color: rgb(255, 0, 0);">(</span><em><span style="color: rgb(128, 128, 128);">строки которые заканчиваются на «:»</span></em><span style="color: rgb(255, 0, 0);">), в файле</span> <span style="color: rgb(0, 0, 255);">mpd.conf</span> <span style="color: rgb(255, 0, 0);">должны начинаться с отступа (пробела).</span></p>
+<hr>Блок <strong>startup</strong>:
+<p>В этом блоке описываются юзеры для консольного и web интерфейса MPD,
+а также сами настройки консоли и web сервера. Если вам это не нужно, то
+конфигурация может начинаться с блока <strong>default</strong>, а блока <strong>startup </strong>может вообще не быть.</p>
+<p>Блок <strong>default</strong>:</p>
+<p>В сущности здесь описываются дефолтовые действия, в частности
+загрузить дефолтовый конфиг, который загружается если не указывать
+называние конфигурации при загрузке, как было описано выше.</p>
+<p>Блок <strong>def_conf</strong>:</p>
+<p>С этого блока начинается конфигурация самого сервера. Если в конфиг
+файле описаны несколько конфигураций, у каждой должно быть свое
+уникальное имя.</p>
+<p>Далее будем описывать построчно:<br>
+<em> </em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>create bundle template B</em></span> – создаем бандл «B», он же будет выступать в качестве шаблона<br>
+<em><span style="color: rgb(153, 51, 0);">set iface up-script /usr/local/etc/mpd5/vpn_up_mpd.pl</span><br>
+<span style="color: rgb(255, 102, 0);"> <span style="color: rgb(153, 51, 0);">set iface down-script /usr/local/etc/mpd5/vpn_down_mpd.pl</span></span></em><span style="color: rgb(255, 102, 0);"> </span>- цепляем<br>
+внешние скрипты на события создания и закрытия туннеля ppp.</p>
+<p>MPD может передавать данные в качестве аргументов на события подключения и отключения пользователя к серверу:<br>
+<span style="color: rgb(153, 51, 102);"> $ARGV[0]</span> – ngXX – номер тунеля<br>
+<span style="color: rgb(153, 51, 102);"> $ARGV[1]</span> – inet<br>
+<span style="color: rgb(153, 51, 102);"> $ARGV[2]</span> – aaa.bbb.ccc.ddd/32 – IP адрес сервера<br>
+<span style="color: rgb(153, 51, 102);"> $ARGV[3]</span> – IP адрес, выданный пользователю<br>
+<span style="color: rgb(153, 51, 102);"> $ARGV[4]</span> – логин пользователя</p>
+<p>Эти аргументы вы можете использовать в perl скриптах <span style="color: rgb(0, 0, 255);">vpn_up_mpd.pl</span><em><span style="color: rgb(255, 102, 0);"> </span></em><span style="color: rgb(255, 102, 0);"><span style="color: rgb(0, 0, 0);">и</span> </span><span style="color: rgb(0, 0, 255);">vpn_down_mpd.pl</span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set bundle enable compression</em></span> – разрешаем CCP (Compression Control Protocol). Разрешаем только использование протокола, выбор протокола сжатия описан ниже.<br>
+<span style="color: rgb(255, 153, 0);"><em> </em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set bundle enable encryption</em></span> – разрешаем ECP (Encryption Control Protocol). Аналогично предыдущему пункту, выбор протокола сжатия описан ниже.<br>
+<em> </em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set iface idle 0</em></span>
+– таймаут в секундах неактивности, по истечении которого соединение
+принудительно разрывается со стороны сервера. «0″ – не разрывать (стоит
+по дефолту).<br>
+<em> </em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set iface disable proxy-arp</em></span> – запрещаем proxy-arp. Этот параметр полезен для имитации единой локалки для удаленных хостов.<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set iface enable tcpmssfix</em></span>
+– позволяет MPD управлять настройкой входящих и исходящих TCP SYN
+сегментов таким образом, чтобы не превышать MTU, допустимый на
+интерфейсе.<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set ipcp yes vjcomp</em></span> – разрешает компрессию заголовков (Van Jacobson TCP).<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set ipcp ranges aaa.bbb.ccc.ddd/32 0.0.0.0/0</em></span> – пул IP адресов сервера/клиентов<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set ipcp dns xxx.yyy.zzz.ddd qqq.www.eee.rrr</em> </span>- dns сервера, отдаваемые клиенту<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set ccp yes mppc</em></span> – включаем MPPC субпротокол сжатия/шифрования<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set mppc yes e40</em></span> – включаем 40-bit MPPE шифрование<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set mppc yes e56</em></span> – включаем 56-bit MPPE шифрование<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set mppc yes e128</em></span> – включаем 128-bit MPPE шифрование<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set mppc yes stateless</em></span> – настройка, полезная при пакетлоссах (потерях)<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>log -echo -ipv6cp -radius -rep</em></span> – уровни логгирования<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>load common</em></span> – загрузка другого блока с именем common</p>
+<p>Переходим к блоку <strong>common:</strong></p>
+<p><span style="color: rgb(153, 51, 0);"><em>create link template PPPoE pppoe</em> </span>- создаем линк, он же будет выступать в качестве шаблона<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link enable no-orig-auth</em></span>
+– Обычно при использовании PAP или CHAP авторизация происходит в начале
+соединения. Эта опция временно выключает данное требование в случае
+если наш сервер является единственным в сети, а клиенту вдруг не
+нравится запрос от сервера на авторизацию.<br>
+<span style="color: rgb(255, 153, 0);"><em></em></span></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link max-children 300</em></span> – максимальное количество соединений для этого шаблона<br>
+<span style="color: rgb(255, 153, 0);"> </span></p>
+<p><span style="color: rgb(153, 51, 0);">l<em>oad pppoe</em></span> – подгружаем следующий блок</p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link action bundle B</em></span> – накладываем на линк настройки бандла<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link enable multilink</em></span>
+– опция позволяет создавать множественное подключение PPP. Но в данном
+случае опция позволяет пропускать большие пакеты (больше MTU)
+фрагментами. Что-то вроде фрагментации пакетов.<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link yes acfcomp protocomp</em></span> – сжатие адресного поля, поля заголовков и поля протокола. Для экономии нескольких байтов во фрейме.<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link disable chap pap eap</em></span> – запрещаем данные протоколы проверки пароля<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link enable chap-msv1 chap-msv2 chap-md5</em></span> – разрешаем протоколы проверки пароля (необходимы для возможности включения шифрования (Microsoft)).<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link keep-alive 10 60</em></span> – разрешает LCP пакеты. По умолчанию 5 40. Можно отказаться от этой опции, поставив первое значение в «0″.</p>
+<p><span style="color: rgb(153, 51, 0);"><em>create link template bge1_0 PPPoE</em></span> – создаем линк bge1_0 и накладываем настройки шаблона PPPoE<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set pppoe iface bge1</em></span> – задаем интерфейс, где будет поднят наш сервис. Может быть как физическим интерфейсом, так и вланом (vlan).<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set link enable incoming</em></span> – разрешаем входящие соединения<br>
+<em></em></p>
+<p><span style="color: rgb(153, 51, 0);"><em>set pppoe service service_name0</em></span> – поднимаем сервис-нейм (service-name) на заданном интерфейсе</p>
+<p>Если у вас множество интерфейсов, то достаточно дописывать в конец
+конфига последний видоизмененный блок, как показано в общем листинге.</p>
+<p><strong>Заключение</strong></p>
+<p>Из плюсов использования MPD в качестве PPPoE сервера хочу отметить
+меньшую загрузку CPU, особенно в сочетании с использованием поллинга
+(polling).</p>
+<p>Для этого нужно собрать ядро с поддержкой поллинга:</p>
+<p><code><span style="color: rgb(153, 51, 0);">options         DEVICE_POLLING<br>
+options         HZ=1000</span><br>
+</code><br>
+После этого можно включить поллинг через <span style="color: rgb(0, 0, 255);">/etc/sysctl.conf</span>:</p>
+<p><span style="color: rgb(153, 51, 0);"><code>kern.polling.enable=1<br>
+kern.polling.user_frac=10</code></span></p>
+<p>Последнее означает что система будет делить ресурсы CPU в
+соотношении userland/kernel как 10/90. По умолчанию это значение 50/50.</p>
+<p>Конфиг работает на версиях порта mpd-5.0, mpd-5.1. С версией
+mpd-5.1_1 наблюдались проблемы на серверной стороне. При невыясненных
+обстоятельствах запускался второй процесс mpd5, который грузил CPU в
+100%, а пользователи не могли подключиться. Пришлось откатываться на
+5.1.</p>
+<p><strong>Ссылки</strong>:</p>
+<ul>
+<li> <a title="Permanent Link to PPPoE :: Теория вопроса" rel="bookmark" href="http://subnets.ru/?p=308">PPPoE :: Теория вопроса</a></li>
+<li><a href="http://sourceforge.net/projects/mpd/" target="_blank">MPD Project Page</a></li>
+<li><a href="http://mpd.sourceforge.net/doc5/mpd.html" target="_blank">Mpd 5.2 User Manual</a></li>
+<li><a href="http://www.freebsdonline.com/content/view/452/468/" target="_blank">www.freebsdonline.com</a></li>
+<li><a href="http://subnets.ru/blog/?p=280" target="_blank">FreeBSD как router или как заставить FreeBSD маршрутизировать пакеты из одной сети в другую</a></li>
+<li><a href="http://subnets.ru/blog/?p=70" target="_blank">Настраиваем vlan на FreeBSD</a></li>
+<li><a href="http://subnets.ru/blog/?p=198" target="_blank">Настраиваем 802.1Q trunk между свичами Cisco Catalyst 3560G и сервером FreeBSD</a></li>
+</ul>
+<p>З.Ы. При копировании статьи ссылка на источник <strong><span style="text-decoration: underline;">ОБЯЗАТЕЛЬНА</span></strong> !</p>
+<h6 style="text-align: right;">Автор: Folio</h6>
+<h3>Похожие статьи:</h3>
+<ul class="similar-posts">
+<li><a href="http://subnets.ru/blog/?p=691" rel="bookmark" title="17.12.2008">Поиск «левого» PPPoE сервера в локальной сети</a></li>
+<li><a href="http://subnets.ru/blog/?p=913" rel="bookmark" title="09.04.2009">pppoe-client в OpenBSD</a></li>
+<li><a href="http://subnets.ru/blog/?p=1110" rel="bookmark" title="18.11.2009">PPPoE сервер на встроенном в FreeBSD демоне pppoed</a></li>
+<li><a href="http://subnets.ru/blog/?p=920" rel="bookmark" title="23.04.2009">Сбор статистики по трафику на FreeBSD при помощи ng_ipacct</a></li>
+<li><a href="http://subnets.ru/blog/?p=763" rel="bookmark" title="05.02.2009">Шейпирование трафика ng_car + ipfw на FreeBSD</a></li>
+</ul>
+<p><!-- Similar Posts took 10.516 ms --></p>
+							</div>
+
+		Прочитано: 22,727 раз(а)		<div id="post-ratings-192" class="post-ratings"><img id="rating_192_1" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="Ничего не понял" title="Ничего не понял" onmouseover="current_rating(192, 1, 'Ничего не понял');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="border: 0px none ; cursor: pointer;"><img id="rating_192_2" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="Так себе..." title="Так себе..." onmouseover="current_rating(192, 2, 'Так себе...');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="border: 0px none ; cursor: pointer;"><img id="rating_192_3" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="Не плохо" title="Не плохо" onmouseover="current_rating(192, 3, 'Не плохо');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="border: 0px none ; cursor: pointer;"><img id="rating_192_4" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="Довольно интересно" title="Довольно интересно" onmouseover="current_rating(192, 4, 'Довольно интересно');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="border: 0px none ; cursor: pointer;"><img id="rating_192_5" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="Отлично ! То что нужно !" title="Отлично ! То что нужно !" onmouseover="current_rating(192, 5, 'Отлично ! То что нужно !');" onmouseout="ratings_off(5, 0, 0);" onclick="rate_post();" onkeypress="rate_post();" style="border: 0px none ; cursor: pointer;"> (голосов: <strong>3</strong>, среднее: <strong>5.00</strong> из 5)<br><span class="post-ratings-text" id="ratings_192_text"></span></div>
+<div id="post-ratings-192-loading" class="post-ratings-loading"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/loading.gif" alt="Loading ..." title="Loading ..." class="post-ratings-image" height="16" width="16">&nbsp;Loading ...</div>
+		<a href="http://subnets.ru/blog/?p=192&amp;email=1" title="Отправить на почту" rel="nofollow"><img class="WP-EmailIcon" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/email_famfamfam.html" alt="Отправить на почту" title="Отправить на почту" style="border: 0px none ;"></a>&nbsp;<a href="http://subnets.ru/blog/?p=192&amp;email=1" title="Отправить на почту" rel="nofollow">Отправить на почту</a>
+		<a href="http://subnets.ru/blog/?p=192&amp;print=1" title="Версия для печати" rel="nofollow"><img class="WP-PrintIcon" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/print.gif" alt="Версия для печати" title="Версия для печати" style="border: 0px none ;"></a>&nbsp;<a href="http://subnets.ru/blog/?p=192&amp;print=1" title="Версия для печати" rel="nofollow">Версия для печати</a>
+	
+			<p class="post-meta">
+					Эта статья размещена <b>folio</b> 08.08.2008 в 10:06 в рубриках <a href="http://subnets.ru/blog/?cat=5" title="Просмотреть все записи в рубрике «FreeBSD»" rel="category">FreeBSD</a>,  <a href="http://subnets.ru/blog/?cat=31" title="Просмотреть все записи в рубрике «Networks»" rel="category">Networks</a>. Метки: <a href="http://subnets.ru/blog/?tag=freebsd" rel="tag">FreeBSD</a>, <a href="http://subnets.ru/blog/?tag=mpd" rel="tag">mpd</a>, <a href="http://subnets.ru/blog/?tag=pppoe" rel="tag">pppoe</a>, <a href="http://subnets.ru/blog/?tag=vpn" rel="tag">vpn</a>. 					
+											Вы можете <a href="#respond">оставить отзыв</a> или <a href="http://subnets.ru/blog/wp-trackback.php?p=192" rel="trackback">trackback</a> с вашего собственного сайта. Отслеживайте все отзывы и комментарии к этой статье при помощи новостной ленты <a href="http://subnets.ru/blog/?feed=rss2&amp;p=192">RSS</a>.
+
+					
+			</p>
+		</div>
+
+	
+<!-- You can start editing here. -->
+<div id="comments">
+	<h3>Комментариев: 15</h3>
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-66">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/fb9c5d4f2bbb1f7a761a1075d24c496c.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>Ukito</cite> сказал:</h4>
+			<p>Устновлен софт: mpd и mpd5, пр записи в rc.conf mpd_enable=”YES” оно пітается загрузить конфиг обычного mpd</p>
+						<small class="commentmetadata"><a href="#comment-66" title="">22.12.2008, 18:48</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-67">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/711cedf22da056eb44950c76e27cc4a9.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a></cite> сказал:</h4>
+			<p>Это вопрос ?<br>
+pkg_info | grep mpd<br>
+mpd-5.2             Multi-link PPP daemon based on netgraph(4)</p>
+<p>cat /etc/rc.conf | grep mpd<br>
+mpd_enable=»YES»</p>
+<p>ps -ax | grep mpd<br>
+  432  ??  Ss     5:42.64 /usr/local/sbin/mpd5 -p /var/run/mpd5.pid -b</p>
+						<small class="commentmetadata"><a href="#comment-67" title="">22.12.2008, 20:25</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-68">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/cc007c02b2d9936a95279b235d596155.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>folio</cite> сказал:</h4>
+			<p>to Ukito: начните с того что у вас запускается в /usr/local/etc/rc.d/??? mpd или mpd5 или оба…</p>
+<p>К стати разобрались с проблемой, описанной в статье, связанной с
+появлением второго процесса. Виной всему релиз с корявыми сорцами.
+Лечится пересборкой мира со свежими сорцами. Чтобы апдейтить сорцы
+нужно в /etc/cvsup.conf добавить src-all, затем в /usr/src/ пересобрать
+мир (читать!!! <a href="http://www.freebsd.org/doc/en/books/handbook/makeworld.html%29" rel="nofollow">http://www.freebsd.org/doc/en/books/handbook/makeworld.html)</a></p>
+						<small class="commentmetadata"><a href="#comment-68" title="">23.12.2008, 13:10</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-69">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/fb9c5d4f2bbb1f7a761a1075d24c496c.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>Ukito</cite> сказал:</h4>
+			<p>Воу
+странно, я думал ети коменты некто нечитает и уже ненадеялся на то что
+ктото ответит. вопшем у меня такая проблема: установлен mpd5 на FreeBSD
+7<br>
+так же в нему подключон ADSL модем роутером (модем сам звонит, и находится по адресу 192.168.1.1)<br>
+все ходят через него в интернет по прокси<br>
+хочу настроить VPN на сервере… но некак немогу подобрать подходящий конфиг на PPPoE<br>
+ошибки:<br>
+[PPPoE] PPPoE: Skipping link «PPPoE» with undefined interface or session<br>
+[PPPoE] PPPoE: Skipping link «PPPoE» with undefined interface or session<br>
+[PPPoE] PPPoE: Skipping link «PPPoE» with undefined interface or session<br>
+[bge1_0]can’t bring interface bge1<br>
+[bge1_0] PPPoE: Error creating ng_pppoe node on bge1:<br>
+[bge1_1]can’t bring interface bge1<br>
+и тд</p>
+<p>вот мой mpd5.conf</p>
+<p>startup:<br>
+#configure mpd users<br>
+# set user foo bar admin<br>
+# set user admin admin<br>
+# set users admin admin</p>
+<p>#configure the console<br>
+ set console self 127.0.0.1 5005<br>
+ set console open<br>
+ set console user admin admin</p>
+<p>#configure the web server<br>
+ set web self 0.0.0.0 5006<br>
+ set web open<br>
+ set web user admin admin</p>
+<p>default:<br>
+ load def_conf<br>
+def_conf:<br>
+ create bundle template B<br>
+# 	set iface up-script /usr/local/etc/mpd5/vpn_up_mpd.pl<br>
+# 	set iface down-script /usr/local/etc/mpd5/vpn_down_mpd.pl<br>
+ set bundle enable compression<br>
+ set bundle enable encryption<br>
+ set iface idle 0<br>
+ set iface disable proxy-arp<br>
+ set iface enable tcpmssfix<br>
+ set ipcp yes vjcomp<br>
+ set ipcp ranges 192.168.0.0/32 0.0.0.0/0<br>
+ set ipcp dns 192.168.0.1<br>
+# 	set ccp yes mppc<br>
+# 	set mppc yes e40<br>
+# 	set mppc yes e56<br>
+# 	set mppc yes e128<br>
+# 	set mppc yes stateless<br>
+ set ecp disable dese-bis dese-old<br>
+ log -echo -ipv6cp -radius -rep<br>
+ load common<br>
+common:<br>
+ create link template PPPoE pppoe<br>
+ set link enable no-orig-auth<br>
+# 	set link max-children 300<br>
+ set auth max-logins 0<br>
+ load pppoe<br>
+pppoe:<br>
+    set link action bundle B<br>
+    set link enable multilink<br>
+    set link yes acfcomp protocomp<br>
+    set link disable chap pap eap<br>
+    set link enable chap chap-msv1 chap-msv2 chap-md5<br>
+    set link keep-alive 10 60</p>
+<p>#pppoe on bge1 with service name «service_name0″<br>
+    create link template bge1_0 PPPoE<br>
+    set pppoe iface bge1<br>
+    set link enable incoming<br>
+    set pppoe service service_name0<br>
+#pppoe on bge1 with service name «service_name1″<br>
+ create link template bge1_1 PPPoE<br>
+ set pppoe iface bge1<br>
+ set link enable incoming<br>
+ set pppoe service service_name1<br>
+#pppoe on bge2 with service name «service_name0″<br>
+ create link template bge2_0 PPPoE<br>
+ set pppoe iface bge2<br>
+ set link enable incoming<br>
+ set pppoe service service_name0</p>
+						<small class="commentmetadata"><a href="#comment-69" title="">24.12.2008, 15:07</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-70">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/e046ad46aec6448d4aea06c17c8bbc26.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://www.subnets.ru/" rel="external nofollow" class="url">lehisnoe</a></cite> сказал:</h4>
+			<p>М.б. все-таки перейдете в форум? Ибо это уже не комменты <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/icon_wink.gif" alt=";-)" class="wp-smiley"><br>
+<a href="http://subnets.ru/forum/" rel="nofollow">http://subnets.ru/forum/</a></p>
+						<small class="commentmetadata"><a href="#comment-70" title="">24.12.2008, 18:09</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-72">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/711cedf22da056eb44950c76e27cc4a9.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a></cite> сказал:</h4>
+			<p>1. +1 к lehisnoe<br>
+2. Ukito: а интерфейс bge1 и bge2 в твоей системе есть ?</p>
+						<small class="commentmetadata"><a href="#comment-72" title="">25.12.2008, 15:06</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-73">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/cc007c02b2d9936a95279b235d596155.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>folio</cite> сказал:</h4>
+			<p>+1 к lehisnoe и admin<br>
+Отвечу на твои вопросы в форуме…</p>
+						<small class="commentmetadata"><a href="#comment-73" title="">25.12.2008, 17:41</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-84">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/711cedf22da056eb44950c76e27cc4a9.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a></cite> сказал:</h4>
+			<p>а что бы прикрутить к этому делу radius нужно:<br>
+1. в def_conf добавить:</p>
+<pre> load radius</pre>
+<p>2. добавить в конец конфига саму секцию radius:</p>
+<pre>radius:
+ set radius server RADIUS_SERVER_IP RADIUS_SERVER_PASSWORD 1812 1813
+ set radius retries 3
+ set radius timeout 3
+ set radius me aaa.bbb.ccc.ddd
+ set auth acct-update 300
+ set auth enable radius-auth
+ set auth enable radius-acct</pre>
+<p>где, RADIUS_SERVER_IP = IP-адрес или доменное имя радиус сервера<br>
+RADIUS_SERVER_PASSWOR = пароль для авторизации запросов к радиусу.</p>
+						<small class="commentmetadata"><a href="#comment-84" title="">24.01.2009, 12:16</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-352">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/7d068ba629d8e44fd07003ed322c3858.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>chester</cite> сказал:</h4>
+			<p>добрый день<br>
+я во фри новичек, хочу сразу сказать, поднял pppoe сервер с mpd5,
+проблема в том что при подключении юзера выскакивает 691 ошибка, так же
+у меня стоит рапидус (он для авторизации нужен?), честно пытался сам
+что-нить найти, решить, не получилось.</p>
+						<small class="commentmetadata"><a href="#comment-352" title="">09.12.2009, 10:52</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-353">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/711cedf22da056eb44950c76e27cc4a9.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a></cite> сказал:</h4>
+			<p>&gt;так же у меня стоит рапидус<br>
+наверно все же RADIUS</p>
+<p>&gt;он для авторизации нужен?<br>
+да, это сервис авторизации</p>
+<p>Ошибка 691:<br>
+ERROR_AUTHENTICATION_FAILURE<br>
+В доступе отказано по причине недействительности имени пользователя и/или пароля.</p>
+<p>что говорит о например том, что ты не правильно настроил радиус
+сервер или в БД радиуса нет того логина и пароля что ты указываешь.</p>
+<p>можно обойтись и без RADIUS сервера, указывая логины и пароли в файле mpd.secret:<br>
+login   password   USER-IP-ADDRESS      *       *</p>
+<p>USER-IP-ADDRESS – это IP-адрес пользователя, который он получит при подключении</p>
+						<small class="commentmetadata"><a href="#comment-353" title="">09.12.2009, 11:26</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-354">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/7d068ba629d8e44fd07003ed322c3858.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>chester</cite> сказал:</h4>
+			<p>спасибо, что ответили<br>
+насчет радиуса вы правы)<br>
+login password USER-IP-ADDRESS * *</p>
+<p>USER-IP-ADDRESS – это IP-адрес пользователя, который он получит при подключении</p>
+<p>если я правильно понимаю, ip – в mpd.secret обязателен?</p>
+						<small class="commentmetadata"><a href="#comment-354" title="">09.12.2009, 11:38</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-356">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/711cedf22da056eb44950c76e27cc4a9.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a></cite> сказал:</h4>
+			<p>&gt;если я правильно понимаю, ip – в mpd.secret обязателен?<br>
+ну а как без IP-адреса то ? Туннель тогда зачем собственно ? <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/icon_smile.gif" alt=":)" class="wp-smiley"><br>
+там указывается или IP-адрес или диапазон (pool) IP-адресов, пример:<br>
+guest guest 192.168.1.10-192.168.1.128 * *</p>
+						<small class="commentmetadata"><a href="#comment-356" title="">09.12.2009, 14:08</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-357">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/7d068ba629d8e44fd07003ed322c3858.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>chester</cite> сказал:</h4>
+			<p>сделал как вы сказали, не помогло <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/icon_sad.gif" alt=":(" class="wp-smiley"> ((</p>
+						<small class="commentmetadata"><a href="#comment-357" title="">09.12.2009, 17:07</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-358">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/7d068ba629d8e44fd07003ed322c3858.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite>chester</cite> сказал:</h4>
+			<p>а можно с вами обменяться аськами если конечно возможно?</p>
+						<small class="commentmetadata"><a href="#comment-358" title="">09.12.2009, 17:11</a></small>
+					</div>
+		</li>
+
+	
+	
+		<li class="alt" id="comment-361">
+		<div style="margin: 0pt; padding: 0pt;">
+			<img alt="" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/711cedf22da056eb44950c76e27cc4a9.png" class="avatar avatar-60 photo" height="60" width="60">			<h4><cite><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a></cite> сказал:</h4>
+			<p>&gt;сделал как вы сказали, не помогло<br>
+смотри в логи<br>
+там написано почему клиента отбивает<br>
+убери из конфига все что связано с радиусом, заполни mpd.secret и смотри в логи</p>
+<p>&gt;а можно с вами обменяться аськами<br>
+прости но нет, на online помощь могут рассчитывать только клиенты<br>
+кушать то и мне хочется</p>
+						<small class="commentmetadata"><a href="#comment-361" title="">14.12.2009, 15:44</a></small>
+					</div>
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+<h3 id="respond">Добавить комментарий</h3>
+
+<p>Вам следует <a href="http://subnets.ru/blog/wp-login.php?redirect_to=http://subnets.ru/blog/?p=192">авторизоваться</a> для размещения комментария.</p>
+
+</div>
+
+	
+	</div>
+
+	<div id="sidebar">
+	<div>
+		<ul>
+			<li id="add-to-any-subscribe" class="widget Add_to_Any_Subscribe_Widget_display">
+        <a class="a2a_dd addtoany_subscribe" href="http://www.addtoany.com/subscribe?linkname=Subnets.ru%20blog&amp;linkurl=http%3A%2F%2Fsubnets.ru%2Fblog%2F%3Ffeed%3Drss2"><img style="border-width: 0pt;" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/subscribe_120_16.png" alt="Subscribe" height="16" width="120"></a>
+        </li>
+<li id="meta-2" class="widget widget_meta"><h2 class="widgettitle">Мета</h2>
+			<ul>
+			<li><a href="http://subnets.ru/blog/wp-login.php?action=register">Регистрация</a></li>			<li><a href="http://subnets.ru/blog/wp-login.php">Войти</a></li>
+			<li><a href="http://subnets.ru/blog/?feed=rss2" title="Подпишитесь на RSS-ленту этого сайта"><abbr title="Really Simple Syndication">RSS</abbr> записей</a></li>
+			<li><a href="http://subnets.ru/blog/?feed=comments-rss2" title="Последние комментарии ко всем записям в RSS"><abbr title="Really Simple Syndication">RSS</abbr> комментариев</a></li>
+			<li><a href="http://wordpress.org/" title="Сайт работает на WordPress — современной системе персональных публикаций.">WordPress.org</a></li>
+						</ul>
+</li>
+<li id="tag_cloud-2" class="widget widget_tag_cloud"><h2 class="widgettitle">Метки</h2>
+<div><a href="http://subnets.ru/blog/?tag=acl" class="tag-link-127" title="2 темы" style="font-size: 8pt;">acl</a>
+<a href="http://subnets.ru/blog/?tag=addpac" class="tag-link-79" title="2 темы" style="font-size: 8pt;">Addpac</a>
+<a href="http://subnets.ru/blog/?tag=asterisk" class="tag-link-26" title="3 темы" style="font-size: 9.44828pt;">Asterisk</a>
+<a href="http://subnets.ru/blog/?tag=backup" class="tag-link-120" title="3 темы" style="font-size: 9.44828pt;">backup</a>
+<a href="http://subnets.ru/blog/?tag=bgp" class="tag-link-55" title="6 тем" style="font-size: 12.4655pt;">bgp</a>
+<a href="http://subnets.ru/blog/?tag=bgp4" class="tag-link-77" title="6 тем" style="font-size: 12.4655pt;">bgp4</a>
+<a href="http://subnets.ru/blog/?tag=bgpv4" class="tag-link-78" title="6 тем" style="font-size: 12.4655pt;">bgpv4</a>
+<a href="http://subnets.ru/blog/?tag=bind" class="tag-link-190" title="3 темы" style="font-size: 9.44828pt;">bind</a>
+<a href="http://subnets.ru/blog/?tag=bluetooth" class="tag-link-46" title="2 темы" style="font-size: 8pt;">bluetooth</a>
+<a href="http://subnets.ru/blog/?tag=cisco-systems" class="tag-link-81" title="19 тем" style="font-size: 17.8966pt;">Cisco Systems</a>
+<a href="http://subnets.ru/blog/?tag=dns" class="tag-link-87" title="5 тем" style="font-size: 11.6207pt;">DNS</a>
+<a href="http://subnets.ru/blog/?tag=ethernet" class="tag-link-74" title="2 темы" style="font-size: 8pt;">ethernet</a>
+<a href="http://subnets.ru/blog/?tag=freebsd" class="tag-link-5" title="43 темы" style="font-size: 22pt;">FreeBSD</a>
+<a href="http://subnets.ru/blog/?tag=intel" class="tag-link-193" title="3 темы" style="font-size: 9.44828pt;">Intel</a>
+<a href="http://subnets.ru/blog/?tag=jabber" class="tag-link-116" title="2 темы" style="font-size: 8pt;">Jabber</a>
+<a href="http://subnets.ru/blog/?tag=juniper" class="tag-link-80" title="7 тем" style="font-size: 13.069pt;">Juniper</a>
+<a href="http://subnets.ru/blog/?tag=msk-ix" class="tag-link-85" title="3 темы" style="font-size: 9.44828pt;">msk-ix</a>
+<a href="http://subnets.ru/blog/?tag=mta" class="tag-link-49" title="4 темы" style="font-size: 10.6552pt;">MTA</a>
+<a href="http://subnets.ru/blog/?tag=named" class="tag-link-189" title="3 темы" style="font-size: 9.44828pt;">named</a>
+<a href="http://subnets.ru/blog/?tag=nat" class="tag-link-94" title="3 темы" style="font-size: 9.44828pt;">nat</a>
+<a href="http://subnets.ru/blog/?tag=netmask" class="tag-link-53" title="2 темы" style="font-size: 8pt;">netmask</a>
+<a href="http://subnets.ru/blog/?tag=networks" class="tag-link-31" title="9 тем" style="font-size: 14.2759pt;">Networks</a>
+<a href="http://subnets.ru/blog/?tag=ospf" class="tag-link-122" title="3 темы" style="font-size: 9.44828pt;">ospf</a>
+<a href="http://subnets.ru/blog/?tag=perl" class="tag-link-62" title="8 тем" style="font-size: 13.6724pt;">perl</a>
+<a href="http://subnets.ru/blog/?tag=php" class="tag-link-61" title="2 темы" style="font-size: 8pt;">php</a>
+<a href="http://subnets.ru/blog/?tag=ppp" class="tag-link-47" title="3 темы" style="font-size: 9.44828pt;">ppp</a>
+<a href="http://subnets.ru/blog/?tag=pppoe" class="tag-link-70" title="6 тем" style="font-size: 12.4655pt;">pppoe</a>
+<a href="http://subnets.ru/blog/?tag=pptp" class="tag-link-69" title="2 темы" style="font-size: 8pt;">pptp</a>
+<a href="http://subnets.ru/blog/?tag=qmail" class="tag-link-23" title="3 темы" style="font-size: 9.44828pt;">qmail</a>
+<a href="http://subnets.ru/blog/?tag=quagga" class="tag-link-56" title="2 темы" style="font-size: 8pt;">quagga</a>
+<a href="http://subnets.ru/blog/?tag=ripe" class="tag-link-68" title="2 темы" style="font-size: 8pt;">ripe</a>
+<a href="http://subnets.ru/blog/?tag=routing" class="tag-link-95" title="8 тем" style="font-size: 13.6724pt;">routing</a>
+<a href="http://subnets.ru/blog/?tag=snmp" class="tag-link-76" title="2 темы" style="font-size: 8pt;">snmp</a>
+<a href="http://subnets.ru/blog/?tag=trafd" class="tag-link-64" title="2 темы" style="font-size: 8pt;">trafd</a>
+<a href="http://subnets.ru/blog/?tag=traffic-shaper" class="tag-link-139" title="3 темы" style="font-size: 9.44828pt;">traffic shaper</a>
+<a href="http://subnets.ru/blog/?tag=trunk" class="tag-link-103" title="3 темы" style="font-size: 9.44828pt;">trunk</a>
+<a href="http://subnets.ru/blog/?tag=vlan" class="tag-link-90" title="6 тем" style="font-size: 12.4655pt;">vlan</a>
+<a href="http://subnets.ru/blog/?tag=vlc" class="tag-link-34" title="2 темы" style="font-size: 8pt;">VLC</a>
+<a href="http://subnets.ru/blog/?tag=voip" class="tag-link-13" title="7 тем" style="font-size: 13.069pt;">VoIP</a>
+<a href="http://subnets.ru/blog/?tag=vpn" class="tag-link-97" title="2 темы" style="font-size: 8pt;">vpn</a>
+<a href="http://subnets.ru/blog/?tag=wi-fi" class="tag-link-40" title="2 темы" style="font-size: 8pt;">wi-fi</a>
+<a href="http://subnets.ru/blog/?tag=windows" class="tag-link-8" title="2 темы" style="font-size: 8pt;">Windows</a>
+<a href="http://subnets.ru/blog/?tag=%d0%b6%d0%b5%d0%bb%d0%b5%d0%b7%d0%be-voip" class="tag-link-125" title="3 темы" style="font-size: 9.44828pt;">Железо VoIP</a>
+<a href="http://subnets.ru/blog/?tag=%d0%bc%d0%bc%d1%82%d1%81-9" class="tag-link-86" title="3 темы" style="font-size: 9.44828pt;">ММТС-9</a>
+<a href="http://subnets.ru/blog/?tag=%d0%bd%d0%be%d0%b2%d0%be%d1%81%d1%82%d0%b8" class="tag-link-29" title="5 тем" style="font-size: 11.6207pt;">Новости</a></div>
+</li>
+<li id="categories-92201241" class="widget widget_categories"><h2 class="widgettitle">Рубрики</h2>
+		<ul>
+	<li class="cat-item cat-item-14"><a href="http://subnets.ru/blog/?cat=14" title="PBX Asterisk">Asterisk</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://subnets.ru/blog/?cat=4" title="Все об оборудовании Cisco">Cisco Systems</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://subnets.ru/blog/?cat=5" title="OS FreeBSD">FreeBSD</a>
+</li>
+	<li class="cat-item cat-item-80"><a href="http://subnets.ru/blog/?cat=80" title="Просмотреть все записи в рубрике «Juniper»">Juniper</a>
+</li>
+	<li class="cat-item cat-item-49"><a href="http://subnets.ru/blog/?cat=49" title="Просмотреть все записи в рубрике «MTA»">MTA</a>
+</li>
+	<li class="cat-item cat-item-32"><a href="http://subnets.ru/blog/?cat=32" title="Просмотреть все записи в рубрике «Multicast»">Multicast</a>
+</li>
+	<li class="cat-item cat-item-31"><a href="http://subnets.ru/blog/?cat=31" title="Просмотреть все записи в рубрике «Networks»">Networks</a>
+</li>
+	<li class="cat-item cat-item-50"><a href="http://subnets.ru/blog/?cat=50" title="Просмотреть все записи в рубрике «Qmail»">Qmail</a>
+</li>
+	<li class="cat-item cat-item-13"><a href="http://subnets.ru/blog/?cat=13" title="Все о VoIP">VoIP</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://subnets.ru/blog/?cat=8" title="OS Windows">Windows</a>
+</li>
+	<li class="cat-item cat-item-29"><a href="http://subnets.ru/blog/?cat=29" title="Просмотреть все записи в рубрике «Новости»">Новости</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://subnets.ru/blog/?cat=9" title="Сетевое оборудование">Сетевое оборудование</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="http://subnets.ru/blog/?cat=11" title="Обсуждение провайдеров (ISP`s)">Провайдеры</a>
+</li>
+	<li class="cat-item cat-item-63"><a href="http://subnets.ru/blog/?cat=63" title="Просмотреть все записи в рубрике «Программинг»">Программинг</a>
+</li>
+	<li class="cat-item cat-item-30"><a href="http://subnets.ru/blog/?cat=30" title="Просмотреть все записи в рубрике «Программы»">Программы</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://subnets.ru/blog/?cat=10" title="Все по протоколам динамической маршрутизации">Протоколы маршрутизации</a>
+</li>
+	<li class="cat-item cat-item-15"><a href="http://subnets.ru/blog/?cat=15" title="Обсуждение железа для VoIP">Железо VoIP</a>
+</li>
+	<li class="cat-item cat-item-157"><a href="http://subnets.ru/blog/?cat=157" title="Просто небольшие заметки не тянущие на полноценную статью.">Заметки</a>
+</li>
+		</ul>
+</li>
+<li id="calendar-2" class="widget widget_calendar"><h2 class="widgettitle">&nbsp;</h2>
+<div id="calendar_wrap"><table id="wp-calendar" summary="Календарь">
+	<caption>Март 2010</caption>
+	<thead>
+	<tr>
+		<th abbr="Понедельник" scope="col" title="Понедельник">Пн</th>
+		<th abbr="Вторник" scope="col" title="Вторник">Вт</th>
+		<th abbr="Среда" scope="col" title="Среда">Ср</th>
+		<th abbr="Четверг" scope="col" title="Четверг">Чт</th>
+		<th abbr="Пятница" scope="col" title="Пятница">Пт</th>
+		<th abbr="Суббота" scope="col" title="Суббота">Сб</th>
+		<th abbr="Воскресенье" scope="col" title="Воскресенье">Вс</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td abbr="Февраль" colspan="3" id="prev"><a href="http://subnets.ru/blog/?m=201002" title="Посмотреть записи за Февраль 2010">« Фев</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr><td><a href="http://subnets.ru/blog/?m=20100301" title="Транскодинг (transcoding) на Cisco AS5350xm">1</a></td><td>2</td><td>3</td><td><a href="http://subnets.ru/blog/?m=20100304" title="Решение проблемы с uTP-протоколом uTorrent">4</a></td><td>5</td><td>6</td><td>7</td>
+	</tr>
+	<tr>
+		<td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td><a href="http://subnets.ru/blog/?m=20100314" title="Настройка шейпера(полисера) по подсети IP адресов на Juniper M7i">14</a></td>
+	</tr>
+	<tr>
+		<td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td>
+	</tr>
+	<tr>
+		<td id="today">22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td>
+	</tr>
+	<tr>
+		<td>29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="4">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></li>
+<li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Ссылки</h2>
+
+	<ul class="xoxo blogroll">
+<li><a href="http://www.starnet.ru/" rel="contact met co-resident" title="Отличный провайдер в г. Москве !" target="_blank">ISP Starnet</a></li>
+<li><a href="http://sim-im.lehis.ru/?l=0" rel="friend co-resident" title="Кросс-платформенный IM" target="_blank"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/sim-im_16x16.png" alt="SIM-IM" title="Кросс-платформенный IM"></a></li>
+<li><a href="http://www.freebsd-ufa.org/" rel="contact" title="Service IT of the company REID: Уфа FreeBSD, настройки freebsd, новости freebsd, дистрибутивы linux bsd"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/sitreid.gif" alt="Уфа FreeBSD" title="Service IT of the company REID: Уфа FreeBSD, настройки freebsd, новости freebsd, дистрибутивы linux bsd"></a></li>
+<li><a href="http://subnets.ru/" rel="friend" title="Главная страница сайта subnets.ru" target="_blank"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/banner_2.gif" alt="ГЛАВНАЯ СТРАНИЦА САЙТА" title="Главная страница сайта subnets.ru"></a></li>
+
+	</ul>
+</li>
+
+		<li id="recent-posts-2" class="widget widget_recent_entries">		<h2 class="widgettitle">Свежие записи</h2>
+		<ul>
+				<li><a href="http://subnets.ru/blog/?p=1263" title="Настройка шейпера(полисера) по подсети IP адресов на Juniper M7i">Настройка шейпера(полисера) по подсети IP адресов на Juniper M7i </a></li>
+				<li><a href="http://subnets.ru/blog/?p=1260" title="Решение проблемы с uTP-протоколом uTorrent">Решение проблемы с uTP-протоколом uTorrent </a></li>
+				<li><a href="http://subnets.ru/blog/?p=1239" title="Транскодинг (transcoding) на Cisco AS5350xm">Транскодинг (transcoding) на Cisco AS5350xm </a></li>
+				<li><a href="http://subnets.ru/blog/?p=1218" title="Использование ng_ipfw + ng_bpf для фильтрации по телу пакета">Использование ng_ipfw + ng_bpf для фильтрации по телу пакета </a></li>
+				<li><a href="http://subnets.ru/blog/?p=1226" title="Intel® Gigabit ET Dual Port Server Adapter (чип 82576) и FreeBSD">Intel® Gigabit ET Dual Port Server Adapter (чип 82576) и FreeBSD </a></li>
+				</ul>
+		</li>
+		<li id="recent-comments-2" class="widget widget_recent_comments">			<h2 class="widgettitle">Комментарии</h2>
+			<ul id="recentcomments"><li class="recentcomments">stalex к записи <a href="http://subnets.ru/blog/?p=1263&amp;cpage=1#comment-427">Настройка шейпера(полисера) по подсети IP адресов на Juniper M7i</a></li><li class="recentcomments"><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a> к записи <a href="http://subnets.ru/blog/?p=1260&amp;cpage=1#comment-426">Решение проблемы с uTP-протоколом uTorrent</a></li><li class="recentcomments"><a href="http://subnets.ru/" rel="external nofollow" class="url">admin</a> к записи <a href="http://subnets.ru/blog/?p=1263&amp;cpage=1#comment-424">Настройка шейпера(полисера) по подсети IP адресов на Juniper M7i</a></li><li class="recentcomments"><a href="http://www.subnets.ru/" rel="external nofollow" class="url">lehisnoe</a> к записи <a href="http://subnets.ru/blog/?p=614&amp;cpage=1#comment-421">Настройка pptp клиента на оборудовании Cisco Systems</a></li><li class="recentcomments">dmitaur к записи <a href="http://subnets.ru/blog/?p=614&amp;cpage=1#comment-420">Настройка pptp клиента на оборудовании Cisco Systems</a></li></ul>
+		</li>
+<li id="ratings-3" class="widget widget_ratings"><h2 class="widgettitle">Рейтинг статей</h2>
+<ul>
+<li><a href="http://subnets.ru/blog/?p=256" title="Записи типа «Pointer». Домен IN-ADDR.ARPA. Делегирование «обратных» зон. Инверсные запросы.">Записи типа «Pointer». Домен IN-ADDR.ARPA. Делегирование «обратных» зон. Инверсные запросы.</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="8 votes, average: 5.00 out of 5" title="8 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="8 votes, average: 5.00 out of 5" title="8 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="8 votes, average: 5.00 out of 5" title="8 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="8 votes, average: 5.00 out of 5" title="8 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="8 votes, average: 5.00 out of 5" title="8 votes, average: 5.00 out of 5" class="post-ratings-image"> (5.00 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=33" title="Отправка и прием SMS через GSM шлюз">Отправка и прием SMS через GSM шлюз</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="7 votes, average: 5.00 out of 5" title="7 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="7 votes, average: 5.00 out of 5" title="7 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="7 votes, average: 5.00 out of 5" title="7 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="7 votes, average: 5.00 out of 5" title="7 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="7 votes, average: 5.00 out of 5" title="7 votes, average: 5.00 out of 5" class="post-ratings-image"> (5.00 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=27" title="SNMP и MRTG как способ мониторинга под FreeBSD">SNMP и MRTG как способ мониторинга под FreeBSD</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"> (5.00 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=85" title="Мониторинг источников бесперебойного питания APC Smart-UPS под FreeBSD">Мониторинг источников бесперебойного питания APC Smart-UPS под FreeBSD</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 5.00 out of 5" title="6 votes, average: 5.00 out of 5" class="post-ratings-image"> (5.00 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=708" title="Шейп (traffic shaper) с помощью ng_car (netgraph) и IPFW на FreeBSD">Шейп (traffic shaper) с помощью ng_car (netgraph) и IPFW на FreeBSD</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"> (5.00 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=763" title="Шейпирование трафика ng_car + ipfw на FreeBSD">Шейпирование трафика ng_car + ipfw на FreeBSD</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="5 votes, average: 5.00 out of 5" title="5 votes, average: 5.00 out of 5" class="post-ratings-image"> (5.00 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=333" title="Первоначальная настройка Cisco Catalyst">Первоначальная настройка Cisco Catalyst</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="11 votes, average: 4.91 out of 5" title="11 votes, average: 4.91 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="11 votes, average: 4.91 out of 5" title="11 votes, average: 4.91 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="11 votes, average: 4.91 out of 5" title="11 votes, average: 4.91 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="11 votes, average: 4.91 out of 5" title="11 votes, average: 4.91 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_half.gif" alt="11 votes, average: 4.91 out of 5" title="11 votes, average: 4.91 out of 5" class="post-ratings-image"> (4.91 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=24" title="Объекты БД RIPE (ripe.net): mntner, as-set, aut-num, route, inetnum, person, domain, role">Объекты БД RIPE (ripe.net): mntner, as-set, aut-num, route, inetnum, person, domain, role</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="10 votes, average: 4.90 out of 5" title="10 votes, average: 4.90 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="10 votes, average: 4.90 out of 5" title="10 votes, average: 4.90 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="10 votes, average: 4.90 out of 5" title="10 votes, average: 4.90 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="10 votes, average: 4.90 out of 5" title="10 votes, average: 4.90 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_half.gif" alt="10 votes, average: 4.90 out of 5" title="10 votes, average: 4.90 out of 5" class="post-ratings-image"> (4.90 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=38" title="Теория и настройка DNS сервера (bind) на FreeBSD">Теория и настройка DNS сервера (bind) на FreeBSD</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="15 votes, average: 4.87 out of 5" title="15 votes, average: 4.87 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="15 votes, average: 4.87 out of 5" title="15 votes, average: 4.87 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="15 votes, average: 4.87 out of 5" title="15 votes, average: 4.87 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="15 votes, average: 4.87 out of 5" title="15 votes, average: 4.87 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_half.gif" alt="15 votes, average: 4.87 out of 5" title="15 votes, average: 4.87 out of 5" class="post-ratings-image"> (4.87 out of 5)</li>
+<li><a href="http://subnets.ru/blog/?p=432" title="CARP в среде FreeBSD">CARP в среде FreeBSD</a> <img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 4.50 out of 5" title="6 votes, average: 4.50 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 4.50 out of 5" title="6 votes, average: 4.50 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 4.50 out of 5" title="6 votes, average: 4.50 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_on.gif" alt="6 votes, average: 4.50 out of 5" title="6 votes, average: 4.50 out of 5" class="post-ratings-image"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rating_half.gif" alt="6 votes, average: 4.50 out of 5" title="6 votes, average: 4.50 out of 5" class="post-ratings-image"> (4.50 out of 5)</li>
+</ul>
+</li>
+<li id="views-3" class="widget widget_views"><h2 class="widgettitle">Самые читаемые статьи</h2>
+<ul>
+<li><a href="http://subnets.ru/blog/?p=192" title="Настраиваем PPPoE server на FreeBSD используя порт MPD5">Настраиваем PPPoE server на FreeBSD используя порт MPD5</a> -  прочитано 22,727 раз(а)</li><li><a href="http://subnets.ru/blog/?p=38" title="Теория и настройка DNS сервера (bind) на FreeBSD">Теория и настройка DNS сервера (bind) на FreeBSD</a> -  прочитано 21,895 раз(а)</li><li><a href="http://subnets.ru/blog/?p=27" title="SNMP и MRTG как способ мониторинга под FreeBSD">SNMP и MRTG как способ мониторинга под FreeBSD</a> -  прочитано 14,997 раз(а)</li><li><a href="http://subnets.ru/blog/?p=333" title="Первоначальная настройка Cisco Catalyst">Первоначальная настройка Cisco Catalyst</a> -  прочитано 14,143 раз(а)</li><li><a href="http://subnets.ru/blog/?p=19" title="Поднимаем BGP используя quagga на FreeBSD">Поднимаем BGP используя quagga на FreeBSD</a> -  прочитано 12,607 раз(а)</li><li><a href="http://subnets.ru/blog/?p=12" title="Multicast и Unicast вещание с помощью VLC media player">Multicast и Unicast вещание с помощью VLC media player</a> -  прочитано 10,876 раз(а)</li><li><a href="http://subnets.ru/blog/?p=24" title="Объекты БД RIPE (ripe.net): mntner, as-set, aut-num, route, inetnum, person, domain, role">Объекты БД RIPE (ripe.net): mntner, as-set, aut-num, route, inetnum, person, domain, role</a> -  прочитано 10,451 раз(а)</li><li><a href="http://subnets.ru/blog/?p=33" title="Отправка и прием SMS через GSM шлюз">Отправка и прием SMS через GSM шлюз</a> -  прочитано 9,077 раз(а)</li><li><a href="http://subnets.ru/blog/?p=280" title="FreeBSD как router или как заставить FreeBSD маршрутизировать пакеты из одной сети в другую">FreeBSD как router или как заставить FreeBSD маршрутизировать пакеты из одной сети в другую</a> -  прочитано 8,757 раз(а)</li><li><a href="http://subnets.ru/blog/?p=70" title="Настраиваем vlan на FreeBSD">Настраиваем vlan на FreeBSD</a> -  прочитано 8,347 раз(а)</li></ul>
+</li>
+<li id="archives-2" class="widget widget_archive"><h2 class="widgettitle">Архивы</h2>
+		<ul>
+			<li><a href="http://subnets.ru/blog/?m=201003" title="Март 2010">Март 2010</a></li>
+	<li><a href="http://subnets.ru/blog/?m=201002" title="Февраль 2010">Февраль 2010</a></li>
+	<li><a href="http://subnets.ru/blog/?m=201001" title="Январь 2010">Январь 2010</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200911" title="Ноябрь 2009">Ноябрь 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200910" title="Октябрь 2009">Октябрь 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200909" title="Сентябрь 2009">Сентябрь 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200908" title="Август 2009">Август 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200907" title="Июль 2009">Июль 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200906" title="Июнь 2009">Июнь 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200904" title="Апрель 2009">Апрель 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200903" title="Март 2009">Март 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200902" title="Февраль 2009">Февраль 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200901" title="Январь 2009">Январь 2009</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200812" title="Декабрь 2008">Декабрь 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200811" title="Ноябрь 2008">Ноябрь 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200810" title="Октябрь 2008">Октябрь 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200809" title="Сентябрь 2008">Сентябрь 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200808" title="Август 2008">Август 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200807" title="Июль 2008">Июль 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200806" title="Июнь 2008">Июнь 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200805" title="Май 2008">Май 2008</a></li>
+	<li><a href="http://subnets.ru/blog/?m=200804" title="Апрель 2008">Апрель 2008</a></li>
+		</ul>
+</li>
+<li id="rss-92722471" class="widget widget_rss"><h2 class="widgettitle"><a class="rsswidget" href="http://www.cisco.com/cdc_content_elements/rss/products/products.xml" title="Подписаться на эту ленту"><img style="border: medium none ; background: orange none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; color: white;" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rss.png" alt="RSS" height="14" width="14"></a> <a class="rsswidget" href="" title="">Cisco Systems</a></h2>
+</li>
+<li id="rss-92724131" class="widget widget_rss"><h2 class="widgettitle"><a class="rsswidget" href="http://rss.juniper.net/f/100001s24r34i003j1f.rss" title="Подписаться на эту ленту"><img style="border: medium none ; background: orange none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; color: white;" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rss.png" alt="RSS" height="14" width="14"></a> <a class="rsswidget" href="http://www.juniper.net/" title="Juniper RSS Feed">Juniper</a></h2>
+<ul><li><a class="rsswidget" href="http://rss.juniper.net/l?s=100001s24r34i003j1f&amp;r=wordpress&amp;he=68747470253341253246253246666f72756d732e6a756e697065722e6e65742532467435253246417263686974656374696e672d7468652d4e6574776f726b253246496e6e6f766174652d696e2d7468652d4e65772d4e6574776f726b25324662612d702532463337303639&amp;i=727373696e3a687474703a2f2f666f72756d732e6a756e697065722e6e65742f74352f417263686974656374696e672d7468652d4e6574776f726b2f496e6e6f766174652d696e2d7468652d4e65772d4e6574776f726b2f62612d702f3337303639" title="Innovate in the New Network Cheap bandwidth, 100Mbps please! I have a media centre, a desktop, two laptops and various other toys all connected via wireless or fixed Ethernet to my broadband 20Mbps DSL, with 3G backup provided by a smart phone acting as a hotspot, and I am even thinking about getting a femtocell. All my devices are constantly on, consuming m […]">Innovate in the New Network</a></li><li><a class="rsswidget" href="http://rss.juniper.net/l?s=100001s24r34i003j1f&amp;r=wordpress&amp;he=68747470253341253246253246666f72756d732e6a756e697065722e6e657425324674352532465468652d4e6574776f726b2d4168656164253246507265706172696e672d7468652d454d45412d546865617465722d666f722d7468652d4465636164652d416865616425324662612d702532463337303633&amp;i=727373696e3a687474703a2f2f666f72756d732e6a756e697065722e6e65742f74352f5468652d4e6574776f726b2d41686561642f507265706172696e672d7468652d454d45412d546865617465722d666f722d7468652d4465636164652d41686561642f62612d702f3337303633" title="Preparing the EMEA Theater for the Decade Ahead As Q110 draws to a close, I’ve been reflecting on what we’ve set out to achieve in the EMEA theater this year. Inevitably every first quarter contains a lot of planning and preparation – but to maintain momentum we also have to execute on those plans as the ink dries. Some wonderful accounts have been won, with […]">Preparing the EMEA Theater for the Decade Ahead</a></li><li><a class="rsswidget" href="http://rss.juniper.net/l?s=100001s24r34i003j1f&amp;r=wordpress&amp;he=68747470253341253246253246666f72756d732e6a756e697065722e6e657425324674352532464e6574776f726b696e672d4e6f772532464558323230302d5377697463682d53696d706c652d536f6c7574696f6e2d666f722d546f6461792d732d486967682d506572666f726d616e636525324662612d702532463336383136&amp;i=727373696e3a687474703a2f2f666f72756d732e6a756e697065722e6e65742f74352f4e6574776f726b696e672d4e6f772f4558323230302d5377697463682d53696d706c652d536f6c7574696f6e2d666f722d546f6461792d732d486967682d506572666f726d616e63652f62612d702f3336383136" title="EX2200 Switch: Simple Solution for Today’s High-Performance Businesses The new Juniper Networks EX2200 Ethernet switches, designed for branch offices and low-density wiring closets, include a number of features designed to make life easier for network administrators. Copyright © 1996-2010 Juniper Networks, Inc. &nbsp;&nbsp;&nbsp; All rights reserved &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; […]">EX2200 Switch: Simple Solution for Today’s High-Performance Businesses</a></li><li><a class="rsswidget" href="http://rss.juniper.net/l?s=100001s24r34i003j1f&amp;r=wordpress&amp;he=68747470253341253246253246666f72756d732e6a756e697065722e6e657425324674352532465468652d4e6574776f726b2d41686561642532465468652d4675747572652d6f662d4e6574776f726b696e672d4e6f742d612d4f6e652d56656e646f722d466974732d416c6c2d536f6c7574696f6e25324662612d702532463336343638&amp;i=727373696e3a687474703a2f2f666f72756d732e6a756e697065722e6e65742f74352f5468652d4e6574776f726b2d41686561642f5468652d4675747572652d6f662d4e6574776f726b696e672d4e6f742d612d4f6e652d56656e646f722d466974732d416c6c2d536f6c7574696f6e2f62612d702f3336343638" title="The Future of Networking: Not a One-Vendor-Fits-All-Solution To succeed in the next decade, service provider’s vendors must provide the right mix of technology, a robust partner ecosystem and a collaborative approach to solving business problems. Having a single “solution” with just marketing integration of diverse technologies is not the answer – real techn […]">The Future of Networking: Not a One-Vendor-Fits-All-Solution</a></li><li><a class="rsswidget" href="http://rss.juniper.net/l?s=100001s24r34i003j1f&amp;r=wordpress&amp;he=687474702533412532462532467777772e6a756e697065722e6e65742532467573253246656e253246636f6d70616e7925324670726573732d63656e74657225324670726573732d72656c65617365732532463230313025324670725f323031305f30335f30382d30395f30302e68746d6c&amp;i=707265737372656c65617365733a687474703a2f2f7777772e6a756e697065722e6e65742f75732f656e2f636f6d70616e792f70726573732d63656e7465722f70726573732d72656c65617365732f323031302f70725f323031305f30335f30382d30395f30302e68746d6c" title="Juniper Networks Enables Tokyo Stock Exchange's Arrownet To Hit Low-Latency Financial Trading Target Juniper Networks M Series Multiservice Edge Routers and Junos® Drives New High-Volume, Low-Latency MPLS InfrastructureTOKYO, Japan, March 8, 2010 — Juniper Networks®, Inc. (NYSE: JNPR), the leader in high-performance networking, today announced the succe […]">Juniper Networks Enables Tokyo Stock Exchange's Arrownet To Hit Low-Latency Financial Trading Target</a></li></ul></li>
+<li id="rss-92726911" class="widget widget_rss"><h2 class="widgettitle"><a class="rsswidget" href="http://www.freebsd.org/news/rss.xml" title="Подписаться на эту ленту"><img style="border: medium none ; background: orange none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; color: white;" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/rss.png" alt="RSS" height="14" width="14"></a> <a class="rsswidget" href="http://www.freebsd.org/news/" title="News from the FreeBSD Project">FreeBSD</a></h2>
+<ul><li><a class="rsswidget" href="http://www.freebsd.org/news/newsflash.html#event20100318:01" title="The FreeBSD Ports Management Team is pleased to announce Thomas Abthorpe has assumed the role of Ports Management Team Secretary. […]">New Ports Management Team Secretary: Thomas Abthorpe</a></li><li><a class="rsswidget" href="http://www.freebsd.org/news/newsflash.html#event20100307:01" title=" […]">Returning committer: Niels Heinen (ports)</a></li><li><a class="rsswidget" href="http://www.freebsd.org/news/newsflash.html#event20100304:01" title="The second Release Candidate build for the FreeBSD-7.3 release cycle is now available. ISO images for Tier-1 architectures are now available on most of the FreeBSD mirror sites. […]">FreeBSD 7.3-RC2 Available</a></li><li><a class="rsswidget" href="http://www.freebsd.org/news/newsflash.html#event20100303:01" title=" […]">New committer: Neel Natu (src)</a></li><li><a class="rsswidget" href="http://www.freebsd.org/news/newsflash.html#event20100222:01" title="PC-BSD 8.0 has been released. PC-BSD is a successful desktop operating system based on FreeBSD that focuses on providing an easy to use desktop system for casual computer users. A list of new features/updates since the last version can be found here. […]">PC-BSD 8.0 Released</a></li></ul></li>
+			
+		</ul> 
+	</div>
+	</div>
+</div> <!-- wrapper -->
+<div id="footer"><div><div><div>
+		<a href="http://subnets.ru/blog/?feed=rss2">Статьи (RSS)</a> и <a href="http://subnets.ru/blog/?feed=comments-rss2">Комментарии (RSS)</a>.<br>
+	Powered by <a href="http://wordpress.org/" title="Powered by WordPress.">WordPress</a>. Theme <a href="http://srinig.com/wordpress/themes/evanescence/">Evanescence</a>.<br>
+	<script type="text/javascript">
+/* <![CDATA[ */
+var emailL10n = {
+	ajax_url: "http://subnets.ru/blog/wp-content/plugins/wp-email/wp-email.php",
+	max_allowed: "1",
+	text_error: "The Following Error Occurs:",
+	text_name_invalid: "- Your Name is empty/invalid",
+	text_email_invalid: "- Your Email is empty/invalid",
+	text_remarks_invalid: "- Your Remarks is invalid",
+	text_friend_names_empty: "- Friend Name(s) is empty",
+	text_friend_name_invalid: "- Friend Name is empty/invalid: ",
+	text_max_friend_names_allowed: "- Maximum 1 Friend Name allowed",
+	text_friend_emails_empty: "- Friend Email(s) is empty",
+	text_friend_email_invalid: "- Friend Email is invalid: ",
+	text_max_friend_emails_allowed: "- Maximum 1 Friend Email allowed",
+	text_friends_tally: "- Friend Name(s) count does not tally with Friend Email(s) count",
+	text_image_verify_empty: "- Image Verification is empty"
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/email-js.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var pollsL10n = {
+	ajax_url: "http://subnets.ru/blog/wp-content/plugins/wp-polls/wp-polls.php",
+	text_wait: "Your last request is still being processed. Please wait a while ...",
+	text_valid: "Please choose a valid poll answer.",
+	text_multiple: "Maximum number of choices allowed: ",
+	show_loading: "1",
+	show_fading: "1"
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/polls-js.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var ratingsL10n = {
+	plugin_url: "http://subnets.ru/blog/wp-content/plugins/wp-postratings",
+	ajax_url: "http://subnets.ru/blog/wp-content/plugins/wp-postratings/wp-postratings.php",
+	text_wait: "Please rate only 1 post at a time.",
+	image: "stars",
+	image_ext: "gif",
+	max: "5",
+	show_loading: "1",
+	show_fading: "1",
+	custom: "0"
+};
+var ratings_mouseover_image=new Image();ratings_mouseover_image.src=ratingsL10n.plugin_url+"/images/"+ratingsL10n.image+"/rating_over."+ratingsL10n.image_ext;
+/* ]]> */
+</script>
+<script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/postratings-js.js"></script>
+<script type="text/javascript">
+a2a_localize = {
+	Share: "Share",
+	Save: "Save",
+	Subscribe: "Subscribe",
+	Email: "E-mail",
+    Bookmark: "Bookmark",
+	ShowAll: "Show all",
+	ShowLess: "Show less",
+	FindServices: "Find service(s)",
+	FindAnyServiceToAddTo: "Instantly find any service to add to",
+	PoweredBy: "Powered by",
+	ShareViaEmail: "Share via e-mail",
+	SubscribeViaEmail: "Subscribe via e-mail",
+	BookmarkInYourBrowser: "Bookmark in your browser",
+	BookmarkInstructions: "Press Ctrl+D or Cmd+D to bookmark this page",
+	AddToYourFavorites: "Add to your favorites",
+	SendFromWebOrProgram: "Send from any e-mail address or e-mail program",
+    EmailProgram: "E-mail program"
+};
+a2a_linkname="Subnets.ru blog";
+a2a_linkurl="http://subnets.ru/blog/?feed=rss2";
+
+</script><script type="text/javascript" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/feed.js"></script>
+
+<script src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/e-201012.js" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({blog:'4063517',v:'ext',post:'192'});
+var load_cmc = function(){linktracker_init(4063517,192,2);};
+if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+else load_cmc();
+</script><img id="wpstats" src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/g.gif" alt="">
+<!--	86 queries. 2.714 seconds. -->
+</div></div></div></div>
+</div> <!-- page -->
+<!--LiveInternet counter--><script type="text/javascript"><!--
+	
+	document.write("<a href='http://www.liveinternet.ru/click' "+
+	
+	"target=_blank><img src='http://counter.yadro.ru/hit?t52.6;r"+
+	
+	escape(document.referrer)+((typeof(screen)=="undefined")?"":
+	
+	";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+	
+	screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+	
+	";"+Math.random()+
+	
+	"' alt='' title='LiveInternet: view counter and"+
+	
+	" 24 hours stats' "+
+	
+	"border='0' width='88' height='31'><\/a>")
+	
+	//--></script><a href="http://www.liveinternet.ru/click" target="_blank"><img src="%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%20PPPoE%20server%20%D0%BD%D0%B0%20FreeBSD%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D1%8F%20%D0%BF%D0%BE%D1%80%D1%82%20MPD5_files/hit.gif" alt="" title="LiveInternet: view counter and 24 hours stats" border="0" height="31" width="88"></a><!--/LiveInternet-->
+
+</body></html>

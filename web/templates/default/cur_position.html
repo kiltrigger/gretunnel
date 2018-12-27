@@ -1,0 +1,44 @@
+<table border=1 cellpadding=2 cellspacing=1 bordercolor=#111111 width=100% bgcolor=#c0c0c0 align=center>
+ <tr>
+    <td width=100% background="templates/<?=$config['template'];?>/images/cellpic.gif" align="center">
+    	<b>..:: 
+    	<? if (empty($_GET['module'])): ?>
+    	<?=$navbar['start'];?>
+    	<? endif; ?> 
+    	
+    	<? if ($_GET['module']=="Start"): ?>
+    	<?=$navbar['start'];?>   	
+    	<? endif; ?>
+    	
+    	<? if ($_GET['module']=="Balance"): ?>
+    	<?=$navbar['balance'];?>   	
+    	<? endif; ?> 
+    	 
+    	<? if ($_GET['module']=="OnLine"): ?>
+    	<?=$navbar['online'];?>   	
+    	<? endif; ?> 
+    	 
+    	<? if ($_GET['module']=="Users"): ?>
+    	<?=$navbar['users'];?>   	
+    	<? endif; ?> 
+    	
+    	<? if ($_GET['module']=="Groups"): ?>
+    	<?=$navbar['groups'];?>   	
+    	<? endif; ?> 
+    	
+    	<? if ($_GET['module']=="Admin-cp"): ?>
+    	<?=$navbar['admin-cp'];?>   	
+    	<? endif; ?> 
+    	
+    	<? if ($_GET['module']=="Login"): ?>
+    	<?=$navbar['login'];?>   	
+    	<? endif; ?> 
+    	
+    	<? if ($_GET['module']=="Logout"): ?>
+    	<?=$navbar['logout'];?>   	
+    	<? endif; ?> 
+    	::..</b>
+    </td>
+ </tr>
+</table> 
+<br>

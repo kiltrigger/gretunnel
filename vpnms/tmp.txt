@@ -1,0 +1,11 @@
+	int pidfd = open (PIDFILE, O_WRONLY, 0640);
+
+	if (pidfd == -1)
+    	return 0;
+
+	if ( lockf(pidfd, F_TLOCK, 0) == 0)
+    {
+    	lockf(pidfd, F_ULOCK, 0);
+    	close(pidfd);
+    	return 0;
+    }

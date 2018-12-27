@@ -1,0 +1,62 @@
+<script LANGUAGE="JavaScript">
+function fullScreen(theURL) {
+window.open(theURL, '', 'width=1024, height=600, scrollbars=yes, resizable=yes');
+}
+</script>
+
+    <tr bgColor=ffffe1 align = center id="row" onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#ffffe1';">
+      <td><?=$account_number;?></td>
+      <td>
+	  <a href="javascript:void(0);" onClick="fullScreen('showinfo.php?UserName=<?=$row['username'];?>&month=<?=$month;?>')"><?=$row['username'];?></a>      
+      </td>
+      <td>
+      	<? if ( $row['limit_type'] =='unlimited' ): ?> 
+	  	unlimited
+	  	<? endif; ?>
+	  	<? if ( $row['limit_type'] =='limited' ): ?>
+	  	<?=$balance["limit_mb"];?>
+	  	<? endif; ?> 
+      </td>
+      <td><?=$balance["groupname"];?></td>
+      <td><?=$balance["input_mb"];?></td>
+      <td><?=$balance["output_mb"];?></td>
+      <td><?=$balance["local_input_mb"];?></td>
+      <td><?=$balance["local_output_mb"];?></td>
+
+      <td><?=$balance["bonus_mb"];?></td>
+      <td>
+      
+	  <? if ( $row['limit_type'] =='unlimited' ): ?> 
+      unlimited
+      <? endif; ?>
+      <? if ( $row['limit_type'] =='limited' ): ?>
+	  <?=$balance["balance_mb"];?>
+	  <? endif; ?>
+      </td>
+      
+      <? if (empty($_GET['month']) OR $_GET['month'] == 'current'): ?>
+      <td>
+			<? if ($row['status']=='working'): ?>
+			<b><font color=green><?=$l_tables['working'];?></font></b>
+			<? endif; ?>
+			<? if ($row['status']=='blocked'): ?>
+			<b><font color=red><?=$l_tables['blocked'];?></font></b>
+			<? endif; ?>
+			<? if ($row['status']=='limit_expire'): ?>
+			<b><font color=red><?=$l_tables['limit_expire'];?></font></b>
+			<? endif; ?>
+			<? if ($row['status']=='local_only'): ?>
+			<b><font color=orange><?=$l_tables['local_only'];?></font></b>
+			<? endif; ?>
+      </td>
+      <? endif; ?>
+      
+      <td>
+      <a href="javascript:void(0);" onClick="fullScreen('showinfo.php?UserName=<?=$row['username'];?>&month=<?=$month;?>')"><img src=templates/<?=$config['template'];?>/images/info.gif ></a>
+      
+      <? if (($_GET['month'] =='current') OR (empty($_GET['month'])) ): ?>
+	  <a href=index.php?module=Users&action=edit&UserName=<?=$row['username'];?>&group=<?=$_GET['group'];?>#bottom_label><img src="templates/<?=$config['template'];?>/images/edit.gif"></a>
+	  <a href="index.php?module=Users&action=delete&UserName=<?=$row['username'];?>&group=<?=$_GET['group'];?>" onClick="return window.confirm('<?=$l_tables['user_del'];?>')"><img src="templates/<?=$config['template'];?>/images/delete.gif"></a>      
+	  <? endif; ?>
+      </td>
+    </tr>

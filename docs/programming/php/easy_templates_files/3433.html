@@ -1,0 +1,47 @@
+var y5_sLinkHead = 'http://an.yandex.ru/count/UoNwPSPNbb040000ZhdtHgy4XOdMbf-tfv6xMI5H3PE137u2';
+var y5_iDirectCounter = 0;
+var y5_iDirectAdsCounter = 0;
+
+function yandex_direct_print() {
+ if (window.y5_isTransform)
+  y5_getYandexDirect();
+}
+
+function y5_getYandexDirect() {
+ var aAds = [  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPViQFZG40000ZhdtHgy4XOdMbGAR0Mv3Am68er2E1ucg1x43c6ETafuRbf-tfvAc0BS9YgksHmQHkraXKGsFkkKHeGYViM9lZWcJWGoPCukXOoShGeoG2JsWaEZzV0e0" target="_blank">Зима не за горами...</a></div><div>Внедорожники Mazda от 699 000 руб. Новое спецпредложение!</div> <span class="url">www.mazda.ru</span>','=TyUO_fK2cm5kGucg1x43c6EIfW2t2PsIdXkFkkKHeGYViM9lZWcPCw2GwFr1UGK0'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPJzBwYi40000ZhdtHgy4XOdMbGAR0Mv3Am4oYA2X80Q9fHxd4PXZdPqD4PQVjwUIeC6-1uggCDy4aRjP8L4DZx-N6_y7dxI3GbO2au4CcJEBguWn7aACa9Wwe92OEdqA" target="_blank">Забудь про цены на бензин</a></div><div>Peugeout 308 с экономичным и мощным дизельным двигателем 2 л 136 л.с.</div> <span class="url">www.peugeot.ru</span>','=1aSMpfK2cm5kGpA9fHxd4PXZag31lWUTdGqHZx-N6_y7dxI3GbO2cJEWa9WwGNe5'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPLHSbTC40000ZhdtHgy4XOdMbGAR0Mv3Am4pYASn-0Q9dzjOc6ETauu2bf-tfvAh6kW8Yg-SiGMHkraXKGsFkIsAtGoVkCPbG0-JWGoPCukcV68cGeoGDGoWa1SHV0e0" target="_blank">Автомобили Nissan Micra</a></div><div>Из рук в руки. Автосалоны Nissan. Цены. Комплектация. Фото.</div> <span class="url">irr.ru</span>','=lv50vvK2cm5kGpE9dzjOc6EIgnhe29sJZWAFkIsAtGoVkCPbG0-PCw2G5n51UGK0'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPIDumyi40000ZhdtHgy4XOdMbGAR0Mv3Am4qYA82WmQ9epDI4vXZdPIla9QVjwUIejv528glEpu5aRjP8L4DZx-N6_y7dxI3GbO2au4CcJEBecoz84ACaCG9e9342NqA" target="_blank">Запчасти на Almera</a></div><div>Все для ремонта и тюнинга автомобиля Nissan Almera. Со склада в Москве.</div> <span class="url">allmotor.ru</span>','=jMailPK2cm5kGpI9epDI4vXZagBUHGYTbA-GZx-N6_y7dxI3GbO2cJEWaCG9GNe5'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPMA5_s840000ZhdtHgy4XOdMbGAR0Mv3Am4rYAei90I9gNDS0PWIdPWW7fQVjwUIennJ1Ogd-k82aRjP8L4DZxktpUCDdxyqCECFau4CcJEBhNvf44ACa5C7e91J1tqA" target="_blank">Nissan Note на АвтоАвто.ру</a></div><div>Все комплектации Nissan Note. Дилеры, цены, статьи, обзоры, одноклассники.</div> <span class="url">avtoavto.ru</span>','=_dxAevK2cm5kGpM9gNDS0PWIagCSKmMTc20UZxktpUCDdxyqCECFcJEWa5C7GNe5'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPLYitoe40000ZhdtHgy4XOdMbGAR0Mv3Am4sYAfbSmQ9fkhC4fXZdPpcFPQVjwUIeTen28geYYy5aRjP8L4DZxajYjqCdxZ6PK0Fau4CcJEBgvuy84ACaE84e93Y17qA" target="_blank">Продажа Nissan Micra</a></div><div>Частные объявления с фото.Тысячи авто ждут новых хозяев!</div> <span class="url">auto.dmir.ru</span>','=kpiJmPK2cm5kGpQ9fkhC4fXZag7QCGYTdEOzZxajYjqCdxZ6PK0FcJEWaE84GNe5'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPNycZ6u40000ZhdtHgy4XOdMbGAR0Mv3Am4tYA3zF0E9gCYG5fXZdQrJPGAMdxUdagIRBmIAfOhu0P6xMI5H3O-yRCiE2f-rxCk_1vE139apYwPBy0b2Z93Y1A2GuWH-2W00" target="_blank">Новые модели NISSAN. Цены ниже!</a></div><div>Patrol, Qashqai, Murano, Note, Pathfinder, Navara, Teana, Гарантия. Кредит</div> <span class="url"><script type="text/javascript">yandex_direct_phonePrint();</script><a href="http://an.yandex.ru/count/UoNwPVdlwGq40000ZhdtHgy4XOdMbGAR0Mv3Am4tYA3zF0E9gCYG5fXZdQrJPGAMdxUdagIRBmIAfOhu0P6xMI5H3O-yRCiE2f-rxCk_1vE139apYwMyOYH2Z93Y1A2GuWH-2W00" target="_blank">Адрес и телефон</a>&nbsp;&nbsp;&middot;&nbsp; nissan.avterra.ru</span>','=x6n499K2cm5kGpU9gCYG5fXZagIRBmIThLDb0e-yRCiE2f-rxCk_1vape93Y145x1G00'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPTExNDG40000ZhdtHgy4XOdMbGAR0Mv3Am4u0OYbuVi2YQ1v1WAOOvs89vQVjwUIf27b0ugbYxO1aRjP8L4DZx-N6_y7dxI3GbO2au4CcJEBh95L24ACa742e91n0dqA" target="_blank">Nissan на AutoNet.ru</a></div><div>23000 авто в салонах Москвы и регионов. Цены-комплектации. Все про Nissan.</div> <span class="url">www.autonet.ru</span>','=rTfqAPK2cm5kGpW1YQ1v1WAOOvAa8UK3dOWdZx-N6_y7dxI3GbO2cJEWa742GNe5'],
+  ['<div class="ad-link"><a href="http://an.yandex.ru/count/UoNwPGVYqFS40000ZhdtHgy4XOdMbGAR0Mv3Am4v0OYXbPC7YOPyc6ETbnO3bf-tfvAgXhu9YgUMJ0QHkraXKGsFlvSR_mUVj8D2LWAJWGoPCukhgb0hGeoGSGAWa742V0e0" target="_blank">Автомобили в Воронеже</a></div><div>Продажа покупка авто. 70000 предложений дилеров и частных лиц Добавить авто</div> <span class="url">www.amobil.ru&nbsp;&nbsp;&middot;&nbsp; Воронеж</span>','=NbOT9vK2cm5kGpa1YOPyc6EIgeQ-2PsN5WEFlvSR_mUVj8D2LWAPCw2GSG91UGK0'] ];
+ var aLinkHow = ['<a target="_blank" href="http://an.yandex.ru/count/UoNwPOLDo-S40000ZhdtHgy4XOdMbGAR16jGAm4x0OYkheG5bf-tfvgIOm6Ife9s2OgYwXW6aRjP8L4Dau4CcLUBfsEZAK9x1m00">Дать объявление</a>','=HkoQSfK2cmHhK3i1cf9Z0PAcWdO9cLT1V080'];
+ var aLinkAll = ['<a href="http://an.yandex.ru/count/UoNwPHhpbGS40000ZhdtHgy4XOdMbGAR0sXFAm4w0OYMJfwMdxUdcf9Z0PAkWdO9Ygxg60QHkraXKGsJWGoPLukaPQCfGde7?from=http://spectator.ru/technology/php/easy_templates&ref-page=3433" target=_blank>Все объявления</a>','=CRZQTPK2cmDeJpe1cf9Z0PAkWdO9cLT1V080']; var sLinkDirectText = '<em>Я</em>ндекс.Директ';
+ var sLinkDirectUrl = 'http://direct.yandex.ru/?partner';
+ var aDomainList = ['spectator.ru'];
+
+ y5_iDirectCounter++;
+ y5_showYandexDirect(aAds, sLinkDirectText, sLinkDirectUrl, aLinkHow, aLinkAll, aDomainList);
+}
+
+
+function y5_defAdFormat() {
+ var aFormats = ['direct', 'market', 'media', 'compatibility'];
+ var sAdFormat = (window.yandex_ad_format) ? y5_checkEntry(yandex_ad_format.toString(), aFormats) : aFormats[0];
+ switch (sAdFormat) {
+  case aFormats[0]:
+   y5_getYandexDirect();
+   break;
+  case aFormats[1]:
+   y5_getYandexMarket();
+   break;
+  case aFormats[2]:
+   y5_getMediaBanner();
+   break;
+  case aFormats[3]:
+   break;
+ }
+}
+y5_defAdFormat();

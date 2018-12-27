@@ -1,0 +1,273 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>syslog</title>
+</head><body>
+<h1>syslog</h1>
+<hr>
+<pre><!-- Manpage converted by man2html 3.0.1 -->
+<b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=3&amp;topic=SYSLOG">SYSLOG(3)</a></b>                 OpenBSD Programmer's Manual                <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=3&amp;topic=SYSLOG">SYSLOG(3)</a></b>
+
+
+</pre>
+<h2>NAME</h2><pre>     <b>syslog</b>, <b>syslog_r</b>, <b>vsyslog</b>, <b>vsyslog_r</b>, <b>openlog</b>, <b>openlog_r</b>, <b>closelog</b>,
+     <b>closelog_r</b>, <b>setlogmask</b>, <b>setlogmask_r</b> - control system log
+
+
+</pre>
+<h2>SYNOPSIS</h2><pre>     <b>#include</b> <b>&lt;syslog.h&gt;</b>
+     <b>#include</b> <b>&lt;stdarg.h&gt;</b>
+
+     <i>void</i>
+     <b>syslog</b>(<i>int</i> <i>priority</i>, <i>const</i> <i>char</i> <i>*message</i>, <i>...</i>);
+
+     <i>void</i>
+     <b>syslog_r</b>(<i>int</i> <i>priority</i>, <i>struct</i> <i>syslog</i><b>_</b><i>data</i> <i>*data</i>, <i>const</i> <i>char</i> <i>*message</i>,
+             <i>...</i>);
+
+     <i>void</i>
+     <b>vsyslog</b>(<i>int</i> <i>priority</i>, <i>const</i> <i>char</i> <i>*message</i>, <i>va</i><b>_</b><i>list</i> <i>args</i>);
+
+     <i>void</i>
+     <b>vsyslog_r</b>(<i>int</i> <i>priority</i>, <i>struct</i> <i>syslog</i><b>_</b><i>data</i> <i>*data</i>, <i>const</i> <i>char</i> <i>*message</i>,
+             <i>va</i><b>_</b><i>list</i> <i>args</i>);
+
+     <i>void</i>
+     <b>openlog</b>(<i>const</i> <i>char</i> <i>*ident</i>, <i>int</i> <i>logopt</i>, <i>int</i> <i>facility</i>);
+
+     <i>void</i>
+     <b>openlog_r</b>(<i>const</i> <i>char</i> <i>*ident</i>, <i>int</i> <i>logopt</i>, <i>int</i> <i>facility</i>,
+             <i>struct</i> <i>syslog</i><b>_</b><i>data</i> <i>*data</i>);
+
+     <i>void</i>
+     <b>closelog</b>(<i>void</i>);
+
+     <i>void</i>
+     <b>closelog_r</b>(<i>struct</i> <i>syslog</i><b>_</b><i>data</i> <i>*data</i>);
+
+     <i>int</i>
+     <b>setlogmask</b>(<i>int</i> <i>maskpri</i>);
+
+     <i>int</i>
+     <b>setlogmask_r</b>(<i>int</i> <i>maskpri</i>, <i>struct</i> <i>syslog</i><b>_</b><i>data</i> <i>*data</i>);
+
+     struct syslog_data {
+             int             log_file;
+             int             connected;
+             int             opened;
+             int             log_stat;
+             const char     *log_tag;
+             int             log_fac;
+             int             log_mask;
+     };
+
+     #define SYSLOG_DATA_INIT {-1, 0, 0, 0, NULL, LOG_USER, 0xff}
+
+
+</pre>
+<h2>DESCRIPTION</h2><pre>     The <b>syslog</b>() function writes <i>message</i> to the system message logger.  The
+     message is then written to the system console, log files, logged-in
+     users, or forwarded to other machines as appropriate (see <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=syslogd">syslogd(8)</a></b>).
+
+     The message is identical to a <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=3&amp;topic=printf">printf(3)</a></b> format string, except that `%m'
+     is replaced by the current error message (as denoted by the global vari-
+     able <i>errno</i>; see <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=3&amp;topic=strerror">strerror(3)</a></b>).  A trailing newline is added if none is
+     present.
+
+     The <b>syslog_r</b>() function is a reentrant version of the <b>syslog</b>() function.
+     It takes a pointer to a <i>syslog</i><b>_</b><i>data</i> structure which is used to store in-
+     formation.  This parameter must be initialized before <b>syslog_r</b>() is
+     called.  The SYSLOG_DATA_INIT constant is used for this purpose.  The
+     <i>syslog</i><b>_</b><i>data</i> structure is composed of the following elements:
+
+     log_file   contains the file descriptor of the file where the message is
+                logged
+
+     connected  indicates if connect has been done
+
+     opened     indicates if <b>openlog_r</b>() has been called
+
+     log_stat   status bits, set by <b>openlog_r</b>()
+
+     log_tag    string to tag the entry with
+
+     log_fac    facility code
+
+     log_mask   mask of priorities to be logged
+
+     The <b>vsyslog</b>() function is an alternate form in which the arguments have
+     already been captured using the variable-length argument facilities of
+     <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=3&amp;topic=varargs">varargs(3)</a></b>.
+
+     The message is tagged with <i>priority</i>.  Priorities are encoded as a
+     <i>facility</i> and a ``level''.  The facility describes the part of the system
+     generating the message.  The level is selected from the following <i>ordered</i>
+     (high to low) list:
+
+     LOG_EMERG     A panic condition.  This is normally broadcast to all
+                   users.
+
+     LOG_ALERT     A condition that should be corrected immediately, such as a
+                   corrupted system database.
+
+     LOG_CRIT      Critical conditions, e.g., hard device errors.
+
+     LOG_ERR       Errors.
+
+     LOG_WARNING   Warning messages.
+
+     LOG_NOTICE    Conditions that are not error conditions, but should possi-
+                   bly be handled specially.
+
+     LOG_INFO      Informational messages.
+
+     LOG_DEBUG     Messages that contain information normally of use only when
+                   debugging a program.
+
+     The <b>vsyslog_r</b>() is used the same way as <b>vsyslog</b>() except that it takes an
+     additional pointer to a <i>syslog</i><b>_</b><i>data</i> structure.  It is a reentrant version
+     of the <b>vsyslog</b>() function described above.
+
+     The <b>openlog</b>() function provides for more specialized processing of the
+     messages sent by <b>syslog</b>() and <b>vsyslog</b>().  The parameter <i>ident</i> is a string
+     that will be prepended to every message.  The <i>logopt</i> argument is a bit
+     field specifying logging options, which is formed by OR'ing one or more
+     of the following values:
+
+     LOG_CONS      If <b>syslog</b>() cannot pass the message to <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=syslogd">syslogd(8)</a></b> it will
+                   attempt to write the message to the console (<i>/dev/console</i>).
+
+     LOG_NDELAY    Open the connection to <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=syslogd">syslogd(8)</a></b> immediately.  Normally
+                   the open is delayed until the first message is logged.
+                   Useful for programs that need to manage the order in which
+                   file descriptors are allocated.  This option must be used
+                   in programs that call <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=2&amp;topic=chroot">chroot(2)</a></b> where the new root does not
+                   have its own log socket.
+
+     LOG_PERROR    Write the message to standard error output as well as to
+                   the system log.
+
+     LOG_PID       Log the process ID with each message; useful for identify-
+                   ing instantiations of daemons.
+
+     The <i>facility</i> parameter encodes a default facility to be assigned to all
+     messages that do not have an explicit facility encoded:
+
+     LOG_AUTH      The authorization system: <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=1&amp;topic=login">login(1)</a></b>, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=1&amp;topic=su">su(1)</a></b>, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=getty">getty(8)</a></b>, etc.
+
+     LOG_AUTHPRIV  The same as LOG_AUTH, but logged to a file readable only by
+                   selected individuals.
+
+     LOG_CRON      The cron daemon, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=cron">cron(8)</a></b>.
+
+     LOG_DAEMON    System daemons, such as <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=dhcpd">dhcpd(8)</a></b>, that are not provided for
+                   explicitly by other facilities.
+
+     LOG_FTP       The file transfer protocol daemon, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=ftpd">ftpd(8)</a></b>.
+
+     LOG_KERN      Messages generated by the kernel.  These cannot be generat-
+                   ed by any user processes.
+
+     LOG_LPR       The line printer spooling system: <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=1&amp;topic=lpr">lpr(1)</a></b>, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=lpc">lpc(8)</a></b>, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=lpd">lpd(8)</a></b>,
+                   etc.
+
+     LOG_MAIL      The mail system.
+
+     LOG_NEWS      The network news system.
+
+     LOG_SYSLOG    Messages generated internally by <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=syslogd">syslogd(8)</a></b>.
+
+     LOG_USER      Messages generated by random user processes.  This is the
+                   default facility identifier if none is specified.
+
+     LOG_UUCP      The UUCP system.
+
+     LOG_LOCAL0    Reserved for local use.  Similarly for LOG_LOCAL1 through
+                   LOG_LOCAL7.
+
+     The <b>openlog_r</b>() function is the reentrant version of the <b>openlog</b>() func-
+     tion.  It takes an additional pointer to a <i>syslog</i><b>_</b><i>data</i> structure.  This
+     function must be used in conjunction with the other reentrant functions.
+
+     The <b>closelog</b>() function can be used to close the log file.  <b>closelog_r</b>()
+     does the same thing but in a reentrant way and takes an additional point-
+     er to a <i>syslog</i><b>_</b><i>data</i> structure.
+
+     The <b>setlogmask</b>() function sets the log priority mask to <i>maskpri</i> and re-
+     turns the previous mask.  Calls to <b>syslog</b>() with a priority not set in
+     <i>maskpri</i> are rejected.  The mask for an individual priority <i>pri</i> is calcu-
+     lated by the macro <b>LOG_MASK</b>(<i>pri</i>); the mask for all priorities up to and
+     including <i>toppri</i> is given by the macro <b>LOG_UPTO</b>(<i>toppri</i>).  The default al-
+     lows all priorities to be logged.
+
+     The <b>setlogmask_r</b>() function is the reentrant version of <b>setlogmask</b>().  It
+     takes an additional pointer to a <i>syslog</i><b>_</b><i>data</i> structure.
+
+
+</pre>
+<h2>RETURN VALUES</h2><pre>     The <b>closelog</b>(), <b>closelog_r</b>(), <b>openlog</b>(), <b>openlog_r</b>(), <b>syslog</b>(),
+     <b>syslog_r</b>(), <b>vsyslog</b>(), and <b>vsyslog_r</b>() functions return no value.
+
+     The routines <b>setlogmask</b>() and <b>setlogmask_r</b>() always return the previous
+     log mask level.
+
+
+</pre>
+<h2>EXAMPLES</h2><pre>           syslog(LOG_ALERT, "who: internal error 23");
+
+           openlog("ftpd", LOG_PID | LOG_NDELAY, LOG_FTP);
+
+           setlogmask(LOG_UPTO(LOG_ERR));
+
+           syslog(LOG_INFO, "Connection from host %d", CallingHost);
+
+           syslog(LOG_INFO|LOG_LOCAL2, "foobar error: %m");
+
+     For the reentrant functions:
+
+           struct syslog_data sdata = SYSLOG_DATA_INIT;
+
+           syslog_r(LOG_INFO|LOG_LOCAL2, &amp;sdata, "foobar error: %m");
+
+
+</pre>
+<h2>SEE ALSO</h2><pre>     <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=1&amp;topic=logger">logger(1)</a></b>, <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=8&amp;topic=syslogd">syslogd(8)</a></b>
+
+
+</pre>
+<h2>HISTORY</h2><pre>     These functions appeared in 4.2BSD.  The reentrant functions appeared in
+     OpenBSD 3.1.
+
+
+</pre>
+<h2>CAVEATS</h2><pre>     It is important never to pass a string with user-supplied data as a for-
+     mat without using `%s'.  An attacker can put format specifiers in the
+     string to mangle the stack, leading to a possible security hole.  This
+     holds true even if the string has been built ``by hand'' using a function
+     like <b>snprintf</b>(), as the resulting string may still contain user-supplied
+     conversion specifiers for later interpolation by <b>syslog</b>().
+
+     Always be sure to use the proper secure idiom:
+
+           syslog(priority, "%s", string);
+
+     <b>syslog_r</b>() and the other reentrant functions should only be used where
+     reentrancy is required (for instance, in a signal handler).  <b>syslog</b>() be-
+     ing not reentrant, only <b>syslog_r</b>() should be used here.  For more infor-
+     mation about reentrancy and signal handlers, see <b><a href="http://resin.csoft.net/cgi-bin/man.cgi?section=3&amp;topic=signal">signal(3)</a></b>.
+
+OpenBSD 4.5                       May 7, 2008                                4
+</pre>
+<hr>
+<center>
+<address>
+[<a href="http://www.csoft.net/">Unix Hosting</a> |
+ <a href="http://www.hypertriton.com/software.html">Open-Source</a> |
+ <a href="https://hypertriton.com/mail.fcgi">Contact&nbsp;Us</a>]
+<br>
+[<a href="http://www.hypertriton.com/software.html#eng">Engineering&nbsp;&amp;&nbsp;Automation</a> |
+ <a href="http://www.hypertriton.com/software.html#libs">Software&nbsp;Development</a> |
+ <a href="http://www.hypertriton.com/software.html#servers">Server&nbsp;Applications</a>]
+</address>
+</center>
+</body></html>

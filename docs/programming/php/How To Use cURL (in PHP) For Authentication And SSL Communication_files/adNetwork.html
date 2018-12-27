@@ -1,0 +1,59 @@
+
+if (BZLAdId) {
+	BZLAdId++;
+} else {
+	var BZLAdId = 1;
+}
+
+function bloggerAd()
+{	
+	//here it validates if the ad was already served and prevent gaming by bloggers.
+	if(! document.getElementById('bz_blogger' + BZLAdId)){
+		loadAd({n:780,c:'2434',s:'2678',d:7,w:160,h:600});
+	}  
+}
+
+function getZedoAdVars(networkCode, channelCode, publisherCode, adSizeCode, width, height) {
+	var zedoVars = "<script language=\"JavaScript\"> var zflag_nid=\""+networkCode+"\"; var zflag_cid=\""+channelCode+"\";"
+			+ " var zflag_sid=\""+publisherCode+"\"; var zflag_width=\""+width+"\";" 
+			+ " var zflag_height=\""+height+"\"; var zflag_sz=\""+adSizeCode+"\";</script>";
+	return zedoVars;
+}
+
+function getJsTag(networkCode, channelCode, publisherCode, adSizeCode, width, height){
+	var zedoAdBaseUrl = "http://d3.zedo.com/jsc/d3/fo.js";
+	
+	var zedoAdUrl = getZedoAdVars(networkCode, channelCode, publisherCode, adSizeCode, width, height);
+	return zedoAdUrl+ "<script language=\"JavaScript\" src=\""+zedoAdBaseUrl+"\"></script>";
+}
+
+function loadAd(result) {
+	document.write("<div id=\"bz_blogger" + BZLAdId + "\" style=\"position:relative;\">");
+	document.write(getJsTag(result.n, result.c, result.s, result.d, result.w, result.h));
+	document.write("</div>");
+}
+
+if (BZLAdId <= 4) {	bloggerAd(); }
+
+if (BZLAdId == 1) {
+
+	var siteUrl = document.location.toString();
+	siteUrl = siteUrl.split('/')[2].replace('www.', '');
+	siteUrl = siteUrl.replace(/\./g, '_');
+	_qoptions={ qacct:"p-865_f8D4GZJfY", labels:"Buzz Logic Network," + siteUrl};
+	document.write('<' + 'script language="javascript" type="text/javascript" src="http://edge.quantserve.com/quant.js"' + '>' +'</' + 'script'+ '>');
+	
+	
+	var __cs_c1 = 8;
+	var __cs_c2 = "6035054";
+	var __cs_c3 = "2434";
+	var __cs_c4 = "";
+	var __cs_c5 = "";
+	var __cs_c6 = "";
+	var __cs_c15 = "";
+	var __cs_params = ["c1=", __cs_c1, "&c2=", __cs_c2, "&c3=", __cs_c3, "&c4=", __cs_c4, "&c5=", __cs_c5, "&c6=",
+	__cs_c6, "&c15=", __cs_c15].join('');
+	document.write(unescape("%3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") +
+	".scorecardresearch.com/beacon.js?" + __cs_params +"' %3E%3C/script%3E"));
+	
+}

@@ -1,0 +1,28 @@
+use DBI; 
+use Socket; 
+my $dbh; 
+
+sub StartIp2Name() { 
+    $dbh = DBI->connect("DBI:mysql:database=radius;host=localhost","root", "" ) || die $DBI::errstr; 
+} 
+
+sub Ip2Name($$$) { 
+    my $ip=shift; 
+    my $ret; 
+
+    $res = $dbh->prepare("select username from  `radreply`  where `value` = '".$ip."' and `attribute` = 'Framed-IP-Address'"); 
+
+    $res->execute(); 
+    
+    @row = $res->fetchrow_array;
+    $ret = @row[0];
+    $res->finish(); 
+    
+    return $ret; 
+} 
+sub StopIp2Name() { 
+    $dbh->disconnect(); 
+} 
+
+#warning !!! 
+1;

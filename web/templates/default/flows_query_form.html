@@ -1,0 +1,121 @@
+
+<form name='flows_query' action='index.php?module=Admin-cp&action=flows&subaction=search' method='post' >
+<table style="text-align: left; width: 25%;" border="0" cellpadding="0" cellspacing="2" align="center">
+<tbody>
+<tr>
+	<td width=60% bgColor=#ffffe1>
+	<?=$l_forms['query_rules'];?>
+	</td>
+	<td width=40%>
+	</td>
+</tr>
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+	<?=$l_forms['login'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+	<input type=text name=flows_owner maxlength=25 size=15 value="any">
+	</td>
+</tr>
+<tr>
+	<td width=60% bgColor=#d0d0d0> 
+	IP:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+	<input type=text name=flows_ip maxlength=15 size=15 value="any">
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['dst_port'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+    <input type=text name=flows_dstp maxlength=5 size=5 value="any">
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['src_port'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+    <input type=text name=flows_srcp maxlength=5 size=5 value="any">
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['start_date'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+    <input type=text name=flows_start_date maxlength=25 size=20 value="any" title="<?=$l_forms['flows_date_help'];?>">
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['end_date'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+    <input type=text name=flows_end_date maxlength=25 size=20 value="any" title="<?=$l_forms['flows_date_help'];?>" >
+	</td>
+
+</tr>
+
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['direction'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+    <SELECT NAME=flows_direction>
+            <OPTION VALUE='any' ><?=$l_forms['any_direction'];?>
+            <OPTION VALUE='input' ><?=$l_tables['input'];?>
+            <OPTION VALUE='output'><?=$l_tables['output'];?>
+    </SELECT>
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['trafic'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+    <SELECT NAME=flows_type>
+            <OPTION VALUE='any' ><?=$l_forms['any_direction'];?>
+            <OPTION VALUE='local' ><?=$l_forms['local'];?>
+            <OPTION VALUE='nlocal'><?=$l_forms['nlocal'];?>
+    </SELECT>
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60% bgColor=#d0d0d0>
+    <?=$l_forms['flows_summ'];?>:
+	</td>
+	<td width=40% bgColor=#bdddc6>
+	<input type="checkbox" name=flows_summ>
+	</td>
+
+</tr>
+
+<tr>
+	<td width=60%>
+	<input type=submit value="<?=$l_forms['enter'];?>" >    
+	</td>
+	<td width=40%>
+
+	</td>
+
+</tr>
+
+</tbody>
+</table>
+</form>

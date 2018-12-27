@@ -1,0 +1,1152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
+
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+	<title>blog » mpd5 + freeradius2 + mysql</title>
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0 - все сообщения" href="http://inetzlo.ru/feed/">
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0 - все комментарии" href="http://inetzlo.ru/comments/feed/">
+	<link rel="pingback" href="http://inetzlo.ru/xmlrpc.php">
+
+	<!-- style START -->
+	<!-- default style -->
+	<style type="text/css" media="screen">@import url( http://inetzlo.ru/wp-content/themes/inove/style.css );</style>
+	<!-- for translations -->
+		<!--[if IE]>
+		<link rel="stylesheet" href="http://inetzlo.ru/wp-content/themes/inove/ie.css" type="text/css" media="screen" />
+	<![endif]-->
+	<!-- style END -->
+
+	<!-- script START -->
+	<script type="text/javascript" src="mpd5%20+%20freeradius2%20+%20mysql_files/base.js"></script>
+			<script type="text/javascript" src="mpd5%20+%20freeradius2%20+%20mysql_files/menu.js"></script>
+		<!-- script END -->
+
+	<link rel="stylesheet" href="mpd5%20+%20freeradius2%20+%20mysql_files/codecolorer.css" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="Лента комментариев blog » mpd5 + freeradius2 + mysql" href="http://inetzlo.ru/2009/04/24/mpd5-freeradius2-mysql/feed/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://inetzlo.ru/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://inetzlo.ru/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="blog" href="http://inetzlo.ru/">
+<link rel="start" title="Первый на…." href="http://inetzlo.ru/2009/03/10/%d0%bf%d0%b5%d1%80%d0%b2%d1%8b%d0%b9-%d0%bd%d0%b0/">
+<link rel="prev" title="Virtualization WMI Provider" href="http://inetzlo.ru/2009/04/21/virtualization-wmi-provider/">
+<link rel="next" title="mpd5 и настройка экспорта netflow" href="http://inetzlo.ru/2009/04/27/mpd5-export-netflow/">
+<meta name="generator" content="WordPress 2.8.1">
+</head><body>
+<!-- wrap START -->
+<div id="wrap">
+
+<!-- container START -->
+<div id="container">
+
+<!-- header START -->
+<div id="header">
+
+	<!-- banner START -->
+		<!-- banner END -->
+
+	<div id="caption">
+		<h1 id="title"><a href="http://inetzlo.ru/">blog</a></h1>
+		<div id="tagline">Около компьютерный поток сознания</div>
+	</div>
+
+	<!-- navigation START -->
+	<div id="navigation">
+		<ul id="menus">
+			<li class="page_item"><a class="home" title="Главная" href="http://inetzlo.ru/">Главная</a></li>
+			<li class="page_item page-item-29"><a href="http://inetzlo.ru/o-bloge/" title="О блоге">О блоге</a></li>
+			<li><a class="lastmenu" href="javascript:void(0);"></a></li>
+		</ul>
+
+		<!-- searchbox START -->
+		<div id="searchbox">
+							<form action="http://inetzlo.ru" method="get">
+					<div class="content">
+						<input class="textfield" name="s" size="24" type="text">
+						<input class="button" value="" type="submit">
+					</div>
+				</form>
+					</div>
+		<!-- searchbox END -->
+
+		<div class="fixed"></div>
+	</div>
+	<!-- navigation END -->
+
+	<div class="fixed"></div>
+</div>
+<!-- header END -->
+
+<!-- content START -->
+<div id="content">
+
+	<!-- main START -->
+	<div id="main">
+
+
+	<div id="postpath">
+		<a title="На главную страницу" href="http://inetzlo.ru/">Главная</a>
+		 &gt; <a href="http://inetzlo.ru/category/%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%b0/" title="Просмотреть все записи в рубрике «Работа»" rel="category tag">Работа</a>		 &gt; mpd5 + freeradius2 + mysql	</div>
+
+	<div class="post" id="post-160">
+		<h2>mpd5 + freeradius2 + mysql</h2>
+		<div class="info">
+			<span class="date">24 Апрель 2009</span>
+			<div class="act">
+									<span class="comments"><a href="#comments">К комментариям</a></span>
+					<span class="addcomment"><a href="#respond">Написать комментарий</a></span>
+												<div class="fixed"></div>
+			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="content">
+			<p>Когда-то в далеком 2007 году я разместил статью, о настройки связки <a href="http://www.lissyara.su/?id=1350" target="_blank">mpd + freeradius + mysql</a> на сайте комрада <a href="http://www.lissyara.su/" target="_blank">lissyara</a>.
+Время шло, все работало отлично, выполняло весь необходимый мне
+функционал. Недавно потребовалось перенести эту связку на новый более
+мощный сервер. Решено было использовать последние версии используемых
+продуктов. mpd5 и freeradius2. Данные программные продукты очень
+изменили свой функционал и конфигурационные файлы, из-за этого я решил
+сделать набросок статьи. О том как это все дело заставить работать
+вмести <img src="mpd5%20+%20freeradius2%20+%20mysql_files/icon_smile.gif" alt=":)" class="wp-smiley"> .<br>
+Сразу хочу оговорить, я не буду писать о том, что надо открыть этот
+конфигурационный файл, найти какую-то строчку и поменять на другое
+значение. Мне это не надо, мне просто необходима заметка, что надо
+сделать, чтоб не забыть <img src="mpd5%20+%20freeradius2%20+%20mysql_files/icon_smile.gif" alt=":)" class="wp-smiley">  По этому я просто приведу <em>diff </em>разницу между исходным конфигурационным файлом и целевым.<span id="more-160"></span></p>
+<p>Начнем. Вот информация о системе на которой это все делалось:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender /]# uname -rp<br>
+7.1-RELEASE-p5 i386<br>
+[root@bender /]#</div></div>
+<p>Порты были обновлены до актуальной версии на день написания статьи через csup.<br>
+Рассказывать как ставить mysql я не буду, описание данного процесса можно найти на сайте <a href="http://www.lissyara.su/" target="_blank">lissyara</a>. По этому сразу перейдем к установки mpd5.</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender /]# make -C /usr/ports/net/mpd5 install clean<br>
+===&gt; &nbsp;Found saved configuration for mpd-5.3<br>
+===&gt; &nbsp;Extracting for mpd-5.3<br>
+#--- skip ---#<br>
+[root@bender /]#</div></div>
+<p>В меню настройки порта <em>mpd5 </em>я ни чего не выбирал. Конфигурационный файл привел к следующему виду:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">#--- mpd5 config<br>
+<br>
+startup:<br>
+&lt;------&gt;set user admin pass admin<br>
+#&lt;-----&gt;set user foo1 bar1<br>
+&lt;------&gt;set console self 127.0.0.1 5005<br>
+&lt;------&gt;set console open<br>
+&lt;------&gt;set web self 10.1.1.200 5006<br>
+&lt;------&gt;set web open<br>
+<br>
+default:<br>
+&lt;------&gt;load pptp_server<br>
+<br>
+pptp_server:<br>
+&lt;------&gt;set ippool add pool1 192.168.1.50 192.168.1.99<br>
+&lt;------&gt;create bundle template B<br>
+#&lt;-----&gt;set iface enable proxy-arp<br>
+&lt;------&gt;set iface idle 1800<br>
+&lt;------&gt;set iface enable tcpmssfix<br>
+&lt;------&gt;set ipcp yes vjcomp<br>
+&lt;------&gt;set ipcp ranges 172.16.1.1/32 ippool pool1<br>
+&lt;------&gt;set ipcp dns 10.1.1.6<br>
+#&lt;-----&gt;set ipcp nbns 192.168.1.4<br>
+&lt;------&gt;set bundle enable compression<br>
+&lt;------&gt;set ccp yes mppc<br>
+#&lt;-----&gt;set mppc yes e40<br>
+&lt;------&gt;set mppc yes e128<br>
+&lt;------&gt;set mppc yes stateless<br>
+&lt;------&gt;create link template L pptp<br>
+&lt;------&gt;set link action bundle B<br>
+&lt;------&gt;set link enable multilink<br>
+&lt;------&gt;set link yes acfcomp protocomp<br>
+&lt;------&gt;set link no pap chap<br>
+&lt;------&gt;set link enable chap<br>
+&lt;------&gt;load radius<br>
+&lt;------&gt;set link keep-alive 10 60<br>
+&lt;------&gt;set link mtu 1460<br>
+#&lt;------&gt;set pptp self 1.2.3.4<br>
+&lt;------&gt;set link enable incoming<br>
+<br>
+radius:<br>
+#&lt;-----&gt;set radius config /usr/local/etc/mpd5/radius.conf<br>
+&lt;------&gt;set radius server localhost testing123 1812 1813<br>
+&lt;------&gt;set radius retries 3<br>
+&lt;------&gt;set radius timeout 3<br>
+&lt;------&gt;set radius me 127.0.0.1<br>
+&lt;------&gt;set auth acct-update 60<br>
+&lt;------&gt;set auth enable radius-auth<br>
+&lt;------&gt;set auth enable radius-acct<br>
+&lt;------&gt;set radius enable message-authentic</div></div>
+<p>Знаки табуляции в mc, я намеренно не стер, пусть будут как напоминание, что <em>mpd </em>не любит пробелы, и отступы надо делать табом.<br>
+Так же чтоб у <em>mpd </em>велся журнал логов, необходимо в <em>/etc/syslog.conf</em> добавить следующее:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">!mpd<br>
+*.* &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; /var/log/mpd.log</div></div>
+<p>Создать сам лог файл, поставить на него права <em>RW </em>только для <em>root </em>пользователя, и перезапустить демона <em>syslogd</em></p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender etc]# touch /var/log/mpd.log<br>
+[root@bender etc]# chmod 600 /var/log/mpd.log<br>
+[root@bender etc]# /etc/rc.d/syslogd restart<br>
+Stopping syslogd.<br>
+Starting syslogd.<br>
+[root@bender etc]#</div></div>
+<p>Дальше установим сам <em>freeradius2</em>:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender /]# make -C /usr/ports/net/freeradius2 install clean<br>
+===&gt; &nbsp;Found saved configuration for freeradius-2.1.4<br>
+===&gt; &nbsp;Extracting for freeradius-2.1.4<br>
+#--- skip ---#<br>
+[root@bender /]#</div></div>
+<p>В меню настройки порта <em>freeradius2 </em>были выбраны следующие настройки:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[X] USER &nbsp; &nbsp; &nbsp; &nbsp; Run as user freeradius, group freeradius<br>
+[X] MYSQL &nbsp; &nbsp; &nbsp; &nbsp;With MySQL database support</div></div>
+<p>Начнем настройку freeradius2, первым дело создадим базу и заполним ее таблицами, для это сделаем следующее:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender /]# cd /usr/local/etc/raddb/sql/mysql/<br>
+[root@bender mysql]# ls<br>
+total 92<br>
+drwxr-x--- &nbsp;2 freeradius &nbsp;freeradius &nbsp; &nbsp;512 23 апр 14:35 .<br>
+drwxr-x--- &nbsp;6 freeradius &nbsp;freeradius &nbsp; &nbsp;512 23 апр 14:35 ..<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; &nbsp;661 23 апр 14:35 admin.sql<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; 4533 23 апр 14:35 counter.conf<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp;14379 23 апр 14:35 dialup.conf<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; 3927 23 апр 14:35 ippool.conf<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; &nbsp;565 23 апр 14:35 ippool.sql<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; &nbsp;400 23 апр 14:35 nas.sql<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; 4322 23 апр 14:35 schema.sql<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; 1844 23 апр 14:35 wimax.conf<br>
+-rw-r----- &nbsp;1 freeradius &nbsp;freeradius &nbsp; &nbsp;411 23 апр 14:35 wimax.sql<br>
+[root@bender mysql]#</div></div>
+<p>как видите тут уже все готово для нас, надо лишь создать базу, а
+пользователя и структуру таблиц, можно просто импортировать. Пароль для
+пользователя <em>radius </em>можно задать в файле <em>admin.sql</em>. Приступим к импорту:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender mysql]# mysql -u root -p<br>
+Enter password:<br>
+Welcome to the MySQL monitor. &nbsp;Commands end with ; or \g.<br>
+Your MySQL connection id is 71296<br>
+Server version: 5.0.75-log FreeBSD port: mysql-server-5.0.75<br>
+<br>
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.<br>
+<br>
+mysql&gt; create database radius;<br>
+Query OK, 1 row affected (0.00 sec)<br>
+<br>
+mysql&gt; use radius;<br>
+Database changed<br>
+<br>
+mysql&gt; \. admin.sql<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+<br>
+mysql&gt; \. schema.sql<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.01 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected (0.00 sec)<br>
+Query OK, 0 rows affected, 1 warning (0.00 sec)<br>
+mysql&gt; quit<br>
+Bye<br>
+[root@bender mysql]#</div></div>
+<p>Как видите, я импортировал только два sql файла с запросами <em>admin.sql</em> и <em>schema.sql</em>, это сделано по причине того, что я не буду пользоваться настройками для <em>nas, ippool, wimax</em>. так зачем лишнее в системе?<br>
+Внесем следующие изменения в конфигурационные файлы <em>freeradius2</em>. Вот тут я и буду пользоваться командой <em>diff</em>.
+Эта команда отлично подходит для указания изменений в любых файлах, так
+как отображает оба значения в исходном и целевом файле и строку в
+которой необходимо произвести изменения. Для настройки <em>freeradius2 </em>нам надо внести изменения в 3 файла. Приступим к этой не хитрой операции.</p>
+<div class="codecolorer-container diff " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="diff codecolorer" style="white-space: nowrap;"><span class="br0">[</span>root@bender etc<span class="br0">]</span># diff raddb.original/radiusd.conf raddb/radiusd.conf<br>
+<span class="re0">266c266</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; ipaddr = *</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; ipaddr = 127.0.0.1</span></span><br>
+<span class="re0">309c309</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; ipaddr = *</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; ipaddr = 127.0.0.1</span></span><br>
+<span class="re0">436c436</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; auth = no</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; auth = yes</span></span><br>
+<span class="re0">444c444</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; auth_badpass = no</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; auth_badpass = yes</span></span><br>
+<span class="re0">525c525</span><br>
+<span class="re1">&lt; proxy_requests &nbsp;= yes</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; proxy_requests &nbsp;= no</span></span><br>
+<span class="re0">664c664</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; $INCLUDE sql.conf</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; $INCLUDE sql.conf</span></span><br>
+<span class="re0">676c676</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; $INCLUDE sql/mysql/counter.conf</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; $INCLUDE sql/mysql/counter.conf</span></span><br>
+<span class="br0">[</span>root@bender etc<span class="br0">]</span>#</div></div>
+<div class="codecolorer-container diff " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="diff codecolorer" style="white-space: nowrap;"><span class="br0">[</span>root@bender etc<span class="br0">]</span># &nbsp;diff raddb.original/sql.conf raddb/sql.conf<br>
+<span class="re0">37c37</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; #port = 3306</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; port = 3306</span></span><br>
+<span class="br0">[</span>root@bender etc<span class="br0">]</span>#</div></div>
+<div class="codecolorer-container diff " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="diff codecolorer" style="white-space: nowrap;"><span class="br0">[</span>root@bender etc<span class="br0">]</span># diff raddb.original/sites-available/default &nbsp;raddb/sites-available/default<br>
+<span class="re0">145c145</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; files</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; # &nbsp; &nbsp; files</span></span><br>
+<span class="re0">152c152</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; sql</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; sql</span></span><br>
+<span class="re0">342c342</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; sql</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; sql</span></span><br>
+<span class="re0">348c348</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; sql_log</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; sql_log</span></span><br>
+<span class="re0">369c369</span><br>
+<span class="re1">&lt; &nbsp; &nbsp; &nbsp; radutmp</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; # &nbsp; &nbsp; radutmp</span></span><br>
+<span class="re0">373c373</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; sql</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; sql</span></span><br>
+<span class="re0">394c394</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; sql</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; sql</span></span><br>
+<span class="re0">400c400</span><br>
+<span class="re1">&lt; # &nbsp; &nbsp; sql_log</span><br>
+<span class="re3">---<br>
+<span class="re2">&gt; &nbsp; &nbsp; &nbsp; sql_log</span></span><br>
+<span class="br0">[</span>root@bender etc<span class="br0">]</span>#</div></div>
+<p>Теперь необходимо внести записи о нашем тестовом пользователе:</p>
+<div class="codecolorer-container mysql " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="mysql codecolorer" style="white-space: nowrap;"><span class="co2">#--- создаем пользователя test с паролем test1</span><br>
+<a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INSERT<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw2">INSERT</span></a> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INTO<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">INTO</span></a> <span class="st0">`radcheck`</span> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>VALUES<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">VALUES</span></a> <span class="br0">(</span><span class="nu0">1</span><span class="sy2">,</span><span class="st0">'test'</span><span class="sy2">,</span><span class="st0">'Cleartext-Password'</span><span class="sy2">,</span><span class="st0">':='</span><span class="sy2">,</span><span class="st0">'test1'</span><span class="br0">)</span><span class="sy2">;</span><br>
+<span class="co2">#--- создаем группу users с параметрами этой группы</span><br>
+<a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INSERT<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw2">INSERT</span></a> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INTO<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">INTO</span></a> <span class="st0">`radgroupreply`</span> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>VALUES<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">VALUES</span></a> <span class="br0">(</span><span class="nu0">1</span><span class="sy2">,</span><span class="st0">'users'</span><span class="sy2">,</span><span class="st0">'Framed-Protocol'</span><span class="sy2">,</span><span class="st0">':='</span><span class="sy2">,</span><span class="st0">'PPP'</span><span class="br0">)</span><span class="sy2">;</span><br>
+<a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INSERT<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw2">INSERT</span></a> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INTO<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">INTO</span></a> <span class="st0">`radgroupreply`</span> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>VALUES<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">VALUES</span></a> <span class="br0">(</span><span class="nu0">2</span><span class="sy2">,</span><span class="st0">'users'</span><span class="sy2">,</span><span class="st0">'Framed-IP-Netmask'</span><span class="sy2">,</span><span class="st0">':='</span><span class="sy2">,</span><span class="st0">'255.255.255.255'</span><span class="br0">)</span><span class="sy2">;</span><br>
+<span class="co2">#--- говорим, что пользователю test при подключении будет присвоен ip 192.168.1.60</span><br>
+<a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INSERT<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw2">INSERT</span></a> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INTO<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">INTO</span></a> <span class="st0">`radreply`</span> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>VALUES<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">VALUES</span></a> <span class="br0">(</span><span class="nu0">1</span><span class="sy2">,</span><span class="st0">'test'</span><span class="sy2">,</span><span class="st0">'Framed-IP-Address'</span><span class="sy2">,</span><span class="st0">':='</span><span class="sy2">,</span><span class="st0">'192.168.1.60'</span><span class="br0">)</span><br>
+<span class="co2">#--- добавляем пользователя test в группу users</span><br>
+<a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INSERT<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw2">INSERT</span></a> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>INTO<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">INTO</span></a> <span class="st0">`radusergroup`</span> <a href="http://search.mysql.com/search?site=refman-%3Cspan%20class=" nu0="">51<span class="sy1">&amp;</span>q<span class="sy1">=</span>VALUES<span class="sy1">&amp;</span>lr<span class="sy1">=</span>lang_en"&gt;<span class="kw1">VALUES</span></a> <span class="br0">(</span><span class="st0">'test'</span><span class="sy2">,</span><span class="st0">'users'</span><span class="sy2">,</span>1<span class="br0">)</span><span class="sy2">;</span></div></div>
+<p>Для внесения данных надо подключиться к <em>mysql </em>от пользователя root или от другого пользователя, так как пользователь <em>radius </em>не имеет права на INSERT на данные таблицы.<br>
+Запустим <em>freeradius2</em>:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender etc]# echo 'radiusd_enable="YES"' &gt;&gt; /etc/rc.conf<br>
+[root@bender etc]# /usr/local/etc/rc.d/radiusd start<br>
+Starting radiusd.<br>
+[root@bender etc]#</div></div>
+<p>Проверим, берет ли у нас <em>freeradius2 </em>данные из <em>mysql</em>. Для этого воспользуемся утилитой <em>radtest</em>, которая идет в комплекте:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender etc]# radtest test test1 127.0.0.1 0 testing123<br>
+Sending Access-Request of id 160 to 127.0.0.1 port 1812<br>
+User-Name = "test"<br>
+User-Password = "test1"<br>
+NAS-IP-Address = 10.1.1.200<br>
+NAS-Port = 0<br>
+rad_recv: Access-Accept packet from host 127.0.0.1 port 1812, id=160, length=38<br>
+Framed-IP-Address = 192.168.1.60<br>
+Framed-Protocol = PPP<br>
+Framed-IP-Netmask = 255.255.255.255<br>
+[root@bender etc]#</div></div>
+<p>Как видите мы получили данные из базы данных. Запустим <em>mpd5 </em>и попробуем подключиться. Для подключения я использовал клиенскую машину под управление OC <em>Windows XP</em>.</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[root@bender etc]# echo 'mpd_enable="YES"' &gt;&gt; /etc/rc.conf<br>
+[root@bender etc]# echo 'mpd_flags="-b"' &gt;&gt; /etc/rc.conf<br>
+[root@bender etc]# /usr/local/etc/rc.d/mpd5 start<br>
+Starting mpd5.<br>
+[root@bender etc]#</div></div>
+<p>Пробуем подключиться, если не проходит, необходимо смотреть логи <em>mpd5 </em>и <em>freeradius2 </em>на предмет ошибок. Если что-то не получается, можно задавать вопросы мне.</p>
+<p>P.S.<br>
+1. Ядро для работы mpd5 я не пересобирал, он сам подгрузил все необходимые модулю для своей работы.<br>
+2. Не забываем изменить пароли по умолчанию на более сложные. Так же настройку подключения клиентов к <em>freeradius2 </em>можно посмотреть в конфигурационном файле<em> clients.conf </em></p>
+<p><strong>Комментарии и замечания приветствуются! </strong></p>
+			<div class="fixed"></div>
+		</div>
+		<div class="under">
+			<span class="author">Author: </span><span><a href="http://inetzlo.ru/author/abigor/" title="Записи abigor">abigor</a></span>			<span class="categories">Categories: </span><span><a href="http://inetzlo.ru/category/%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%b0/" title="Просмотреть все записи в рубрике «Работа»" rel="category tag">Работа</a></span>			<span class="tags">Tags: </span><span><a href="http://inetzlo.ru/tag/freebsd/" rel="tag">FreeBSD</a>, <a href="http://inetzlo.ru/tag/mpd5/" rel="tag">mpd5</a>, <a href="http://inetzlo.ru/tag/vpn/" rel="tag">VPN</a></span>		</div>
+	</div>
+
+	<!-- related posts START -->
+		<!-- related posts END -->
+
+	<script type="text/javascript" src="mpd5%20+%20freeradius2%20+%20mysql_files/comment.js"></script>
+
+
+
+<div id="comments">
+
+<div id="cmtswitcher">
+			<a id="commenttab" class="curtab" href="javascript:void(0);" onclick="MGJS.switchTab('thecomments,commentnavi', 'thetrackbacks', 'commenttab', 'curtab', 'trackbacktab', 'tab');">Комментарии (15)</a>
+		<a id="trackbacktab" class="tab" href="javascript:void(0);" onclick="MGJS.switchTab('thetrackbacks', 'thecomments,commentnavi', 'trackbacktab', 'curtab', 'commenttab', 'tab');">Уведомления (0)</a>
+				<span class="addcomment"><a href="#respond">Написать комментарий</a></span>
+				<span class="addtrackback"><a href="http://inetzlo.ru/2009/04/24/mpd5-freeradius2-mysql/trackback/">Уведомление</a></span>
+		<div class="fixed"></div>
+</div>
+
+<div id="commentlist">
+	<!-- comments START -->
+	<ol id="thecomments">
+		<li class="comment regularcomment" id="comment-9">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/8eecc59611bd8330a5631fd617186c05.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-9">
+				
+				coroner
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				28 Апрель 2009 в 15:13					 | <a href="#comment-9">#1</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-9', 'comment-9', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-9', 'comment-9', 'commentbody-9', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-9">
+					<p>Если
+пользователя привязывать к определенному IP, неплохо было бы
+simulation-use(или что-то около) прописать. Иначе есть риск при втором
+подключении пользователя на другом компе оставить первый сеанс без
+инета:) Да и вообще сия штука полезна как борьба с мультилогинами:)<br>
+ну и напоследок советую (при авторизациях MSCHAP) подключать словари от
+microsoft (не помню как во фре, но в линухе это обязательно)<br>
+ну и вдогонку можно еще написать про ограничение скорости средствами радиуса:)</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-10">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-10">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				29 Апрель 2009 в 10:59					 | <a href="#comment-10">#2</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-10', 'comment-10', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-10', 'comment-10', 'commentbody-10', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-10">
+					<p>про “simulation-use” спасибо за намек, не думал об этом так как не надо было, пользователи у меня правильные <img src="mpd5%20+%20freeradius2%20+%20mysql_files/icon_smile.gif" alt=":)" class="wp-smiley"><br>
+———-<br>
+&gt;вдогонку можно еще написать про ограничение скорости средствами радиуса:)<br>
+Это будет позже, все потихоньку. Работы много и все делается набегами на ту или иную часть решаемых задач.<br>
+———-<br>
+&gt;подключать словари от microsoft (не помню как во фре, но в линухе это обязательно)<br>
+Если память мне не изменяет то для доменной аутентификацией надо, но могу и ошибаться, а так лог показал что PAP пользуется</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-14">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/1c1ec362375d14590e51260e475ec7ba.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-14">
+				
+				lapweed
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				1 Май 2009 в 19:59					 | <a href="#comment-14">#3</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-14', 'comment-14', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-14', 'comment-14', 'commentbody-14', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-14">
+					<p>Пишутся
+ли в лог-файл (radius.log) время окончания сессии? Логин ОК в логах
+вижу, а вот Логаут нет. Можно ли добавить время логаута в логи?</p>
+<p>А за статью спасибо. Хорошая.</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-18">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-18">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				4 Май 2009 в 10:12					 | <a href="#comment-18">#4</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-18', 'comment-18', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-18', 'comment-18', 'commentbody-18', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-18">
+					<p><a href="#comment-14" rel="nofollow">@lapweed</a><br>
+День добрый, сори что долго не отвечал, ездил к теще на праздники.<br>
+———<br>
+в лог radius.log действительно не пишется запись о окончании сессии. Но
+я думаю можно подручными способами вытащить это дело из таблицы radacct
+и поля acctstoptime<br>
+там как раз время окончания сессии и хранится</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-99">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/f48cd6b5a05903e134bcae1dde646b87.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<a id="commentauthor-99" class="url" href="http://ultra.zt.ua/" rel="external nofollow">
+				
+				Artem
+									</a>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				29 Май 2009 в 16:08					 | <a href="#comment-99">#5</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-99', 'comment-99', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-99', 'comment-99', 'commentbody-99', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-99">
+					<p>Что не делаю не работает((( При подключение с винды к серверу пишит ошибку 619((</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-100">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-100">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				30 Май 2009 в 00:30					 | <a href="#comment-100">#6</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-100', 'comment-100', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-100', 'comment-100', 'commentbody-100', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-100">
+					<p><a href="#comment-99" rel="nofollow">@Artem</a><br>
+давайте смотреть, какая версия FreeBSD какая версия MPD, это так на
+всякий. Можно еще лог mpd мне на почту отправить для ясности картины
+abigor[большая злая собачка].isea[точка]ru</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-101">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/f48cd6b5a05903e134bcae1dde646b87.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<a id="commentauthor-101" class="url" href="http://ultra.zt.ua/" rel="external nofollow">
+				
+				Artem
+									</a>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				30 Май 2009 в 03:38					 | <a href="#comment-101">#7</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-101', 'comment-101', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-101', 'comment-101', 'commentbody-101', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-101">
+					<p><a href="#comment-100" rel="nofollow">@abigor</a><br>
+1) iuo# uname -rp<br>
+7.2-RELEASE i386<br>
+2) iuo# make -C /usr/ports/net/mpd5 clean<br>
+===&gt;  Cleaning for mpd-5.3<br>
+3) Лог щас вышлю (моя почта <a href="mailto:artem20041991@mail.ru">artem20041991@mail.ru</a>).</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-106">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-106">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				30 Май 2009 в 19:54					 | <a href="#comment-106">#8</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-106', 'comment-106', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-106', 'comment-106', 'commentbody-106', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-106">
+					<p><a href="#comment-101" rel="nofollow">@Artem</a><br>
+Ошибка 619 свидетельствует , что у вас у mpd не включено MPPC
+(Microsoft Point-to-Point Compression) компрессия трафика в mpd.conf,
+для проверки сего, можно открыть свойство PPTP подключения на Windows
+клиенте и во вкладке безопасность снять флаг с “Требовать шифрования
+данных (иначе отключаться)”<br>
+С радиусом все нормально, тут именно в сторону mpd смотреть надо.</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-109">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/f48cd6b5a05903e134bcae1dde646b87.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<a id="commentauthor-109" class="url" href="http://ultra.zt.ua/" rel="external nofollow">
+				
+				Artem
+									</a>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				31 Май 2009 в 02:51					 | <a href="#comment-109">#9</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-109', 'comment-109', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-109', 'comment-109', 'commentbody-109', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-109">
+					<p><a href="#comment-106" rel="nofollow">@abigor</a><br>
+Без шифрации тоже не работает таже ошибка( Может это файрвол виноват?</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-112">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-112">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				31 Май 2009 в 11:14					 | <a href="#comment-112">#10</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-112', 'comment-112', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-112', 'comment-112', 'commentbody-112', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-112">
+					<p><a href="#comment-109" rel="nofollow">@Artem</a><br>
+а в firewall gre протокол открыт?</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-124">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-124">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				9 Июнь 2009 в 21:04					 | <a href="#comment-124">#11</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-124', 'comment-124', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-124', 'comment-124', 'commentbody-124', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-124">
+					<p>Я так понимаю, на этом все и закончилось <img src="mpd5%20+%20freeradius2%20+%20mysql_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-139">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/f48cd6b5a05903e134bcae1dde646b87.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<a id="commentauthor-139" class="url" href="http://ultra.zt.ua/" rel="external nofollow">
+				
+				Artem
+									</a>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				18 Июнь 2009 в 22:37					 | <a href="#comment-139">#12</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-139', 'comment-139', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-139', 'comment-139', 'commentbody-139', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-139">
+					<p>Люди НЕ ПЕРЕСОБИРАЙТЕ!!! ядро с этими опциями:<br>
+options         NETGRAPH<br>
+options         NETGRAPH_BPF<br>
+options         NETGRAPH_IFACE<br>
+options         NETGRAPH_KSOCKET<br>
+options         NETGRAPH_MPPC_ENCRYPTION<br>
+options         NETGRAPH_PPP<br>
+options         NETGRAPH_PPTPGRE<br>
+options         NETGRAPH_SOCKET<br>
+options         NETGRAPH_TCPMSS<br>
+options         NETGRAPH_VJC<br>
+Сам долго мучился – сервак не работал постоянно выдавал ошибку 619(клиент)</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-144">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-144">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				19 Июнь 2009 в 07:26					 | <a href="#comment-144">#13</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-144', 'comment-144', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-144', 'comment-144', 'commentbody-144', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-144">
+					<p>что
+вы исключили из представленных опций ядра? То есть как только вы это
+убрали из ядра, и это все подгрузилось модулями, все заработало?</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment regularcomment" id="comment-146">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/f48cd6b5a05903e134bcae1dde646b87.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<a id="commentauthor-146" class="url" href="http://ultra.zt.ua/" rel="external nofollow">
+				
+				Artem
+									</a>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				19 Июнь 2009 в 18:36					 | <a href="#comment-146">#14</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-146', 'comment-146', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-146', 'comment-146', 'commentbody-146', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-146">
+					<p><a href="#comment-144" rel="nofollow">@abigor</a><br>
+угу</p>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	<li class="comment admincomment" id="comment-150">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="mpd5%20+%20freeradius2%20+%20mysql_files/5158d9b7bdea3c40fdbba3c36402a061.jpeg" class="avatar avatar-32 photo" height="32" width="32">			</div>
+			<div class="name">
+									<span id="commentauthor-150">
+				
+				abigor
+									</span>
+							</div>
+		</div>
+
+		<div class="info">
+			<div class="date">
+				20 Июнь 2009 в 15:57					 | <a href="#comment-150">#15</a>
+			</div>
+			<div class="act">
+				<a href="javascript:void(0);" onclick="MGJS_CMT.reply('commentauthor-150', 'comment-150', 'comment');">Ответить</a> | 
+				<a href="javascript:void(0);" onclick="MGJS_CMT.quote('commentauthor-150', 'comment-150', 'commentbody-150', 'comment');">Цитата</a>
+							</div>
+			<div class="fixed"></div>
+			<div class="content">
+				
+				<div id="commentbody-150">
+					<p>А если не секрет можно список модулей в системе kldstat?<br>
+———————————————-<br>
+у меня просто все в ядре, и модулей всего вот в системе</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[abigor@bender ~]$ kldstat<br>
+Id Refs Address &nbsp; &nbsp;Size &nbsp; &nbsp; Name<br>
+&nbsp;1 &nbsp; &nbsp;8 0x80400000 479e4c &nbsp; kernel<br>
+&nbsp;2 &nbsp; &nbsp;1 0x8087b000 6a2b4 &nbsp; &nbsp;acpi.ko<br>
+&nbsp;3 &nbsp; &nbsp;1 0x8625b000 a6000 &nbsp; &nbsp;zfs.ko<br>
+&nbsp;4 &nbsp; &nbsp;1 0x86301000 2000 &nbsp; &nbsp; opensolaris.ko<br>
+[abigor@bender ~]$</div></div>
+<p>Вот что в ядре:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[abigor@bender ~]$ grep &nbsp;NETGRAPH /usr/src/sys/i386/conf/PROXY<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_IFACE<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_KSOCKET<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_MPPC_ENCRYPTION<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_PPP<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_PPTPGRE<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_SOCKET<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_TCPMSS<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_VJC<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_TEE<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_ETHER<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_NETFLOW<br>
+options &nbsp; &nbsp; &nbsp; &nbsp; NETGRAPH_ONE2MANY<br>
+[abigor@bender ~]$</div></div>
+<p>Система:</p>
+<div class="codecolorer-container text " style="overflow: auto; white-space: nowrap; width: 880px;"><div class="text codecolorer" style="white-space: nowrap;">[abigor@bender ~]$ uname -irsm<br>
+FreeBSD 7.1-RELEASE-p5 i386 PROXY<br>
+[abigor@bender ~]$</div></div>
+				</div>
+			</div>
+		</div>
+		<div class="fixed"></div>
+	</li>
+
+	</ol>
+	<!-- comments END -->
+
+
+	<!-- trackbacks START -->
+			<ol id="thetrackbacks">
+							<li class="messagebox">
+					Пока что нет уведомлений.				</li>
+
+					</ol>
+		<div class="fixed"></div>
+	<!-- trackbacks END -->
+</div>
+
+</div>
+
+	<form action="http://inetzlo.ru/wp-comments-post.php" method="post" id="commentform">
+	<div id="respond">
+
+					
+			<div id="author_info">
+				<div class="row">
+					<input name="author" id="author" class="textfield" size="24" tabindex="1" type="text">
+					<label for="author" class="small">Имя (обязательно)</label>
+				</div>
+				<div class="row">
+					<input name="email" id="email" class="textfield" size="24" tabindex="2" type="text">
+					<label for="email" class="small">E-mail (не публикуется) (обязательно)</label>
+				</div>
+				<div class="row">
+					<input name="url" id="url" class="textfield" size="24" tabindex="3" type="text">
+					<label for="url" class="small">Вебсайт</label>
+				</div>
+			</div>
+
+			
+		
+		<!-- comment input -->
+		<div class="row">
+			<textarea name="comment" id="comment" tabindex="4" rows="8" cols="50"></textarea>
+		</div>
+
+		<!-- comment submit and rss -->
+		<div id="submitbox">
+			<a class="feed" href="http://inetzlo.ru/comments/feed/">Подписаться на комментарии по RSS</a>
+			<div class="submitbutton">
+				<input name="submit" id="submit" class="button" tabindex="5" value="Отправить комментарий (Ctrl+Enter)" type="submit">
+			</div>
+						<input name="comment_post_ID" value="160" type="hidden">
+			<div class="fixed"></div>
+		</div>
+
+	</div>
+		</form>
+
+			<script type="text/javascript">MGJS.loadCommentShortcut();</script>
+	
+
+	<div id="postnavi">
+		<span class="prev"><a href="http://inetzlo.ru/2009/04/27/mpd5-export-netflow/">mpd5 и настройка экспорта netflow</a></span>
+		<span class="next"><a href="http://inetzlo.ru/2009/04/21/virtualization-wmi-provider/">Virtualization WMI Provider</a></span>
+		<div class="fixed"></div>
+	</div>
+
+
+	</div>
+	<!-- main END -->
+
+	
+<!-- sidebar START -->
+<div id="sidebar">
+
+<!-- sidebar north START -->
+<div id="northsidebar" class="sidebar">
+
+	<!-- feeds -->
+	<div class="widget widget_feeds">
+		<div class="content">
+			<div id="subscribe"><a rel="external nofollow" id="feedrss" title="Подписаться на этот блог..." href="http://inetzlo.ru/feed/"><abbr title="Really Simple Syndication">RSS</abbr> лента</a><ul style="overflow: hidden; visibility: hidden; position: absolute; display: block;" id="feed_readers"><li class="first" id="google_reader"><a rel="external nofollow" class="reader" title="Подписаться черезGoogle" href="http://fusion.google.com/add?feedurl=http://inetzlo.ru/feed/"><span>Google</span></a></li><li id="youdao_reader"><a rel="external nofollow" class="reader" title="Подписаться черезYoudao" href="http://reader.youdao.com/#url=http://inetzlo.ru/feed/"><span>Youdao</span></a></li><li id="xianguo_reader"><a rel="external nofollow" class="reader" title="Подписаться черезXian Guo" href="http://www.xianguo.com/subscribe.php?url=http://inetzlo.ru/feed/"><span>Xian Guo</span></a></li><li id="zhuaxia_reader"><a rel="external nofollow" class="reader" title="Подписаться черезZhua Xia" href="http://www.zhuaxia.com/add_channel.php?url=http://inetzlo.ru/feed/"><span>Zhua Xia</span></a></li><li id="yahoo_reader"><a rel="external nofollow" class="reader" title="Подписаться черезMy Yahoo!" href="http://add.my.yahoo.com/rss?url=http://inetzlo.ru/feed/"><span>My Yahoo!</span></a></li><li id="newsgator_reader"><a rel="external nofollow" class="reader" title="Подписаться черезnewsgator" href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=http://inetzlo.ru/feed/"><span>newsgator</span></a></li><li id="bloglines_reader"><a rel="external nofollow" class="reader" title="Подписаться черезBloglines" href="http://www.bloglines.com/sub/http://inetzlo.ru/feed/"><span>Bloglines</span></a></li><li id="inezha_reader"><a rel="external nofollow" class="reader" title="Подписаться черезiNezha" href="http://inezha.com/add?url=http://inetzlo.ru/feed/"><span>iNezha</span></a></li></ul></div>
+						<div class="fixed"></div>
+		</div>
+	</div>
+
+	<!-- showcase -->
+	
+<div id="calendar-2" class="widget widget_calendar"><h3>&nbsp;</h3><div id="calendar_wrap"><table id="wp-calendar" summary="Календарь">
+	<caption>Апрель 2009</caption>
+	<thead>
+	<tr>
+		<th abbr="Понедельник" scope="col" title="Понедельник">Пн</th>
+		<th abbr="Вторник" scope="col" title="Вторник">Вт</th>
+		<th abbr="Среда" scope="col" title="Среда">Ср</th>
+		<th abbr="Четверг" scope="col" title="Четверг">Чт</th>
+		<th abbr="Пятница" scope="col" title="Пятница">Пт</th>
+		<th abbr="Суббота" scope="col" title="Суббота">Сб</th>
+		<th abbr="Воскресенье" scope="col" title="Воскресенье">Вс</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td abbr="Март" colspan="3" id="prev"><a href="http://inetzlo.ru/2009/03/" title="Посмотреть записи за Март 2009">« Мар</a></td>
+		<td class="pad">&nbsp;</td>
+		<td abbr="Май" colspan="3" id="next"><a href="http://inetzlo.ru/2009/05/" title="Посмотреть записи за Май 2009">Май »</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="2" class="pad">&nbsp;</td><td>1</td><td><a href="http://inetzlo.ru/2009/04/02/" title="Cинхронизация времи на компьютере под управлением Windows Server с сервером NTP под управлением ОС, отличной от Windows">2</a></td><td>3</td><td>4</td><td>5</td>
+	</tr>
+	<tr>
+		<td>6</td><td>7</td><td>8</td><td>9</td><td><a href="http://inetzlo.ru/2009/04/10/" title="Знакомство с Hyper-V от Microsoft">10</a></td><td>11</td><td>12</td>
+	</tr>
+	<tr>
+		<td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td>
+	</tr>
+	<tr>
+		<td><a href="http://inetzlo.ru/2009/04/20/" title="Автоматизация процесса заведения веб узлов на сервере IIS 7.0">20</a></td><td><a href="http://inetzlo.ru/2009/04/21/" title="Virtualization WMI Provider">21</a></td><td>22</td><td>23</td><td><a href="http://inetzlo.ru/2009/04/24/" title="mpd5 + freeradius2 + mysql">24</a></td><td>25</td><td>26</td>
+	</tr>
+	<tr>
+		<td><a href="http://inetzlo.ru/2009/04/27/" title="mpd5 и настройка экспорта netflow">27</a></td><td>28</td><td><a href="http://inetzlo.ru/2009/04/29/" title="Ищем уволенных сотрудников в Active Directory через SQL базу">29</a></td><td><a href="http://inetzlo.ru/2009/04/30/" title="Мой первый сертификат, MCP клуб.">30</a></td>
+		<td class="pad" colspan="3">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="recent-posts-2" class="widget widget_recent_entries">		<h3>Свежие записи</h3>		<ul>
+				<li><a href="http://inetzlo.ru/2009/07/14/export-of-the-data-for-live-edu/" title="Скрипт создания файла экспорта данных для Live@Edu">Скрипт создания файла экспорта данных для Live@Edu </a></li>
+				<li><a href="http://inetzlo.ru/2009/07/09/%d0%b4%d0%b5%d0%bd%d1%8c-%d1%80%d0%be%d0%b6%d0%b4%d0%b5%d0%bd%d1%8c%d1%8f/" title="День рожденья">День рожденья </a></li>
+				<li><a href="http://inetzlo.ru/2009/07/06/dfs-and-access-based-enumeration/" title="DFS и Access-based enumeration">DFS и Access-based enumeration </a></li>
+				<li><a href="http://inetzlo.ru/2009/07/03/wash-first-report/" title="Мой первый доклад">Мой первый доклад </a></li>
+				<li><a href="http://inetzlo.ru/2009/07/03/domain-prolongation/" title="Продление домена">Продление домена </a></li>
+				</ul>
+		</div><div id="tag_cloud-2" class="widget widget_tag_cloud"><h3>Метки</h3><div><a href="http://inetzlo.ru/tag/%d0%b2%d1%81%d0%b5-%d1%87%d1%82%d0%be-%d0%ba%d0%b0%d1%81%d0%b0%d0%b5%d1%82%d1%81%d1%8f-news/" class="tag-link-5" title="2 темы" rel="tag" style="font-size: 10pt;">Новости</a>
+<a href="http://inetzlo.ru/tag/bash/" class="tag-link-23" title="1 тема" rel="tag" style="font-size: 8pt;">bash</a>
+<a href="http://inetzlo.ru/tag/dfs/" class="tag-link-25" title="1 тема" rel="tag" style="font-size: 8pt;">DFS</a>
+<a href="http://inetzlo.ru/tag/freebsd/" class="tag-link-13" title="4 темы" rel="tag" style="font-size: 14pt;">FreeBSD</a>
+<a href="http://inetzlo.ru/tag/gpo/" class="tag-link-11" title="1 тема" rel="tag" style="font-size: 8pt;">GPO</a>
+<a href="http://inetzlo.ru/tag/hyper-v/" class="tag-link-17" title="1 тема" rel="tag" style="font-size: 8pt;">Hyper-V</a>
+<a href="http://inetzlo.ru/tag/kernel/" class="tag-link-14" title="1 тема" rel="tag" style="font-size: 8pt;">Kernel</a>
+<a href="http://inetzlo.ru/tag/mcp/" class="tag-link-22" title="2 темы" rel="tag" style="font-size: 10pt;">MCP</a>
+<a href="http://inetzlo.ru/tag/mpd5/" class="tag-link-19" title="2 темы" rel="tag" style="font-size: 10pt;">mpd5</a>
+<a href="http://inetzlo.ru/tag/netflow/" class="tag-link-20" title="1 тема" rel="tag" style="font-size: 8pt;">netflow</a>
+<a href="http://inetzlo.ru/tag/powershell/" class="tag-link-6" title="8 тем" rel="tag" style="font-size: 22pt;">PowerShell</a>
+<a href="http://inetzlo.ru/tag/vista/" class="tag-link-12" title="1 тема" rel="tag" style="font-size: 8pt;">Vista</a>
+<a href="http://inetzlo.ru/tag/vpn/" class="tag-link-18" title="1 тема" rel="tag" style="font-size: 8pt;">VPN</a>
+<a href="http://inetzlo.ru/tag/windows-server/" class="tag-link-15" title="1 тема" rel="tag" style="font-size: 8pt;">Windows Server</a></div>
+</div><div id="categories-411797431" class="widget widget_categories"><h3>Рубрики</h3>		<ul>
+	<li class="cat-item cat-item-1"><a href="http://inetzlo.ru/category/%d0%b1%d0%b5%d0%b7-%d0%ba%d0%b0%d1%82%d0%b5%d0%b3%d0%be%d1%80%d0%b8%d0%b8/" title="Просмотреть все записи в рубрике «Без категории»">Без категории</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://inetzlo.ru/category/%d0%b7%d0%b0%d0%bc%d0%b5%d1%82%d0%ba%d0%b8/" title="Просмотреть все записи в рубрике «Заметки»">Заметки</a>
+</li>
+	<li class="cat-item cat-item-24"><a href="http://inetzlo.ru/category/%d0%bd%d0%be%d0%b2%d0%be%d1%81%d1%82%d0%b8/" title="Просмотреть все записи в рубрике «Новости»">Новости</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://inetzlo.ru/category/%d0%bf%d1%80%d0%be%d0%b3%d1%80%d0%b0%d0%bc%d0%bc%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5/" title="Просмотреть все записи в рубрике «Программирование»">Программирование</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://inetzlo.ru/category/%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%b0/" title="Все что я делаю во время рабочего дня">Работа</a>
+</li>
+	<li class="cat-item cat-item-21"><a href="http://inetzlo.ru/category/%d1%81%d0%b0%d0%bc%d0%be%d1%80%d0%b0%d0%b7%d0%b2%d0%b8%d1%82%d0%b8%d0%b5/" title="Просмотреть все записи в рубрике «Саморазвитие»">Саморазвитие</a>
+</li>
+		</ul>
+</div><div id="text-425532771" class="widget widget_text"><h3>Banner</h3>			<div class="textwidget"><br><a href="http://www.certifications.ru/publicresults.php?tu_id=133744"><img src="mpd5%20+%20freeradius2%20+%20mysql_files/50eng.gif" height="55" width="175" border="0"></a>
+<br>
+<a href="http://blogs.technet.com/rus/archive/tags/MCP+_3A043B04430431044B04_/default.aspx"><img src="mpd5%20+%20freeradius2%20+%20mysql_files/image_2.png" title="MCP"></a>
+</div>
+		</div></div>
+
+
+
+<!-- sidebar north END -->
+
+<div id="centersidebar">
+
+	<!-- sidebar east START -->
+	<div id="eastsidebar" class="sidebar">
+	
+
+		</div>
+	<!-- sidebar east END -->
+
+	<div class="fixed"></div>
+</div>
+
+<!-- sidebar south START -->
+<div id="southsidebar" class="sidebar">
+
+
+</div>
+<!-- sidebar south END -->
+
+</div>
+<!-- sidebar END -->
+
+
+	<div class="fixed"></div>
+</div>
+<!-- content END -->
+
+<!-- footer START -->
+<div id="footer">
+	<a id="gotop" href="#" onclick="MGJS.goTop();return false;">Наверх</a>
+	<a id="powered" href="http://wordpress.org/">WordPress</a>
+	<div id="copyright">
+		Copyright © 2009 blog	</div>
+	<div id="themeinfo">
+		Тема блога от <a href="http://www.neoease.com/">mg12</a>. Valid <a href="http://validator.w3.org/check?uri=referer">XHTML 1.1</a> and <a href="http://jigsaw.w3.org/css-validator/">CSS 3</a>.	</div>
+</div>
+<!-- footer END -->
+
+</div>
+<!-- container END -->
+</div>
+<!-- wrap END -->
+
+
+</body></html>

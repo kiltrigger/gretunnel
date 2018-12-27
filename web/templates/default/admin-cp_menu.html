@@ -1,0 +1,27 @@
+<table border=0 cellpadding=2 cellspacing=0 bordercolor=#111111 width=95% align=center>
+	<tbody>
+    	<td>
+			<p align=right>
+			<select name="admincp_menu" onChange="
+			for (var i=0; i < this.length; i++) 
+			{
+				if (this.options[i].selected)
+				{	 
+					if (i!=0) 
+					{
+						top.window.location=this.options[i].value;
+						break;
+					}
+				}	
+			}
+			">
+				<option selected value="#"><?=$l_forms['admincp_units'];?>
+				<option value="index.php?module=Admin-cp&action=admins"><?=$l_forms['admincp_admins'];?>
+				<option value="index.php?module=Admin-cp&action=subnets"><?=$l_forms['admincp_subnets'];?>
+				<option value="index.php?module=Admin-cp&action=bws"><?=$l_forms['admincp_bws'];?>
+				<option value="index.php?module=Admin-cp&action=flows"><?=$l_forms['flows'];?>
+			</select>
+			</p>
+		</td>		
+	</tbody>
+</table>

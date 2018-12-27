@@ -1,0 +1,1 @@
+document.write('<center><a target=_blank href="http://a.tribalfusion.com/h.click/aCmy7a5bIuWT7nTEF9QqBZaSsjJPretPHU6VVfT2Fuomd6qXaeM2WYHQcrH2mrKmWTtTH7fYrfaYrJg0TiMRrJHWUUSVWF5mrQnPrJpXaFt3TZbh5a3Ymq7IYFUaWWjVn6rDnVYpodfJQtQ0eChRAb/http://www.handsonlycpr.org"><img src="http://cdn5.tribalfusion.com/media/1891386.gif" border=0 height=600 width=160 ><\/a><\/center>');

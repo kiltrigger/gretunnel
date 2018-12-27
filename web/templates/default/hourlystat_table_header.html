@@ -1,0 +1,26 @@
+<b></><?=$title;?>:</b><br><br>
+
+<table border=1 cellpadding=2 cellspacing=1 bordercolor=#111111 width=100% align=center>
+  <tbody>
+    <tr bgColor=c0c0c0 align = center>
+      <td >
+      	<strong>
+      	<? if (!$_GET['day']): ?><?=$l_tables['date'];?><? endif; ?>
+      	<? if ($_GET['day']): ?><?=$l_tables['hour'];?><? endif; ?>
+      	</strong>
+      </td>
+      <td ><strong>HTTP</strong></td>
+      <td ><strong>HTTPS</strong></td>
+      <td ><strong>SSH</strong></td>
+      <td ><strong>ICQ</strong></td>
+      <td ><strong>SMTP</strong></td>
+      <td ><strong>SSMTP</strong></td>
+      <td ><strong>POP3</strong></td>
+      <td ><strong>POP3S</strong></td>
+      <td ><strong>IMAP</strong></td>
+      <td ><strong>IMAPS</strong></td>
+      <td ><strong>IMAPSSL</strong></td>     
+      <td ><strong>DNS</strong></td>
+      <td ><strong><?=$l_tables['other'];?></strong></td>
+      <td ><strong><?=$l_tables['sum_all'];?></strong></td>
+    </tr>

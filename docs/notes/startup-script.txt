@@ -1,0 +1,18 @@
+$1 - имя виртуального сетевого интерфейса
+$4 - виртуальный IP-адрес подключившегося клиента
+$5 - имя пользователя
+
+Пример стартового скрипта
+
+#!/bin/sh
+
+echo "pass in from $4 to any queue tarif-256" | pfctl -a "vpnms/$5" -f -
+echo "rdr on $1 inet proto tcp from $4 to any port www -> 127.0.0.1 port 3128" | pfctl -a "vpnmsp/$5" -f -
+
+Пример скрипта закрытия соединения
+
+#!/bin/sh
+
+pfctl -a "vpnms/$5" -F rules
+pfctl -a "vpnmsp/$5" -F nat
+pfctl -k $4

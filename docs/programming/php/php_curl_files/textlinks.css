@@ -1,0 +1,142 @@
+SPAN.tfTextLink:link {
+    font-size: 1em; PADDING-BOTTOM: 1px; COLOR: #991616; BORDER-BOTTOM: #991616 1px solid; TEXT-DECORATION: underline;cursor:pointer;
+}
+SPAN.tfTextLink:hover {
+    font-size: 1em; PADDING-BOTTOM: 1px; COLOR: #991616; BORDER-BOTTOM: #991616 2px solid ; TEXT-DECORATION: underline;cursor:pointer;
+}
+SPAN.tfTextLink:visited {
+    font-size: 1em; PADDING-BOTTOM: 1px; COLOR: #991616; BORDER-BOTTOM: #991616 1px solid; TEXT-DECORATION: underline;cursor:pointer;
+}
+.tfAdv {
+	BORDER-RIGHT: medium none; PADDING-RIGHT: 0px; BORDER-TOP: medium none; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; BORDER-LEFT: medium none; COLOR: black; PADDING-TOP: 0px; BORDER-BOTTOM: medium none; FONT-STYLE: normal; FONT-FAMILY: verdana,arial,helvetica,sans-serif; TEXT-DECORATION: none
+}
+TD.tfAdv {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+.tfAdvBottom {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.tfAdv-explain {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 10px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.tf-textbox-SH {border: 1px solid #6cbbc5; font-family:Arial; font-size:11px; PADDING-LEFT:2px; text-decoration:none; height:22px;width:150px;}
+.tfAdv-explain-SH {PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; font-family:arial; font-weight:bold}
+.tfAdv-title-SH {PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: arial; FONT-WEIGHT: bold; FONT-SIZE: 12px; PADDING-BOTTOM: 3px; COLOR: #2400ff; PADDING-TOP: 0px; TEXT-DECORATION: underline}
+.tfAdv-title {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: verdana; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; COLOR: #2400ff; PADDING-TOP: 0px; TEXT-DECORATION: underline
+}
+.tfAdv-title13 {PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: arial; FONT-WEIGHT: bold; FONT-SIZE: 13px; COLOR: #2400ff; PADDING-TOP: 0px; TEXT-DECORATION: underline}
+.tfAdv-title13:hover {TEXT-DECORATION: none}
+.tfAdv-desc {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT-FAMILY: verdana
+}
+.tfAdv-link-price {FONT-FAMILY: verdana; FONT-WEIGHT: normal; FONT-SIZE: 11px;  COLOR: #2400ff; PADDING-TOP: 0px; TEXT-DECORATION: underline}
+.tfAdv-link-price:hover {text-decoration:none}
+.tfAdv-desc-mod {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; line-height: 15px
+}
+.tfAdv-sponsor {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: verdana; FONT-WEIGHT: bold;FONT-SIZE: 11px; PADDING-BOTTOM: 0px; COLOR: #046b00; PADDING-TOP: 0px; TEXT-DECORATION: none
+}
+A.pgRelLink:link {
+	COLOR: blue;
+}
+A.pgRelLink:hover {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+A.pgRelLink:visited {
+	COLOR: blue; 
+}
+.tfAdv_pg{
+    FONT-WEIGHT: normal; FONT-SIZE: 11px;  COLOR: black; FONT-FAMILY: arial; TEXT-DECORATION: none; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 6px;
+}
+.tfAdv-pgtitle {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: arial; FONT-WEIGHT: bold; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; COLOR: blue; PADDING-TOP: 0px; TEXT-DECORATION: underline
+}
+.tfAdv-pgtitle-bold {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px;  COLOR: black;FONT-FAMILY: arial; TEXT-DECORATION: none;
+}
+.tfAdv-pgSmalltitle {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: arial; FONT-WEIGHT: bold; FONT-SIZE: 10px; PADDING-BOTTOM: 0px; COLOR: blue; PADDING-TOP: 0px; TEXT-DECORATION: underline
+}
+
+.tfAdv_dice_bold{
+FONT-WEIGHT: bold; FONT-SIZE: 11px;  COLOR: black; FONT-STYLE: normal; FONT-FAMILY: verdana,arial,helvetica,sans-serif; TEXT-DECORATION: none; padding-top:10px; padding-bottom:5px;
+}
+
+.tf-dice-bold_10{
+    font-weight:bold;
+    font-size: 10px;
+    color: #000000;
+    font-family: verdana;
+    text-decoration:none;
+    font-style: normal;
+}
+
+.tfAdv_title_dice{
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: verdana; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; COLOR: #2400ff; PADDING-TOP: 0px; TEXT-DECORATION: underline
+}
+
+.tfAdv_title_dice:hover {TEXT-DECORATION: none}
+
+.tfAdv_desc_dice{
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: verdana; FONT-WEIGHT: normal; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; COLOR: #000000; PADDING-TOP: 0px; TEXT-DECORATION: none
+}
+
+.tf_dice_rate{font-family:verdana; FONT-SIZE: 10px;  COLOR: #c20002; font-weight:bold}
+.tf_dice_rate_title{font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold; color:#666666}
+
+.tfAdv_dice{
+FONT-WEIGHT: normal; FONT-SIZE: 11px;  COLOR: black; FONT-STYLE: normal; FONT-FAMILY: verdana,arial,helvetica,sans-serif; TEXT-DECORATION: none; padding-top:6px
+}
+
+.tf-dice-link{font-family:Arial; font-size:12px; color:#009933; font-weight:normal; text-decoration:none}
+.tf-dice-link:hover{text-decoration:underline}
+.tfAdv_pg_grey{FONT-WEIGHT: normal; FONT-SIZE: 11px; FONT-FAMILY: arial; TEXT-DECORATION: none; padding-top:6px; color:#666666; line-height:16px;}
+.tfAdv_pg_bold{FONT-WEIGHT: bold; FONT-SIZE: 11px;  COLOR: black; FONT-STYLE: normal; FONT-FAMILY: arial; TEXT-DECORATION: none; padding-top:10px}
+.tfAdv_pg_bold_10{
+FONT-WEIGHT: bold; FONT-SIZE: 10px;  COLOR: black; FONT-STYLE: normal; FONT-FAMILY: verdana; TEXT-DECORATION: none;
+}
+.tfAdv-title-dice {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-FAMILY: verdana; FONT-WEIGHT: bold; FONT-SIZE: 12px; PADDING-BOTTOM: 3px; COLOR: #2400ff; PADDING-TOP: 0px; TEXT-DECORATION: underline
+}
+
+.tf_dice_input {
+font-family: tahoma, verdana;
+ height : 16px;
+ padding-left:2px;
+ width: 140px;
+ font-size: 11px;
+ color: #313131;
+ background-color: #FFFFFF;
+ border: 1px solid #7f9db9;
+}
+.tf_dice_textfield {
+font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ color: #313131;
+}
+
+.tf_dice_select {
+font-family:Tahoma,Verdana, Geneva, Arial, Helvetica, sans-serif;
+font-size  : 11px;
+width:160px;
+ color: #102132;
+ background-color: #FFFFFF;
+ border: 1px solid #7f9db9; 
+}
+.tf_dice_input1 {
+font-family: tahoma, verdana;
+ height : 16px;
+ padding:3px 1px 0px 2px;
+ width: 120px;
+ font-size: 11px;
+ color: #313131;
+ border: 1px solid #7f9db9;
+}
+.tfAdv_pg_10{
+FONT-SIZE: 10px;  COLOR: black; FONT-STYLE: normal; FONT-FAMILY: verdana; TEXT-DECORATION: none;
+}
+.tfPlainText{
+FONT-WEIGHT: normal; FONT-SIZE: 12px;  COLOR: black; FONT-STYLE: normal; FONT-FAMILY: verdana,arial,helvetica,sans-serif; TEXT-DECORATION: none; padding-top:6px
+}

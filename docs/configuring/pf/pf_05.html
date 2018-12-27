@@ -1,0 +1,107 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=KOI8-R"><title>
+        Учебник по FreeBSD, OpenBSD, NetBSD, DragonFly: C.5. Программы для удобной работы с пакетным фильтром</title><link rel="stylesheet" href="pf_05_files/default.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><meta name="keywords" content="BSD, OpenBSD, FreeBSD, NetBSD, DragonFly"><link rel="start" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html" title="BSDA в вопросах и ответах"><link rel="up" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html" title="Приложение C. Пакетный фильтр OpenBSD&nbsp;&#8212; pf(4)"><link rel="prev" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html" title="C.4. Интеграция пакетного фильтра с програмным окружением"><link rel="next" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apd.html" title="Приложение D. Пакетный фильтр NetBSD&nbsp;&#8212; ipf(8)"></head><body link="#0000ff" text="black" vlink="#840084" alink="#0000ff" bgcolor="white"><div class="navheader"><table summary="Navigation header" width="100%"><tbody><tr><th></th><th align="center">C.5. Программы для удобной работы с пакетным фильтром</th><th align="right"><script type="text/javascript" src="pf_05_files/orphus.js"></script><a title="Система Orphus" href="http://orphus.ru/" id="orphus" target="_blank"><img alt="Система Orphus" src="pf_05_files/orphus.gif" border="0"></a></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html"><img src="pf_05_files/prev.gif" alt="Пред."></a>&nbsp;</td><th width="60%" align="center">Приложение C. Пакетный фильтр <span class="acronym">OpenBSD</span>&nbsp;&#8212; <span><strong class="command">pf(4)</strong></span></th><td width="20%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apd.html"><img src="pf_05_files/next.gif" alt="След."></a></td></tr></tbody></table><hr></div><div class="section" lang="ru"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="pf-utilites"></a>C.5. Программы для удобной работы с пакетным фильтром</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html#pf-pfstat"><img name="cover" src="pf_05_files/button-green.png" alt="[+]">C.5.1. <span><strong class="command">pfstat</strong></span></a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html#pf-pftop"><img name="cover" src="pf_05_files/button-green.png" alt="[+]">C.5.2. <span><strong class="command">pftop</strong></span></a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html#pf-ftpsesame"><img name="cover" src="pf_05_files/button-green.png" alt="[+]">C.5.3. ftpsesame</a></span></dt></dl></div><div class="section" lang="ru"><div class="titlepage"><div><div><h3 class="title"><a name="pf-pfstat"></a>C.5.1. <span><strong class="command">pfstat</strong></span></h3></div></div></div><p>
+        <span><strong class="command">pfstat</strong></span>&nbsp;&#8212; небольшая утилита,
+        собирающая статистику при помощи пакетного фильтра и
+        предоставляющая её в графическом виде, подобно широко известной
+        программе <span><strong class="command">mrtg</strong></span>. Устанавливается из порта
+        <code class="filename">sysutils/pfstat</code>.
+      </p><p>
+        Программа должна регулярно запускаться при помощи
+        <span><strong class="command">cron</strong></span>. Сбор статистики при этом должен быть
+        включён либо командой
+      </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -i sis0
+        </pre></div><p>
+        Либо при помощи опции
+      </p><div class="informalexample"><pre class="programlisting">set loginterface sis0
+        </pre></div><p>
+        в <code class="filename">pf.conf(5)</code>. Просмотр отчёта
+        осуществляется из браузера при помощи cgi сценария.
+      </p><p>
+        </p><div class="mediaobject"><img src="pf_05_files/pfstat.jpg" alt="pfstat"><div class="caption">
+            interface sis0 pass bytes ipv4, states
+          </div></div><p>
+      </p><p>
+        </p><div class="mediaobject"><img src="pf_05_files/pfstat-states.jpg" alt="pfstat-states"><div class="caption">
+            states inserts, removals, searches
+          </div></div><p>
+      </p><p>
+        </p><div class="mediaobject"><img src="pf_05_files/pfstat-packets.jpg" alt="pfstat-packets"><div class="caption">
+            interface sis0 pass/block packets ipv4
+          </div></div><p>
+      </p><p>
+        </p><div class="mediaobject"><img src="pf_05_files/pfstat-queues.jpg" alt="pfstat-queues"><div class="caption">
+            interface sis0 queues
+          </div></div><p>
+      </p><p>
+        </p><div class="mediaobject"><img src="pf_05_files/pfstat-errors.jpg" alt="pfstat-errors"><div class="caption">
+            global counters
+          </div></div><p>
+      </p><p>
+        Другая аналогичная программа&nbsp;&#8212; <span><strong class="command">symon</strong></span>
+        (порт <code class="filename">sysutils/symon</code>).
+        <span><strong class="command">symon</strong></span> собирает разнообразную статистику (не
+        только по пакетному фильтру, но так же загруженность CPU и т.п.)
+        и отправляет её на общий сервер, где она хранится в единой базе
+        данных RRDtool (порт <code class="filename">net/rrdtool</code>, Round
+        Robin Database). Из этой базы можно строить разнообразные
+        картинки.
+      </p></div><div class="section" lang="ru"><div class="titlepage"><div><div><h3 class="title"><a name="pf-pftop"></a>C.5.2. <span><strong class="command">pftop</strong></span></h3></div></div></div><p>
+        Программа <span><strong class="command">pftop</strong></span> устанавливается из порта
+        <code class="filename">sysutils/pftop</code>.
+      </p><p>
+        Назначение программы: сбор статистики о коннектах в режиме
+        on-line (подобно программе <span><strong class="command">top(1)</strong></span>). Программа
+        непрерывно изучает таблицу состояний и выводит информацию о её
+        содержимом:
+      </p><div class="informalexample"><pre class="screen"><code class="prompt">$</code> pftop
+pfTop: Up State 1-46/175, View: default, Order: none, Cache: 10000                                11:59:30
+
+PR   DIR SRC                  DEST                      STATE                AGE       EXP   PKTS    BYTES
+tcp  In  172.19.0.34:60730    172.19.0.2:22    ESTABLISHED:ESTABLISHED  02:58:55  23:59:40  22192  3862199
+tcp  In  172.19.0.34:34489    172.19.0.2:22    ESTABLISHED:ESTABLISHED  03:04:41  23:08:18    818   123203
+tcp  In  172.19.0.34:43768    172.19.0.2:22    ESTABLISHED:ESTABLISHED  01:36:42  22:26:49    837   123931
+tcp  In  81.26.141.122:40448  172.19.0.2:80     FIN_WAIT_2:FIN_WAIT_2   00:00:12  00:01:23     18     9917
+tcp  In  81.26.141.122:44774  172.19.0.2:80     FIN_WAIT_2:FIN_WAIT_2   00:00:12  00:01:24    111    95323
+tcp  In  66.249.72.142:65077  172.19.0.2:80    ESTABLISHED:ESTABLISHED  00:00:09  24:00:00    950   905145
+tcp  In  66.249.72.142:63902  172.19.0.2:80     FIN_WAIT_2:FIN_WAIT_2   00:00:20  00:01:16     19     8588
+tcp  In  91.192.58.182:2701   172.19.0.2:80     FIN_WAIT_2:FIN_WAIT_2   00:00:02  00:01:28      7      296
+tcp  In  91.192.58.182:2708   172.19.0.2:80      TIME_WAIT:TIME_WAIT    00:00:02  00:01:29     17    12235
+udp  Out 172.19.0.2:61667     192.129.4.1:53      MULTIPLE:SINGLE       00:00:32  00:00:00      4      620
+udp  Out 172.19.0.2:61667     194.105.16.1:53     MULTIPLE:SINGLE       00:00:23  00:00:07      2      214
+udp  Out 172.19.0.2:61667     193.231.32.1:53     MULTIPLE:SINGLE       00:00:32  00:00:00      2      211
+udp  Out 172.19.0.2:61667     212.118.58.1:53     MULTIPLE:MULTIPLE     00:00:33  00:00:27      8      600
+udp  Out 172.19.0.2:61667     193.110.75.1:53     MULTIPLE:MULTIPLE     00:00:57  00:00:13      4      532
+...................
+        </pre></div><p>
+        Внешний вид зависит от ширины терминала. Данный скриншот получен
+        при помощи <span><strong class="command">xterm(1)</strong></span>, но если изучать вывод в
+        обычном терминале шириной 80 символов, состояния будут даны лишь
+        цифрами, Направление (DIR) будет дано одной буквой и т.д.
+      </p><p>
+        У программы есть опции позволяющие менять формат вывода данных.
+      </p><p>
+        См. так же <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs03.html#pfctl-ex3" title="Пример C.3. Просмотр таблицы состояний">Пример&nbsp;C.3, &#171;Просмотр таблицы состояний&#187;</a>.
+      </p></div><div class="section" lang="ru"><div class="titlepage"><div><div><h3 class="title"><a name="pf-ftpsesame"></a>C.5.3. ftpsesame</h3></div></div></div><p>
+        Порт <code class="filename">ftp/ftpsesame</code> может применяться для
+        проксирования трафика <span class="acronym">FTP</span> через пакетный
+        фильтр. В последних выпусках пакетного фильтра в
+        <span class="acronym">OpenBSD</span> функционал этой программы вошёл в
+        программу <span><strong class="command">ftp-proxy</strong></span>, отднако в других
+        системах: <span class="acronym">FreeBSD</span>, <span class="acronym">NetBSD</span>,
+        <span class="acronym">DragonFly&nbsp;BSD</span>, можно использовать
+        <span><strong class="command">ftpsesame</strong></span> для осуществления проброса
+        <span class="acronym">FTP</span>.
+      </p><p>
+        Программа <span><strong class="command">ftpsesame</strong></span> осуществляет управление
+        пакетным фильтром на лету при помощи <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-anchors" title="C.2.2.3. Anchors">якорей</a>. См. <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-ftp-client" title="C.2.3.3.2. FTP клиент за брандмауэром">Раздел&nbsp;C.2.3.3.2, &#171;FTP клиент за брандмауэром&#187;</a> и <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-ftp-server-more" title="C.2.3.3.4. FTP сервер защищённый внешним пакетным фильтром с
+            запущенным на нём NAT">Раздел&nbsp;C.2.3.3.4, &#171;FTP сервер защищённый внешним пакетным фильтром с
+            запущенным на нём NAT&#187;</a>.
+      </p></div></div><hr><div class="itemizedlist"><ul type="disc"><li><a href="http://house.hcn-strela.ru/BSDCert/">Легенда (условные обозначения)</a>.</li><li>Свежая версия данного <a href="http://house.hcn-strela.ru/BSDCert/">учебника по *BSD</a>.</li><li>Если вы нашли ошибку, выделите её в браузере и нажмите
+                    клавиши &lt;Ctrl&gt;+&lt;Enter&gt; (пожалуйста,
+                    &#171;зачёрпывайте&#187; окрестности ошибки, чтобы её было
+                    легче найти в тексте)</li><li>Замечания и предложения можно высылать по адресу <img src="pf_05_files/email.png"></li><li>Автор, <a href="http://house.hcn-strela.ru/%7Eemin/cv.html">Евгений Миньковский</a>, ведёт
+                    <a href="http://www.a-sys.ru/default.aspx?t13=7">курсы по администрированию
+                        <acronym class="acronym">FreeBSD</acronym> и
+                        <acronym class="acronym">Linux</acronym></a>.
+                    в Академии Корпоративных Систем:
+                    <a href="http://www.a-sys.ru/">http://www.a-sys.ru/</a></li></ul></div><div class="navfooter"><hr><table summary="Navigation footer" width="100%"><tbody><tr><td width="40%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html"><img src="pf_05_files/prev.gif" alt="Пред."></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html"><img src="pf_05_files/up.gif" alt="Уровень выше"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apd.html"><img src="pf_05_files/next.gif" alt="След."></a></td></tr><tr><td valign="top" width="40%" align="left">C.4. Интеграция пакетного фильтра с програмным окружением&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html"><img src="pf_05_files/home.gif" alt="Начало"></a></td><td valign="top" width="40%" align="right">&nbsp;Приложение D. Пакетный фильтр <span class="acronym">NetBSD</span>&nbsp;&#8212; <span><strong class="command">ipf(8)</strong></span></td></tr></tbody></table></div></body></html>

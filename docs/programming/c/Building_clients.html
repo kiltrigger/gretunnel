@@ -1,0 +1,148 @@
+<html><head>
+
+<title>MySQL.RU .:. Одобрено лучшими российскими программистами</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<link href="Building_clients_files/style.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="http://www.mysql.ru/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.mysql.ru/favicon.ico" type="image/x-icon">
+</head><body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+<table wrap="" border="0" cellpadding="0" cellspacing="0" height="92" width="100%">
+  <tbody><tr> 
+    <td background="Building_clients_files/verh.jpg" height="92" width="686" align="right"><a href="http://www.mysql.ru/">&nbsp;</a></td>
+    <td background="Building_clients_files/verh_b.jpg" align="right"><iframe src="Building_clients_files/erle.html" vspace="0" hspace="0" marginwidth="0" marginheight="0" frameborder="0" height="60" scrolling="no" width="468">&lt;a
+href=http://www.linkexchange.ru/users/56030/goto.map
+target=_top&gt;&lt;img
+src=http://www.linkexchange.ru/cgi-bin/rle.cgi?56030?7918257 alt="RLE
+Banner Network" border=0 height=60 width=468&gt;&lt;/a&gt;</iframe><br>
+    </td>
+  </tr>
+</tbody></table>
+<table wrap="" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody><tr> 
+    <td background="Building_clients_files/lev_back.jpg" valign="top" width="157">
+      <img src="Building_clients_files/lev_menu.jpg" height="28" width="155"><br>
+      <a href="http://www.mysql.ru/news" target="_top"><img src="Building_clients_files/a_news.jpg" alt="Новости" border="0" height="15" width="155"></a><br>
+      <a href="http://www.mysql.ru/docs" target="_top"><img src="Building_clients_files/a_documents.jpg" alt="Документация" border="0" height="19" width="155"></a><br>
+      <a href="http://www.mysql.ru/download" target="_top"><img src="Building_clients_files/a_download.jpg" alt="Download" border="0" height="19" width="155"></a><br>
+      <a href="http://www.mysql.ru/webboard" target="_top"><img src="Building_clients_files/a_webboard.jpg" alt="Webboard" border="0" height="19" width="155"></a><br>
+      <a href="http://www.mysql.ru/search.html" target="_top"><img src="Building_clients_files/a_searh.jpg" alt="Поиск" border="0" height="19" width="155"></a><br>
+      <a href="http://www.mysql.ru/faq" target="_top"><img src="Building_clients_files/a_faq.gif" alt="FAQ/ЧаВо" border="0" height="19" width="155"></a><br>
+      <a href="http://www.mysql.ru/feedback"><img src="Building_clients_files/a_mail.jpg" alt="Обратная связь" border="0" height="19" width="155"></a><br>
+      <br>
+      <br>
+      <br>
+    </td>
+    <td valign="top"> 
+      <table wrap="" border="0" cellpadding="0" cellspacing="0" width="96%" align="center">
+        <tbody><tr> 
+          <td height="600" valign="top" align="left">
+	    <br>
+	<!-- Start: center -->
+
+<table bgcolor="#f8f8f8" width="50%">
+<tbody><tr>
+	<td>
+
+	</td>
+</tr>
+</tbody></table>
+
+
+<center><h2>Справочное руководство по MySQL</h2><h5>8.4.7  Сборка клиентских программ</h5></center>
+
+<div><ul><li><a href="http://www.mysql.ru/docs/man/Clients.html">8 Интерфейсы для MySQL
+</a><ul><li><a href="http://www.mysql.ru/docs/man/C.html">8.4 Интерфейс C для MySQL
+</a><ul><li><a href="http://www.mysql.ru/docs/man/C_API_datatypes.html">8.4.1 Типы данных C API
+</a></li><li><a href="http://www.mysql.ru/docs/man/C_API_function_overview.html">8.4.2 Обзор функций интерфейса C
+</a></li><li><a href="http://www.mysql.ru/docs/man/C_API_functions.html">8.4.3 Описание функций интерфейса C
+</a></li><li><a href="http://www.mysql.ru/docs/man/C_Thread_functions.html">8.4.4 Описания функций C, связанных с потоками
+</a></li><li><a href="http://www.mysql.ru/docs/man/C_Embedded_Server_func.html">8.4.5 Описания функций C, доступных во встраиваемом сервере
+</a></li><li><a href="http://www.mysql.ru/docs/man/C_API_problems.html">8.4.6 Основные вопросы и проблемы в использовании интерфейса C
+</a></li><li>8.4.7 Сборка клиентских программ
+</li><li><a href="http://www.mysql.ru/docs/man/Threaded_clients.html">8.4.8 Как создать клиентскую программу с потоками
+</a></li><li><a href="http://www.mysql.ru/docs/man/libmysqld.html">8.4.9 libmysqld, встраиваемая библиотека сервера MySQL
+</a></li></ul></li></ul></li></ul></div><ul>
+
+<div>
+<div><a rel="prev" href="http://www.mysql.ru/docs/man/C_API_linking_problems.html" title="8.4.6.4  Проблемы линкования с интерфейсом C">Previous</a> / <a rel="next" href="http://www.mysql.ru/docs/man/Threaded_clients.html" title="8.4.8  Как создать клиентскую программу с потоками">Next</a> / <a rel="up" href="http://www.mysql.ru/docs/man/C.html" title="8.4  Интерфейс C для MySQL">Up</a> / <a rel="contents" href="http://www.mysql.ru/docs/man/index.html">Table of Contents</a></div><h3>8.4.7  Сборка клиентских программ</h3>
+
+<p>
+<a name="IDX1121"></a>
+<a name="IDX1122"></a>
+<a name="IDX1123"></a>
+<a name="IDX1124"></a>
+
+</p>
+<p>
+Клиенты MySQL, созданные собственноручно или полученные от сторонних фирм,
+при компилировании должны линковаться с использованием опций <code>-lmysqlclient
+-lz</code> в команде линкования. Возможно, потребуется задать опцию <code>-L</code>, чтобы
+указать компоновщику местоположение данной библиотеки. Например, если
+библиотека установлена в каталоге <tt>`/usr/local/mysql/lib'</tt>, следует
+использовать в команде линкования выражение <code>-L/usr/local/mysql/lib
+-lmysqlclient -lz</code>.
+
+</p>
+<p>
+Для клиентов, использующих файлы заголовков MySQL, при компиляции,
+возможно, потребуется задать опцию <code>-I</code> (например,
+<code>-I/usr/local/mysql/include</code>), чтобы компилятор мог найти требуемые файлы
+заголовков.
+
+</p>
+
+
+
+<br><div><a href="http://www.mysql.ru/docs/man/Building_clients.html#">Top</a> / <a rel="prev" href="http://www.mysql.ru/docs/man/C_API_linking_problems.html" title="8.4.6.4  Проблемы линкования с интерфейсом C">Previous</a> / <a rel="next" href="http://www.mysql.ru/docs/man/Threaded_clients.html" title="8.4.8  Как создать клиентскую программу с потоками">Next</a> / <a rel="up" href="http://www.mysql.ru/docs/man/C.html" title="8.4  Интерфейс C для MySQL">Up</a> / <a rel="contents" href="http://www.mysql.ru/docs/man/index.html">Table of Contents</a></div></div>
+</ul>
+<center><form action="http://www.mysql.ru/search" method="get">
+Поиск по документации:
+<input name="b" value="1" type="hidden">
+<input name="terms" size="20" type="text">
+<input value="Поехали!" type="submit">
+</form></center>
+
+
+<br><br>
+<!--//
+<p align="center">
+<a href="http://www.inside.ru/?referer1=reklama&referer2=mysql-1" title="Создание сайтов">Создание сайтов</a> и
+<a href="http://www.inside.ru/?referer1=reklama&referer2=mysql-2" title="Разработка сайтов">Разработка сайтов</a>
+</p>
+//-->
+
+<br>
+<table cellpadding="2" cellspacing="2" width="90%" align="center">
+<tbody><tr bgcolor="#f0f0f0" align="center">
+	<td><a href="http://www.mysql.ru/feedback/?reklama"><b>РЕКЛАМА НА САЙТЕ</b></a></td>
+</tr>
+<tr bgcolor="#fbfbfb" align="center">
+	<td>
+&nbsp;
+<font size="-2">
+
+ | 
+</font>
+	</td>
+</tr>
+</tbody></table>
+
+
+
+	<!-- Stop: center -->
+            <br>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+<table wrap="" background="Building_clients_files/niz_c.jpg" border="0" cellpadding="0" cellspacing="0" height="47" width="100%">
+  <tbody><tr> 
+    <td> <img src="Building_clients_files/niz_a.jpg" height="47" width="247"><a href="http://www.inside.ru/"><img src="Building_clients_files/niz_logo.jpg" border="0" height="47" width="113"></a><img src="Building_clients_files/niz_b.jpg" height="47" width="211"> 
+  </td></tr>
+  <tr>
+    <td>
+  </td></tr>
+</tbody></table>
+</body></html>

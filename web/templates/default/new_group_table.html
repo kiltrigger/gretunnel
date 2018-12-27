@@ -1,0 +1,259 @@
+<script>
+var groups = new Array();
+
+<?=$tpl_groups;?>
+
+function checkReg() {
+var group_used = 0;
+
+for (var i=0; i < groups.length; i++) {
+	if (document.forms['reg'].groupadd_group.value == groups[i]) 
+		group_used = 1;
+}
+
+
+if (document.forms['reg'].groupadd_group.value=='') {
+alert('<?=$l_forms['no_group'];?>');
+document.forms['reg'].groupadd_group.focus();
+return false;
+}
+
+if (group_used == '1')
+{
+	alert('<?=$l_forms['group_used'];?>');
+	document.forms['reg'].groupadd_group.focus();
+	return false;
+}
+
+if (document.forms['reg'].groupadd_tcp.value=='') 
+{
+	alert('<?=$l_forms['no_tcp_ports'];?>');
+	document.forms['reg'].groupadd_tcp.focus();
+	return false;
+}
+
+if (document.forms['reg'].groupadd_udp.value=='') 
+{
+	alert('<?=$l_forms['no_dp_ports'];?>');
+	document.forms['reg'].groupadd_udp.focus();
+	return false;
+}
+
+if (document.forms['reg'].groupadd_limit_type.value=='limited') {
+	if (document.forms['reg'].groupadd_limit.value=='') 
+	{
+		alert('<?=$l_forms['no_limit'];?>');
+		document.forms['reg'].groupadd_limit.focus();
+		return false;
+	}
+	if (document.forms['reg'].groupadd_limit.value=='0') 
+	{
+		alert('<?=$l_forms['no_limit'];?>');
+		document.forms['reg'].groupadd_limit.focus();
+		return false;
+	}
+	if (document.forms['reg'].groupadd_out_limit.value=='') 
+	{
+		alert('<?=$l_forms['no_out_limit'];?>');
+		document.forms['reg'].groupadd_out_limit.focus();
+		return false;
+	}
+	if (document.forms['reg'].groupadd_out_limit.value=='0') 
+	{
+		alert('<?=$l_forms['no_out_limit'];?>');
+		document.forms['reg'].groupadd_out_limit.focus();
+		return false;
+	}
+
+}
+
+
+return true;
+
+}
+
+function limit_type()
+{
+	if (document.forms['reg'].groupadd_limit_type.value == 'limited')
+	{
+		document.forms['reg'].groupadd_limit.disabled = false;
+		document.forms['reg'].groupadd_out_limit.disabled = false;
+
+		document.forms['reg'].groupadd_limit.value = '100';
+		document.forms['reg'].groupadd_out_limit.value = '30';
+	}
+	if (document.forms['reg'].groupadd_limit_type.value == 'unlimited')
+	{
+		document.forms['reg'].groupadd_limit.disabled = true;
+		document.forms['reg'].groupadd_out_limit.disabled = true;
+
+		document.forms['reg'].groupadd_limit.value = '';
+		document.forms['reg'].groupadd_out_limit.value = '';
+	}
+}
+
+</script>
+
+
+
+<form name='reg' onsubmit='return checkReg();' action='index.php?module=Groups&action=groupadd' method='post' >
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="2">
+<tbody>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupadd_group maxlength=18 size=20 >
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupadd_limit maxlength=18 size=20 value=100>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['out_limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupadd_out_limit maxlength=18 size=20 value=30>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['tcp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupadd_tcp maxlength=250 size=20 value="*">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['udp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupadd_udp maxlength=250 size=20 value="*">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['type'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupadd_limit_type onChange="limit_type();">
+                      <OPTION VALUE='limited' SELECTED><?=$l_forms['limited'];?>
+                      <OPTION VALUE='unlimited'><?=$l_forms['unlimited'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['auth_type'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupadd_auth_type>
+                      <OPTION VALUE='PAP'>PAP
+                      <OPTION VALUE='CHAP'>CHAP
+                      <OPTION VALUE='MS-CHAP' SELECTED>MS-CHAP
+    </SELECT>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['speed'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupadd_bw>
+					<?=$tpl_bandwidth;?>
+    </SELECT>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+
+
+<tr>
+	<td width=5%>	
+	</td>
+	<td width=15%>
+	<br>
+	<input type=submit value="<?=$l_forms['enter'];?>" >
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>

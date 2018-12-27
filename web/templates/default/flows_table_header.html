@@ -1,0 +1,40 @@
+<form name='flows_query_prev' action="index.php?module=Admin-cp&action=flows&subaction=search&flows=<?=$prev_flows;?>" method='post'>
+ <input type=hidden name=flows_owner value="<?=$_POST['flows_owner'];?>">
+ <input type=hidden name=flows_ip value="<?=$_POST['flows_ip'];?>">
+ <input type=hidden name=flows_dstp value="<?=$_POST['flows_dstp'];?>">
+ <input type=hidden name=flows_srcp value="<?=$_POST['flows_srcp'];?>">
+ <input type=hidden name=flows_start_date value="<?=$_POST['flows_start_date'];?>">
+ <input type=hidden name=flows_end_date value="<?=$_POST['flows_end_date'];?>">
+ <input type=hidden name=flows_direction value="<?=$_POST['flows_direction'];?>">
+ <input type=hidden name=flows_type value="<?=$_POST['flows_type'];?>">      
+</form>
+
+<form name='flows_query_next' action="index.php?module=Admin-cp&action=flows&subaction=search&flows=<?=$next_flows;?>" method='post'>
+ <input type=hidden name=flows_owner value="<?=$_POST['flows_owner'];?>">
+ <input type=hidden name=flows_ip value="<?=$_POST['flows_ip'];?>">
+ <input type=hidden name=flows_dstp value="<?=$_POST['flows_dstp'];?>">
+ <input type=hidden name=flows_srcp value="<?=$_POST['flows_srcp'];?>">
+ <input type=hidden name=flows_start_date value="<?=$_POST['flows_start_date'];?>">
+ <input type=hidden name=flows_end_date value="<?=$_POST['flows_end_date'];?>">
+ <input type=hidden name=flows_direction value="<?=$_POST['flows_direction'];?>">
+ <input type=hidden name=flows_type value="<?=$_POST['flows_type'];?>">      
+</form>
+
+<table border=0 cellpadding=2 cellspacing=0  width=60% align=center>
+  <tbody>
+    <tr align = center>
+      <td width=50% align="left"><a href="" onclick="flows_query_prev.submit(); return false;"><< <?=$navbar['back'];?></a></td>           
+      <td width=50% align="right"><a href="" onclick="flows_query_next.submit(); return false;"><?=$navbar['forward'];?> >></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<table border=1 cellpadding=2 cellspacing=0  width=60% align=center>
+  <tbody>
+    <tr bgColor=#d0d0d0 align = center>
+      <td width=25%><strong><?=$l_tables['date'];?></strong></td>
+      <td width=20%><strong><?=$l_tables['username'];?></strong></td>
+      <td width=35%><strong><?=$l_tables['ip_and_port'];?></strong></td>
+      <td width=12%><strong><?=$l_tables['bytes'];?></strong></td>
+      <td width=8%><strong><?=$l_forms['local'];?></strong></td>           
+    </tr>

@@ -1,0 +1,9 @@
+
+    <tr bgColor=#ffffe1 align = center onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#ffffe1';">
+      <td><? echo $subnet_number; ?></td>
+      <td><? echo $row['bandwidth_name']; ?></td>
+      <td>
+      <a href="index.php?module=Admin-cp&action=bws&subaction=del_bw&bw=<?=$row['bandwidth_name'];?>" onClick="return window.confirm('<?=$l_tables['bw_del'];?>')"><img src="templates/<?=$config['template'];?>/images/delete.gif" ></a>
+      </td>
+    </tr>
+    

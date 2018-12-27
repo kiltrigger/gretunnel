@@ -1,0 +1,24 @@
+<script type="text/javascript">
+        <!--
+        function exec_refresh()
+        {
+                window.status = "Redirecting..." + myvar;
+                myvar = myvar + " .";
+                var timerID = setTimeout("exec_refresh();", 100);
+                if (timeout > 0)
+                {
+                        timeout -= 1;
+                }
+                else
+                {
+                        clearTimeout(timerID);
+                        window.status = "";
+                        window.location = "<?=$url;?>";
+                }
+        }
+
+        var myvar = "";
+        var timeout = <?=$delay;?>;
+        exec_refresh();
+        //-->
+</script>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0036)http://inet.tom.ru/wiki/ubuntu.xhtml -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>ООО "Интернет" - Настройка VPN (Ubuntu)</TITLE>
+<!--<BASE href="http://inet.tom.ru/">--><BASE href=".">
+
+<META name="robots" content="index, follow">
+<META name="description" content="Новости компании Интернет">
+<META name="keywords" content="Новости компании Интернет">
+<LINK rel="stylesheet" href="./Настройка VPN (Ubuntu)_files/style.css" type="text/css" media="screen">
+<!--[if lte IE 6]><link href="css/ie6.css" rel="stylesheet" type="text/css" media="all" /><![endif]-->
+<!--[if lte IE 7]><link href="css/ie7.css" rel="stylesheet" type="text/css" media="all" /><![endif]-->
+<SCRIPT src="./Настройка VPN (Ubuntu)_files/jquery-1.2.6.min.js" type="text/javascript"></SCRIPT><STYLE type="text/css" style="display: none !important;">object:not([type]),object[classid$=":D27CDB6E-AE6D-11cf-96B8-444553540000"],object[classid$=":d27cdb6e-ae6d-11cf-96b8-444553540000"],object[codebase*="swflash.cab"],object[data*=".swf"],object[type="application/x-shockwave-flash"],object[src*=".swf"],object[codetype="application/x-shockwave-flash"],embed[type="application/x-shockwave-flash"],embed[src*=".swf"],embed[allowscriptaccess],embed[flashvars],embed[wmode],object[classid$=":166B1BCA-3F9C-11CF-8075-444553540000"],object[codebase*="sw.cab"],object[data*=".dcr"],object[type="application/x-director"],object[src*=".dcr"],embed[type="application/x-director"],embed[src*=".dcr"],object[classid$=":15B782AF-55D8-11D1-B477-006097098764"],object[codebase*="awswaxf.cab"],object[data*=".aam"],object[type="application/x-authorware-map"],object[src*=".aam"],embed[type="application/x-authorware-map"],embed[src*=".aam"],object[classid$="32C73088-76AE-40F7-AC40-81F62CB2C1DA"],object[type="application/ag-plugin"],object[type="application/x-silverlight"],object[type="application/x-silverlight-2"],object[source*=".xaml"],object[sourceelement*="xaml"],embed[type="application/ag-plugin"],embed[source*=".xaml"]{display: none !important;}</STYLE>
+<SCRIPT src="./Настройка VPN (Ubuntu)_files/jquery.fancybox-1.0.0.js" type="text/javascript"></SCRIPT>
+<LINK rel="stylesheet" href="./Настройка VPN (Ubuntu)_files/fancy.css" type="text/css" media="screen">
+<SCRIPT type="text/javascript" src="./Настройка VPN (Ubuntu)_files/saved_resource"></SCRIPT><SCRIPT>window["_GOOG_TRANS_EXT_VER"] = "1";</SCRIPT></HEAD><BODY>
+
+
+<DIV id="main_bg">
+ <DIV id="main_page">
+  <DIV id="all-site">
+   <DIV id="header">
+
+    <DIV id="logo">
+     <A href="http://inet.tom.ru/" class="site-logo" title="На главную"><IMG src="./Настройка VPN (Ubuntu)_files/logo.gif" alt="Интернет"></A>
+     <P class="site-description">учись,  работай, отдыхай</P>
+    </DIV>
+
+    <DIV id="loginform">
+     <A href="http://inet.tom.ru/forum/" target="_top"><IMG src="./Настройка VPN (Ubuntu)_files/forum.png" border="0"></A>
+     <FORM action="http://mail.inet.tom.ru/" method="post" name="login-form" id="login-form">
+      <LABEL>Вход в почту</LABEL>
+<INPUT type="hidden" name="_action" value="login">
+<INPUT type="hidden" name="_timezone" id="rcmlogintz" value="_default_">
+      <DIV>
+       <INPUT type="text" name="_user" id="rcmloginuser" alt="Логин" size="10" value="Логин" onblur="if(this.value==&#39;&#39;){this.value=&#39;Логин&#39;; this.style.color=&#39;#ccc&#39;}" onfocus="if(this.value==&#39;Логин&#39;){this.value=&#39;&#39;; this.style.color=&#39;#000&#39;}">
+      </DIV>
+      <DIV>
+       <INPUT type="password" name="_pass" id="rcmloginpwd" alt="Пароль" size="10" value="Пароль" onblur="if(this.value==&#39;&#39;){this.value=&#39;Пароль&#39;; this.style.color=&#39;#ccc&#39;}" onfocus="if(this.value==&#39;Пароль&#39;){this.value=&#39;&#39;; this.style.color=&#39;#000&#39;}">
+      </DIV>
+      <DIV class="button">
+       <BUTTON type="submit" name="Submit">&nbsp;</BUTTON>
+      </DIV>
+     </FORM>
+     <DIV class="maininfo">
+     </DIV>
+
+    </DIV>
+
+    <DIV id="navigation">
+		<DL>
+	<DT><IMG src="./Настройка VPN (Ubuntu)_files/s_about.gif" alt="Информация"><A href="http://inet.tom.ru/about/">Информация</A></DT>
+
+					<DD><A href="http://inet.tom.ru/news/">Новости компании</A></DD>
+		
+				<DD><A href="http://inet.tom.ru/about/summary.xhtml">Общая информация</A></DD>
+				<DD><A href="http://inet.tom.ru/about/stat.xhtml">Статистика каналов</A></DD>
+				<DD><A href="http://inet.tom.ru/about/doc.xhtml">Документация</A></DD>
+			</DL>
+		<DL>
+	<DT><IMG src="./Настройка VPN (Ubuntu)_files/s_connect.gif" alt="Подключение"><A href="http://inet.tom.ru/connect/">Подключение</A></DT>
+
+		
+				<DD><A href="http://inet.tom.ru/connect/connect.xhtml">Как подключиться</A></DD>
+				<DD><A href="http://inet.tom.ru/connect/tarifs.xhtml">Тарифные планы</A></DD>
+				<DD><A href="http://inet.tom.ru/connect/cost.xhtml">Оплата услуг связи</A></DD>
+				<DD><A href="http://inet.tom.ru/connect/map.xhtml">Карта покрытия</A></DD>
+			</DL>
+		<DL>
+	<DT><IMG src="./Настройка VPN (Ubuntu)_files/s_resources.gif" alt="Справочник"><A href="http://inet.tom.ru/resources/">Справочник</A></DT>
+
+		
+				<DD><A href="http://inet.tom.ru/resources/general.xhtml">Основные настройки</A></DD>
+				<DD><A href="http://inet.tom.ru/resources/vpn.xhtml">Настройка VPN</A></DD>
+				<DD><A href="http://inet.tom.ru/resources/icq.xhtml">Настройка ICQ</A></DD>
+				<DD><A href="http://inet.tom.ru/resources/email.xhtml">Электронная почта</A></DD>
+			</DL>
+		<DL>
+	<DT><IMG src="./Настройка VPN (Ubuntu)_files/s_users.gif" alt="Для абонентов"><A href="http://inet.tom.ru/users/">Для абонентов</A></DT>
+
+		
+				<DD><A href="http://inet.tom.ru/users/faq.xhtml">Тех.поддержка</A></DD>
+				<DD><A href="http://inet.tom.ru/users/callback.xhtml">Обратная связь</A></DD>
+				<DD><A href="http://inet.tom.ru/users/sale.xhtml">Скидки и акции</A></DD>
+				<DD><A href="http://inet.tom.ru/users/service.xhtml">Сервисный центр</A></DD>
+			</DL>
+	    </DIV>
+
+   </DIV>
+
+   <DIV id="wrapper">
+    <DIV class="content">
+     <DIV class="content-block">
+		
+		<H1><A href="./Настройка VPN (Ubuntu)_files/Настройка VPN (Ubuntu).html">Настройка VPN (Ubuntu)</A></H1>
+		<BR>
+		
+	<P style="text-align: justify;"><STRONG>Настройка с помощью Network Manager'а</STRONG><BR><BR>Как бы там ни было, но все таки опиши настройку впн с помощью network-manager'а. Эта настройка вполне подойдет тем, у кого в подключении к сети используется автоматическое получение IP адреса с помощью DHCP.<BR>1. Устанавливаем два необходимых нам пакета:</P>
+<DIV class="code" style="text-align: justify;">#apt-get install pptp-linux network-manager-pptp</DIV>
+<P style="text-align: justify;"><BR>Так как этих пакетов по умолчанию нет на диске с убунтой, а впн часто приходится настраивать на машине, у которой больше нет другого выхода в интернет, то советую заранее припастись этими пакетами с официального репозитория. Для этого заходим на сайт <A href="http://packages.ubuntu.com/" target="_blank">http://packages.ubuntu.com/</A>, там ищем два эти пакета, закачиваем их и в дальнейшем устанавливаем на нужной нам машине.<BR>2. Если в аплете Network Manager не появился пункт "VPN соединения"(VPN Connections) или он не будет открываться, то надо перелогиниться или даже лучше - перезагрузиться.<BR>3. Нажимаем левой клавишей мыши (по правой кнопке вызывается другое меню) по значку Network Manager'а и в выпавшем меню выбираем "VPN соединения" - "Настройка VPN"(Configure VPN). Добавляем новое соединение и выставляем все нужные опции для этого соединения.<BR>4. После этого, ваше соединение должно появиться в меню "VPN соединения", если оно вдруг не появилось - перелогиньтесь или перезагрузитесь (ну что я могу поделать, на столько, все еще, сырой этот network-manager :( ).<BR>5. Все теперь можете подключаться к созданному вами впн соединению (а также и отключаться, выбрав пункт меню в Network Manager'е).</P>
+<P style="text-align: justify;">&nbsp;</P>
+<P style="text-align: justify;"><STRONG>Ручная настройка</STRONG><BR><BR>Дальше я описываю настройку для своего соединения, ваша настройка должна отличаться вводимыми данными, а также может отличаться вводимыми параметрами.<BR>1. Устанавливаем пакет <STRONG>pptp-linux</STRONG>:</P>
+<DIV class="code" style="text-align: justify;">#apt-get install pptp-linux</DIV>
+<P style="text-align: justify;"><BR>Как я уже описывал выше в разделе установки с помощью network-manager'а, впн часто приходится настраивать на машине, у которой больше нет другого выхода в интернет, поэтому советую заранее припастись этим пакетом с официального репозитория <A href="http://packages.ubuntu.com/" target="_blank">http://packages.ubuntu.com/</A>.<BR>2. Редактируем файл <STRONG>options.pptp</STRONG>:</P>
+<DIV class="code" style="text-align: justify;">#nano /etc/ppp/options.pptp</DIV>
+<P style="text-align: justify;"><BR>Вставляем туда следующие строки:</P>
+<DIV class="textblock" style="text-align: justify;">lock<BR>noauth<BR>nobsdcomp<BR>nodeflate<BR>persist</DIV>
+<P style="text-align: justify;">Не буду описывать каждый из параметров, опишу лишь некоторые:<BR><STRONG>persist</STRONG> - этот парметр пытается по новой открыть соединение, когда оно закрывается;<BR><STRONG>nodeflate</STRONG> - не использовать deflate сжатие (хотя говорят с ним работает быстрее, не знаю - не проверял).<BR>Также, если у вас в соединении используется шифрование, то добавляем одну из строк, в зависимости от типа шифрования - <STRONG>require-mschap-v2, require-mppe-40, require-mppe-128, require-mppe</STRONG>.<BR>3. Создаем файл подключения <STRONG>/etc/ppp/peers/vpn</STRONG> (название <STRONG>vpn</STRONG> можете заменить на любое другое, но если замените, не забывайте менять его дальше в этой статье)</P>
+<DIV class="code" style="text-align: justify;">#nano /etc/ppp/peers/vpn</DIV>
+<P style="text-align: justify;"><BR>Вставляем туда следующие строки:</P>
+<DIV class="textblock" style="text-align: justify;">maxfail 0<BR>lcp-echo-interval 60<BR>lcp-echo-failure 4<BR>defaultroute<BR>pty "pptp vpn.ava.net.ua --nolaunchpppd"<BR>name sukochev<BR>remotename PPTP<BR>+chap<BR>file /etc/ppp/options.pptp<BR>ipparam vpn</DIV>
+<P style="text-align: justify;"><STRONG>Внимание!!!</STRONG> Обязательно замените следующие опции на ваши:<BR>Вместо <STRONG>vpn.ava.net.ua</STRONG> впишите адрес вашего впн сервера (можно использовать IP сервера). Вместо <STRONG>sukochev</STRONG> вставляете ваш логин подключения.<BR>Опишу некоторые параметры:<BR><STRONG>maxfail 0</STRONG> - всегда пытаться подключиться при отсутствии связи;<BR><STRONG>lcp-echo-interval</STRONG> - интервал времени, по прошествии которого, происходит опрос удаленной стороны;<BR><STRONG>lcp-echo-failure</STRONG> - количество не отвеченных запросов удаленной стороны, после чего система считает, что нас отключили;<BR><STRONG>defaultroute</STRONG> - устанавливаем маршрут по умолчанию;<BR><STRONG>+chap</STRONG> - тип аутентификации. Помимо +chap может использоваться тип <STRONG>+pap</STRONG>.<BR><STRONG>file</STRONG> - читать дополнительные настройки из заданного файла.<BR>Также можно добавить, если нужно, следующие параметры:<BR><STRONG>deflate 15,15</STRONG> - использовать deflate сжатие (в файле options.pptp не должно быть параметра nodeflate);<BR><STRONG>mtu</STRONG> - максимальный размер передаваемого пакета (изменяют этот параметр обычно тогда, когда часто отключается соединение или не открываются некоторые сайты);<BR><STRONG>mru</STRONG> - максимальный размер получаемого пакета.<BR>4. Редактируем файл <STRONG>/etc/ppp/chap-secrets</STRONG> (если используется тип аутентификации PAP, то /etc/ppp/pap-secrets соответственно)</P>
+<DIV class="code" style="text-align: justify;">#nano /etc/ppp/chap-secrets</DIV>
+<P style="text-align: justify;"><BR>Вставляем туда строку, типа:</P>
+<DIV class="textblock" style="text-align: justify;">sukochev PPTP password *</DIV>
+<P style="text-align: justify;"><STRONG>Внимание!!!</STRONG> Замените <STRONG>sukochev</STRONG> на свой логин, а <STRONG>password</STRONG> на ваш пароль для подключения.<BR>5. Если это необходимо, то прописываем в файл <STRONG>/etc/network/interfaces</STRONG> нужные роуты. Например у меня роуты прописаны для того, чтобы при включенном впн-подключении я мог пользоваться местной локальной сетью. Вот пример моих роутов (те что начинаются на up route), у вас они естественно будут отличаться:</P>
+<DIV class="textblock" style="text-align: justify;">auto eth1<BR>iface eth1 inet dhcp<BR>up route add -net 10.1.0.0 netmask 255.255.0.0 gw 10.1.45.1 dev eth1<BR>up route add -net 10.3.0.0 netmask 255.255.0.0 gw 10.1.45.1 dev eth1</DIV>
+<P style="text-align: justify;">Не забываем после изменения файла /etc/network/interfaces перезапустить сетевые подключения:</P>
+<DIV class="code" style="text-align: justify;">#/etc/init.d/networking restart</DIV>
+<P style="text-align: justify;"><BR>6. Теперь можете включать и выключать впн подключение с помощью следующих команд:<BR>Включение</P>
+<DIV class="code" style="text-align: justify;">#pon vpn</DIV>
+<P style="text-align: justify;"><BR>Выключение</P>
+<DIV class="code" style="text-align: justify;">#poff vpn</DIV>
+<P style="text-align: justify;"><BR><BR><BR><STRONG>Автоматическое подключение VPN при загрузке системы</STRONG><BR><BR>Для этого редактируем файл <STRONG>/etc/network/interfaces</STRONG></P>
+<DIV class="code" style="text-align: justify;">#nano /etc/network/interfaces</DIV>
+<P style="text-align: justify;"><BR>И вставляем в конец фйла следующие строки:</P>
+<DIV class="textblock" style="text-align: justify;">auto ppp0<BR>iface ppp0 inet ppp<BR>provider vpn<BR>pre-up ip link set eth1 up<BR>up route del default<BR>up route add default dev ppp0</DIV>
+<P style="text-align: justify;">где <STRONG>eth1</STRONG> - это интерфейс сетевого устройства, через которое подключается впн-соединение, а <STRONG>vpn</STRONG> - название впн-соединения, которое вы создали в папке /etc/ppp/peers/ .</P>
+<P>&nbsp;</P>		      </DIV>
+
+<HR>
+<P align="center">
+<SCRIPT type="text/javascript" src="./Настройка VPN (Ubuntu)_files/swfobject.js"></SCRIPT>     
+<SCRIPT type="text/javascript" src="./Настройка VPN (Ubuntu)_files/partners.js"></SCRIPT>         
+<SCRIPT type="text/javascript">// <![CDATA[    
+swfobject_tgpartners.addDomLoadEvent(function(){tgDisplayPartnerBanner("468_60","3894","1275010933")});
+// ]]></SCRIPT><DIV style="display: inline-block; visibility: visible; overflow-x: hidden; overflow-y: hidden; z-index: 999; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: dotted; border-right-style: dotted; border-bottom-style: dotted; border-left-style: dotted; border-top-color: rgb(187, 187, 187); border-right-color: rgb(187, 187, 187); border-bottom-color: rgb(187, 187, 187); border-left-color: rgb(187, 187, 187); min-width: 33px; min-height: 33px; height: 60px; width: 468px; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; cursor: pointer; -webkit-box-sizing: border-box; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAhCAYAAABX5MJvAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAImElEQVRYw6VYa4wV5Rl+5nbOnt2FpbJqlatCkYvp2q7FNhRqtbfYSGqxP1wjSug1tgoxpLbWpqnRpImJUKzilWgNqakQxUtRrD9AvKy2hSorrooLbLAUdtldzpyZ7/veS3/MnNk9BYvaSSbnm8mZeZ/v+Z73ed9vPFXFRzne2ru/BcBCAPNVtYNFZjHLZGJuc8TDjqjfOtdrLO0y1nYb67ZfcclX44/ybu9kIN58p2+673tLPM9bDGCRKqCqYGEwC1gEjgiOGMY6GGuRGIsktdtSazenxmy87srL+j4xiJ173lse+P4y3/cXeB4QhSGaK2WUwhBhGCDwfXieB0cEYxziNMVINcYHR45iYGgEcZIiTsyOJDXrb/7xlQ98LBAv7eyZFobBitD3r/d932sql9A+YTxam5sgqhBRqGQsiGbj7L5AREFMODQwhJ69B/CvI0dxLK5pLTVrjHWr77zpp/tOCuKF7p1zwyC4KQqDrsD3MXHCeEw6rR2qUtDPIhDm0bFkABQKFS0AOSLs3LMXu9/bj+FqDOdog6jeeu9vVvZ8KIint3VPCwP/tigMu8qlCLPPnoLmcnl0/ZlBxS8VoOoMqCr6+/ej+9VX8cSmTdi3rw+Tp0zFLbevwbMv/wO1JIUKb1DVX95/y6qCkXAsImPtCo3CrjAIMG/mNJTCEI4oC0oMGhPcEUNyJpiz8UMPPog/bfgjPjh4sHgnM6O1UsaFnXPx3Cu7YA11ici/Aays/8evDx7e/PxyY9311hHmzZyGMPDhiEBEsI5gnYO1DtZm144cnMtPIty19ve44/bfNQAAgFK5DEeEchjiC7PPAhRQkeuvufG25Q0g7n70yemptcusc94Z7aegpVIGMcMRwZLLAJCDYwLlZ30piBnr7lyLe+/+wwmVn9RqcI5AzGhtLuOMUydAVT1hXrZ01S3TCxBxYpakxiyolMuYN2MqmCWjnwjOZb+UL0mmjbouGDte3I771t11XPCJ7e34XOf5uGLpNXDkQERgVsw48zQ0l0tQlQXMtAQAwt/e/UgLPCwWKWHO2VPy2QmYMwMiIpBkACQXYZElzHjogfuOA/DFBV9G19XLMP3sGRDRfCKca4dx5qlt2FOtQkQWd624eV14rJYsDAN/0Slt4/Dp9k81CHB0nDEgY0RIzOh7fy92v/FGA4DO+Rfghl/8CqVyE4gELAwVhWPKJkiMcZUyylGI2NlFolgYVuPa/CgKMeX09lGzyYO7HP3YDMhYyO49v3UrjDEFgObmFvzg2usQlZpy4I0ZRERgUTALWptKqFZjiMr8kEU61Dq0tTaDmCGsxXpn/jBqSmOBjIyMYOuWZxpYOK+zE5VKMw4fPgRmRrlSQRSVGlisizoKfYgKhLkjVJFZ4vtobW6CI4KKNvhCnfqChXz8zJNPYH9fY116+6238Ouf3wDVzLgu+uYl+MrXvg7Ay5ZCMhYdEXzkdi88KxThyT4U5VIERwxIXiFPwAIzQ1hgrEX3K6/gvy1/4MhhDBw5XFwPHR0EsRSmxY6KiSCvxsIyOVSRNsn8G865/IHRoAWAMVnRv/8A3n2n9+R9gu9nAeHlIpUs24jATBBmqHBbKMzDnuqEalxDpVKB53kNGZAVq5zK/H5Pz5sNM/6ww1oLYoYHHyxcGGDmwjZPBB4ORaTfAyYMDo3g1CCA5/uAosiAgpUcRFJL8NTjmxqCdXSej298+1JYY4uCxsw4Y9IUqAKsWf2xRHCOYK1FaiyECSLSH4pwr6dy7uHBIYwf14IgCFDvnuQES7H12b9gT8/uAkBTUwWXfvd7+MzsuaMMNvjJaFaQI5BzsM7CGANhhjD3+iKyi5lxaGAQaZrCGDtm3RiUv4iE0X/gAO6/a20DC/M6zsPM2XMKsHV/YK4DyE5yDGuz4MYYJKkBM0FVd4XC3A0o3j9wEHPOmowoIoRhBHheTmVG786/vY571q5pMCcAWHDhRWOEfLyt10FlFdfAmBQmTVFLLYQZALpDVd0uwtsGh0YW7d1/EFPPPB1RSeAHAf763BYcHRzEu+/04u+vdSOuVhsATJoyFTPPmVPUlQKE1JnIrDprAwxMapAmKaq1BM5aMPO2IAi2h4+uvS2+/CerNjNk0T9792LihFaUiBBGEdbfew+ODg6cUPlhFGFJ11KUm5qKoI0a4rz5yTSQpgZJLUFSq6EapyBygGLzc489HPsAoKobmWjH0eERvL67F3Eco1ZLUCqVTgigpaUVP/zZSszrOG9M9uTFLtcFEWcCtAZprYakFqNWq2KoGtdFuQPAxqKf2Lju9j4RWc/kdF//Bzh46DCOHRuGMelxAGaeMxvXrroRnz1/flFf6gLMepDsdHkGpPns47iKY9UqarUUTE5Vdf0Lmx7pO67RvfSaa+8AsCKKInx+zgw8dM8fMDgwAM/zMH3GTHRe8CWcM+9cVCrN4LyrztY+6xOKRohslglpiiRJUKtWEccxRqopnLNQ1dXbn/rzyhM2ugBWM9NpzNT12ptv47Kuq9E2rgVhVIIfBAjCEICPJEmztl4BGZsB5OCsg3MWaZoiTTMWanGMkZoBOQcV2eAHwer/ue+45KofzRXmm1S1yw8CtLeNx6TTJyIIQwRBAN8PAD/rjwt3FAHVm1/rYI1BmiZIkwTH4hSJMWByUNUNvh/c+uLTj/WcdAf2ra7vT2OiFapa7MAmto1Da0sFfr71U3hQKCTXg+PMDZ21sMYgTg2S1MI5C2FWAGv8IFj94tMb932svejFly9driLLACyAB5SjCJWmEqIx+1BoHQBnWwPrYN1opVTVHZ7nrX/52Sce+MS78ouXXDWdmZeo8GIFFhUPAiiezOuMikBzh4XqNnjeZt/3N7605fG+/+vTQP248DtdLcK0UETmq0oHFLNUZbKqtqnqMIB+AL1Q3QXP6/Z9f/tLWx7/SN8n/gOmWt861ECBlwAAAABJRU5ErkJggg==); background-position: 50% 50%; background-repeat: no-repeat no-repeat; " title="http://tg.tomsk.ru/img/banner_partners_468_60.swf" class="ujs_flashblock_placeholder"></DIV><OBJECT type="application/x-shockwave-flash" data="http://tg.tomsk.ru/img/banner_partners_468_60.swf" width="468" height="60" id="tg_partner_banner_container_468_60_1275010933" style="visibility: visible; "><PARAM name="allowscriptaccess" value="sameDomain"><PARAM name="allowfullscreen" value="true"><PARAM name="wmode" value="transparent"><PARAM name="flashvars" value="target_url=http://tg.tomsk.ru/?a=3894"></OBJECT>
+</P>
+
+     </DIV>
+     <DIV class="sidebar">
+      <DIV class="sidebar-block about">
+
+<DIV class="sidearticles">
+	<H3>Статьи:</H3>
+	<A class="more" href="http://inet.tom.ru/wiki/auto.xhtml">Автоматизированная настройка</A>
+	<A class="more" href="http://inet.tom.ru/wiki/win9x.xhtml">Настройка VPN (Win95-98)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/millennium.xhtml">Настройка VPN (Millennium)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/win2k.xhtml">Настройка VPN (Win2k)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/winxp.xhtml">Настройка VPN (WinXP)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/vista.xhtml">Настройка VPN (Vista)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/seven.xhtml">Настройка VPN (Seven)</A>
+	<A class="more">Настройка VPN (Ubuntu)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/macos.xhtml">Настройка VPN (MacOS)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/iphone.xhtml">Настройка VPN (iPhone OS)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/error.xhtml">Ошибки VPN подключения</A>
+	<A class="more" href="http://inet.tom.ru/wiki/uac.xhtml">Отключение UAC (Vista)</A>
+	<A class="more" href="http://inet.tom.ru/wiki/brodcast.xhtml">О паразитном трафике</A>
+	<A class="more" href="http://inet.tom.ru/wiki/route.xhtml">Маршрутизация</A>
+	<A class="more" href="http://inet.tom.ru/wiki/rerouting.xhtml">Перенастройка маршрутизации</A>
+	<A class="more" href="http://inet.tom.ru/wiki/webmail.xhtml">Web-интерфейс почты</A>
+	<A class="more" href="http://inet.tom.ru/wiki/thebat.xhtml">Почтовый клиент The Bat</A>
+	<A class="more" href="http://inet.tom.ru/wiki/outlook.xhtml">Почтовый клиент Оutlook</A>
+</DIV>
+
+        <P>
+	
+	        </P>
+
+       <H1>О нас</H1>
+       <P>Мы - команда профессионалов, не первый год занимающихся предоставлением услуг в сфере электросвязи. В своей работе мы используем только самые новые технологии в области передачи данных и телематики.</P>
+       <A href="http://inet.tom.ru/about/" class="more">Читать далее</A>
+<BR>
+<BR>
+<P>
+Посетителей Online: 3</P>
+<BR>
+<P>
+<A href="http://ping-admin.ru/uptime/b93b53a9942a12b54fda8fe3b634f1e3583.html" target="_blank"><IMG src="./Настройка VPN (Ubuntu)_files/06be018a979944430627ddfbe9c8758f583.gif" width="88" height="15" border="0" alt="Ping-Admin.Ru"></A>
+<A href="http://inet.tom.ru/news/" target="_top"><IMG src="./Настройка VPN (Ubuntu)_files/home.gif"></A>
+<A href="http://inet.tom.ru/users/callback.xhtml" target="_top"><IMG src="./Настройка VPN (Ubuntu)_files/mail.gif"></A>
+<A href="http://inet.tom.ru/sitemap/" target="_top"><IMG src="./Настройка VPN (Ubuntu)_files/sitemap.gif"></A>
+</P>
+      </DIV>
+
+      <DIV class="sidebar-block license" id="licpic">
+       <P>Лицензия №62779, 68526</P>
+	<DIV id="licpic2">
+        <DIV class="pict"><A href="http://inet.tom.ru/i/doc/lic_62779_big.jpg"><IMG src="./Настройка VPN (Ubuntu)_files/lic_small.gif" alt="Сертификат 1"></A><BR>
+         <A href="http://inet.tom.ru/i/big_svidetelstvo_1.jpg">увеличить</A></DIV>
+        <DIV class="pict"><A href="http://inet.tom.ru/i/doc/lic_68526_big.jpg"><IMG src="./Настройка VPN (Ubuntu)_files/lic_small.gif" alt="Сертификат 2"></A><BR>
+         <A href="http://inet.tom.ru/i/big_svidetelstvo_2.jpg">увеличить</A></DIV><BR clear="all">
+	</DIV>
+      </DIV>
+
+<DIV style="text-align:center;">
+<FORM action="http://www.google.com/cse" id="cse-search-box">
+  <DIV>
+    <INPUT type="hidden" name="cx" value="007434960642645838417:g8aqxzundac">
+    <INPUT type="hidden" name="ie" value="UTF-8">
+    <INPUT type="text" name="q" size="31" style="background-image: url(http://www.google.com/cse/intl/ru/images/google_custom_search_watermark.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-position: 0% 50%; background-repeat: no-repeat no-repeat; ">
+    <INPUT type="submit" name="sa" value="Поиск">
+  </DIV>
+<INPUT name="siteurl" type="hidden" value="inet.tom.ru/wiki/ubuntu.xhtml"></FORM>
+<SCRIPT type="text/javascript" src="./Настройка VPN (Ubuntu)_files/brand"></SCRIPT>
+</DIV>
+
+<DIV class="sidebar-block" style="text-align:center;">
+<H1>Информация</H1>
+<CENTER>
+<A href="http://inet.tom.ru/users/2gis.xhtml"><IMG src="./Настройка VPN (Ubuntu)_files/banner2gis.png" border="0"></A>
+<BR><BR>
+<A href="javascript:void(0)" title="SMS.    " onclick="javascript:window.open(&#39;http://smskopilka.ru/?info&amp;id=49892&#39;, &#39;smskopilka&#39;,&#39;width=400,height=480,status=no,toolbar=no, menubar=no,scrollbars=yes,resizable=yes&#39;);"><IMG src="./Настройка VPN (Ubuntu)_files/49892.gif" border="0" alt="SMS."></A>
+<BR><BR>
+<A href="http://vkontakte.ru/club14397168" title="Vkontakte.ru" target="_blank"><IMG src="./Настройка VPN (Ubuntu)_files/vkontakte.gif" border="0"></A>
+<BR><BR>
+<A href="http://inet.tom.ru/connect/visa.xhtml" title="CreditCard" target="_top"><IMG src="./Настройка VPN (Ubuntu)_files/creditcard.jpg" border="0"></A>
+<BR><BR>
+<A href="http://inet.tom.ru/connect/webmoney.xhtml" title="Webmoney.ru" target="_top"><IMG src="./Настройка VPN (Ubuntu)_files/webmoney_banner.gif" border="0"></A>
+</CENTER>
+</DIV>
+
+<SCRIPT>
+$(document).ready(function() {
+	$("div#licpic2 a").fancybox();
+//	$("p#test2 a").fancybox({ 'hideOnContentClick': true });
+//	$("p#test3 a").fancybox({ 'zoomSpeedIn': 0, 'zoomSpeedOut': 0, 'overlayShow': true });
+}); 
+</SCRIPT>
+     </DIV>
+     <IMG src="./Настройка VPN (Ubuntu)_files/wiki2.gif" alt="О нас" class="bullet"> <!--Картинка раздела-->
+
+    </DIV>
+   </DIV>
+  </DIV>
+ </DIV>
+<DIV id="footer">
+
+	<DIV class="bottom">
+	<DIV class="bottom_menu">
+.::<A href="http://inet.tom.ru/about/">Информация</A>::<A href="http://inet.tom.ru/connect/">Подключение</A>::<A href="http://inet.tom.ru/resources/">Справочник</A>::<A href="http://inet.tom.ru/users/">Для абонентов</A>::.
+</DIV>
+	<A href="http://web-format.net/" class="wf">Дизайн<BR>сайта</A>
+
+	<DIV class="counters">
+<CENTER>
+<SPAN style="margin:0;padding:0" id="tbec"><SCRIPT type="text/javascript">//<![CDATA[
+setTimeout(function(){var s=document.createElement("SCRIPT");s.type="text/javascript";s.src="http://tbe.tom.ru/?a=inet.tom.ru&js=1&c=0&s=8831&rnd="+(new Date().getTime());document.documentElement.firstChild.appendChild(s);},1)//]]></SCRIPT><A href="http://tbe.tom.ru/site/inet.tom.ru/" target="_blank"><IMG border="0" src="./Настройка VPN (Ubuntu)_files/0!8831!inet.tom.ru!c.gif" alt="TBE: 256 140/402 3" title="| 256 место 
+| inet.tom.ru
+| 140 хостов
+| 402 хита
+| 3 пользователя онлайн"></A></SPAN><NOSCRIPT></NOSCRIPT>
+<A href="http://top.t-sk.ru/detailed/inet.tom.ru.html"><IMG src="./Настройка VPN (Ubuntu)_files/image.php" width="80" height="31" style="border:0"></A>
+<A href="http://www.catalog.tomsk.ru/"><IMG src="./Настройка VPN (Ubuntu)_files/pics.php" border="0" width="88" height="31"></A>
+<A href="http://catalog.metka.ru/"><IMG src="./Настройка VPN (Ubuntu)_files/counter.php" border="0" width="88" height="31"></A>
+<SCRIPT type="text/javascript" language="javascript">document.write("<a href='http://catalog.tomtel.ru/'><img alt='' style='border:0px' src='http://counter.tomtel.ru/counter.gif?id=4600&ref="+escape(document.referrer)+"' border=0 ></a>")</SCRIPT><A href="http://catalog.tomtel.ru/"><IMG alt="" style="border:0px" src="./Настройка VPN (Ubuntu)_files/counter.gif" border="0"></A><NOSCRIPT></NOSCRIPT><A href="http://catalog.tomtel.ru/"><IMG style="border:0px" src="./Настройка VPN (Ubuntu)_files/default.aspx" border="0" width="80" height="30"></A>
+<SCRIPT language="JavaScript">document.cookie='r=r';rcookie=document.cookie?'on':'off';rtitle=escape(document.title);rtitle=rtitle.replace(/\+/g,'%2B');rnav=navigator.appName; rcolors=screen.colorDepth?screen.colorDepth:screen.pixelDepth;document.write('<img src="http://stat70.ru/gather/?sid=285&title='+rtitle+'&nav='+rnav+'&colors='+rcolors+'&width='+screen.width+'&height='+ screen.height+'&rcookie='+rcookie+'&ref='+escape(document.referrer)+'&location='+escape(document.location)+'&rand='+Math.random()+'" width=1 height=1 border=0>');</SCRIPT><IMG src="./Настройка VPN (Ubuntu)_files/saved_resource(1)" width="1" height="1" border="0"> 
+</CENTER>
+	</DIV>
+
+	<P>
+	ООО "Интернет"<BR>© 2010г.
+<A href="http://inet.tom.ru/cp/" target="_blank"><IMG src="./Настройка VPN (Ubuntu)_files/smile.gif" border="0"></A>
+	</P>
+	</DIV>
+</DIV>
+<SCRIPT type="text/javascript" src="./Настройка VPN (Ubuntu)_files/common.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./Настройка VPN (Ubuntu)_files/image_zoom.js"></SCRIPT>
+<!-- runcore.programming -->
+
+<DIV style="display:inline-block;visibility:visible;overflow:hidden;z-index:999;border:1px dotted #bbbbbb;min-width:33px;min-height:33px;height:auto;width:auto;background:url(data:image/png;base64,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)no-repeat center;cursor:pointer;-webkit-box-sizing:border-box;" title="" class="ujs_flashblock_placeholder"></DIV><DIV id="fancy_wrap"><DIV id="fancy_loading"><DIV></DIV></DIV><DIV id="fancy_outer"><DIV id="fancy_inner"><DIV id="fancy_bg"><DIV class="fancy_bg fancy_bg_n"></DIV><DIV class="fancy_bg fancy_bg_ne"></DIV><DIV class="fancy_bg fancy_bg_e"></DIV><DIV class="fancy_bg fancy_bg_se"></DIV><DIV class="fancy_bg fancy_bg_s"></DIV><DIV class="fancy_bg fancy_bg_sw"></DIV><DIV class="fancy_bg fancy_bg_w"></DIV><DIV class="fancy_bg fancy_bg_nw"></DIV></DIV><DIV id="fancy_nav"></DIV><DIV id="fancy_close"></DIV><DIV id="fancy_content"></DIV><DIV id="fancy_title"><TABLE cellspacing="0" cellpadding="0" border="0"><TBODY><TR><TD id="fancy_title_left"><TD id="fancy_title_main"><DIV></DIV></TD><TD id="fancy_title_right"></TR></TBODY></TABLE></DIV></DIV></DIV></DIV></BODY></HTML>

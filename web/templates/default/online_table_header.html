@@ -1,0 +1,31 @@
+<? if ($_GET['mode'] == 'active'): ?>
+<table border=0 cellpadding=2 cellspacing=0 bordercolor=#d0d0d0>
+	<tbody>
+	<tr bgColor=#bdddc6>
+		<td>
+		<b>
+		<?=$l_tables['active_sessions'];?>:</b>		
+		</td>
+	</tr>
+	</tbody>
+</table>
+<br>
+
+<meta http-equiv="refresh" content="<?=$config['active_ses_refresh'];?>">
+<? endif; ?>
+
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=#111111 width=100% align=center>
+  <tbody>
+    <tr bgColor=c0c0c0 align = center>
+      <td width=10%><strong><?=$l_forms['login'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_con_time'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_in'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_out'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_loc_in'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_loc_out'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_sp_in'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_sp_out'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_connected'];?></strong></td>
+      <td width=10%><strong><?=$l_tables['onl_disc'];?></strong></td>
+    </tr>
+    

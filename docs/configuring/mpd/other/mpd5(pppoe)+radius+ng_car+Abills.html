@@ -1,0 +1,2545 @@
+<html><head><!-- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ОСТАВЬ НАДЕЖДУ, ВСЯК СЮДА ВХОДЯЩИЙ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+
+	
+<title>mpd5(pppoe)+radius+ng_car+Abills</title>
+	<link rel="alternate" type="application/rss+xml" title="Новости сайта www.lissyara.su" href="http://www.lissyara.su/scripts/rss.php">
+	<meta name="keywords" content="FreeBSD, настройка exim, mpd5 pppoe radius ng_car Abills shaping">
+	<meta name="description" content="Настройка pppoe-сервера с биллинговой системой Abills и шейпером ng_car">
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+	<meta name="author" content="© schizoid">
+	<meta name="copyright" content="schizoid">
+	<meta http-equiv="imagetoolbar" content="NO">
+	<!-- base href="http://www.lissyara.su/" -->
+	<!-- скрипт для кнопочек в комментах -->
+	<script language="JavaScript" src="mpd5%28pppoe%29+radius+ng_car+Abills_files/bbcode_script.js"></script>
+
+	<!-- начало таблиц стилей для страницы -->
+	<link rel="stylesheet" type="text/css" href="mpd5%28pppoe%29+radius+ng_car+Abills_files/style.css">
+	<!-- скрипт подсветки главного меню -->
+	<script language="JavaScript">
+	function mhHover(tbl, idx, cls)
+	{
+		var t, d;
+		if (document.getElementById)
+			t = document.getElementById(tbl);
+		else
+			t = document.all(tbl);
+		if (t == null) return;
+		if (t.getElementsByTagName)
+			d = t.getElementsByTagName("TD");
+		else
+			d = t.all.tags("TD");
+		if (d == null) return;
+		if (d.length <= idx) return;
+		d[idx].className = cls;
+	}
+	</script>
+
+</head><body style="border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128); margin: 0px; padding: 0pt; background-color: rgb(241, 241, 241);">
+<a name="top"></a>
+<!-- old width = 100%, position - left -->
+<center>
+<table border="0" cellpadding="0" cellspacing="0" width="950">
+<tbody>
+	<tr>
+		<td colspan="5" style="border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128); background-repeat: no-repeat; background-position: left center; font-size: 12px;" background="mpd5(pppoe)+radius+ng_car+Abills_files/gradient1.jpg" height="26" valign="center" align="center">
+		<!-- шапка сайта началась -->
+			<code>Мы — долго запрягаем, быстро ездим, и сильно тормозим.</code>
+		<!-- шапка сайта закончилась -->
+		</td>
+	</tr>
+	<tr>
+		<td colspan="5" style="background-repeat: no-repeat; background-position: right center; font-size: 12px;" background="mpd5(pppoe)+radius+ng_car+Abills_files/gradient2.jpg" valign="top" align="left">
+<!-- меню сайта началось -->
+			<table border="0" cellpadding="2" cellspacing="0" height="19" width="100%">
+  			<tbody>
+				<tr>
+					<td style="border: 1px solid rgb(112, 118, 128);">
+						<div id="viLocalToolbar">
+							<table border="0" cellpadding="0" cellspacing="0" height="19" width="100%">
+							<tbody>
+								<tr>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 0, 'lt1')" onmouseout="mhHover('viLocalToolbar', 0, 'lt0')" nowrap="nowrap">
+										<a href="http://www.lissyara.su/">Главная</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 2, 'lt1')" onmouseout="mhHover('viLocalToolbar', 2, 'lt0')" nowrap="nowrap">
+										<a href="http://forum.lissyara.su/">Форум</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 4, 'lt1')" onmouseout="mhHover('viLocalToolbar', 4, 'lt0')" nowrap="nowrap">
+										<a href="http://www.lissyara.su/articles/">Статьи</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 6, 'lt1')" onmouseout="mhHover('viLocalToolbar', 6, 'lt0')" nowrap="nowrap">
+										<a href="http://www.lissyara.su/doc/">Документация</a>
+									</td>
+				<!--					<TD>
+										<p style="PADDING-RIGHT: 1px; PADDING-LEFT: 5px; PADDING-BOTTOM: 0px; FONT: 70% Verdana; COLOR: #707680; PADDING-TOP: 0px">|</p>
+									</TD>
+									<TD class="lt0" onmouseover="mhHover('viLocalToolbar', 8, 'lt1')" onmouseout="mhHover('viLocalToolbar', 8, 'lt0')" noWrap>
+										<A href="/?id=1020">Downloads</A>
+									</TD> -->
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 8, 'lt1')" onmouseout="mhHover('viLocalToolbar', 8, 'lt0')" nowrap="nowrap">
+										<a href="http://www.lissyara.su/search/">search</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 10, 'lt1')" onmouseout="mhHover('viLocalToolbar', 10, 'lt0')" nowrap="nowrap">
+										<a href="http://www.lissyara.su/rss/">RSS</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 12, 'lt1')" onmouseout="mhHover('viLocalToolbar', 12, 'lt0')" nowrap="nowrap">
+										<a href="http://wiki.lissyara.su/">WIKI</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 14, 'lt1')" onmouseout="mhHover('viLocalToolbar', 14, 'lt0')" nowrap="nowrap">
+										<a href="http://www.host-food.ru/">hosting</a>
+									</td>
+									<td>
+										<p style="padding: 0px 1px 0px 5px; font-family: Verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 70%; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: rgb(112, 118, 128);">|</p>
+									</td>
+									<td class="lt0" onmouseover="mhHover('viLocalToolbar', 16, 'lt1')" onmouseout="mhHover('viLocalToolbar', 16, 'lt0')" nowrap="nowrap">
+										<a href="http://www.lissyara.su/articles/freebsd/traffic_count/mpd5_pppoe+radius+ng_car+abills/?commented=1&amp;print=1">Версия для печати</a>
+									</td>
+									<td width="100%">
+									</td>
+								</tr>
+							</tbody>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+<!-- меню сайта закончилось -->
+		</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-left: 3px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; font-size: 12px;" valign="top" width="170" align="left">
+			<!-- Меню раздела началось -->
+			<br>
+			
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.curr.level3.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td class="current" onmouseover="this.style.cursor='hand';" onclick="window.location.href('/?id=1007')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Этот раздел посвящён операционной системе FreeBSD - её установке, настройке, конфигурированию, а также превращению его (имеется ввиду компьютер с этой операционной системой) в полноценный сервер" href="http://www.lissyara.su/?id=1007">FreeBSD</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.curr.level3.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1008')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="В разделе в этом собрано то, что касается обслуживания (хотя, это не вполне корректное слово в этом плане) самой системы. Сборка ядра, обновление исходных кодов, файрволл... Всё это - часть Системы." href="http://www.lissyara.su/?id=1008">настройка</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.curr.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="current" onmouseover="this.style.cursor='hand';" onclick="window.location.href('/?id=1009')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="подсчёт трафика с использованием разных биллинговых систем - trafd (через Berkeley Paket Filter), IPFW и других косых методов подсчёта - типа squid и другое :)" href="http://www.lissyara.su/?id=1009">подсчёт трафика</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.curr.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1010')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="система подсчёта трафика на основе trafd и MySQL с хранением статистики в БД и поминутной дискретизацией. Настройка, установка демона trafd" href="http://www.lissyara.su/?id=1010">trafd &amp; MySQL</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1017')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Как прикрутить простейшую WEB-морду к статистике инета хранящейся в БД (если статистика от trafd получена)" href="http://www.lissyara.su/?id=1017">WEB-морда к траффику</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1049')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Съём статистики с портов управляемого свича по SNMP - альтернативный метод точного подсчёта траффика. Так же считают почти все провайдеры." href="http://www.lissyara.su/?id=1049">SNMP</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1134')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Ещё один метод посчитать траффик под FreeBSD - ipacctd. Считает через IPFW. Крайне простая настройка, русский man в комплекте... Даже жаль, что я вначале наткнулся на trafd а не на него :)" href="http://www.lissyara.su/?id=1134">ipacctd</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1273')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Подсчет трафика с помощью pf" href="http://www.lissyara.su/?id=1273">pfctl</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1459')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Установка Ntop 3.2 на FreeBSD 6.2" href="http://www.lissyara.su/?id=1459">ntop 3.2</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1608')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Программа для учета и управления сетевым трафиком" href="http://www.lissyara.su/?id=1608">NeTAMS</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1609')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Netams, статистика, биллинг, огрнаичение и подсчет трафика" href="http://www.lissyara.su/?id=1609">NeTAMS 2</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1718')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Установка Прокси сервера SQUID с красивой мордой SAMS и редиректором REJIK,для учета кто куда ходил + графики в pdf,РЕЖИК собственно рубит банеры и запрещает пользователям ходить на запрещенные сайты," href="http://www.lissyara.su/?id=1718">SQUID+SAMS +Rejik-(NCSA)</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1750')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Подсчет трафика с помощью ng_ipacct. Связка ng_ipacct + squid + парсер логов + авторизатор + nginx + mysql и куча служебных скриптов для работы всей системы." href="http://www.lissyara.su/?id=1750">ng_ipacct + squid</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1808')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Установка Прокси сервера SQUID с аутентификацией по NTL с красивой мордой SAMS и редиректором REJIK,для учета кто куда ходил + графики в pdf, РЕЖИК собственно рубит банеры и запрещает пользователям хо" href="http://www.lissyara.su/?id=1808">SQUID+SAMS +Rejik-(NTLM)</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1811')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Установка Прокси сервера SQUID с красивой мордой SAMS и редиректором REJIK,для учета кто куда ходил + графики в pdf,РЕЖИК собственно рубит банеры и запрещает пользователям ходить на запрещенные сайты," href="http://www.lissyara.su/?id=1811">SQUID+SAMS +Rejik-(LDAP)</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.curr.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="current" onmouseover="this.style.cursor='hand';" onclick="window.location.href('/?id=1987')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Настройка pppoe-сервера с биллинговой системой Abills и шейпером ng_car" href="http://www.lissyara.su/?id=1987">mpd5 + radius + ng_car + Abills</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.curr.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="40">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=2081')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Простая считалка траффика, со встроенным веб-сервером. Очень маленькая, может делать отчеты трафика по хостам, портам, протоколам, а также строить графики" href="http://www.lissyara.su/?id=2081">darkstat</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level5.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1011')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="программы необходимые для нормального фунциклирования FreeBSD в роли интернет-сервера в небольшой организации (proxy, mail, www &amp; etc)" href="http://www.lissyara.su/?id=1011">программы</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1015')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Раздел этот возник по тем же причинам, что и весь сайт - пытаюсь не забыть то, что делал, и как делал. С почтой наковырялся много, но как-то всё неудавалось что-то одно плотно разобрать. В итоге остан" href="http://www.lissyara.su/?id=1015">почтовые системы</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1078')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Всякие разные железяки которые приходилось прикручивать под FreeBSD - ATC Panasonic KX-TD1232RU, APC Smart-UPS 1500, APC Smart-UPS 3000, Мультипортовый PCI Контроллер (4 дополнительных COM-порта)....." href="http://www.lissyara.su/?id=1078">Шелезяки</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1080')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Мелочи, которые могут пригодится в работе с FreeeBSD - русификация консоли, и прочее" href="http://www.lissyara.su/?id=1080">Мелочи</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1086')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Штатные программы FreeBSD для работы с файловой системой - для повседневной работы, и для исправления внештатных ситуаций - когда вылезли битые секторы или что-то повредилось по разным причинам." href="http://www.lissyara.su/?id=1086">Файловая система</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1130')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Всё, что касается работы с WWW - апач, модули и прочее." href="http://www.lissyara.su/?id=1130">WWW</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1146')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Рассмотрены проблемы безопасности и средства противодействия брутфорсу, несанкционированным подключениям и сканированию портов." href="http://www.lissyara.su/?id=1146">Security</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1170')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Системные приложения и настройки FreeBSD" href="http://www.lissyara.su/?id=1170">system</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1352')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Games Servers" href="http://www.lissyara.su/?id=1352">Games Servers</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1353')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Страничка посвящается использованию FreeBSD в качестве десктопа. Правда, на ней будут описываться сторонние приложения - но под FreeBSD." href="http://www.lissyara.su/?id=1353">X11</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="font-size: 12px;" width="20">&nbsp;</td>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1354')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Programming" href="http://www.lissyara.su/?id=1354">Programming</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level4.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level3.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="" class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1014')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Этот раздел посвящён всяким самоделкам, и нужен он только тому, кто не боится держать в руках паяльник. Остальным тут делать нечего." href="http://www.lissyara.su/?id=1014">Очумелые Ручки</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level3.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level3.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1379')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="OpenBSD — свободная многоплатформенная операционная система, основанная на 
+4.4BSD — BSD-реализации UNIX системы. Основным отличием OpenBSD &quot;Безопасность по умолчанию!&quot;." href="http://www.lissyara.su/?id=1379">OpenBSD</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level3.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level3.tpl' -->
+
+<table id="left_menu" border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody>
+	<tr>
+		<td style="" class="hilightoff" onmouseover="className='hilighton'; this.style.cursor='hand';" onmouseout="className='hilightoff';" onclick="window.location.href('/?id=1388')" height="20" align="left"><code style="font-size: 9pt;"><a class="left-menu-link" title="Cisco" href="http://www.lissyara.su/?id=1388">Cisco</a></code></td>
+	</tr>
+</tbody>
+</table>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/left.menu.inactive.level3.tpl' -->
+
+			<!-- Меню раздела закончилось -->
+			<!-- рисунок по ширине колонки - чтоб не сжималась браузерами -->
+			<img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/blank.gif" height="1" width="170">
+		</td>
+		<td width="10">
+			<!-- рисунок по ширине колонки - чтоб не сжималась браузерами -->
+			<img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/blank.gif" height="1" width="10">
+		</td>
+		<td style="font-size: 12px;" valign="top" width="610">
+			<!-- Меню навигации началось -->
+			<code style="font-size: 8pt;"> <a class="text_link" href="http://www.lissyara.su/?id=1000" title="Титульная страница сайта www.lissyara.su">www.lissyara.su</a></code>
+<code style="font-size: 8pt;">—&gt; <a class="text_link" href="http://www.lissyara.su/?id=1003" title="В этом разделе размещены статьи на довольно разные темы. Пока развиваются только два раздела - один, посвящённый ОС FreeBSD, а другой - моим развлеченим с паяльником. Авторов тоже не густо - хотя чита">статьи</a></code>
+<code style="font-size: 8pt;">—&gt; <a class="text_link" href="http://www.lissyara.su/?id=1007" title="Этот раздел посвящён операционной системе FreeBSD - её установке, настройке, конфигурированию, а также превращению его (имеется ввиду компьютер с этой операционной системой) в полноценный сервер">FreeBSD</a></code>
+<code style="font-size: 8pt;"><code style="font-size: 8pt;">—&gt; <a class="text_link" href="http://www.lissyara.su/?id=1009" title="подсчёт трафика с использованием разных биллинговых систем - trafd (через Berkeley Paket Filter), IPFW и других косых методов подсчёта - типа squid и другое :)">подсчёт трафика</a></code>
+—&gt; <a class="link_drkbl" href="http://www.lissyara.su/?id=1987" title="Настройка pppoe-сервера с биллинговой системой Abills и шейпером ng_car">mpd5 + radius + ng_car + Abills</a></code>
+
+
+			<!-- for site parsing
+			www.lissyara.su --- статьи --- FreeBSD --- подсчёт трафика --- mpd5 + radius + ng_car + Abills
+			-->
+			<br>
+			<!-- Меню навигации закончилось -->
+<!-- линк на редактирование для автора -->
+			<br><h4 align="center"><code>mpd5(pppoe)+radius+ng_car+Abills</code></h4>
+			<!-- google search -->
+
+			<!-- end google search -->
+			<!-- автор страницы под заголовком -->
+			<p style="font-size: 12px;" align="center"><code>Автор: <a href="http://www.lissyara.su/authors/2007/schizoid/" class="text_link" title="">schizoid</a>.</code></p>
+			<!-- Текст страницы начался -->
+			<p align="justify"><br><code>  Недавно устанавливал сервер для маленькой домашней сети. Сервер в основном используется для организования доступа в Интернет. <br>
+В начале думал взять свою связку (mpd + netams + ipfw + pipe +
+sh_scripts), но потом захотелось чего-то новенького, свеженького (да и
+намучено у меня там со скриптами и т.д., долго пришлось бы объяснять
+что к чему). <br>
+И вот остановился на связке:<br>
+<b>mpd5</b> - в качестве pppoe-сервера (кому не нравится pppoe - ставьте pptp, думаю особой разницы в настройке не будет)<br>
+<b>radius</b> - как сервер AAA<br>
+<b>Abills</b> - в качестве биллинговой системы<br>
+<b>ng_car</b> - шейпинг (потому что раньше его не пробовал :) )<br>
+<br>
+Основные настройки брал на официальном сайте <a href="http://abills.net.ua/" target="_blank" title="Ссылка на другой сайт, откроется в новом окне" class="text_link">Abills'a</a>.<br>
+Предполагается, что система у вас уже установлена. В начале на тесте я ставил на FreeBSD 8.0-RC1 #0. <br>
+Затем переносил настройки на FreeBSD 7.2-RELEASE #0.<br>
+Также у вас должен быть установлен и настроен mysql-server. Я использовал mysql-server-5.0.86 с make-флагами <br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="magenta">make</font> WITH_CHARSET=cp1251 WITH_COLLATION=cp1251_bin
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Также у вас должно быть собрано ядро с:<br>
+<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="orange">options</font>         IPFIREWALL
+<font color="orange">options</font>         IPFIREWALL_VERBOSE
+<font color="orange">options</font>         IPFIREWALL_VERBOSE_LIMIT=<b><font color="darkblue">1000</font></b>
+<font color="orange">options</font>         IPFIREWALL_FORWARD
+<font color="orange">options</font>         NETGRAPH
+<font color="orange">options</font>         NETGRAPH_IPFW
+<font color="orange">options</font>         LIBALIAS
+<font color="orange">options</font>         NETGRAPH_NAT
+<font color="orange">options</font>         NETGRAPH_NETFLOW
+<font color="orange">options</font>         NETGRAPH_SPLIT
+<font color="orange">options</font>         NETGRAPH_ECHO
+<font color="orange">options</font>         NETGRAPH_ETHER
+<font color="orange">options</font>         NETGRAPH_TEE
+<font color="orange">options</font>         NETGRAPH_BPF
+<font color="orange">options</font>         NETGRAPH_IFACE
+<font color="orange">options</font>         NETGRAPH_KSOCKET
+<font color="orange">options</font>         NETGRAPH_MPPC_ENCRYPTION
+<font color="orange">options</font>         NETGRAPH_PPP
+<font color="orange">options</font>         NETGRAPH_PPTPGRE
+<font color="orange">options</font>         NETGRAPH_SOCKET
+<font color="orange">options</font>         NETGRAPH_TCPMSS
+<font color="orange">options</font>         NETGRAPH_VJC
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>либо загрузить модулем:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>ipfw_nat.ko
+ng_car.ko
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Остальное, что нужно mpd он сам загрузит.<br>
+<br>
+И так, приступим.<br>
+1. <b><u>Abills</u></b>.<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># whereis abills</font>
+<font color="red"># cd /usr/ports/net/abills</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>В портах есть abills-0.41. На сайте сть 0.5-я версия. Я ставил из портов.<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># make install clean</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Создаем пользователя для абиллса:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># mysql -u root -p</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code></code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>use <font color="magenta">mysql</font>;
+INSERT <font color="blue">INTO</font> <font color="teal">user</font> (<font color="magenta">Host</font>, <font color="teal">User</font>, Password) 
+  VALUES ('localhost','abills', password('sqlpassword'));
+INSERT <font color="blue">INTO</font> db (<font color="magenta">Host</font>, Db, <font color="teal">User</font>, Select_priv, Insert_priv, Update_priv, 
+  Delete_priv, Create_priv, Drop_priv, Index_priv, Alter_priv, 
+  Lock_tables_priv, Create_tmp_table_priv) 
+VALUES ('localhost','abills','abills','Y','Y','Y','Y','Y',
+  'Y','Y','Y','Y','Y');
+<font color="orange">CREATE</font> DATABASE abills;
+flush privileges;
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Загружаем таблицы в базу. <br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># mysql -D abills &lt; /usr/local/abills/abills.sql</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Правим <b>/usr/local/abills/libexec/config.pl</b><br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red">#DB configuration </font>
+<font color="green">$conf{dbhost}</font>='localhost';
+<font color="green">$conf{dbname}</font>='abills'; 
+<font color="green">$conf{dbuser}</font>='abills';
+<font color="green">$conf{dbpasswd}</font>='sqlpassword'; 
+<font color="green">$conf{ADMIN_MAIL}</font>='info@your.domain'; 
+<font color="green">$conf{USERS_MAIL_DOMAIN}</font>="your.domain";
+<font color="red"># используется для шифрования паролей администраторов и пользователей.</font>
+<font color="green">$conf{secretkey}</font>="test12345678901234567890";
+</code></pre></td></tr></tbody></table></p><p align="justify"><code><b>При изменении значения в $conf{secretkey} поменяйте его также в файле abills.sql</b><br>
+<br>
+Вносим в cron периодические процессы /etc/crontab <br>
+<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>*/<b><font color="darkblue">5</font></b> * * * * root /usr/local/abills/libexec/billd -all
+<b><font color="darkblue">1</font></b> <b><font color="darkblue">0</font></b> * * * root /usr/local/abills/libexec/periodic daily
+<b><font color="darkblue">1</font></b> <b><font color="darkblue">1</font></b> * * * root /usr/local/abills/libexec/periodic monthly
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>В <b>/usr/local/abills/libexec/config.pl</b> добавляем<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="green">$conf{mpd_filters}</font>=<b><font color="darkblue">1</font></b>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>2. <u><b>mpd5</b></u><br>
+Настройка mpd5 уже не раз обсуждалась, но в кратце повторюсь, для полноты картины так сказать.<br>
+<i>Для того, что бы собрать mpd с поддержкой ng_car рекомендуют, что бы модуль ng_car был уже загружен ядром.</i><br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># whereis mpd5</font>
+<font color="red"># cd /usr/ports/net/mpd5</font>
+<font color="red"># make install clean</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code></code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>
+     +--------------------------------------------------------------------+
+     |                   <font color="orange">Options</font> <font color="orange">for</font> mpd <b><font color="darkblue">5</font></b>.<b><font color="darkblue">2</font></b>                              |
+     | +----------------------------------------------------------------+ |
+     | |  [X] NG_CAR     Use ng_car <font color="orange">kernel</font> module <font color="blue">from</font> port (&lt; <b><font color="darkblue">7</font></b>.<b><font color="darkblue">0</font></b> only)| |
+     | |  [ ] NG_IPACCT  Use ng_ipacct <font color="orange">kernel</font> module <font color="blue">from</font> port          | |
+     | |                                                                | |
+     | |                                                                | |
+     | |                                                                | |
+     | |                                                                | |
+     +-+------v(+)------------------------------------------------------+-+
+     |                       [  OK  ]       Cancel                        |
+     +--------------------------------------------------------------------+
+</code></pre></td></tr></tbody></table></p><p align="justify"><code></code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># cd /usr/local/etc/mpd5</font>
+<font color="red"># cp mpd.conf.sample mpd.conf</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>После установки правим дефолтный конфиг до такого состояния:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>startup:
+        <font color="red"># configure mpd users</font>
+        <font color="orange">set</font> <font color="teal">user</font> admin PASSWD admin
+<font color="red">#       set user foo1 bar1</font>
+        <font color="red"># configure the console</font>
+        <font color="orange">set</font> console self <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b> <b><font color="darkblue">5005</font></b>
+        <font color="orange">set</font> console open
+        <font color="red"># configure the web server</font>
+        <font color="orange">set</font> web self <b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b> <b><font color="darkblue">5006</font></b>
+        <font color="orange">set</font> web open
+
+<font color="darkblue">default</font>:
+        load pppoe_server
+
+pppoe_server:
+        <font color="orange">create</font> bundle template B
+        <font color="orange">set</font> ipcp ranges <b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">254</font></b>/<b><font color="darkblue">32</font></b> <b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">0</font></b>/<b><font color="darkblue">24</font></b>
+        <font color="orange">set</font> iface idle <b><font color="darkblue">0</font></b>
+        <font color="orange">set</font> iface <font color="darkblue">enable</font> tcpmssfix
+        <font color="orange">set</font> ipcp <font color="teal">no</font> vjcomp
+        <font color="orange">set</font> iface up-script   "/usr/local/abills/libexec/linkupdown mpd up"
+        <font color="orange">set</font> iface down-script "/usr/local/abills/libexec/linkupdown mpd down"
+
+        <font color="orange">set</font> bundle <font color="darkblue">enable</font> compression
+        <font color="orange">set</font> ccp <font color="teal">yes</font> mppc
+        <font color="orange">set</font> mppc <font color="teal">yes</font> e40
+        <font color="orange">set</font> mppc <font color="teal">yes</font> e128
+        <font color="orange">set</font> mppc <font color="teal">yes</font> stateless
+
+        <font color="orange">create</font> link template common pppoe
+        <font color="orange">set</font> link <font color="darkblue">enable</font> multilink
+        <font color="orange">set</font> link action bundle B
+        <font color="orange">set</font> link disable pap eap
+        <font color="orange">set</font> link <font color="darkblue">enable</font> chap
+        load radius
+        <font color="orange">set</font> pppoe service "*"
+
+        <font color="orange">create</font> link template em0 common
+        <font color="orange">set</font> link max-children <b><font color="darkblue">1000</font></b>
+        <font color="orange">set</font> pppoe iface em0
+        <font color="orange">set</font> link <font color="darkblue">enable</font> incoming
+
+        <font color="orange">set</font> link <font color="teal">no</font> pap eap
+        <font color="orange">set</font> link <font color="teal">yes</font> chap-md5
+        <font color="orange">set</font> link keep-alive <b><font color="darkblue">20</font></b> <b><font color="darkblue">60</font></b>
+        <font color="orange">set</font> link <font color="darkblue">enable</font> incoming
+        <font color="orange">set</font> link <font color="teal">no</font> acfcomp protocomp
+
+radius:
+        <font color="orange">set</font> radius server <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b> PASSWD <b><font color="darkblue">1812</font></b> <b><font color="darkblue">1813</font></b>
+        <font color="orange">set</font> radius retries <b><font color="darkblue">3</font></b>
+        <font color="orange">set</font> auth acct-update <b><font color="darkblue">300</font></b>
+        <font color="orange">set</font> auth <font color="darkblue">enable</font> radius-auth
+        <font color="orange">set</font> auth <font color="darkblue">enable</font> radius-acct
+        <font color="orange">set</font> radius <font color="darkblue">enable</font> message-authentic
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Обращаем внимание на слудющие строки:<br>
+Они понадобятся для настройки Abills'a.<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>        <font color="orange">set</font> <font color="teal">user</font> admin PASSWD admin
+        <font color="orange">set</font> console self <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b> <b><font color="darkblue">5005</font></b>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code><b>em0</b> - интерфейс, на котором слушает mpd5 (pppoe)<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>        <font color="orange">create</font> link template em0 common
+        <font color="orange">set</font> link max-children <b><font color="darkblue">1000</font></b>
+        <font color="orange">set</font> pppoe iface em0
+        <font color="orange">set</font> link <font color="darkblue">enable</font> incoming
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>PASSWD - пароль для подключения к радиус-серверу.<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>        <font color="orange">set</font> radius server <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b> PASSWD <b><font color="darkblue">1812</font></b> <b><font color="darkblue">1813</font></b>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Не забываем также про ТАБуляцию, свойственную mpd.<br>
+<br>
+3. <b><u>FreeRadius</u></b>. Пробовал freeradius2, но с ним у меня
+что-то не срослось. Интерфейс поднимался и через несколько секунд
+падал. Я не победил, по-этому переполз на 1-й.<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># whereis freeradius</font>
+<font color="red"># cd /usr/ports/net/freeradius</font>
+<font color="red"># make install clean</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code></code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>
++--------------------------------------------------------------------+
+|                  <font color="orange">Options</font> <font color="orange">for</font> freeradius <b><font color="darkblue">1</font></b>.<b><font color="darkblue">1</font></b>.7_4                    |
+| +----------------------------------------------------------------+ |
+| |[ ] KERBEROS      With Kerberos support                         | |
+| |[ ] HEIMDAL       With Heimdal Kerberos support                 | |
+| |[ ] LDAP          With LDAP database support                    | |
+| |[X] <font color="magenta">MYSQL</font>         With <font color="magenta">MySQL</font> database support                   | |
+| |[ ] PGSQL         With PostgreSQL database support              | |
+| |[ ] UNIXODBC      With unixODBC database support                | |
+| |[ ] FIREBIRD      With Firebird database support (EXPERIMENTAL) | |
+| |[ ] SNMP          With SNMP support                             | |
+| |[ ] EDIR          With Novell eDirectory support                | |
+| |[ ] NOPERL        <font color="orange">Do</font> <font color="gray">not</font> <font color="magenta">require</font> perl (use only <font color="orange">if</font> necessary)   | |
+| |[X] EXPERIMENTAL  Build experimental modules                    | |
+| +----------------------------------------------------------------+ |
+|                                                                    |
++--------------------------------------------------------------------+
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>После успешной установки правим конфиги радиуса:<br>
+<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># cd /usr/local/etc/raddb</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>файл <b>users</b><br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="darkblue">DEFAULT</font> Auth-Type = <font color="magenta">Accept</font>
+  Exec-Program-Wait = "/usr/local/abills/libexec/rauth.pl"
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>файл <b>acct_users</b><br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="darkblue">DEFAULT</font> Acct-Status-Type == <font color="green">Start</font>
+   Exec-Program = "/usr/local/abills/libexec/racct.pl"
+
+<font color="darkblue">DEFAULT</font> Acct-Status-Type == Alive
+   Exec-Program = "/usr/local/abills/libexec/racct.pl"
+
+<font color="darkblue">DEFAULT</font> Acct-Status-Type == Stop
+   Exec-Program = "/usr/local/abills/libexec/racct.pl"
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>в файл <b>clients.conf</b> прописываем пароль для доступа к радиус-серверу, тот что мы указывали в mpd.conf<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>client <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b> {
+   secret = PASSWD
+}
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>В файле <b>radiusd.conf</b> <br>
+Нужно создать функции для преавторизации и поставторизации в секции 'modules'<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="orange">exec</font> pre_auth { 
+  <font color="orange">wait</font> = <font color="teal">yes</font> 
+  program = "/usr/local/abills/libexec/rauth.pl pre_auth" 
+  input_pairs = request 
+  output_pairs = config 
+}
+
+<font color="orange">exec</font> post_auth {
+  <font color="orange">wait</font> = <font color="teal">yes</font>
+  program = "/usr/local/abills/libexec/rauth.pl post_auth"
+  input_pairs = request
+  output_pairs = config
+}
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Комментируем использование модулей 'chap' и добавим 'pre_auth' в разделе 'authorize'<br>
+<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>authorize {
+  preprocess
+<font color="red">#  chap</font>
+<font color="red">#  counter</font>
+<font color="red">#  attr_filter</font>
+<font color="red">#  eap</font>
+<font color="red">#  suffix</font>
+  files
+<font color="red"># etc_smbpasswd</font>
+<font color="red"># sql</font>
+ mschap
+ pre_auth
+}
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Для оповещения о неавторизированых пользователях. Внесите в секцию 'post-auth'<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>post-auth {
+  Post-Auth-Type REJECT {
+     post_auth
+   }
+ }
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Создаем словарь для мпд <b>dictionary.mpd</b>:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>VENDOR          mpd             <b><font color="darkblue">12341</font></b>
+
+ATTRIBUTE       mpd-rule        <b><font color="darkblue">1</font></b>       string          mpd
+
+ATTRIBUTE       mpd-pipe        <b><font color="darkblue">2</font></b>       string          mpd
+
+ATTRIBUTE       mpd-queue       <b><font color="darkblue">3</font></b>       string          mpd
+ATTRIBUTE       mpd-table       <b><font color="darkblue">4</font></b>       string          mpd
+ATTRIBUTE       mpd-table-static        <b><font color="darkblue">5</font></b>       string          mpd
+ATTRIBUTE       mpd-filter      <b><font color="darkblue">6</font></b>       string          mpd
+ATTRIBUTE       mpd-limit       <b><font color="darkblue">7</font></b>       string          mpd
+ATTRIBUTE       mpd-input-octets        <b><font color="darkblue">8</font></b>       string          mpd
+ATTRIBUTE       mpd-input-packets       <b><font color="darkblue">9</font></b>       string          mpd
+ATTRIBUTE       mpd-output-octets       <b><font color="darkblue">10</font></b>      string          mpd
+ATTRIBUTE       mpd-output-packets      <b><font color="darkblue">11</font></b>      string          mpd
+ATTRIBUTE       mpd-link        <b><font color="darkblue">12</font></b>      string          mpd
+ATTRIBUTE       mpd-bundle      <b><font color="darkblue">13</font></b>      string          mpd
+ATTRIBUTE       mpd-iface       <b><font color="darkblue">14</font></b>      string          mpd
+ATTRIBUTE       mpd-iface-index <b><font color="darkblue">15</font></b>      integer         mpd
+ATTRIBUTE       mpd-input-acct  <b><font color="darkblue">16</font></b>      string          mpd
+ATTRIBUTE       mpd-output-acct <b><font color="darkblue">17</font></b>      string          mpd
+ATTRIBUTE       mpd-drop-user   <b><font color="darkblue">154</font></b>     integer         mpd
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>в файле <b>dictionary</b> добавляем строку:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="green">$INCLUDE</font>        dictionary.mpd
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>4. Добавляем нужные модули <b><i>perl</i></b>. Также проверьте пусть к бинарнику перла. К примеру в 8-ке он лежит уже не в <b>/usr/bin/perl</b> , а в <b>/usr/local/bin/perl</b>. По-этому я делал симлинк:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># ln -s /usr/local/bin/perl /usr/bin/perl</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code></code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># cd /root </font>
+<font color="red"># perl -MCPAN -e shell </font>
+o conf prerequisites_policy ask 
+<font color="teal">install</font>    DBI      
+<font color="teal">install</font>    DBD::<font color="magenta">mysql</font>    
+<font color="teal">install</font>    Digest::<font color="magenta">MD5</font> 
+<font color="teal">install</font>    Digest::MD4 
+<font color="teal">install</font>    Crypt::DES 
+<font color="teal">install</font>    Digest::SHA1 
+<font color="teal">install</font>    Bundle::libnet 
+<font color="teal">install</font>    <font color="magenta">Time</font>::HiRes 
+<font color="magenta">quit</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>5. Настриваем <b><i>apache</i></b> <br>
+Добавляем <br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>Include /usr/local/abills/misc/apache/abills_httpd.conf
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>И сгенерим сертификаты:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># /usr/local/abills/misc/sslcerts.sh apache</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Имейте ввиду, нужно что бы <b>Common Name (eg, YOUR name) []:</b> совпадал с именем вашего сервера (<b>hostname</b>).<br>
+<br>
+Стартуем apache.<br>
+Если ставите apache22 и в логах ругань на <br>
+</code>
+<table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Courier,'Courier New',sans-serif; font-size: 11px; color: rgb(49, 255, 8);" bgcolor="#000000" border="0" cellpadding="5" cellspacing="0" width="100%">
+	<tbody><tr>
+		<td>
+[warn] (2)No such file or directory: Failed to enable the 'httpready' Accept Filter
+		</td>
+	</tr>
+</tbody></table>
+</p><p align="justify"><code>
+ то добавьте в <b>/boot/loader.conf</b> &nbsp;<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>accf_http_load="YES"
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>6. Настраиваем <b>Abbils</b>.<br>
+Заходим на <a href="https://your.host:9443/admin/" target="_blank" class="text_link">https://your.host:9443/admin/</a><br>
+Выбираем русский язык.<br>
+Теперь нужно сконфигурировать сервер доступа NAS<br>
+Идем в <b>Система -&gt; Сервер доступа </b><br>
+<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>
+<font color="teal">ID</font>	                  <b><font color="darkblue">1</font></b>
+<font color="orange">IP</font>	                  <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b>
+Название:	          NAS
+Radius NAS-Identifier:	
+Описание:	
+Тип:	                  mpd5:MPD <b><font color="darkblue">5</font></b>.xx
+Авторизация:	          SQL
+External Accounting:	 
+Alive (sec.):	          <b><font color="darkblue">60</font></b>
+Отключено:	
+:Управление:
+<font color="orange">IP</font>:PORT:	          <b><font color="darkblue">127</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">0</font></b>.<b><font color="darkblue">1</font></b>:<b><font color="darkblue">5005</font></b> (тот, что настраивали в mpd.conf)
+Пользователь: 	          admin (тот, что настраивали в mpd.conf)
+Пароль:	                  PASSWD (тот, что настраивали в mpd.conf)
+RADIUS Параметры (,)
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Теперь добавляем ему пул адресов, которые будут выдаваться клиентам при подключении к ВПН-серверу.<br>
+Заходим в <b>IP POOLs</b><br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>Название:	first
+FIRST <font color="orange">IP</font>:	<b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">1</font></b>
+Количество:	<b><font color="darkblue">253</font></b>
+Приоритет:       <b><font color="darkblue">0</font></b>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Если нужно больше, увеличиваем сеть или создаем еще пулы. Их будем указывать в тарифном плане.<br>
+<br>
+Теперь настроим хотя бы один тарифный план: <b>Система -&gt; Internet -&gt; Тарифные планы -&gt; Добавить</b><br>
+Тут настраиваем по вкусу, при этом указываем пул-адресов (<b>IP Pool:</b>) и <b>RADIUS Parameters (,)</b>.<br>
+<b>RADIUS Parameters (,)</b> - это собственно и есть параметры передаваемые радиусом системе ng_car.<br>
+<br>
+Сюда для примера добавим:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>mpd-limit+="<font color="orange">in</font><font color="red">#1=all rate-limit 1024000 192000 384000",</font>
+mpd-limit+="<font color="orange">out</font><font color="red">#1=all rate-limit 1024000 192000 384000"</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>где первая цифра (<b>rate-limit</b>) собственно ограничение скорости при закачке<br>
+вторая - (<b>normal burst</b>) - какую полосу отдать за 1 секунду<br>
+третья - (<b>extended burst</b>) за первые полторы секунды<br>
+<br>
+Формулы расчета burst (Cisco like rate-limit):<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>normal burst = configured rate * <b><font color="darkblue">3</font></b> / <b><font color="darkblue">16</font></b> 
+extended burst = <b><font color="darkblue">2</font></b> * normal burst
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Теперь добавим пользователя <b>Клиенты -&gt; Логины -&gt; Добавить</b> <br>
+Затем привязываем к нему тарифный план. Далее исходя из тарифного плана
+(предоплата/постоплата) смотрим, нужно ли ему для успешной авторизации
+деньги на счету, и если нужны, то добавляем. Далее активируем
+пользователя.<br>
+<br>
+Запускаем mpd, radius (предварительно добавив параметры запуска в rc.conf)<br>
+Проверяем, может ли пользователь авторизироваться в радиусе:<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># radtest testuser testpassword 127.0.0.1:1812 0 PASSWD 0 127.0.0.1</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>если ему выдался ИП и т.д., то все ок.<br>
+Для логирования mpd, добавляем следующее в <b>/etc/syslog.conf</b><br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code>!mpd
+*.*                                             /var/log/mpd.<font color="teal">log</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Создаем файл, даем права и рестартуем syslog<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="red"># touch /var/log/mpd.log</font>
+<font color="red"># chmod 600 /var/log/mpd.log</font>
+<font color="red"># /etc/rc.d/syslogd restart</font>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>7. Настроим <b>ipfw</b> и <b>nat</b><br>
+Укажу минимальный набор правил для доступа пользователей в интернет:<br>
+<b>rl1</b> - внешняя &nbsp;сетевая карта<br>
+<b>rl0</b> - внутреняя сетевая карта<br>
+<b>192.168.1.0/24</b> - локальная сеть<br>
+<b>${eip}</b> - Внешний IP-адрес<br>
+<b>table(1)</b> - содержит созданные вами пулы адресов<br>
+Фаервол по-умолчанию закрытый.<br>
+</code><table style="border: 1px solid rgb(0, 0, 0); margin-top: 5px; font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;" bgcolor="#fffaed" border="0" cellpadding="5" cellspacing="0" width="100%">
+
+		<tbody><tr>
+<td>
+<pre style="margin: 1px;"><code><font color="magenta">ipfw</font> nat <b><font color="darkblue">100</font></b> config <font color="orange">if</font> rl1
+<font color="blue">allow</font> <font color="orange">ip</font> <font color="blue">from</font> any <font color="blue">to</font> any <font color="blue">via</font> lo0
+<font color="magenta">ipfw</font> <font color="blue">add</font> <font color="blue">allow</font> <font color="orange">ip</font> <font color="blue">from</font> <b><font color="darkblue">192</font></b>.<b><font color="darkblue">168</font></b>.<b><font color="darkblue">1</font></b>.<b><font color="darkblue">0</font></b>/<b><font color="darkblue">24</font></b> <font color="blue">to</font> <b><font color="darkblue">192</font></b>.<b><font color="darkblue">168</font></b>.<b><font color="darkblue">1</font></b>.<b><font color="darkblue">0</font></b>/<b><font color="darkblue">24</font></b> <font color="blue">via</font> rl0
+<font color="magenta">ipfw</font> <font color="blue">add</font> <font color="blue">allow</font> <font color="orange">ip</font> <font color="blue">from</font> 'table(<b><font color="darkblue">1</font></b>)' <font color="blue">to</font>  'table(<b><font color="darkblue">1</font></b>)'
+<font color="magenta">ipfw</font> <font color="blue">add</font> nat <b><font color="darkblue">100</font></b> <font color="orange">ip</font> <font color="blue">from</font> 'table(<b><font color="darkblue">1</font></b>)' <font color="blue">to</font> any
+<font color="magenta">ipfw</font> <font color="blue">add</font> nat <b><font color="darkblue">100</font></b> <font color="orange">ip</font> <font color="blue">from</font> any <font color="blue">to</font> <font color="green">${eip}</font>
+<font color="magenta">ipfw</font> table <b><font color="darkblue">1</font></b> <font color="blue">add</font> <b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">10</font></b>.<b><font color="darkblue">0</font></b>/<b><font color="darkblue">24</font></b>
+</code></pre></td></tr></tbody></table></p><p align="justify"><code>Пробуем настроить соединение в Windows: <br>
+</code></p><li class="main"><code>1. На рабочем столе откройте Мой компьютер, в нем откройте Панель управления. Здесь открывайте Сетевые подключения.<br>
+</code></li><li class="main"><code>2. В пункте меню Файл выберете Новое подключение...<br>
+</code></li><li class="main"><code>3. Нажимайте Далее<br>
+</code></li><li class="main"><code>4. Выбирайте Подключится к Интернет и нажимайте Далее<br>
+</code></li><li class="main"><code>5. Выбирайте Установить подключение вручную и нажимайте Далее<br>
+</code></li><li class="main"><code>6. Выбирайте Через высокоскоростное соединение, запрашивающее имя пользователя и пароль и нажимайте Далее<br>
+</code></li><li class="main"><code>7. В поле Имя поставщика услуг введите название соединения, INET. Нажимайте Далее<br>
+</code></li><li class="main"><code>8. В поля Имя пользователя и Пароль вводите имя и пароль для входа в Интернет соответственно, и нажимайте Далее<br>
+</code></li><li class="main"><code>9. Установите пункт Добавить ярлык подключения на рабочий стол и нажимайте Готово<br>
+</code></li><li class="main"><code>10. Для подключения к интернет нажимайте Подключение.<br>
+<br>
+<br>
+Дальше проверяем работу интернета, скорость закачки. Если что-то не так смотрим логи.<br>
+<br>
+<b>Литература: </b><br>
+</code></li><li class="main"><code> <a href="http://abills.net.ua/wiki/doku.php/abills:index" target="_blank" class="text_link">http://abills.net.ua/wiki/doku.php/abills:index</a><br>
+</code></li><li class="main"><code> <a href="http://mpd.sourceforge.net/doc/mpd.html" target="_blank" class="text_link">http://mpd.sourceforge.net/doc/mpd.html</a><br>
+</code><p></p><br><br>
+			
+<a name="forum_link"></a><strong>Ссылка на обсуждение: <a class="text_link" href="http://forum.lissyara.su/viewtopic.php?t=21162">http://forum.lissyara.su/viewtopic.php?t=21162</a></strong>.<br><br>
+
+
+			<!-- Текст страницы закончился -->
+<!-- линк на редактирование для автора -->
+			<!-- автор текста начался -->
+			<a name="voting"></a>
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody><tr>
+					<td valign="top">
+						<p style="font-size: 12px;" align="left"><code>размещено: 2009-12-19,<br>
+				последнее обновление: 2010-01-11,<br>
+				автор: <a href="http://www.lissyara.su/authors/2007/schizoid/" class="text_link" title="">schizoid</a></code></p>
+					</td>
+					<td valign="top" align="right">
+						
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/vote.form.tpl' -->
+
+<!-- форма оценки статьи началась -->
+		<form method="post" name="voting" id="voting" action="/articles/freebsd/traffic_count/mpd5_pppoe+radius+ng_car+abills/#voting">
+			<table style="border: 1px solid rgb(112, 118, 128); border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0" width="10%">
+				<tbody><tr>
+					<td style="border-top: 1px solid rgb(112, 118, 128); border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128);" align="center">
+						<code><b>оценить статью:</b></code>
+					</td>
+				</tr>
+				<tr>
+					<td style="border-top: 1px solid rgb(112, 118, 128); border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128);" valign="center" align="center">
+					<input name="enable_voting" value="1" type="hidden">
+						<nobr><b>&#8595;</b>
+						<input value="1" name="voting_ball" type="radio">
+						<input value="2" name="voting_ball" type="radio">
+						<input value="3" name="voting_ball" type="radio">
+						<input value="4" name="voting_ball" type="radio">
+						<input value="5" name="voting_ball" checked="checked" type="radio">
+						<input value="6" name="voting_ball" type="radio">
+						<input value="7" name="voting_ball" type="radio">
+						<input value="8" name="voting_ball" type="radio">
+						<input value="9" name="voting_ball" type="radio">
+						<input value="10" name="voting_ball" type="radio">
+						<b>&#8593;</b></nobr>
+					</td>
+				</tr>
+				<tr>
+					<td style="border-top: 1px solid rgb(112, 118, 128); border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128);" align="center">
+						<table border="0" cellpadding="1" cellspacing="1" width="100%">
+							<tbody><tr>
+								<td valign="center" align="center">
+									<code><input value="оценить" name="Submit" style="border: 1px solid rgb(112, 118, 128); width: 260px; background-color: rgb(218, 224, 231); color: rgb(0, 0, 0); font-size: 8pt;" type="submit"></code>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+			</tbody></table>
+		</form>
+<!-- форма оценки статьи закончилась -->
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/vote.form.tpl' -->
+
+					</td>
+				</tr>
+			</tbody></table>
+
+			<!-- автор кончился :) -->
+<center>
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.punkt.2.tpl' -->
+<br>
+<center>
+<script type="text/javascript"><!--
+	google_ad_client = "pub-5744561116771842";
+	/* 468x60, создано 08.07.08 */
+	google_ad_slot = "0142234703";
+	google_ad_width = 468;
+	google_ad_height = 60;
+	//-->
+</script>
+<script type="text/javascript" src="mpd5%28pppoe%29+radius+ng_car+Abills_files/show_ads.js">
+</script><script src="mpd5%28pppoe%29+radius+ng_car+Abills_files/expansion_embed.js"></script><script src="mpd5%28pppoe%29+radius+ng_car+Abills_files/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: inline-table; height: 60px; position: relative; visibility: visible; width: 468px;"><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: block; height: 60px; position: relative; visibility: visible; width: 468px;"><iframe allowtransparency="true" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" src="mpd5%28pppoe%29+radius+ng_car+Abills_files/ads.html" style="left: 0pt; position: absolute; top: 0pt;" vspace="0" frameborder="0" height="60" scrolling="no" width="468"></iframe></ins></ins>
+</center>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.punkt.2.tpl' -->
+</center>
+			
+			<!-- Комментарии пользователей начались -->
+					
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.header.tpl' -->
+
+<br><div class="commentTop" style="" onclick="c.style.display=(c.style.display=='none')?'block':'none';">
+<code><strong><a name="comments_header" class="text_link" title="кликните для просмотра всех комментариев">Комментарии пользователей [29 шт.]</a></strong></code></div>
+<div style="display: block;" id="cBox">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.header.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7365"></a>
+<div class="commentEven">
+        <p><code><b>m0ps, 2009-10-30 в 16:56:39</b></code></p>
+        <p><code>как-раз искал how-to на подобную тему</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7366"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:labor@nahoste.ru" class="text_link">Sun</a>, 2009-10-30 в 20:12:16</b></code></p>
+        <p><code>Статья
+сыровата, по настроки веб сервера опишите подробнее, просто то что в
+портах 0.41 имеет некоторые ошибки в abills_httpd.conf надо в ручную
+допиливать.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7367"></a>
+<div class="commentEven">
+        <p><code><b>Sun, 2009-10-30 в 21:22:57</b></code></p>
+        <p><code>А также есть грабли с параметром <u>$conf{secretkey}="test12345678901234567890";</u>
+если во время установки по незнанию сменить то в админку зайти не
+получится.Выход в дампе править этот параметр в пользователе.Час убил
+на эту хрень )))</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7379"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:admin@stl.ok.net.ua" class="text_link">schizoid</a>, 2009-11-02 в 14:42:32</b></code></p>
+        <p><code><b>Sun,</b> можно по-конкретнее. я ничего по-моему не правил в нем (abills_httpd.conf). По-моему там даже пути были правильные.<br>
+<br>
+на счет secretkey - собсна тоже сказано:<br>
+<b>При изменении значения в $conf{secretkey} поменяйте его также в файле abills.sql<br>
+</b><br>
+при чем выделенно жирным.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7380"></a>
+<div class="commentEven">
+        <p><code><b>Sun, 2009-11-02 в 16:21:25</b></code></p>
+        <p><code>ой,сорри. через строчку читал ))) балин )) а кто нить со вторым радиусом это проделывал?</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7381"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:admin@stl.ok.net.ua" class="text_link">schizoid</a>, 2009-11-02 в 19:21:56</b></code></p>
+        <p><code>у меня не завелся </code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7382"></a>
+<div class="commentEven">
+        <p><code><b>Sun, 2009-11-03 в 5:41:05</b></code></p>
+        <p><code>у
+меня частично завелось,радтест из базы забирает настройки верные,а на
+клиенте выдает не 619,а маленькое окошко с примечанием типа таких тут
+нет,и ниже три поля логин пароль домен, листая логи дагоняю что где то
+проблема с шифрованием...</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7384"></a>
+<div class="commentOdd">
+        <p><code><b>Sun, 2009-11-03 в 10:52:22</b></code></p>
+        <p><code>Ура победил!))) freeradius2+mpd5+mysql5+abills_0.41b+freebsd-6.2!)))</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7386"></a>
+<div class="commentEven">
+        <p><code><b>Vlad, 2009-11-03 в 17:48:11</b></code></p>
+        <p><code><b>Sun</b>, и rlm_perl работает?</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7387"></a>
+<div class="commentOdd">
+        <p><code><b>Sun, 2009-11-03 в 18:31:32</b></code></p>
+        <p><code>не
+это пока не пробовал... шифрование работает и авторизация по мсчап2
+тоже,ток вот понять не могу одного,чисто случайно зашел под логином а
+он оказался уже подключен и получилось 2 пользователя под одним логином
+работают</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7389"></a>
+<div class="commentEven">
+        <p><code><b><a href="mailto:admin@stl.ok.bet.ua" class="text_link">schizoid</a>, 2009-11-04 в 10:24:01</b></code></p>
+        <p><code>уверен, что оба полноценно работают? ;)<br>
+вообще вроде есть параметр mpd, который запрещает это.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7390"></a>
+<div class="commentOdd">
+        <p><code><b>sun, 2009-11-04 в 12:54:56</b></code></p>
+        <p><code>разобрался,нормально
+работали оба ) а вот в настройках в админке заметил параметр
+"Одновременно" по умолчанию ноль, полагаю что как раз оно,еще не
+проверял,проверю отпишусь.Кста кто нить настроил Paysys,я понимаю что
+он платный,но может кто таблетку знает? А то уже начал собирать инфу по
+написанием модулей для него,нужен агрегатор для VM. </code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7391"></a>
+<div class="commentEven">
+        <p><code><b>sun, 2009-11-04 в 12:55:18</b></code></p>
+        <p><code>разобрался,нормально
+работали оба ) а вот в настройках в админке заметил параметр
+"Одновременно" по умолчанию ноль, полагаю что как раз оно,еще не
+проверял,проверю отпишусь.Кста кто нить настроил Paysys,я понимаю что
+он платный,но может кто таблетку знает? А то уже начал собирать инфу по
+написанием модулей для него,нужен агрегатор для VM. </code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7420"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:tomefrom@list.ru" class="text_link">Al</a>, 2009-11-11 в 13:17:11</b></code></p>
+        <p><code>&gt; 2 пользователя под одним логином работают<br>
+<i>set auth max-logins 1</i> <br>
+в настройки радиуса в мпд и будет подключаться не больше одного.<br>
+&gt;ой,сорри. через строчку читал ))) балин )) а кто нить со вторым радиусом это проделывал?<br>
+Для второго радиуса файл dictionary выглядит как минимум так<br>
+<i># dictionary.mpd<br>
+# id = [local id + 3000 for compability with other dictionaries]<br>
+VENDOR &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;mpd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 12341<br>
+<br>
+BEGIN-VENDOR &nbsp; &nbsp;mpd<br>
+<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-rule &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-pipe &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-table &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-table-static &nbsp; &nbsp; &nbsp; &nbsp;5 &nbsp; &nbsp; &nbsp; string<br>
+ATTRIBUTE &nbsp; &nbsp; &nbsp; mpd-filter &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6 &nbsp; &nbsp; &nbsp; string<br>
+ATTRIBUTE &nbsp; &nbsp; &nbsp; mpd-limit &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 7 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-input-octets &nbsp; &nbsp; &nbsp; &nbsp;8 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-input-packets &nbsp; &nbsp; &nbsp; 9 &nbsp; &nbsp; &nbsp; string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-output-octets &nbsp; &nbsp; &nbsp; 10 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-output-packets &nbsp; &nbsp; &nbsp;11 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-link &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;12 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-bundle &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;13 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-iface &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 14 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-iface-index &nbsp; &nbsp; &nbsp; &nbsp; 15 &nbsp; &nbsp; &nbsp;integer<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-input-acct &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;16 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-output-acct &nbsp; &nbsp; &nbsp; &nbsp; 17 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-action &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;18 &nbsp; &nbsp; &nbsp;string<br>
+#ATTRIBUTE &nbsp; &nbsp; &nbsp;mpd-drop-user &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 54 &nbsp; &nbsp; &nbsp;integer<br>
+<br>
+END-VENDOR &nbsp; &nbsp; &nbsp;mpd</i><br>
+</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7494"></a>
+<div class="commentEven">
+        <p><code><b><a href="mailto:alik1c@inbox.ru" class="text_link">alik</a>, 2009-11-26 в 14:53:37</b></code></p>
+        <p><code>хорошая статья, а можно вас попросить переконвентировать правило фаервола с ipfw на pf. <br>
+Заранее спасибо.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7506"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:admin@stl.ok.net.ua" class="text_link">schizoid</a>, 2009-11-28 в 22:29:21</b></code></p>
+        <p><code>фаервол
+собсна не учавствует в связке как основное звено. берите любой, главное
+НАТить, тот пул адресов, которые указываете в абиллсе.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7654"></a>
+<div class="commentEven">
+        <p><code><b><a href="mailto:labor@nahoste.ru" class="text_link">Sun</a>, 2010-01-01 в 18:31:01</b></code></p>
+        <p><code><i>&gt;Для второго радиуса файл dictionary выглядит как минимум так</i><br>
+<br>
+А я маленько по другому заводил, там косяк в модуле авторизации как раз
+у абиллса,где то находил в рунете как подправить, но сейчас не
+вспомню,поищу выложу.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7658"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:admin@stl.ok.net.ua" class="text_link">schizoid</a>, 2010-01-02 в 23:15:50</b></code></p>
+        <p><code>Выкладывайте, будет потребность обновим статью ;)</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7660"></a>
+<div class="commentEven">
+        <p><code><b><a href="mailto:q1230@rambler.ru" class="text_link">Sun</a>, 2010-01-03 в 17:33:27</b></code></p>
+        <p><code><a href="http://abills.net.ua/forum/viewtopic.php?f=2&amp;t=4165&amp;start=30" target="_blank" class="text_link">http://abills.net.ua/forum/viewtopic.php?f=2&amp;t=4165&amp;start=30</a><br>
+<br>
+вот нашел,прочитав эту тему решилась проблема с радиусом вторым<br>
+<br>
+<i>Если совсем точно то в Auth.pm<br>
+#*******************************************************************<br>
+# Authorization module<br>
+# pre_auth()<br>
+#*******************************************************************<br>
+sub pre_auth {<br>
+<br>
+<br>
+if ($self-&gt;{TOTAL} &gt; 0) {<br>
+my $list = $self-&gt;{list}-&gt;[0];<br>
+my $password = $list-&gt;[0];<br>
+$self-&gt;{'RAD_CHECK'}{'User-Password'}="$password";<br>
+# freeeradius 1xx<br>
+#print "User-Password == \"$password\"";<br>
+# freeradius v2<br>
+print "Cleartext-Password := \"$password\"";<br>
+return 0;<br>
+} </i></code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7665"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:pin@nk.kamensktel.ru" class="text_link">pin</a>, 2010-01-05 в 10:31:26</b></code></p>
+        <p><code>Доброго
+времени суток! Почему в статье не описана замена "штатного" ppp демона
+на комплект из поставки абиллса? У меня на 7.2 не получилось завести.
+Или вы трафик по тарифным зонам не считаете?</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7670"></a>
+<div class="commentEven">
+        <p><code><b><a href="mailto:admin@stl.ok.net.ua" class="text_link">schizoid</a>, 2010-01-05 в 22:14:23</b></code></p>
+        <p><code>Это так сказать необходимый минимум, далее можете воротить все что захотите ;)</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7678"></a>
+<div class="commentOdd">
+        <p><code><b> ~AsmodeuS~, 2010-01-06 в 17:11:56</b></code></p>
+        <p><code>Abills + MPD5 &nbsp;можно считать трафик по направлениям<br>
+<br>
+</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7684"></a>
+<div class="commentEven">
+        <p><code><b>RusBiT, 2010-01-07 в 6:51:38</b></code></p>
+        <p><code>Abills - отличный выбор!<br>
+Только в названии статьи опечатка &nbsp;"Abiils"</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7700"></a>
+<div class="commentOdd">
+        <p><code><b>Sun, 2010-01-10 в 14:02:31</b></code></p>
+        <p><code>Народ
+вопрос может конечно немного не в тему.Но вот у абилса есть агрегатор
+для электронных платежей модуль Paysys который стоит денег, может есть
+у кого альтернативный самописный модуль?</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7707"></a>
+<div class="commentEven">
+        <p><code><b><a href="mailto:admin@stl.ok.net.ua" class="text_link">schizoid</a>, 2010-01-11 в 18:22:56</b></code></p>
+        <p><code><b>2 RusBiT,</b> fixed ;)</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7771"></a>
+<div class="commentOdd">
+        <p><code><b>Laa, 2010-01-27 в 17:33:52</b></code></p>
+        <p><code>Лучше сразу ставить abills из cvs.<br>
+Вот так:<br>
+cvs -d:pserver:anonymous@abills.cvs.sourceforge.net:/cvsroot/abills login<br>
+cvs -z3 -d:pserver:anonymous@abills.cvs.sourceforge.net:/cvsroot/abills checkout -r rel-0-5 abills<br>
+<br>
+так сразу будет последняя версия.<br>
+Так же и обновлять.<br>
+Сам вчера обновил 0.5 на 0.51.<br>
+При обновлении не забывать читать changelog на сайте и выполнять из него sql-команды (база-то изменяется)!</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7775"></a>
+<div class="commentEven">
+        <p><code><b>schizoid, 2010-01-28 в 10:27:40</b></code></p>
+        <p><code>В портах обычно стабильная версия.</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7800"></a>
+<div class="commentOdd">
+        <p><code><b><a href="mailto:nkey@bk.ru" class="text_link">-=N.K=-</a>, 2010-02-03 в 16:12:56</b></code></p>
+        <p><code>ИМХО PPPOE полное говно, какой нить дурак по незнанию создаст в винде входящее соединение и понеслись проблемы:)</code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<a name="comment_7920"></a>
+<div class="commentEven">
+        <p><code><b>~AsmodeuS~, 2010-03-05 в 0:47:03</b></code></p>
+        <p><code>Для работы с freeradius 2 нужно указать параметр в конфигурационном файле $conf{RADIUS2}=1; </code></p>
+</div>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.show.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.form.tpl' -->
+
+<br>
+	<form method="post" name="comment_text" id="comment" action="/articles/freebsd/traffic_count/mpd5_pppoe+radius+ng_car+abills/#voting">
+	<table class="comment" border="1" cellpadding="3" cellspacing="0">
+	<tbody>
+		<tr>
+			<td colspan="2" valign="center" width="30%">
+				<code><b>Оставьте свой комментарий:</b></code><br>
+			</td>
+		</tr>
+		<tr>
+			<td valign="center" width="30%">
+				<code>Ваше имя: &nbsp; <font color="#ff0000">*</font></code>
+			</td>
+			<td valign="center">
+			<input name="user_nik" class="input_445px" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td valign="center">
+				<code>e-mail: &nbsp;</code>
+			</td>
+			<td valign="center">
+				<input name="user_e_mail" class="input_445px" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				<div class="inputForm">
+				<code><input class="bb_code" accesskey="b" name="addbbcode0" value=" B " onclick="bbstyle(0)" type="button">
+				</code><code style="font-size: 14px;"><b>жирный</b></code>
+				</div>
+				<div class="inputForm">
+				<code><input class="bb_code" accesskey="i" name="addbbcode2" value=" i " onclick="bbstyle(2)" type="button">
+				</code><code style="font-size: 14px;"><i>наклонный</i></code>
+				</div>
+				<div class="inputForm">
+				<code><input class="bb_code" accesskey="u" name="addbbcode4" value=" u " onclick="bbstyle(4)" type="button">
+				</code><code style="font-size: 14px;"><u>подчёркнутый</u></code>
+				</div>
+				<div class="inputForm">
+				<code><input class="bb_code" accesskey="w" name="addbbcode16" value="URL" onclick="bbstyle(16)" type="button">
+				ссылка</code>
+				</div>
+				<div class="inputForm">
+				<select name="addbbcode18" onchange="bbfontstyle('[color=' + this.form.addbbcode18.options[this.form.addbbcode18.selectedIndex].value + ']', '[/color]');this.selectedIndex=0;">
+				<option selected="selected" style="color: black; background-color: rgb(218, 224, 231);" value="#FFFFFF">Default</option>
+				<option style="color: darkred; background-color: rgb(218, 224, 231);" value="darkred">Dark Red</option>
+				<option style="color: red; background-color: rgb(218, 224, 231);" value="red">Red</option>
+				<option style="color: orange; background-color: rgb(218, 224, 231);" value="orange">Orange</option>
+				<option style="color: brown; background-color: rgb(218, 224, 231);" value="brown">Brown</option>
+				<option style="color: yellow; background-color: rgb(218, 224, 231);" value="yellow">Yellow</option>
+				<option style="color: green; background-color: rgb(218, 224, 231);" value="green">Green</option>
+				<option style="color: olive; background-color: rgb(218, 224, 231);" value="olive">Olive</option>
+				<option style="color: cyan; background-color: rgb(218, 224, 231);" value="cyan">Cyan</option>
+				<option style="color: blue; background-color: rgb(218, 224, 231);" value="blue">Blue</option>
+				<option style="color: darkblue; background-color: rgb(218, 224, 231);" value="darkblue">Dark Blue</option>
+				<option style="color: indigo; background-color: rgb(218, 224, 231);" value="indigo">Indigo</option>
+				<option style="color: violet; background-color: rgb(218, 224, 231);" value="violet">Violet</option>
+				<option style="color: white; background-color: rgb(218, 224, 231);" value="white">White</option>
+				<option style="color: black; background-color: rgb(218, 224, 231);" value="black">Black</option>
+				</select><code style="font-size: 14px;"> цвет </code>
+				</div>
+			</td>
+			<td valign="center">
+				<textarea name="comment_text" class="big_input" rows="9">Товарищщи! Это поля для ввода комментариев к статье, а не для вопросов. Сюда пишите найденные баги, или какие-то фичи :) 
+Для вопросов есть форум!</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td valign="left">
+				<code>Нынешний год: &nbsp; <font color="#ff0000">*</font></code>
+			</td>
+			<td valign="center">
+				<input name="code" class="input_445px" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td valign="center">
+				&nbsp;
+			</td>
+			<td valign="center">
+				<code><input value="Отправить" name="submit_comment" class="big_send" type="submit"></code>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+	</form>
+	<!-- закрывающий div - сворачивание-разворачивание -->
+	</div>
+	<!-- скрипт показа комментов --> 
+	<script> var c = document.getElementById('cBox'); </script>
+
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/comment.form.tpl' -->
+<!-- Нет оплаченной рекламы в данный период --><br><br>
+			<!-- Комментарии пользователей закончились -->
+
+			<!-- рисунок по ширине колонки - чтоб не сжималась браузерами -->
+			<img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/blank.gif" height="1" width="610">
+		</li></td>
+		<td width="10">
+			<!-- рисунок по ширине колонки - чтоб не сжималась браузерами -->
+			<img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/blank.gif" height="1" width="10">
+		</td>
+		<td style="border-left: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128); padding: 5px; background: rgb(241, 241, 241) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; font-size: 12px;" valign="top" width="170">
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.host-food.tpl' -->
+
+<center><a href="http://www.host-food.ru/" target="_blank"><img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/host-food.gif" alt="Хостинг HOST-FOOD" border="0" height="31" width="88"></a></center>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.host-food.tpl' -->
+<br>
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.antichat.tpl' -->
+<!-- 2 античатовцы
+когда наладите свой сайт - тогда включу обратно
+<CENTER><a href="http://forum.antichat.ru/" target="_blank"><img src="http://forum.antichat.ru/images/test_antichat.gif" alt="Все об уязвимостях сайтов" border="0" width="80" height="15"></a></CENTER>
+-->
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.antichat.tpl' -->
+<!-- test --><br>
+			<!-- новости начались -->
+			
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2010-02-23, <a class="text_link" href="http://www.lissyara.su/authors/2008/morty/" title="">Morty</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/traffic_count/darkstat/" title="darkstat - самый простой мониторинг трафика, самый легковесный.">darkstat</a></b></code><br>
+
+<code style="font-size: 8pt;">Простая считалка траффика, со встроенным
+веб-сервером. Очень маленькая, может делать отчеты трафика по хостам,
+портам, протоколам, а также строить графики</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2010-01-23, <a class="text_link" href="http://www.lissyara.su/authors/2010/gonzo111/" title="">gonzo111</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/squid_sams/" title="Пилим squid и sams в примерах и задачках. Установка SqStat.">squid+sams+sqstat</a></b></code><br>
+
+<code style="font-size: 8pt;">Пилим squid и sams - примеры конфигов с объяснениями. Установка SqStat.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-12-19, <a class="text_link" href="http://www.lissyara.su/authors/2007/schizoid/" title="">schizoid</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/traffic_count/mpd5_pppoe+radius+ng_car+abills/" title="mpd5(pppoe)+radius+ng_car+Abills">mpd5 + radius + ng_car + Abills</a></b></code><br>
+
+<code style="font-size: 8pt;">Настройка pppoe-сервера с биллинговой системой Abills и шейпером ng_car</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-11-16, <a class="text_link" href="http://www.lissyara.su/authors/2005/lissyara/" title="Лужу, паяю, Э-Вэ-эМы починяю...">lissyara</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/file_system/remote_migration_from_ufs_to_zfs/" title="Удалённая миграция с UFS на ZFS">UFS-&gt;ZFS</a></b></code><br>
+
+<code style="font-size: 8pt;">Удалённая миграция с UFS на ZFS. Загрузка с раздела zfs. Настройка для работы с малым количеством памяти под архитектурой i386.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-11-13, <a class="text_link" href="http://www.lissyara.su/authors/2009/gx_ua/" title="">gx_ua</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/file_system/fusefs-ntfs/" title="fusefs-ntfs">fusefs-ntfs </a></b></code><br>
+
+<code style="font-size: 8pt;">Установка, настройка и использование fusefs-ntfs, драйвер NTFS, предназанченного для монтирования NTFS разделов под FreeBSD</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-11-12, <a class="text_link" href="http://www.lissyara.su/authors/2008/morty/" title="">Morty</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/trivia/livecd/" title="LiveCD">LiveCD </a></b></code><br>
+
+<code style="font-size: 8pt;">Создание собственного LiveCD с
+необходимыми вам изменениями, автоматизирование данного процесса, а так
+же вариант скоростной сборки СД.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-09-27, <a class="text_link" href="http://www.lissyara.su/authors/2005/lissyara/" title="Лужу, паяю, Э-Вэ-эМы починяю...">lissyara</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/samba_as_pdc_without_ldap/" title="Самба как контроллер домена без использования LDAP">Samba как PDC</a></b></code><br>
+
+<code style="font-size: 8pt;">Контроллер домена - аналог M$ NT4 домена под самбой, без использования LDAP и прочей хиромантии. Просто и быстро =)</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-08-30, <a class="text_link" href="http://www.lissyara.su/authors/2008/terminus/" title="">terminus</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/tuning/ipfw_nat/" title="Подробное руководство по ipfw nat">Подробное руководство по ipfw nat</a></b></code><br>
+
+<code style="font-size: 8pt;">Подробное руководство по ipfw nat, сложные случаи конфигурации.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-08-24, <a class="text_link" href="http://www.lissyara.su/authors/2009/levantuev/" title="">levantuev</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/hotspot/" title="HotSpot">HotSpot</a></b></code><br>
+
+<code style="font-size: 8pt;">Установка Hotspot системы в общественное заведение.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-08-18, <a class="text_link" href="http://www.lissyara.su/authors/2005/lissyara/" title="Лужу, паяю, Э-Вэ-эМы починяю...">lissyara</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/tuning/diskless/" title="Тонкие клиенты под FreeBSD">diskless</a></b></code><br>
+
+<code style="font-size: 8pt;">Создание бездисковых терминалов под
+управлением FreeBSD - с загрузкой по сети. Используются для старта
+rdesktop и подключения к виндовому серверу терминалов.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-07-29, <a class="text_link" href="http://www.lissyara.su/authors/2006/bav_lug/" title="">BAV_Lug</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/trivia/dlink_dcs-900/" title="Бюджетный вариант видеонаблюдения на удаленном объекте">Видеонаблюдение</a></b></code><br>
+
+<code style="font-size: 8pt;">Настройка бюджетного варианта видеонаблюдения на удаленном объекте</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-07-22, <a class="text_link" href="http://www.lissyara.su/authors/2008/cancer/" title="">Cancer</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/mail/openldap_addressbook/" title="Создание адресной книги на OpenLDAP">OpenLDAP адресная книга</a></b></code><br>
+
+<code style="font-size: 8pt;">Настройка и создание адресной книги на базе OpenLDAP + phpLDAPadmin</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-06-30, <a class="text_link" href="http://www.lissyara.su/authors/2009/sergeysl/" title="">SergeySL</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/aimsniff/" title="Мониторинг ICQ-переписки с помощью AimSniff">AimSniff</a></b></code><br>
+
+<code style="font-size: 8pt;">Руководство по созданию системы
+мониторинга ICQ-переписки на базе AimSniff, использующей базу данных
+MySQL для хранения и Web-интерфейс WAS (Web Aim Sniff) для просмотра
+перехваченных сообщений</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-06-25, <a class="text_link" href="http://www.lissyara.su/authors/2008/atrium/" title="">atrium</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/system/chmod+chown/" title="Управление правами доступа">Управление правами доступа</a></b></code><br>
+
+<code style="font-size: 8pt;">Полномочия пользователей и файлов, принадлежащих им, формирует концепцию ОС UNIX. </code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-06-16, <a class="text_link" href="http://www.lissyara.su/authors/2008/dnk/" title="">DNK</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/mail/exim+pgsql+courier+clamav+spamassasin/" title="EXIM+PgSQL+COURIER+CLAMAV+SPAMASSASIN on FreeBSD 7.1">Exim+PgSQL</a></b></code><br>
+
+<code style="font-size: 8pt;">Установка почтовой системы exim+pgsql на FreeBSD 7.1</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-05-30, <a class="text_link" href="http://www.lissyara.su/authors/2009/mvalery/" title="">mvalery</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/trivia/gpt/" title="FreeBSD: Перенос системы на диск размером более 2TB">HDD(mbr) -&gt; HDD(gpt)</a></b></code><br>
+
+<code style="font-size: 8pt;">Как разбить диск размером более 2TB на
+разделы, сделать загрузочным, а затем перенести на него информацию с
+рабочей системы — донора.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-05-22, <a class="text_link" href="http://www.lissyara.su/authors/2008/cancer/" title="">Cancer</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/trivia/sendxmpp/" title="SendXMPP">SendXMPP</a></b></code><br>
+
+<code style="font-size: 8pt;">Отправка сообщений на Джаббер сервер по средствам SendXMPP</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-05-11, <a class="text_link" href="http://www.lissyara.su/authors/2007/raven2000/" title="">Raven2000</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/network_ups_tools/" title="Network UPS Tools">Network UPS Tools</a></b></code><br>
+
+<code style="font-size: 8pt;">Network UPS Tools представляет собой набор программ, которые обеспечивают общий
+интерфейс для мониторинга и администрирование UPS оборудования. </code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-29, <a class="text_link" href="http://www.lissyara.su/authors/2008/m0ps/" title="">m0ps</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/cisco/ipsec_over_gre_with_rip/" title="Cisco IPSEC over GRE with RIP on ADSL">IPSEC over GRE with RIP</a></b></code><br>
+
+<code style="font-size: 8pt;">Пример IPSEC over GRE и динамическим роутингом (RIP), с ADSL в качестве последней мили на оборудовании Cisco.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-24, <a class="text_link" href="http://www.lissyara.su/authors/2008/whitebear777/" title="">WhiteBear777</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/qemu_lan/" title="Сеть в qemu под FreeBSD">qemu network</a></b></code><br>
+
+<code style="font-size: 8pt;">Появилась необходимость поставить на БСД
+эмулятор(qemu) и настроить в качестве гостевой ОС Windows XP,
+предоставив ей выход в локалку и в сеть internet...
+</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-22, <a class="text_link" href="http://www.lissyara.su/authors/2009/vp/" title="">vp</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/hardware/huawei_162_gsm_modem/" title="Установка и настройка huawei 162 ">freebsd + huawei 162 gsm modem</a></b></code><br>
+
+<code style="font-size: 8pt;">В статье описывается простой способ подключения модема huawei 162 к freebsd + первичная настройка smstools</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-12, <a class="text_link" href="http://www.lissyara.su/authors/2009/mvalery/" title="">mvalery</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/file_system/raid_monitoring/" title="FreeBSD: Мониторинг RAID из командной строки (CLI)">Мониторинг RAID</a></b></code><br>
+
+<code style="font-size: 8pt;">Мониторинг из командной строки RAID
+компаний AMCC 3ware, HighPoint, Dell (Perc 5/i и PERC 6/i) и LSI
+(MegaRAID SAS 8408E и SAS1078)</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-09, <a class="text_link" href="http://www.lissyara.su/authors/2009/texnotronic/" title="">texnotronic</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/tuning/raid1_via_lan/" title="Создание отказоустойчивого кластера на базе freeBSD (Или RAID1 по сети)">RAID1 via LAN</a></b></code><br>
+
+<code style="font-size: 8pt;">Функциональности DRBD во FreeBSD можно
+добиться примонтировав блочное устройство по сети при помощи GEOM Gate
+(ggate) и добавив его в зеркало с локальным диском средствами gmirror.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-03, <a class="text_link" href="http://www.lissyara.su/authors/2007/raven2000/" title="">Raven2000</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/www/cms/" title="Оптимизация хоста для CMS">Оптимизация хоста для CMS</a></b></code><br>
+
+<code style="font-size: 8pt;">В последнее время на старый и не очень
+быстрый ПК (Celeron 800 RAM 256) мною было навешано с десяток сайтов и
+некоторые были из серии тяжелых CMS. И так нам дано FreeBSD 7.1 и ~10
+сайтов/CMS.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-04-01, <a class="text_link" href="http://www.lissyara.su/authors/2008/atrium/" title="">atrium</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/vsftpd+ad_vsftpd+mysql/" title="Vsftpd + AD &amp;&amp; Vsftpd + MySQL">VSFTPD + AD &amp;&amp; MySQL</a></b></code><br>
+
+<code style="font-size: 8pt;">Настройка самого безопасного сервера FTP - vsftpd.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-03-31, <a class="text_link" href="http://www.lissyara.su/authors/2009/dron/" title="">Dron</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/hardware/c-motech_ccu-650u/" title="Прикручивание 3G модема С-motech под FreeBSD для использования в сети Peoplenet">Peoplenet + C-motech (3G)</a></b></code><br>
+
+<code style="font-size: 8pt;">Описание подключения к сети Peoplenet посредством 3G модема С-motech CCu-650U на FreeBSD</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-03-25, <a class="text_link" href="http://www.lissyara.su/authors/2005/lissyara/" title="Лужу, паяю, Э-Вэ-эМы починяю...">lissyara</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/www/mod_auth_external/" title="mod_auth_external - авторизация пользователей в apache c помощью внешней программы">mod_auth_external</a></b></code><br>
+
+<code style="font-size: 8pt;">mod_auth_external - авторизация пользователей в apache c помощью внешней программы - например, системных пользователей.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-03-24, <a class="text_link" href="http://www.lissyara.su/authors/2009/gx_ua/" title="">gx_ua</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/lightsquid/" title="Lightsquid  - анализатор(парсер) логов Squid, OOPS на FreeBSD 7.1 + lighttpd, apache13">Lightsquid</a></b></code><br>
+
+<code style="font-size: 8pt;">Частично lightsquid может заменить sams:
+быстрая и простая инсталляция, быстрый парсер, cgi скрипт для
+динамической генерации отчета, нет привязки к БД, различные графические
+отчеты, мультиязычный инт</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-03-18, <a class="text_link" href="http://www.lissyara.su/authors/2009/lhc/" title="">LHC</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/zabbix-1.6/" title="Установка и первоначальная настройка Zabbix-1.6">Установка Zabbix-1.6</a></b></code><br>
+
+<code style="font-size: 8pt;">Установка и первоначальная настройка системы мониторинга Zabbix (версия 1.6)</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-03-16, <a class="text_link" href="http://www.lissyara.su/authors/2008/cancer/" title="">Cancer</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/samba+lpd+ad/" title="Установка Принт-Сервера Samba+LPD &amp; AD">Принт-Сервер Samba+LPD &amp; AD</a></b></code><br>
+
+<code style="font-size: 8pt;">Простейшая настройка Принт-Сервера на FreeBSD используя Samba+LPD &amp; AD</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-03-04, <a class="text_link" href="http://www.lissyara.su/authors/2009/mad_caterpillar/" title="">Mad_caterpillar</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/security/ipsec_vpn_road_warriors/" title="Настройка ipsec vpn концентратора для cisco vpn clients">ipsec_vpnc</a></b></code><br>
+
+<code style="font-size: 8pt;">Настройка VPN IPSec концентратора на
+FreeBSD 6.2 для клиента cisco с использованием ipsec-tools и
+авторизацией в активной директории</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-02-24, <a class="text_link" href="http://www.lissyara.su/authors/2009/ozzy/" title="">OzZy</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/mail/exilog/" title="Настройка Exilog">Exilog</a></b></code><br>
+
+<code style="font-size: 8pt;">Exilog инструмент который позволяет
+красиво визуализировать, просматривать по разным фильтрам логи Exim
+через симпатишную веб-морду. Использует mysql (или postgresql при
+желании). Написан на perl.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-02-18, <a class="text_link" href="http://www.lissyara.su/authors/2007/andy/" title="">Andy</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/free-sa/" title="Анализатор статистики Free-SA">Free-SA</a></b></code><br>
+
+<code style="font-size: 8pt;">Программа анализирует log файлы Squid'а и формирует по ним отчет.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-02-02, <a class="text_link" href="http://www.lissyara.su/authors/2008/cancer/" title="">Cancer</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/openfire/" title="Установка  Jabber сервера Openfire">Openfire Jabber Server</a></b></code><br>
+
+<code style="font-size: 8pt;">Установка  Jabber сервера на примере Openfire</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-01-28, <a class="text_link" href="http://www.lissyara.su/authors/2008/cancer/" title="">Cancer</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/security/vpn_mpd5/" title="Установка VPN сервера mpd5 + сжатие и шифрование">mpd5 + сжатие и шифрование</a></b></code><br>
+
+<code style="font-size: 8pt;">Установка VPN сервера mpd5 + сжатие и шифрование</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-01-26, <a class="text_link" href="http://www.lissyara.su/authors/2009/vp/" title="">vp</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/tuning/webcam/" title="Настройка вебкамеры для работы с freebsd">freebsd + webcamera</a></b></code><br>
+
+<code style="font-size: 8pt;">Подключение и настройка вебмкамеры для работы с freebsd на примере Logitech QCam STX</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2009-01-10, <a class="text_link" href="http://www.lissyara.su/authors/2008/grishun_u_s/" title="">Grishun_U_S</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/openbsd/pf/office_config/" title="PF: разбираем конфиг для офисов">конфиг для офисов</a></b></code><br>
+
+<code style="font-size: 8pt;">В статье разбирается конфиг для офиса,
+пользователи которого имеют строгие ограничения по портам. Заворачиваем
+www трафик на транспарентный прокси, а остальное NAT'им. Эффективно
+делим канал интернет</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2008-12-27, <a class="text_link" href="http://www.lissyara.su/authors/2008/storoge/" title="">Storoge</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/trivia/sftp+chroot/" title="Использование sftp+chroot из openssh в качестве альтернативы ftp-серверу.">sftp+chroot</a></b></code><br>
+
+<code style="font-size: 8pt;">Возникла необходимость дать возможность
+нескольким пользователям заливать на сервер контент для своих сайтов
+через sftp, чтобы при этом не страдала безопасность.</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2008-12-13, <a class="text_link" href="http://www.lissyara.su/authors/2008/morty/" title="">Morty</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/programms/pureftpd+usermanager/" title="Администрирование Pureftpd с помощью вэб интерфейса Usermanager">PurefFTPd</a></b></code><br>
+
+<code style="font-size: 8pt;">Администрирование pureftpd-сервера с помощью вэб интерфейса Usermanager</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2008-12-11, <a class="text_link" href="http://www.lissyara.su/authors/2005/lissyara/" title="Лужу, паяю, Э-Вэ-эМы починяю...">lissyara</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/security/termlog/" title="Логгирование происходящего на терминалах">termlog</a></b></code><br>
+
+<code style="font-size: 8pt;">Небольшая простая утилита, использующаяся
+для записи в файл всего что происходит на терминалах системы. Полезно,
+когда есть доступ по ssh у тех, кому не очень доверяете. Паранойя - это
+не плохо =)</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2008-11-26, <a class="text_link" href="http://www.lissyara.su/authors/2008/cancer/" title="">Cancer</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/traffic_count/squid+sams+rejik-ldap/" title="Установка Прокси сервера SQUID+SAMS Rejik3 c авторизацией по LDAP">SQUID+SAMS +Rejik-(LDAP)</a></b></code><br>
+
+<code style="font-size: 8pt;">Установка Прокси сервера SQUID с красивой
+мордой SAMS и редиректором REJIK,для учета кто куда ходил + графики в
+pdf,РЕЖИК собственно рубит банеры и запрещает пользователям ходить на
+запрещенные сайты,</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+
+<code style="font-size: 8pt;">2008-11-22, <a class="text_link" href="http://www.lissyara.su/authors/2008/dvg_lab/" title="">dvg_lab</a><br>
+
+<b><a class="text_link" href="http://www.lissyara.su/articles/freebsd/www/oracle8-client+php5-oci8/" title="Работаем с oracle8-client + php5-oci8">php5-oci8</a></b></code><br>
+
+<code style="font-size: 8pt;">Решение проблем segmentation fault (core dumped) при работе с oracle8-client и php5-oci8</code>
+
+<hr size="1">
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.block.tpl' -->
+<!-- Нет оплаченной рекламы в данный период -->
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.subscribe.form.tpl' -->
+
+<!-- подписка началась -->
+<a name="subscribe"></a>
+<form action="/?id=1064" method="POST">
+<center>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+	<tr>
+		<td bgcolor="#707680" width="100%">
+			<table border="0" cellpadding="2" cellspacing="1" width="100%">
+			<tbody>
+				<tr bgcolor="#b9ccdf">
+					<td colspan="2" title="подписаться на новости сайта" align="center">
+
+						<code><b>подписка</b></code>
+					</td>
+				</tr>
+				<tr bgcolor="#f1f1f1">
+					<td colspan="2" title="подписаться на новости сайта" align="center">
+						<code><input name="news_subscribe" style="border: 1px solid rgb(112, 118, 128); width: 100%; color: rgb(0, 0, 0);" onmouseover="if (this.value=='ваш@e-mail') {this.value='';}" value="ваш@e-mail" type="text"></code>
+					</td>
+				</tr>
+
+				<tr bgcolor="#dae0e7">
+					<td colspan="2" title="подписаться на новости сайта" align="center">
+						<code><input value="Отправить" name="Submit" style="border: 1px solid rgb(112, 118, 128); width: 100%; background-color: rgb(185, 204, 223); color: rgb(0, 0, 0);" type="submit"></code>
+					</td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+</tbody>
+
+</table>
+
+<!-- подписка закончилась -->
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/news.subscribe.form.tpl' -->
+<!-- Нет оплаченной рекламы в данный период -->
+			<!-- новости закончились -->
+			<br>
+		</center></form></td>
+	</tr>
+<!-- нижняя часть страницы началась -->
+	<tr>
+		<td style="border-top: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="left">
+			&nbsp;
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="left">&nbsp;
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="center">
+			<code><a name="down"></a><a href="http://www.lissyara.su/articles/freebsd/traffic_count/mpd5_pppoe+radius+ng_car+abills/#top" class="link_drkbl" title="наверх страницы">вверх</a></code>
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="left">&nbsp;
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="left">&nbsp;
+			&nbsp;
+		</td>
+<!-- нижняя часть страницы закончилось -->
+	</tr>
+
+
+	<tr>
+		<td style="border-right: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-left: 3px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; font-size: 12px;" valign="top" width="170" align="left">
+		
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/counter.people_now_on_site.tpl' -->
+
+<!-- скока  народу на сайте, началось -->
+<table border="0" cellpadding="0" cellspacing="0" width="160">
+<tbody>
+	<tr>
+		<td bgcolor="#707680" width="100%">
+			<table border="0" cellpadding="2" cellspacing="1" width="100%">
+			<tbody>
+				<tr bgcolor="#b9ccdf">
+					<td colspan="2" align="center">
+						<code style="font-size: 10pt;"><b>Статистика сайта</b></code>
+					</td>
+				</tr>
+				<tr bgcolor="#f1f1f1">
+					<td colspan="2" align="left">
+						<code style="font-size: 10pt;">Сейчас на сайте находится: <b>47</b> чел.</code>
+					</td>
+				</tr>
+				<tr bgcolor="#f1f1f1">
+					<td colspan="2" align="left">
+						<code style="font-size: 10pt;">За последние 30 мин было: <b>257</b> человек</code>
+					</td>
+				</tr>
+				<tr bgcolor="#f1f1f1">
+					<td colspan="2" align="left">
+						<code style="font-size: 10pt;">За сегодня было<br><b>26193</b> показов,<br><b>1936</b> уникальных IP</code>
+					</td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+</tbody>
+</table>
+<!-- скока  народу на сайте, закончилось :) -->
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/counter.people_now_on_site.tpl' -->
+	
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); border-bottom: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="left">&nbsp;
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); border-bottom: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; font-size: 12px; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" width="610" align="left">
+			<p align="justify"><code>&nbsp; Этот информационный блок появился по той простой причине,
+			что многие считают нормальным, брать чужую информацию не уведомляя автора
+			(что не так страшно), и не оставляя линк на оригинал и автора — что более существенно.
+			Я не против распространения информации — только за. Только условие простое — извольте
+			подписывать автора, и оставлять линк на оригинальную страницу в виде прямой, активной, нескриптовой,
+			незакрытой от индексирования, и не запрещенной для следования роботов ссылки.
+			<br>
+			&nbsp; Если соизволите поставить автора в известность — то вообще почёт вам и уважение.</code></p>
+			<p align="right"><code>© lissyara 2006-10-24 08:47 MSK
+			</code></p>
+		</td>
+		<td style="border-top: 1px solid rgb(112, 118, 128); border-right: 1px solid rgb(112, 118, 128); border-bottom: 1px solid rgb(112, 118, 128); background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" width="10" align="left">
+			<img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/blank.gif" height="1" width="10">
+		</td>
+		<td style="background: rgb(241, 241, 241) none repeat scroll 0% 0%; padding-top: 5px; padding-left: 10px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" valign="top" align="left">
+		<code><!-- &nbsp; -->
+		<!-- for sаpе.ru -->
+		</code>
+		</td>
+<!-- нижняя часть страницы закончилось -->
+	</tr>
+</tbody>
+</table>
+</center>
+<!--
+data for contact:
+email:	admin@lissyara.su
+mobila:	+7-926-593-39-19
+P.S. Красть - нехорошо!
+-->
+
+<!-- cron run start -->
+<!-- cron not run -->
+<!-- cron ron stop -->
+
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.liveinternet.tpl' -->
+
+<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<img src='http://counter.yadro.ru/hit?t45.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";h"+escape(document.title.substring(0,80))+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border=0 width=1 height=1>")//--></script><img src="mpd5%28pppoe%29+radius+ng_car+Abills_files/hit.gif" alt="" title="LiveInternet" border="0" height="1" width="1"><!--/LiveInternet-->
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.liveinternet.tpl' -->
+
+
+
+<!-- begin of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.google.analystics.tpl' -->
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="mpd5%28pppoe%29+radius+ng_car+Abills_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3513918-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+<!-- end of '/home/lissyara/www/data/www.lissyara.su/includes/tpl/reklama.google.analystics.tpl' -->
+
+
+<!-- дебаг MySQL отключен -->
+
+<p style="font-size: 11px;" align="center"><code>Время генерации страницы 0.426 секунд
+				<br>Из них PHP: 32%; SQL: 68%; Число SQL-запросов: 81 шт.
+<br>Исходный размер: 139813;
+ Сжатая: 26613</code></p><br>																											</body></html>

@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# PROVIDE: vpnmsd
+# REQUIRE: NETWORKING SERVERS mysql
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf to enable vpnmsd:
+#
+# vpnmsd_enable="YES"
+#
+
+. /etc/rc.subr
+
+name=vpnmsd
+rcvar=`set_rcvar`
+load_rc_config $name
+
+command=/usr/local/sbin/vpnmsd
+
+required_files="/usr/local/etc/vpnms.conf"
+
+radiusd_enable=${vpnmsd_enable-"NO"}
+
+run_rc_command "$1"

@@ -1,0 +1,76 @@
+<form name='reg' action='index.php?module=Groups&action=save_status_edit' method='post' >
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="2">
+<tbody>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupedit_group maxlength=18 size=20 readonly value="<?=$_GET['GroupName'];?>">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['status'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupedit_status>
+                      <OPTION VALUE='working' <? if($info['status'] == 'working'): ?>SELECTED<? endif; ?> ><?=$l_forms['status_work'];?>
+                      <OPTION VALUE='local_only' <? if($info['status'] == 'local_only'): ?>SELECTED<? endif; ?> ><?=$l_forms['status_loc_only'];?>
+                      <OPTION VALUE='blocked' <? if($info['status'] == 'blocked'): ?>SELECTED<? endif; ?>><?=$l_forms['status_blocked'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['disconnect'];?>
+	</td>
+	<td width=50%>
+	<input type="checkbox" checked name=groupedit_disconnect>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+
+<tr>
+	<td width=5%>	
+	</td>
+	<td width=15%>
+	<br>
+	<input type=submit value="<?=$l_forms['enter'];?>" >
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>

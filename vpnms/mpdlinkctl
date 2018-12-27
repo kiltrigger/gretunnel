@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+
+export C
+
+#config
+MPDUSER=admin
+MPDPASS=pass
+
+case $1 in
+[Dd][Rr][Oo][Pp][Ll][Ii][Nn][Kk])
+if [ -n "$2" ]; then
+USER=`HTTP_AUTH="basic:*:$MPDUSER:$MPDPASS" /usr/bin/fetch -q -o - http://127.0.0.1:5006/bincmd?show%20ses | awk '{print $2 " " $8 " " $5}'| grep "$2 "`
+USERNAME=`echo $USER | cut -f2 -d ' '`
+USERLINK=`echo $USER | cut -f3 -d ' '`
+if [ -n "$USERLINK" ]
+then
+URI="http://127.0.0.1:5006/cmd?link%20$USERLINK&close"
+HTTP_AUTH="basic:*:$MPDUSER:$MPDPASS" /usr/bin/fetch $URI
+fi
+fi
+;;
+[Dd][Rr][Oo][Pp][Ii][Ff])
+if [ -n "$2" ]; then
+USER=`HTTP_AUTH="basic:*:$MPDUSER:$MPDPASS" /usr/bin/fetch -q -o - http://127.0.0.1:5006/bincmd?show%20ses | awk '{print $1 " " $8 " " $5}'| grep "$2 "`
+
+echo $USER
+USERNAME=`echo $USER | cut -f2 -d ' '`
+USERLINK=`echo $USER | cut -f3 -d ' '`
+if [ -n "$USERLINK" ]
+then
+URI="http://127.0.0.1:5006/cmd?link%20$USERLINK&close"
+HTTP_AUTH="basic:*:$MPDUSER:$MPDPASS" /usr/bin/fetch $URI
+fi
+fi
+;;
+*)
+echo Usage as
+echo $0 Droplink IP
+echo or
+echo $0 Dropif INTERFACE
+;;
+esac
+
+

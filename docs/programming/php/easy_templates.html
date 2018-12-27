@@ -1,0 +1,136 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+<title>Шаблоны в PHP для чайников ·  Spectator.ru</title><!-- base href="http://spectator.ru/" -->
+<link rel="stylesheet" type="text/css" href="easy_templates_files/main.css">
+
+<script src="easy_templates_files/UoNwPSPNbb040000ZhdtHgy4XOdMbf-tfv6xMI5H3PE137u2HkoQSfK2cmHh.txt" type="text/javascript"></script></head><body topmargin="0" leftmargin="0" rightmargin="0" bgcolor="#f0f0f0" marginheight="0" marginwidth="0" text="#000000"><script src="easy_templates_files/192689.txt" type="text/javascript"></script><script src="easy_templates_files/3433.txt" type="text/javascript"></script>
+
+<script src="easy_templates_files/tooltips.js"></script>
+
+<table class="loc2" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td bgcolor="white">&nbsp;&nbsp;&nbsp;<span class="mnu" style="color: gray;"><b>Personal penis extender™.</b> Extending penis since 1998.</span></td>
+<td style="color: rgb(170, 170, 170);" bgcolor="white" align="right">
+<b>
+<a tooltip="о проекте и об авторе" href="http://spectator.ru/about" class="mnu">эбаут</a> &nbsp;•&nbsp; 
+<a tooltip="скачать (в основном ненужные вещи)" href="http://spectator.ru/download" class="mnu">скачать</a> &nbsp;•&nbsp; 
+<!-- <b><a href=archive class=mnu title="список всех материалов по дате">архив</a> &nbsp;•&nbsp; --> 
+<b><a tooltip="список всех материалов по рубрикам" href="http://spectator.ru/sitemap" class="mnu">карта сайта</a> &nbsp;•&nbsp; 
+<a tooltip="как связаться" href="http://spectator.ru/about/contact" class="mnu">почта</a>
+&nbsp;&nbsp;&nbsp;
+</b></b></td></tr></tbody></table>
+<div class="top"><b>SPECTATOR: OUTDATED</b></div>
+<div class="loc"><a href="http://spectator.ru/">Home</a> / <a href="http://spectator.ru/technology">технологии</a> / <a href="http://spectator.ru/technology/php">php</a> /  Шаблоны в PHP для чайников </div>
+
+<table border="0" cellpadding="0" cellspacing="0"><tbody><tr>
+
+<td bgcolor="#e0e0e0" width="15"><img src="easy_templates_files/p.gif" alt="" border="0" height="1" width="10"></td>
+<td width="35"><img src="easy_templates_files/p.gif" alt="" border="0" height="1" width="30"></td>
+
+
+<td class="t5" valign="top" width="600">
+<div class="maintext">
+
+<h1>Шаблоны в PHP для чайников</h1> &nbsp;&nbsp;<small style="color: rgb(112, 112, 112);">// 7 сентября 2003 года</small>
+
+
+<p>И&nbsp;снова здравствуйте. Давно я&nbsp;<nobr>как-то</nobr> не писал ничего путного, даже <nobr>как-то</nobr>
+самому неприятно. Так что сразу к&nbsp;теме. Давайте, товарищи умники,
+забудем такие слова, как XML, XHTML и&nbsp;прочий X…, и&nbsp;поговорим
+о&nbsp;вещах, приближенных к&nbsp;реальности.</p><p>Сужествует такая
+«проблема», как разделение оформления и&nbsp;содержания,
+и&nbsp;отделение исполняемого кода от получаемого html’я. Мухи&nbsp;—
+там, котлеты&nbsp;— тут. Грубо говоря, программист программирует,
+дизайнер дизайнит и&nbsp;никто никому не мешает жить. А&nbsp;если надо
+поменять <nobr>что-то</nobr> в&nbsp;оформлении, то сделать это сможет один оформитель, сиречь дизайнер, самостоятельно.</p><p>PHP
+хорош (хорош, собака!) тем, что позволяет встраивать исполняемые
+конструкции прямо в&nbsp;html. Плюсы понятны. Минусы, например:
+довольно сложно менять оформление в&nbsp;таком коде: <code>echo "&lt;b&gt;".$boldtext."&lt;/b&gt;"</code>;
+Глупый дизайнер испугается и&nbsp;убежит, а&nbsp;умный программист
+скажет «я вам не глупый дизайнер, чтобы ерундой заниматься».</p><p>Чего хочется в&nbsp;идеале? Чтобы была <nobr>html-страница,</nobr> где все, как у&nbsp;людей: здоровые, полноценные <nobr>html-тэги,</nobr>
+а&nbsp;в тех местах, где выводится информация, стояли специальные,
+простые, понятные как для верстальщика, так и&nbsp;для
+движка/программиста указатели.</p><p>То есть, <nobr>что-то</nobr> вроде такого:</p><p><code>&lt;html&gt;<br>&lt;title&gt;[TITLE]&lt;/title&gt;<br>&lt;body&gt;<br>[TEXT]<br>&lt;/body&gt;<br>&lt;html&gt;</code></p><p>Там, где стоит [TITLE], движок выводит заголовок, там, где [TEXT]&nbsp;— соответственно, текст.</p><p>Легко и&nbsp;просто. И&nbsp;все счастливы. И&nbsp;<i>это правильно.</i> Но! Тут и&nbsp;начинается маразм. Сначала пишется «движок шаблонов», <nobr>что-то</nobr> (я утрирую) вроде такого:</p><p><code>$page = str_replace ("[TITLE]", $title, $page);<br>$page = str_replace ("[TEXT]",   $text, $page);</code></p><p>Дальше&nbsp;—
+больше. Оказывается, что в&nbsp;некоторых случаях этого мало. Нужно
+больше функций! Например, нам нужно проверять: если [TEXT] пустой, то
+выводить одно, если не пустой, то выводить другое, то есть, фактически,
+вводить уже минимальную логику отображения. И&nbsp;мы пишем <nobr>супер-пупер</nobr>
+наророченый язык шаблонов. На PHP. И&nbsp;называем его SMARTASS (Super
+Mega And Revolutionary Totally Automatized Shablon System).</p><p>До
+такой степени навороченный, что дизайнер, ради которого все
+затевалось,&nbsp;— чтобы тот смог сам менять оформления, уже не может
+сменить оформление <i>пока специально не выучит язык шаблонов</i>.</p><p>А&nbsp;теперь
+потрясем мозгами и&nbsp;хорошенько подумаем, что&nbsp;же у&nbsp;нас
+получилось. У&nbsp;нас получился фактически язык программирования,
+написанный на PHP, который можно встраивать в&nbsp;<nobr>html-код</nobr> и&nbsp;тем самым менять логику его <nobr>(html-кода)</nobr> отображения.</p><p>Поздравим друг друга. У&nbsp;нас получился <i>PHP, написанный на PHP</i>. Велосипед для велосипеда. Осмысление этого придет позже.</p><p>А&nbsp;теперь возвращаемся к&nbsp;первому примеру.</p><p><code>&lt;html&gt;<br>&lt;title&gt;[TITLE]&lt;/title&gt;<br>&lt;body&gt;<br>[TEXT]<br>&lt;/body&gt;<br>&lt;html&gt;</code></p><p>Помните? Сравним его со следующим примером и&nbsp;попробуем найти кардинальные различия.</p><p><code>&lt;html&gt;<br>&lt;title&gt;&lt;?=$title?&gt;&lt;/title&gt;<br>&lt;body&gt;<br>&lt;?=$text?&gt;<br>&lt;/body&gt;<br>&lt;html&gt;</code></p><p>Чем он кардинально отличается? Ни чем. Глупый верстальщик поймет, если ему сказать «нужно вставить переменную text&nbsp;— пиши <code>&lt;?=$text?&gt;</code>». Вместе с&nbsp;тем, это&nbsp;— не что иное, как сокращенная запись оператора <a href="http://php.net/echo">echo</a>. И&nbsp;никакого интерпретатора шаблонов не нужно.</p><p>То есть следующий пример <nobr>php-страницы</nobr> выведет все, как надо:</p><p><code><br>&lt;?php<br>$text = "Это текст";<br>$title = "Это заголовок";<br>?&gt;</code></p><p>&lt;html&gt;<br>&lt;title&gt;&lt;?=$title?&gt;&lt;/title&gt;<br>&lt;body&gt;<br>&lt;?=$text?&gt;<br>&lt;/body&gt;<br>&lt;html&gt;</p><p>Дальше&nbsp;— больше. Выносим все шаблоны в&nbsp;отдельный файл. И&nbsp;пишем просто:</p><p><code><br>&lt;?php<br>$text = "Это текст";<br>$title = "Это заголовок";<br>include "template.html";<br>?&gt;</code></p><p>Идея понятна? В&nbsp;процессе исполнения <nobr>php-скрипта</nobr> нужные части выкладываем в&nbsp;переменные. Потом&nbsp;— инклюдим <nobr>html-файл,</nobr> где в&nbsp;нужных местах проставлено <code>&lt;?=$имя_переменной?&gt;</code>.</p><p>Верстальщику&nbsp;же,
+чтобы научиться работать с&nbsp;такими «шаблонами», нужно всего 3–5
+минут для ознакомления с&nbsp;основами синтаксиса PHP. И&nbsp;не надо
+учить <nobr>какой-то</nobr> навороченный язык шаблонов, который ему больше никогда не пригодится.</p><p>Ну что плохого в&nbsp;таком вот шаблоне страницы?</p><p><code>&lt;html&gt;&lt;title&gt;&lt;?=strtoupper($title)?&gt;&lt;/title&gt;<br>&lt;body&gt;</code></p><p>&lt;? if ($text==""): ?&gt;<br>Текста нет, пусто.</p><p>&lt;? else: ?&gt;<br>Введеный текст: &lt;b&gt;&lt;?=$text;?&gt;&lt;/b&gt;</p><p>&lt;? endif; ?&gt;</p><p>&lt;/body&gt;<br>&lt;/html&gt;</p><p>Плюсы&nbsp;— налицо. Для его вывода не нужно никаких дополнительных вещей. Кроме PHP. </p><p>Вот, собственно, и&nbsp;все.</p><p>PS. Уважаемые умники. Данный способ «шаблонизации» действительно покрывает 95% нужд простых смертных. Если вам <nobr>что-то</nobr> не нравится&nbsp;— идите, побрейтесь бритвой Оккама.
+
+</p></div><p>&nbsp;</p><p></p></td>
+
+<td><img src="easy_templates_files/p.gif" alt="" border="0" height="1" width="40"></td>
+
+
+
+<td class="t5" width="250">
+<div class="dot"><b class="h">Еще в рубрике:</b><br>
+<br>&nbsp;• <a tooltip="23 января 2004 года" href="http://spectator.ru/technology/php/flock_workaround">Как мы побороли flock&nbsp;</a><br>&nbsp;• <a tooltip="14 сентября 2003 года" href="http://spectator.ru/technology/php/user_friendly_urls">ЧПУ и PHP (revisited)&nbsp;</a><span class="sel"><br>&nbsp;• <a tooltip="7 сентября 2003 года" href="http://spectator.ru/technology/php/easy_templates">Шаблоны в PHP для чайников&nbsp;</a></span><br>&nbsp;• <a tooltip="28 июня 2003 года" href="http://spectator.ru/technology/php/caching">Простое кэширование страниц&nbsp;</a><br>&nbsp;• <a tooltip="13 января 2003 года" href="http://spectator.ru/technology/php/faq">Как научиться PHP&nbsp;</a><br>&nbsp;• <a tooltip="3 декабря 2002 года" href="http://spectator.ru/technology/php/simple_XML">Псевдо-XML&nbsp;</a><br>&nbsp;• <a tooltip="9 сентября 2002 года" href="http://spectator.ru/technology/php/quotation_marks_stike_back">Кавычки strike back&nbsp;</a><br>&nbsp;• <a tooltip="27 августа 2002 года" href="http://spectator.ru/technology/php/making_offline_version">Offline-версия&nbsp;</a><br>&nbsp;• <a tooltip="27 августа 2001 года" href="http://spectator.ru/technology/php/analyzing_hits_from_search_engines">Анализ запросов&nbsp;</a><br>&nbsp;• <a tooltip="28 июня 2001 года" href="http://spectator.ru/technology/php/php_search">Поиск на php&nbsp;</a><p>
+
+[ <a href="http://spectator.ru/technology/php/easy_templates/print" target="_blank">версия для печати</a> ]
+
+</p></div>
+
+<p></p><form name="s" action="H_add/search.php" onsubmit="if (s.words.value=='') return false;"><div class="dot">
+<small><b class="h">поиск:</b><br>
+<input tooltip="Тут вам не Яндекс! Найдется не все." name="words" class="frm" style="width: 150px;" type="text"></small></div>
+</form><small>       
+
+<br>
+
+
+
+<!-- Яндекс.Директ -->
+<script type="text/javascript"><!--
+yandex_partner_id = 3433;
+yandex_site_charset = 'windows-1251';
+yandex_ad_format = 'direct';
+yandex_font_size = 1;
+yandex_direct_type = 'vertical';
+yandex_direct_border_type = 'block';
+yandex_direct_limit = 6;
+yandex_direct_bg_color = 'FFF9F0';
+yandex_direct_border_color = 'FBE5C0';
+yandex_direct_header_bg_color = 'FEEAC7';
+yandex_direct_title_color = '0000CC';
+yandex_direct_url_color = '006600';
+yandex_direct_all_color = '0000CC';
+yandex_direct_text_color = '000000';
+yandex_direct_site_bg_color = 'FFFFFF';
+document.write('<sc'+'ript type="text/javascript" src="http://an.yandex.ru/resource/context.js?rnd=' + Math.round(Math.random() * 100000) + '"></sc'+'ript>');
+//--></script><script type="text/javascript" src="easy_templates_files/context.js"></script><link rel="stylesheet" type="text/css" href="easy_templates_files/context_r426.css"><script type="text/javascript" src="easy_templates_files/context_static_r437.js"></script><script type="text/javascript" src="easy_templates_files/3433.html"></script><style type="text/css">#y5_direct1 .y5_ads, #y5_direct1 .y5_h2 {background-color: #FFF9F0 !important;} #y5_direct1 .y5_ads, #y5_direct1 .y5_h2 {border-color: #FBE5C0 !important; border-style: solid !important;} #y5_direct1 .y5_bg {background-color: #FEEAC7 !important;} #y5_direct1 .y5_ad div a {color: #0000CC !important;} #y5_direct1 .y5_ad div {color: #000000 !important;} #y5_direct1 .y5_ad span, #y5_direct1 .y5_ad span a {color: #006600 !important;} #y5_direct1 .y5_all a, #y5_direct1 .y5_how a {color: #0000CC !important;} #y5_direct1 .y5_icon em {background-color: #006600 !important;} #y5_direct1 {font-size: 1em !important;} </style></small><div id="y5_direct1" class="y5 y5_nf y5_vertical snap_noshots"><div class="y5_bb y5_ads6 y5_exp2v0"><div class="y5_h"><div class="y5_ya"><span class="y5_black"><small><em>Я</em>ндекс</small></span><span class="y5_black y5_bg"><small><a class="snap_noshots" href="http://direct.yandex.ru/?partner" target="_blank">Директ</a></small></span></div></div><ul class="y5_ads"><li class="y5_item"><div class="y5_ad"><div class="ad-link"><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPViQFZG40000ZhdtHgy4XOdMbGAR0Mv3Am68er2E1ucg1x43c6ETafuRbf-tfvAc0BS9YgksHmQHkraXKGsFkkKHeGYViM9lZWcJWGoPCukXOoShGeoG2JsWaEZzV0e0?test-tag=117708320" target="_blank">Зима не за горами...</a></small></div><div><small>Внедорожники Mazda от 699 000 руб. Новое спецпредложение!</small></div><small> <span class="url">www.mazda.ru</span></small></div></li><li class="y5_item"><div class="y5_ad"><div class="ad-link"><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPJzBwYi40000ZhdtHgy4XOdMbGAR0Mv3Am4oYA2X80Q9fHxd4PXZdPqD4PQVjwUIeC6-1uggCDy4aRjP8L4DZx-N6_y7dxI3GbO2au4CcJEBguWn7aACa9Wwe92OEdqA?test-tag=117708320" target="_blank">Забудь про цены на бензин</a></small></div><div><small>Peugeout 308 с экономичным и мощным дизельным двигателем 2 л 136 л.с.</small></div><small> <span class="url">www.peugeot.ru</span></small></div></li><li class="y5_item"><div class="y5_ad"><div class="ad-link"><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPLHSbTC40000ZhdtHgy4XOdMbGAR0Mv3Am4pYASn-0Q9dzjOc6ETauu2bf-tfvAh6kW8Yg-SiGMHkraXKGsFkIsAtGoVkCPbG0-JWGoPCukcV68cGeoGDGoWa1SHV0e0?test-tag=117708320" target="_blank">Автомобили Nissan Micra</a></small></div><div><small>Из рук в руки. Автосалоны Nissan. Цены. Комплектация. Фото.</small></div><small> <span class="url">irr.ru</span></small></div></li><li class="y5_item"><div class="y5_ad"><div class="ad-link"><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPIDumyi40000ZhdtHgy4XOdMbGAR0Mv3Am4qYA82WmQ9epDI4vXZdPIla9QVjwUIejv528glEpu5aRjP8L4DZx-N6_y7dxI3GbO2au4CcJEBecoz84ACaCG9e9342NqA?test-tag=117708320" target="_blank">Запчасти на Almera</a></small></div><div><small>Все для ремонта и тюнинга автомобиля Nissan Almera. Со склада в Москве.</small></div><small> <span class="url">allmotor.ru</span></small></div></li><li class="y5_item"><div class="y5_ad"><div class="ad-link"><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPMA5_s840000ZhdtHgy4XOdMbGAR0Mv3Am4rYAei90I9gNDS0PWIdPWW7fQVjwUIennJ1Ogd-k82aRjP8L4DZxktpUCDdxyqCECFau4CcJEBhNvf44ACa5C7e91J1tqA?test-tag=117708320" target="_blank">Nissan Note на АвтоАвто.ру</a></small></div><div><small>Все комплектации Nissan Note. Дилеры, цены, статьи, обзоры, одноклассники.</small></div><small> <span class="url">avtoavto.ru</span></small></div></li><li class="y5_item"><div class="y5_ad"><div class="ad-link"><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPLYitoe40000ZhdtHgy4XOdMbGAR0Mv3Am4sYAfbSmQ9fkhC4fXZdPpcFPQVjwUIeTen28geYYy5aRjP8L4DZxajYjqCdxZ6PK0Fau4CcJEBgvuy84ACaE84e93Y17qA?test-tag=117708320" target="_blank">Продажа Nissan Micra</a></small></div><div><small>Частные объявления с фото.Тысячи авто ждут новых хозяев!</small></div><small> <span class="url">auto.dmir.ru</span></small></div></li></ul><div class="y5_h2"><div class="y5_all"><span><small><a class="snap_noshot" href="http://an.yandex.ru/count/UoNwPHhpbGS40000ZhdtHgy4XOdMbGAR0sXFAm4w0OYMJfwMdxUdcf9Z0PAkWdO9Ygxg60QHkraXKGsJWGoPLukaPQCfGde7?from=http://spectator.ru/technology/php/easy_templates&amp;ref-page=3433" target="_blank">Все объявления</a></small></span></div><div class="y5_how"><span><small><a target="_blank" href="http://an.yandex.ru/count/UoNwPOLDo-S40000ZhdtHgy4XOdMbGAR16jGAm4x0OYkheG5bf-tfvgIOm6Ife9s2OgYwXW6aRjP8L4Dau4CcLUBfsEZAK9x1m00">Дать объявление</a></small></span></div></div></div></div>
+
+
+
+
+
+
+
+
+
+<small><br><br>
+
+</small></td></tr></tbody></table>
+<table bgcolor="#e0e0e0" cellpadding="3" cellspacing="0" width="100%"><tbody><tr><td class="t6"><small>&nbsp;<b><a tooltip="Наверх страницы" href="#top" onclick="scrollTo(0,0); return false;" class="mnu">^</a></b>&nbsp; Copyright © 1998-2008 by <a href="http://spectator.ru/about/contact">Дмитрий Смирнов</a>. Перепечатки возможны только с указанием ссылки.
+</small>
+</td></tr></tbody></table>
+
+<!-- Yandex.Metrika -->
+<script src="easy_templates_files/watch.js" type="text/javascript"></script>
+<script type="text/javascript">
+try { var yaCounter192689 = new Ya.Metrika(192689); } catch(e){}
+</script>
+<noscript><div style="position: absolute;"><img src="//mc.yandex.ru/watch/192689" alt="" /></div></noscript>
+<!-- Yandex.Metrika -->
+
+Все <a href="http://hottel.ru/Russia/Bryansk/allhotels.html" target="_blank">гостиницы брянска</a>, адреса и телефоны гостиниц; Бронирование гостиниц со скидками <a href="http://hottel.ru/Russia/Orenburg/allhotels.html" target="_blank">гостиницы оренбурга</a> на сайте Hottel.Ru; Сервисный центр <a href="http://apple4you.ru/" target="_blank">ремонт iphone классно</a> отзывов много; <a href="http://bouqet.ru/" target="_blank">магазин комнатных растений</a><!-- -->
+<!-- 0.034 --><div style="visibility: hidden; left: -91px; top: -91px;" id="tooltip"></div></body></html>

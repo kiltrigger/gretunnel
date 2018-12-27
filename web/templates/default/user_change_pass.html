@@ -1,0 +1,65 @@
+
+<script>
+function checkReg(){
+
+if (document.forms['user_change_pass'].user_change_pass_passwd.value!=document.forms['user_change_pass'].user_change_pass_confim.value){
+alert('<?=$l_forms['err_passwd'];?>');
+document.forms['user_change_pass'].user_change_pass_passwd.focus();
+return false;
+}
+
+else if (document.forms['user_change_pass'].user_change_pass_passwd.value=='') {
+alert('<?=$l_forms['no_passwd'];?>');
+document.forms['user_change_pass'].user_change_pass_passwd.focus();
+return false;
+}
+
+else {
+return true;
+}
+
+}
+</script>
+
+
+<table border=0 cellpadding=2 cellspacing=0 width=100% align=center>
+  <tbody valign='top'>
+    <tr align = center >
+
+      <td width=70%>
+        <form name='user_change_pass' onsubmit='return checkReg();' action='index.php?module=Balance&action=save_pass' method='post' >
+		<table style="text-align: left; width: 30%;" border="0" cellpadding="2" cellspacing="2">
+		<tbody>
+		<tr>
+			<td>
+			<?=$l_forms['new_pass'];?>
+			</td>
+			<td>
+			<input type=password name=user_change_pass_passwd maxlength=18 size=20 >
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<?=$l_forms['confim_pass'];?>
+			</td>
+			<td>
+			<input type=password name=user_change_pass_confim maxlength=18 size=20 >
+			</td>
+		</tr>
+		<tr>
+			<td>
+			
+			</td>
+			<td>
+			<input type=submit value=<?=$l_forms['enter'];?> >
+			</td>
+		</tr>		
+		</tbody>
+		</table>
+        
+        </form>
+      </td>
+
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,152 @@
+/* This section is used when you are displaying votes as a bar */
+
+.votes {
+    float: left;
+    background: url(vote.jpg) top left no-repeat;
+    height: 48px;
+    width: 45px;
+    margin: 5px;
+    margin-left: 0px;
+}
+
+.barcontainer {
+	height: 5px;
+	width: 40px;
+	font-size: 1px;
+	margin: 2px 2px;
+	display: block;
+}
+.barfill {
+	font-size: 1px;
+	height: 5px;
+	clear: both;
+	display: block;
+}
+.barhotfill {
+	font-size: 1px;
+	height: 5px;
+	clear: both;
+	display: block;
+}
+.bartext {
+	width: 40px;
+	padding: 0px 0px;
+	text-align: center;
+	display: block;
+	color: #0099CC;
+	margin: 0px 3px;
+}
+.bartext .votedown {
+	padding: 2px;
+	width: 16px;
+	height:16px;
+	float: left;
+}
+.bartext .voteup {
+	padding: 2px;
+	width: 16px;
+	height:16px;
+}
+
+/* This section is used when you are displaying votes as a text ticker */
+.tickercontainer {
+    font-size: 15px;
+    font-weight: bold;
+	margin-top: -6px;
+	height: 20px;
+	width: 40px;
+	padding: 0px 0px;
+	text-align: center;
+	display: block;
+	color: #4C0E1C;
+	text-decoration: none;
+	cursor: default;
+}
+
+.votedtickertext {
+	font-family: Tahoma, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
+	font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+	margin: 0px;
+	height: 20px;
+	width: 40px;
+	padding: 2px 0px 0px 2px;
+	text-align: center;
+	display: block;
+	text-decoration: none;
+}
+
+.votelink {
+    cursor: pointer;
+}
+
+.tickertext .votelink {
+    font-family: Tahoma, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
+	font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+	margin: 0px;
+	height: 20px;
+	width: 40px;
+	padding: 1px 0px 0px 1px;
+	text-align: center;
+	display: block;
+	text-decoration: none;
+}
+/** End */
+
+/* This section is used when you are displaying votes as a image ticker. This section doesn't used. */ 
+.tickertext .imagecontainer {
+	font-size: 12px;
+	margin: 0px 2px;
+	height: 20px;
+	width: 40px;
+	padding: 0px 0px;
+	text-align: center;
+	display: block;
+	color: #0099CC;
+	text-decoration: none;
+}
+.tickertext .imagecontainer .votedown {
+	padding: 2px;
+	width: 16px;
+	height:16px;
+	float: left;
+}
+.tickertext .imagecontainer .voteup {
+	padding: 2px;
+	width: 16px;
+	height:16px;
+}
+/** End */
+
+.votewidget {
+	width: 90%;
+	display: block;
+	margin: 5px auto 5px auto;
+}
+.votewidget .fore {
+	width: 100%;
+	display: block;
+}
+.votewidget .back {
+	width: 100%;
+	display: block;
+}
+.votewidget .votecount {
+	width: 23%;
+	padding-left: 2%;
+	float: left;
+}
+.votewidget .text {
+	width: 75%;
+	float: left;
+}
+.votewidget .title {
+	width: 98%;
+	display: block;
+	padding-left: 2%;
+	font-weight: bold;
+	color: #666666;
+}

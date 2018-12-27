@@ -1,0 +1,602 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- 
+	This website is powered by TYPO3 - inspiring people to share!
+	TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL.
+	TYPO3 is copyright 1998-2009 of Kasper Skaarhoj. Extensions are copyright of their respective owners.
+	Information and contribution at http://typo3.com/ and http://typo3.org/
+-->
+
+	<link rel="stylesheet" type="text/css" href="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/stylesheet_71fc2cf015.css">
+	<link rel="stylesheet" type="text/css" href="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/main.css">
+
+	<title>BSDinfo,
+немного о FreeBSD.: Установка и настройка MPD в роли VPN сервера. mpd
+4.4 с авторизацией через RADIUS в Active Directory + нарезание трафика
+при помощи ng_car.</title>
+	<meta name="generator" content="TYPO3 4.2 CMS">
+	<meta name="DESCRIPTION" content="VPN (mpd 4.4) с авторизацией через RADIUS в Active Directory + нарезание трафика при помощи ng_car.">
+	<meta name="KEYWORDS" content="VPN, mpd, mpd4, radius, server, авторизациz, через, RADIUS, в, Active, Directory, нарезание, трафика, при, помощи, ng_car, netgraph, ограничение, скорости,  mpd-limit, in#1=all, shape">
+	<meta name="AUTHOR" content="Cvetkov Mihail">
+	<meta name="google-site-verification" content="i56eOkjk2S6BuEkt7pekpnNdAG0WD6ytLavc2X28cWw">
+	<script type="text/javascript" src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/javascript_a708894199.js"></script>
+
+</head><body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="1024" align="center">
+<tbody><tr>
+<td>
+    <table class="my-templ" border="0" cellpadding="0" cellspacing="0" width="1024">
+	<tbody><tr>
+	    <td class="my-templ" width="850" align="left">
+	    <img id="frontphoto" src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/bsdinfo.jpg" alt="" height="50" width="150">
+
+	    </td>
+	    <td class="my-templ">
+		<!-- ###NEWS_UP### START -->
+		<!-- ###NEWS_UP### STOP -->
+		вы вошли как: <!--###USERNAME###-->
+	    </td>
+	</tr>
+    </tbody></table>
+<table class="my-templ" border="0" cellpadding="0" cellspacing="0" width="1024">
+	<tbody><tr>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_l.jpg" height="7" width="7">		</td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="136">		</td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_v_pr.jpg" height="7" width="7">		</td>
+		<td class="my-templ" height="7" width="7"></td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_l.jpg" height="7" width="7">		</td>
+		<td class="my-templ-center" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="676">		</td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_pr.jpg" height="7" width="7">		</td>
+		<td class="my-templ" height="7" width="7">		</td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_v_l.jpg" height="7" width="7">		</td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="156">		</td>
+		<td class="my-templ" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_pr.jpg" height="7" width="7">		</td>
+	</tr>
+	<tr>
+		<td colspan="3" rowspan="3" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_vert_150.jpg" height="300" valign="top" width="150">
+		
+		<table border="0" cellpadding="0" cellspacing="0" height="300" width="150">
+			<tbody><tr>
+			<td colspan="2" height="300" valign="top" width="143">
+			<b>Главное меню:</b>
+			<div class="topnav"><a href="http://bsdinfo.ru/index.php/Glavnaja/14/0/" onfocus="blurLink(this);">Главная</a></div><div class="topnav"><a href="http://bsdinfo.ru/index.php/Vkhod/27/0/" onfocus="blurLink(this);">Вход</a></div><div class="topnav_act"><img src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/punkt.jpg"><a href="http://bsdinfo.ru/index.php/FreeBSD/3/0/" onfocus="blurLink(this);">FreeBSD</a></div><div class="topnav">&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Obsluzhivanie-FreeBSD-rabota/69/0/" onfocus="blurLink(this);">Обслуживание</a></div><div class="topnav">&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Oshibki/54/0/" onfocus="blurLink(this);">Ошибки</a></div><div class="topnav">&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Faily/7/0/" onfocus="blurLink(this);">Файлы.</a></div><div class="topnav_act"><img src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/punkt_aktiv.jpg"><a href="http://bsdinfo.ru/index.php/Nastroika/6/0/" onfocus="blurLink(this);">Настройка.</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Izmenenie-vremeni-zagruzki-Fre/60/0/" onfocus="blurLink(this);">Запуск</a></div><div class="topnav_act"><img src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/punkt_aktiv.jpg"><a href="http://bsdinfo.ru/index.php/Servisy/47/0/" onfocus="blurLink(this);">Сервисы</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Mysql/64/0/" onfocus="blurLink(this);">Mysql</a></div><div class="topnav_act"><img src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/punkt_aktiv.jpg"><a href="http://bsdinfo.ru/index.php/VPN/18/0/" onfocus="blurLink(this);">VPN</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Pochta/48/0/" onfocus="blurLink(this);">Почта</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/knock/41/0/" onfocus="blurLink(this);">knock</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Router/34/0/" onfocus="blurLink(this);">Роутер</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Sozdanie-izolirovannoi-sredy-v/20/0/" onfocus="blurLink(this);">jail</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/NETGRAPH/10/0/" onfocus="blurLink(this);">NETGRAPH</a></div><div class="topnav">&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Udalennoe-upravlenie/25/0/" onfocus="blurLink(this);">Удаленное управление</a></div><div class="topnav">&nbsp;&nbsp;<a href="http://bsdinfo.ru/index.php/Ustanovka/5/0/" onfocus="blurLink(this);">Установка.</a></div><div class="topnav"><a href="http://bsdinfo.ru/index.php/Sait/42/0/" onfocus="blurLink(this);">Сайт</a></div><div class="topnav"><a href="http://bsdinfo.ru/index.php/Windows/2/0/" onfocus="blurLink(this);">Windows</a></div><div class="topnav"><a href="http://bsdinfo.ru/index.php/Faily/22/0/" onfocus="blurLink(this);">Файлы...</a></div><div class="topnav"><a href="http://bsdinfo.ru/index.php/Kontakty/50/0/" onfocus="blurLink(this);">Контакты</a></div>
+  	    		</td>
+  	    		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_vert.jpg" width="7">		</td>
+		
+  	    		</tr>
+  	    		<tr>
+  	    		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_l.jpg" height="7" width="7">		</td>
+			<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="136">		</td>
+			<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_soed.jpg" height="7" width="7">		</td>
+		
+  	    		</tr>
+  	    		<tr>
+  	    		<td colspan="2" width="143">
+			<a id="c9"></a><p class="bodytext"><strong>Дополнительно:<br></strong><a href="http://bsdinfo.ru/mpd4/mpd.html" title="man mpd4" target="_blank" class="external-link-new-window">man mpd4</a></p>
+			<table cellpadding="0" cellspacing="0" width="135"> 
+		<tbody><tr><td colspan="2" align="center"><font color="blue" size="2"> 
+		Статистика 11:30 05.03.2010
+
+		</font>
+		</td></tr>
+		<tr><td><font color="blue" size="2"> 
+		Хитов
+		</font>
+		</td><td align="right"><font color="blue" size="2"> 
+		106
+
+		</font>
+		</td></tr>
+		<tr><td><font color="blue" size="2"> 
+		Уникальных
+		</font>
+		</td><td align="right"><font color="blue" size="2"> 
+		8
+
+		</font>
+		</td></tr>
+		<tr><td><font color="blue" size="2"> 
+		IP за месяц
+		</font>
+		</td><td align="right"><font color="blue" size="2"> 
+		55
+		</font>
+		</td></tr>
+		</tbody></table>
+			</td>
+			<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_vert.jpg" height="7" width="7">		</td>
+			</tr>
+  	    		
+   	    	</tbody></table>
+  	    	</td>
+		
+		
+		<td class="my-templ-center" colspan="5" rowspan="3" height="300" valign="top" width="704" align="left">
+		<a id="c6"></a><div class="csc-header csc-header-n1"><h3 class="csc-firstHeader">VPN сервер (mpd 4.4) с авторизацией через RADIUS в Active Directory + нарезание трафика при помощи ng_car.</h3></div><p class="bodytext">FreeBSD6.3
+</p>
+<p class="bodytext">В конфигурацию ядра следует добавить:
+</p>
+<p class="bodytext"># Добавим все что связано с NETGRAPH кроме DEBUG!!!!!
+</p>
+<p class="bodytext">&nbsp;</p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NETGRAPH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#netgraph(4) system<br>#######<br>#options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_DEBUG<br>#######<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_ASYNC<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_BPF<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_BRIDGE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_CISCO<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_DEVICE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_ECHO<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_EIFACE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_ETHER<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_FRAME_RELAY<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_HOLE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_IFACE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_IP_INPUT<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_KSOCKET<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_L2TP<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_LMI</b></p></blockquote><p class="bodytext"><b># MPPC compression requires proprietary files (not included)</b></p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_MPPC_COMPRESSION<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_MPPC_ENCRYPTION<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_NETFLOW<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_NAT<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_ONE2MANY<br>options&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NETGRAPH_PPP<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_PPPOE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_PPTPGRE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_RFC1490<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_SOCKET<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_TEE<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_TTY<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_UI<br>options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NETGRAPH_VJC</b></p></blockquote><p class="bodytext"><b>#pf – никогда не помешает!!! На любителя...</b></p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>device&nbsp; pf<br>device&nbsp; pflog<br>device&nbsp; pfsync<br>options ALTQ</b></p></blockquote><p class="bodytext">&nbsp;</p>
+<p class="bodytext">И соответственно пересобрать ядро с этим всем…<br>После:<br>Устанавливаем ng_car, он находится в /usr/ports/net/ng_car
+</p>
+<p class="bodytext">Устанавливаем mpd4: 
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>cd /usr/ports/net/mpd4</b>
+</p>
+<p class="bodytext"><b>make config install clean</b>&nbsp; - ставим галочку на против
+</p>
+<p class="bodytext">&nbsp;</p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>NG_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use
+ng_car kernel module from port (&lt; 7.0 only)</b>&nbsp; (устанавливает
+ng_car из портов для FreeBSD ранее седьмой версии,&nbsp;в версиях
+7.0&nbsp;ng_car,&nbsp;присутствует в модулях ядра).&nbsp;<br><b>NG_IPACCT&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Use ng_ipacct kernel module from port</b> (для учета трафика на интерфейсах ng)
+</p>
+<p class="bodytext">&nbsp;</p></blockquote><p class="bodytext"><b>Конфиги</b><b> mpd:</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><span class="important"><b>Будьте внимательны со знаками табуляции и пробелами. Пробелы нельзя использовать для выделения.</b></span>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">&nbsp;default:<br>(табуляция)load pptp0<br>pptp0:<br>(Табуляция)new -i ng0 pptp0 pptp0
+</p>
+<p class="bodytext">&nbsp;<b>mpd.conf</b></p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>#Секция логов<br>startup:<br>&nbsp;&nbsp;&nbsp; log ccp<br>&nbsp;&nbsp;&nbsp; log ccp2<br>&nbsp;&nbsp;&nbsp; log ccp3<br>&nbsp;&nbsp;&nbsp; log chat2<br>&nbsp;&nbsp;&nbsp; log echo<br>&nbsp;&nbsp;&nbsp; log frame<br>&nbsp;&nbsp;&nbsp; log mp<br>&nbsp;&nbsp;&nbsp; log mp2<br>&nbsp;&nbsp;&nbsp; log pptp0<br>##########<br>&nbsp;&nbsp;&nbsp; log +radius +radius2 # В логе mpd будет отображаться его общение с radius-ом </b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>default:<br>&nbsp;&nbsp;&nbsp; load pptp0</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>pptp0:<br>&nbsp;&nbsp;&nbsp; new -i ng0 pptp0 pptp0<br>&nbsp;&nbsp;&nbsp; set ipcp ranges 10.50.0.1/32 10.20.5.0/24<br>&nbsp;&nbsp;&nbsp; set ipcp dns 10.20.3.30<br>&nbsp;&nbsp;&nbsp; set pptp self 10.50.0.1<br>&nbsp;&nbsp;&nbsp; load client_standart</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>client_standart:<br>&nbsp;&nbsp;&nbsp; set iface up-script /usr/local/etc/mpd4/up-down_script/up_script<br>&nbsp;&nbsp;&nbsp; set iface down-script /usr/local/etc/mpd4/up-down_script/down_script<br>&nbsp;&nbsp;&nbsp; set iface disable on-demand<br>&nbsp;&nbsp;&nbsp; set iface enable tee ipacct&nbsp;<br>&nbsp;&nbsp;&nbsp; set bundle disable multilink<br>&nbsp;&nbsp;&nbsp; set link yes acfcomp protocomp<br>#требуем chap авторизацию</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>&nbsp;&nbsp;&nbsp; set link no pap chap<br>&nbsp;&nbsp;&nbsp; set link enable chap-msv2<br>&nbsp;&nbsp;&nbsp; set link keep-alive 60 180<br>&nbsp;&nbsp;&nbsp; set ipcp yes vjcomp</b></p></blockquote><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>#чтобы комп видел корпоративную сеть<br>&nbsp;&nbsp;&nbsp; set iface enable proxy-arp</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>#enable compression<br>&nbsp;&nbsp;&nbsp; set bundle enable compression<br>&nbsp;&nbsp;&nbsp; set ccp yes mppc<br>&nbsp;&nbsp;&nbsp; set ccp yes mpp-e40<br>&nbsp;&nbsp;&nbsp; set ccp yes mpp-e56<br>&nbsp;&nbsp;&nbsp; set ccp yes mpp-e128<br>&nbsp;&nbsp;&nbsp; set ccp yes mpp-stateless<br>&nbsp;&nbsp;&nbsp; set ccp yes mppe-policy<br>&nbsp;&nbsp;&nbsp; set pptp enable incoming<br>&nbsp;&nbsp;&nbsp; set pptp disable originate<br>&nbsp;&nbsp;&nbsp; set bundle yes crypt-reqd<br>&nbsp;&nbsp;&nbsp; set iface mtu 1400<br>&nbsp;&nbsp;&nbsp; set link mtu 1400</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>#Включение авторизации и аккаунтинга через radius<br>&nbsp;&nbsp;&nbsp; set auth enable radius-auth<br>&nbsp;&nbsp;&nbsp; set auth enable radius-acct<br>##########<br>&nbsp;&nbsp;&nbsp; set radius server 127.0.0.1 1111 1812 1813<br>&nbsp;&nbsp;&nbsp; set radius timeout 10</b>
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>#Конфиг mpd для радиуса<br>&nbsp;&nbsp;&nbsp; set radius config /usr/local/etc/mpd4/radius.conf<br>&nbsp;&nbsp;&nbsp; set radius retries 5<br>&nbsp;&nbsp;&nbsp; set radius enable message-authentic&nbsp;</b>
+</p>
+<p class="bodytext">&nbsp;</p></blockquote><p class="bodytext"><b>/usr/local/etc/mpd4/radius.conf</b></p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>acct 127.0.0.1 1111 3 2<br>auth 127.0.0.1 1111 3 2</b>
+</p>
+<p class="bodytext">&nbsp;</p></blockquote><p class="bodytext"><b>mpd.links</b></p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext"><b>pptp0:<br>&nbsp;&nbsp; set link type pptp</b>
+</p>
+<p class="bodytext">&nbsp;</p></blockquote><p class="bodytext"><b>mpd.secret</b> – не изменяется.<br><b>mpd.script</b> – не меняется.
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">&nbsp;<b>Установка </b><b>FREERADIUS. </b>
+</p>
+<p class="bodytext"><b>cd /usr/ports/net/freeradius<br></b><b>make config install clean</b>
+</p>
+<p class="bodytext">&nbsp;<b>Конфиги</b><b> radius:</b>
+</p>
+<p class="bodytext">&nbsp;<b>radius.conf</b></p><blockquote style="margin-bottom: 0pt; margin-top: 0pt;"><p class="bodytext">prefix = /usr/local<br>exec_prefix = ${prefix}<br>sysconfdir = ${prefix}/etc<br>localstatedir = /var<br>sbindir = ${exec_prefix}/sbin<br>logdir = /var/log<br>raddbdir = ${sysconfdir}/raddb<br>radacctdir = ${logdir}/radacct&nbsp;
+</p>
+<p class="bodytext">#&nbsp; Location of config and logfiles.<br>confdir = ${raddbdir}<br>run_dir = ${localstatedir}/run/radiusd&nbsp;
+</p>
+<p class="bodytext">libdir = ${exec_prefix}/lib<br>pidfile = ${run_dir}/radiusd.pid<br>user = user&nbsp;&nbsp;&nbsp;&nbsp; #пользователь с которым будет стартовать радиус<br>group = user&nbsp;&nbsp; #группа пользователя с которой будет стартовать радиус
+</p>
+<p class="bodytext">max_request_time = 30<br>cleanup_delay = 5<br>max_requests = 1024
+</p>
+<p class="bodytext">#Слушать запросы на авторизацию <br>listen {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ipaddr = 127.0.0.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # IP адрес<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+port =
+1812&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Порт<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type =
+auth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Авторизация<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #interface = eth0 # Интерфейс<br>&nbsp;}
+</p>
+<p class="bodytext"># Слушать запросы на аккаунтинг<br>listen {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ipaddr = 127.0.0.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # IP адрес<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+port =
+1813&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Порт<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type =
+acct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Аккаунтинг<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #interface = eth0 # Интерфейс<br>}<br>hostname_lookups = no<br>allow_core_dumps = no<br>regular_expressions&nbsp;&nbsp;&nbsp;&nbsp; = yes<br>extended_expressions&nbsp;&nbsp;&nbsp; = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; destination = /var/log/radiusd.log<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file = ${logdir}/radius.log<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stripped_names = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; auth = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; auth_badpass = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; auth_goodpass = yes<br>checkrad = ${sbindir}/checkrad<br>security {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max_attributes = 200<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reject_delay = 1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status_server = no<br>}<br>proxy_requests&nbsp; = no<br>$INCLUDE ${raddbdir}/clients.conf<br>snmp&nbsp;&nbsp;&nbsp;
+=
+no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Отключение snmp<br>thread pool {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; start_servers = 5<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max_servers = 32<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; min_spare_servers = 3<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max_spare_servers = 10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max_requests_per_server = 0<br>}<br>modules {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pap {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; encription_sheme = crypt<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chap {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; authtype = CHAP<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pam {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pam_auth = radiusd<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unix {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache&nbsp;&nbsp; = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cache_reload&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radwtmp = ${logdir}/radwtmp<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>$INCLUDE ${raddbdir}/eap.conf<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mschap {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+authtype&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = MS-CHAP<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+use_mppe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; require_encryption = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; require_strong&nbsp; = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with_ntdomain_hack = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ntlm_auth
+= "/usr/local/bin/ntlm_auth --request-nt-key
+--domain=%{mschap:NT-Domain} --username=%{mschap:User-Name}
+--challenge=%{mschap:Challenge:-00}
+--nt-response=%{mschap:NT-Response:-00}"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; preprocess {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; huntgroups = ${confdir}/huntgroups<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hints = ${confdir}/hints<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with_ascend_hack = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ascend_channels_per_line = 2<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with_ntdomain_hack = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with_specialix_jetstream_hack = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with_cisco_vsa_hack = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; files {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; usersfile = ${confdir}/users<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acctusersfile = ${confdir}/acct_users<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preproxy_usersfile
+= ${confdir}/preproxy_users<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compat = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br># Логии запросов и ответов на запросы<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detail {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+detailfile = ${radacctdir}/%{Client-IP-Address}/detail-%Y%m%d<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detailperm = 0600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; header = "%t"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detail auth_log {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+detailfile = ${radacctdir}/%{Client-IP-Address}/auth-detail-%Y%m%d<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detailperm = 0600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detail reply_log {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+detailfile = ${radacctdir}/%{Client-IP-Address}/reply-detail-%Y%m%d<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detailperm = 0600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detail pre_proxy_log {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+detailfile = ${radacctdir}/%{Client-IP-Address}/pre-proxy-detail-%Y%m%d<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detailperm = 0600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detail post_proxy_log {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+detailfile = ${radacctdir}/%{Client-IP-Address}/post-proxy-detail-%Y%m%d<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detailperm = 0600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acct_unique {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+key = "User-Name, Acct-Session-Id, NAS-IP-Address, Client-IP-Address,
+NAS-Port"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radutmp {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; filename = ${logdir}/radutmp<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; username = %{User-Name}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case_sensitive = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; check_with_nas = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perm = 0600<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; callerid = "yes"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radutmp sradutmp {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; filename = ${logdir}/sradutmp<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perm = 0644<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; callerid = "no"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; attr_filter {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; attrsfile = ${confdir}/attrs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; counter daily {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; filename = ${raddbdir}/db.daily<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; key = User-Name<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count-attribute = Acct-Session-Time<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reset = daily<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; counter-name = Daily-Session-Time<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; check-name = Max-Daily-Session<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reply-name = Session-Timeout<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; allowed-servicetype = Framed-User<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache-size = 5000<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always fail {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = fail<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always reject {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = reject<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always noop {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = noop<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always handled {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = handled<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always updated {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = updated<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always notfound {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = notfound<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; always ok {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcode = ok<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simulcount = 0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpp = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expr {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; digest {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exec {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wait = yes<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; input_pairs = request<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ippool main_pool {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; range-start = 10.20.x.x<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; range-stop = 10.20.x.xxx<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; netmask = 255.255.0.0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache-size = 800<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session-db = ${raddbdir}/db.ippool<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ip-index = ${raddbdir}/db.ipindex<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; override = no<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maximum-timeout = 0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>}<br>instantiate {<br>}<br>authorize {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; preprocess<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; auth_log<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mschap<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eap<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; files<br>}<br>authenticate {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Auth-Type PAP {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pap<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Auth-Type CHAP {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+chap<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Auth-Type MS-CHAP {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mschap<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pam<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eap<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<br>preacct {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; preprocess<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acct_unique<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; files<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+</p>
+<p class="bodytext">accounting {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; detail
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; main_pool
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+</p>
+<p class="bodytext">session {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radutmp
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+</p>
+<p class="bodytext">post-auth {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; main_pool
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reply_log
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+</p>
+<p class="bodytext">pre-proxy {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">post-proxy {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eap
+</p>
+<p class="bodytext">}</p></blockquote><p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>acct_users</b>
+</p>
+<p class="bodytext">DEFAULT
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type == Framed-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type == Login-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-Service == Telnet,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-Service == Rlogin,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-Service == TCP-Clear,
+</p>
+<p class="bodytext">&nbsp; &nbsp;&nbsp;Login-TCP-Port &lt;= 65536,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Address == 10.20.x.x,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Netmask == 255.255.0.0,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol == PPP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol == SLIP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Compression == Van-Jacobson-TCP-IP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-MTU &gt;= 576,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Filter-ID =* ANY,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Reply-Message =* ANY,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Proxy-State =* ANY,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Session-Timeout &lt;= 28800,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Idle-Timeout &lt;= 600,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Port-Limit &lt;= 2
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>attrs</b>
+</p>
+<p class="bodytext">DEFAULT
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type == Framed-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type == Login-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-Service == Telnet,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-Service == Rlogin,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-Service == TCP-Clear,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Login-TCP-Port &lt;= 65536,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Address == 10.20.x.x,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Netmask == 255.255.0.0,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol == PPP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol == SLIP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Compression == Van-Jacobson-TCP-IP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-MTU &gt;= 576,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Filter-ID =* ANY,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Reply-Message =* ANY,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Proxy-State =* ANY,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Session-Timeout &lt;= 28800,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Idle-Timeout &lt;= 600,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Port-Limit &lt;= 2
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>clients.conf</b>
+</p>
+<p class="bodytext"># В этом файле прописываются IP адреса клиентов радиуса и пароли, которые клиенты 
+</p>
+<p class="bodytext"># будут использовать для авторизации в радиусе.
+</p>
+<p class="bodytext">client 10.20.3.21 {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; secret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 1111
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shortname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 127.0.0.1
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nastype =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = other
+</p>
+<p class="bodytext">}
+</p>
+<p class="bodytext">client 127.0.0.1 {
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; secret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 1111
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shortname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 127.0.0.1
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nastype =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = other
+</p>
+<p class="bodytext">}
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>dictionary</b> – файл схем атрибутов радиуса, обратите внимание на dictionary.mpd, возможно его придется создать руками.
+</p>
+<p class="bodytext">$INCLUDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /usr/local/share/freeradius/dictionary
+</p>
+<p class="bodytext">$INCLUDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /usr/local/share/freeradius/dictionary.microsoft
+</p>
+<p class="bodytext">$INCLUDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /usr/local/share/freeradius/dictionary.mpd
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>dictionary.mpd</b>
+</p>
+<p class="bodytext">VENDOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mpd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+12341 </p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-rule&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-pipe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-queue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpd
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpd
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-table-static&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpd
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-filter&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpd
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-limit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpd
+</p>
+<p class="bodytext">ATTRIBUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mpd-drop-user&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+154&nbsp;&nbsp; integer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mpd
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>naslist</b>
+</p>
+<p class="bodytext"># NAS
+Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Short Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type
+</p>
+<p class="bodytext">#----------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ----------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ----
+</p>
+<p class="bodytext">#portmaster1.isp.com&nbsp;&nbsp;&nbsp; pm1.NY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; livingston
+</p>
+<p class="bodytext">#portmaster2.isp.com&nbsp;&nbsp;&nbsp; pm1.LA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; livingston
+</p>
+<p class="bodytext">#localhost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+local&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+portslave
+</p>
+<p class="bodytext">localhost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;127.0.0.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+other
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>users</b>
+</p>
+<p class="bodytext">user1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#при совпадении имени пользователя соединению </p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# будут присвоены следующие параметры
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Fall-Through = Yes,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type = Framed-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol = PPP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Address = 10.20.x.x,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Netmask = 255.255.255.255,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; mpd-limit = "in#1=all shape
+200000 240000", &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #
+ограниченье входящей скорости канала </p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; mpd-limit = "out#1=all shape
+200000 240000"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # ограниченье
+исходящей скорости канала
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">user2
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Fall-Through = Yes,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type = Framed-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol = PPP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Address = 10.20.x.xx,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Netmask = 255.255.0.0,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; mpd-limit = "in#1=all shape 100000 140000",
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; mpd-limit = "out#1=all shape 100000 140000"
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">DEFAULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Если не одно имя пользователя не совпало </p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#соединению будет присвоенны параметры DEFAULT
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Fall-Through = Yes, Pool-Name := main_pool,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Service-Type = Framed-User,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-Protocol = PPP,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Address = 10.20.x.xxx,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; Framed-IP-Netmask = 255.255.0.0,
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; mpd-limit = "in#1=all shape 300000 240000",
+</p>
+<p class="bodytext">&nbsp;&nbsp;&nbsp; mpd-limit = "out#1=all shape 300000 240000"
+</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">Следующим этапом нужно включить нашу станцию в домен, для этого нам нужно настроить kerberos, </p><p class="csc-linkToTop"><a href="#">Наверх</a></p>
+		</td>
+		
+	
+		<td colspan="3" rowspan="3" background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_vert_150_180.jpg" height="300" valign="top" width="170">
+		
+		<table border="0" cellpadding="0" cellspacing="0" height="300" width="170">
+			<tbody><tr>
+			<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_vert_180.jpg" width="7">		</td>
+			<td colspan="2" height="300" valign="top" width="163">
+<script type="text/javascript"><!--
+google_ad_client = "pub-1093190143651493";
+google_ad_slot = "0927689291";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/show_ads.js">
+</script><script src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/expansion_embed.js"></script><script src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: inline-table; height: 600px; position: relative; visibility: visible; width: 120px;"><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: block; height: 600px; position: relative; visibility: visible; width: 120px;"><iframe allowtransparency="true" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ads.html" style="left: 0pt; position: absolute; top: 0pt;" vspace="0" frameborder="0" height="600" scrolling="no" width="120"></iframe></ins></ins>
+			</td>
+  	    		</tr>
+  	    		
+  	    		<tr>
+  	    		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_soed_180.jpg" height="7" width="7">		</td>
+			<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="156">		</td>
+			<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_pr.jpg" height="7" width="7">		</td>
+			
+  	    		</tr>
+  	    		<tr>
+  	    		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_vert_180.jpg" height="7" width="7">		</td>
+			<td colspan="2" width="163">
+			    <center>
+			    </center>
+			    
+			</td>
+			</tr>
+  	    		
+   	    	</tbody></table>
+		</td>
+	</tr>
+
+	<tr>
+
+
+	</tr>
+	<tr>
+	</tr>
+	<tr>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_l.jpg" height="7" width="7">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="136">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_n_pr_new.jpg" height="7" width="7">		</td>
+		<td height="7" width="7">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_l.jpg" height="7" width="7">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="676">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_pr.jpg" height="7" width="7">		</td>
+		<td height="7" width="7">
+		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_n_l_new.jpg" height="7" width="7">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_gor.jpg" height="7" width="156">		</td>
+		<td background="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/ramka_pr.jpg" height="7" width="7">		</td>
+	</tr>
+
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td>
+<center><h6>Копирование или перепечатывание материалов с сайта возможно только с разрешения администратора и при указании ссылки на сайт.</h6>
+<!-- begin of Top100 logo -->
+<a href="http://top100.rambler.ru/home?id=1959408" target="_blank"><img src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/banner-88x31-rambler-black2.gif" alt="Rambler's Top100" border="0" height="31" width="88"></a>
+<!-- end of Top100 logo -->   
+
+</center>
+</td>
+</tr>
+</tbody></table><noscript>
+
+<img src="http://counter.rambler.ru/top100.cnt?1959408" alt="" width="1" height="1" border="0"/></noscript>
+<!-- end of Top100 code --> 
+
+
+
+<table>
+<!-- begin of Top100 code -->
+<script id="top100Counter" type="text/javascript" src="mpd%204.4.RADIUS.Active%20Directory.%D0%BD%D0%B0%D1%80%D0%B5%D0%B7%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ng_car_files/top100.js">
+</script>
+</table></body></html>

@@ -1,0 +1,539 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=KOI8-R"><title>
+        Учебник по FreeBSD, OpenBSD, NetBSD, DragonFly: C.4. Интеграция пакетного фильтра с програмным окружением</title><link rel="stylesheet" href="pf_04_files/default.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><meta name="keywords" content="BSD, OpenBSD, FreeBSD, NetBSD, DragonFly"><link rel="start" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html" title="BSDA в вопросах и ответах"><link rel="up" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html" title="Приложение C. Пакетный фильтр OpenBSD&nbsp;&#8212; pf(4)"><link rel="prev" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs03.html" title="C.3. Управление пакетным фильтром OpenBSD
+      при помощи утилиты pfctl(8)"><link rel="next" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html" title="C.5. Программы для удобной работы с пакетным фильтром"></head><body link="#0000ff" text="black" vlink="#840084" alink="#0000ff" bgcolor="white"><div class="navheader"><table summary="Navigation header" width="100%"><tbody><tr><th></th><th align="center">C.4. Интеграция пакетного фильтра с програмным окружением</th><th align="right"><script type="text/javascript" src="pf_04_files/orphus.js"></script><a title="Система Orphus" href="http://orphus.ru/" id="orphus" target="_blank"><img alt="Система Orphus" src="pf_04_files/orphus.gif" border="0"></a></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs03.html"><img src="pf_04_files/prev.gif" alt="Пред."></a>&nbsp;</td><th width="60%" align="center">Приложение C. Пакетный фильтр <span class="acronym">OpenBSD</span>&nbsp;&#8212; <span><strong class="command">pf(4)</strong></span></th><td width="20%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html"><img src="pf_04_files/next.gif" alt="След."></a></td></tr></tbody></table><hr></div><div class="section" lang="ru"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="pf-environment"></a>C.4. Интеграция пакетного фильтра с програмным окружением</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1. Активное реагирование на события на примере борьбы с
+        атаками bruteforce на SSH</a></span></dt><dd><dl><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2-review"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1.1. Способы защиты от bruteforce атак</a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2-objective"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1.2. Постановка задачи</a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2-syslogd"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1.3. Сбор данных через syslog</a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2-pfconf"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1.4. Блокировка в пакетном фильтре</a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2-handler"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1.5. Обработчик событий</a></span></dt><dt><span class="section"><a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs04.html#pf-ex2-script"><img name="cover" src="pf_04_files/button-green.png" alt="[+]">C.4.1.6. Скрипт и его применение</a></span></dt></dl></dd></dl></div><div class="section" lang="ru"><div class="titlepage"><div><div><h3 class="title"><a name="pf-ex2"></a>C.4.1. Активное реагирование на события на примере борьбы с
+        атаками bruteforce на SSH</h3></div></div></div><p>
+        Здесь я приведу пример интеграции пакетного фильтра с програмным
+        окружением существующим в <span class="acronym">BSD</span>, на примере борьбы
+        с атаками brute-force&nbsp;&#8212; лобовым подбором паролей к
+        машине. Любая система с запущенным на ней
+        <span><strong class="command">sshd(8)</strong></span> демоном подвергается многочисленным
+        атакам brute-force. Если в вашей системе присутствуют пользователи
+        со слабыми паролями, в виду многочисленности таких атак вас рано
+        или поздно взломают. Существует множество способов защиты от атак
+        brute-force. Их обилие свидетельствует о том, что все они плохи.
+      </p><div class="section" lang="ru"><div class="titlepage"><div><div><h4 class="title"><a name="pf-ex2-review"></a>C.4.1.1. Способы защиты от bruteforce атак</h4></div></div></div><div class="variablelist"><dl><dt><span class="term">Перенос сервера <span><strong class="command">sshd(8)</strong></span> на
+              альтернативный порт</span></dt><dd>
+                Как ни странно, это приводит к существенному снижению
+                нагрузки brute-force. Однако данный метод не очень
+                удобен&nbsp;&#8212; надо всем пользователям объяснять,
+                что они должны заходить на нестандартный порт. Большинство
+                программ-клиентов можно обучить заходить на некоторый хост
+                через конкретный порт. Однако администратору придётся всё
+                это объяснять пользователям... Кроме того, некоторые
+                брандмауэры со стороны клиента могут блокировать выход на
+                неизвестные им порты.
+              </dd><dt><span class="term">Блокировка взламываемого пользователя</span></dt><dd><p>
+                Обычно такой метод реализуется через систему PAM. В
+                <span class="acronym">Linux</span> для этих целей есть специальный
+                модуль&nbsp;&#8212; <code class="code">pam_tally</code>.
+                В <span class="acronym">BSD</span> никаких аналогов я не знаю,
+                однако его не сложно реализовать при помощи модуля <code class="code">pam_exec</code>. Идея состоит в том, что в
+                некоторой базе данных фиксируются попытки неудачного
+                захода от каждого пользователя. Если оказывается превышен
+                некоторый лимит, т.е. пользователь предпринял более 5
+                неудачных попыток входа, он блокируется и разблокировать
+                его может только суперпользователь.
+              </p><p>
+                Данный метод неудачен во всех отношениях: главный его
+                недостаток&nbsp;&#8212; идеологический. Модуль наказывает
+                не атакующего, а атакуемого. Задача защиты поставлена с
+                ног на голову. Некоторые brain-damaged администраторы
+                всерьёз предполагают, что таким образом можно защититься
+                от атаки.  Это не так:
+              </p><div class="orderedlist"><ol type="1"><li>
+                  Этот метод не защищает от атак вообще! Задача атакующего
+                  состоит в том, чтобы осуществить наибольшее количество
+                  попыток входа в систему. Поэтому, если у атакующего есть
+                  словарь из 10000 пользовательских имён, он сможет не
+                  варьируя пароль перебрать всех пользователей системы и
+                  <code class="code">pam_tally</code> никак этому
+                  воспрепятствовать не может.
+                </li><li>
+                  Если у вас 10000 пользователей и вы выставили предел на
+                  количество неправильных попыток ввода пароля в 5,
+                  злоумышленник сможет осуществить 50000 попыток взлома,
+                  после чего ВСЕ ПОЛЬЗОВАТЕЛИ В ВАШЕЙ СИСТЕМЕ ОКАЖУТСЯ
+                  ЗАБЛОКИРОВАНЫ. А злоумышленник будет безнаказан и когда
+                  вы всех разблокируете, всё повторится.
+                </li></ol></div><p>
+                У модуля <code class="code">pam_tally</code> есть
+                многочисленные дополнительные опции, которые позволяют
+                сделать его работу более или менее вменяемой. Например,
+                можно запретить блокировку root'а и обеспечить
+                авторазблокирование по истечении некоторого периода
+                времени.  Однако модуль неправильно задуман, при его
+                проектировании была сделана неправильная посылка, это
+                неисправимо.
+              </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table summary="Note" border="0"><tbody><tr><td rowspan="2" valign="top" width="25" align="center"><img alt="[Замечание]" src="pf_04_files/note.png"></td><th align="left">Замечание</th></tr><tr><td valign="top" align="left"><span class="acronym">SSH</span> может не использовать модули PAM
+                вообще. Проверьте содержимое опции <code class="option">UsePAM</code>
+                в конфигурационном файле
+                <code class="filename">/etc/ssh/sshd_config</code>.
+              </td></tr></tbody></table></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table summary="Note" border="0"><tbody><tr><td rowspan="2" valign="top" width="25" align="center"><img alt="[Замечание]" src="pf_04_files/note.png"></td><th align="left">Замечание</th></tr><tr><td valign="top" align="left"><span class="acronym">OpenBSD</span> не использует систему
+                <span class="acronym">PAM</span> вообще. Похожего функционала в ней
+                можно, вероятно, добиться через пользовательские стили
+                аутентификации, описанные в <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apfs02.html" title="F.2. /etc/login.conf в OpenBSD">Раздел&nbsp;F.2, &#171;<code class="filename">/etc/login.conf в <span class="acronym">OpenBSD</span></code>&#187;</a>.
+              </td></tr></tbody></table></div></dd><dt><span class="term">Явный перечень разрешённых адресов клиентов и имён
+              пользователей: PAM, SSH, брандмауэр</span></dt><dd><p>
+                В настройках демона <span><strong class="command">sshd(8)</strong></span> можно
+                задать опции <code class="option">AllowUsers</code>,
+                <code class="option">AllowGroups</code>, <code class="option">DenyUsers</code> и
+                <code class="option">DenyGroups</code>. Таким образом, вы можете явно
+                указать какие пользователи могут пользоваться сервисом
+                <span class="acronym">SSH</span> на вашей системе. Это полезно, если
+                вам надо обеспечить доступ для одного-двух
+                &#171;судоеров&#187; (уполномоченных пользователей). Но
+                если речь идёт о машине предоставляющей shell-хостинг,
+                такая схема не подходит.
+              </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table summary="Note" border="0"><tbody><tr><td rowspan="2" valign="top" width="25" align="center"><img alt="[Замечание]" src="pf_04_files/note.png"></td><th align="left">Замечание</th></tr><tr><td valign="top" align="left">
+                Независимо ни от чего, безусловно надо выставлять опцию
+                <code class="option">PermitRootLogin</code> в <code class="option">No</code>.
+                Это сделано по умолчанию во всех системах
+                <span class="acronym">BSD</span>, но многие
+                <span class="acronym">Linux</span>-системы по умолчанию допускают
+                bruteforce пользователя root! Особенно это относится к
+                разнообразным Desktop'ам.
+              </td></tr></tbody></table></div><p>
+                Большего функционала можно добиться при помощи модулей
+                PAM.  В <span class="acronym">FreeBSD</span> при помощи модуля <code class="code">pam_login_access</code> можно указать
+                какие пользователи с каких хостов и с каких терминалов
+                могут входить в систему. Эта информация хранится в файле
+                <code class="filename">/etc/login.access(5)</code>.
+              </p><p>
+                Наконец, вы можете в брандмауэре открыть проход на 22-й
+                порт только с некоторых IP-адресов, однако в этом случае
+                у вас не будет информации о логинах. Таким образом, этот
+                метод хуже метода с использованием
+                <span class="acronym">PAM</span>, так как менее гибок, однако он
+                больше экономит ресурсы системы.
+              </p><p>
+                Все эти способы ограничения атак имеют один общий
+                недостаток&nbsp;&#8212; они неприменимы в случае, если
+                shell доступ надо предоставить всем, или почти всем и в
+                случае, если пользователи склонны перемещаться в
+                пространстве и заходить в систему из разных мест.
+              </p></dd><dt><span class="term">Ограничение частоты коннекта</span></dt><dd><p>
+                Сканированием интернета занимаются роботы. Есть сообщения,
+                что некоторые роботы прекращают работу, если брандмауэр
+                блокирует сессию. Мы можем попробовать в брандмауэре
+                блокировать сессии, если они образуются чаще, чем три раза в
+                минуту, например. Т.е.  средствами брандмауэра запретить
+                устанавливать сессию чаще чем три раза в минуту. Это может
+                отпугнуть некоторых роботов.
+              </p><p>
+                Данное действие надо осуществлять на уровне брандмауэра, а
+                не на уровне модуля <span class="acronym">PAM</span>. В пакетном
+                фильтре этого функционала можно добиться при помощи опции
+                <code class="code">max-src-conn-rate</code> (см. <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-pf.conf-rule-state-opts" title="C.2.1.4.7. Опции таблицы состояний">Раздел&nbsp;C.2.1.4.7, &#171;Опции таблицы состояний&#187;</a>).
+              </p><p>
+                Идеологически данный метод плох тем же, чем и метод с
+                <code class="code">pam_tally</code>&nbsp;&#8212;
+                наказывается не атакующий, а атакуемый. Кроме того, мне
+                кажется, что эффективность такого метода сильно
+                преувеличена. Когда я блокирую у себя злоумышленника, он
+                продолжает попытки достучаться до сервера ещё в течение
+                получаса.
+              </p></dd><dt><span class="term">Блокировка по факту подбора фальшивых имён пользователей</span></dt><dd><p>
+                Сервер <span><strong class="command">sshd(8)</strong></span> заносит сообщения в
+                журнал от системы auth уровня важности info. По умолчанию
+                они попадают в журнальный файл
+                <code class="filename">/var/log/auth.log</code>:
+              </p><div class="informalexample"><pre class="programlisting">Apr 19 00:18:22 house sshd[15877]: Invalid user adam from 83.19.31.123
+Apr 19 00:18:25 house sshd[15879]: Invalid user stephen from 83.19.31.123
+Apr 19 04:19:27 house sshd[22644]: Invalid user test from 86.54.112.218
+Apr 19 04:19:28 house sshd[22646]: Invalid user guest from 86.54.112.218
+Apr 19 04:19:28 house sshd[22648]: Invalid user admin from 86.54.112.218
+Apr 19 04:19:29 house sshd[22650]: Invalid user admin from 86.54.112.218
+Apr 19 04:19:35 house sshd[22660]: Invalid user test from 86.54.112.218
+                </pre></div><p>
+                На основании этих записей можно на лету заносить адреса
+                злоумышленников в чёрный список и блокировать в
+                брандмауэре.
+              </p><p>
+                Эта идея тоже не лишена недостатков: за одним IP адресом
+                может скрываться большое количество хостов (выходящих
+                через NAT) и многие из них могут принадлежать
+                добросовестным пользователям. Да и сам источник атаки,
+                возможно, о ней не подозревает... Однако здесь
+                &#171;наказывается&#187; атакующая сторона.
+              </p><p>
+                В сети немало готового програмного обеспечения, борющегося
+                с атаками brute-force подобным образом. Как вариант, вы
+                можете попробовать рассмотреть программу
+                <span><strong class="command">sshguard</strong></span>. (В <span class="acronym">FreeBSD</span>
+                см. порт <code class="code">security/sshguard</code>.)
+                <span><strong class="command">sshguard</strong></span> незлопамятна&nbsp;&#8212; она
+                не ведёт никаких собственных баз с вредными IP адресами и
+                не занимается разбором существующих журнальных файлов. Она
+                лишь осуществляет мониторинг текущих событий. Несомненным
+                преимуществом <span><strong class="command">sshguard</strong></span> является то, что
+                она не громоздка&nbsp;&#8212; маленькая программка
+                написанная на C, и при этом может взаимодействовать с
+                пакетным фильтром <span class="acronym">OpenBSD</span>,
+                <span><strong class="command">ipfw(8)</strong></span> <span class="acronym">FreeBSD</span> и
+                <span><strong class="command">iptables(8)</strong></span> в <span class="acronym">Linux</span>.
+              </p><p>
+                Мы рассмотрим как реализовать эту методику
+                самостоятельно при помощи пакетного фильтра и
+                дополнительного программного обеспечения: Python,
+                SQLite.
+              </p></dd></dl></div></div><div class="section" lang="ru"><div class="titlepage"><div><div><h4 class="title"><a name="pf-ex2-objective"></a>C.4.1.2. Постановка задачи</h4></div></div></div><p>
+          Пусть имеется некоторый хост с запущенной а нём операционной
+          системой <span class="acronym">BSD</span>, всё равно какой:
+          <span class="acronym">FreeBSD</span>, <span class="acronym">OpenBSD</span>,
+          <span class="acronym">NetBSD</span> или
+          <span class="acronym">DragonFly&nbsp;BSD</span>. В системе запущен демон
+          <span><strong class="command">sshd(8)</strong></span>.  Настройки <span class="acronym">SSH</span>
+          стандартны&nbsp;&#8212; демон слушает 22-й порт. На сервере
+          запущен пакетный фильтр от <span class="acronym">OpenBSD</span>.
+        </p><p><b>Преступление:&nbsp;</b>
+          Критерий атаки&nbsp;&#8212; 8 попыток аутентификации под
+          несуществующим логином или одна попытка аутентификации под
+          метапользователем (root, toor и системные сервисы).
+        </p><p><b>Наказание:&nbsp;</b>
+          Блокируем в брандмауэре доступ с &#171;проштрафившегося&#187;
+          IP на 22-й порт сервера навсегда.
+        </p></div><div class="section" lang="ru"><div class="titlepage"><div><div><h4 class="title"><a name="pf-ex2-syslogd"></a>C.4.1.3. Сбор данных через syslog</h4></div></div></div><p>
+          В журнал <span><strong class="command">syslogd(8)</strong></span> записи от демона
+          <span><strong class="command">sshd(8)</strong></span> попадают от средства <code class="code">auth</code> и имеют уровень важности <code class="code">info</code>. Сообщения о попытке логина от
+          пользователя <code class="code">root</code> выглядят следующим
+          образом:
+        </p><div class="informalexample"><pre class="programlisting">Mar 22 17:48:13 house sshd[16889]: error: PAM: authentication error for root from 218.26.165.234
+Mar 22 17:49:48 house sshd[16893]: error: PAM: authentication error for root from 218.26.165.234
+Mar 22 17:49:50 house sshd[16893]: error: PAM: authentication error for root from 218.26.165.234
+Mar 22 17:51:38 house sshd[16916]: error: PAM: authentication error for root from 218.26.165.234
+Mar 22 17:51:40 house sshd[16916]: error: PAM: authentication error for root from 218.26.165.234
+          </pre></div><p>
+          Сообщения о попытке логина под несуществующим логином:
+        </p><div class="informalexample"><pre class="programlisting">Apr 19 00:14:51 house sshd[15782]: Invalid user admin from 83.19.31.123
+Apr 19 00:14:58 house sshd[15784]: Invalid user admin from 83.19.31.123
+Apr 19 00:15:04 house sshd[15786]: Invalid user admin from 83.19.31.123
+Apr 19 00:15:09 house sshd[15799]: Invalid user admin from 83.19.31.123
+Apr 19 00:15:31 house sshd[15809]: Invalid user test from 83.19.31.123
+Apr 19 00:15:36 house sshd[15811]: Invalid user test from 83.19.31.123
+Apr 19 00:15:41 house sshd[15813]: Invalid user webmaster from 83.19.31.123
+Apr 19 00:15:55 house sshd[15817]: Invalid user username from 83.19.31.123
+          </pre></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table summary="Note" border="0"><tbody><tr><td rowspan="2" valign="top" width="25" align="center"><img alt="[Замечание]" src="pf_04_files/note.png"></td><th align="left">Замечание</th></tr><tr><td valign="top" align="left">
+          И пусть владельцы этих адресов не обижаются, что попали в
+          Историю :)&nbsp;&#8212; логи настоящие.
+        </td></tr></tbody></table></div><p>
+          Отлавливать IP адреса можно при помощи следующего регулярного
+          выражения (здесь и далее применяется язык программирования
+          Python):
+        </p><div class="informalexample"><pre class="programlisting"># Следующие строки сгенерированы автоматически при помощи awk(1):
+# awk -F: '$3&lt;999 {printf("    \"%s\",\n", $1)}' /etc/passwd
+# При использовании vim (:!cmd) не забудьте защитить знак '%'.
+METAUSERS = [
+    "root", "toor", "daemon", "operator", "bin", "tty", "kmem", "games",
+    "news", "man", "sshd", "smmsp", "mailnull", "bind", "proxy", "_pflogd",
+    "_dhcp", "uucp", "pop", "www", "mailman", "mysql", "alias", "cyrus",
+    ]
+METAUSERS_SQL = " or ".join(['login = "%s"'%x for x in METAUSERS])
+
+# Регулярное выражение для поиска злоумышленников
+SSH_BAD_USER = re.compile(r"""(?xm)
+    ^(?P&lt;date&gt;(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\ +\d+\ \d+:\d+:\d+)\s
+    house\s
+    sshd\[\d+\]:\ (?:I(?:nvalid|llegal)\ user\ (?P&lt;login&gt;\S+)|
+                     error:\ PAM:\ authentication\ error\ for\ (?P&lt;metauser&gt;%s))\s
+    from\ (?P&lt;ip&gt;\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})
+    """%"|".join(METAUSERS))
+          </pre></div><p>
+          Для того, чтобы реагировать на события немедленно, можно
+          записывать сообщения о событиях не только в файл, но и через
+          pipe в скрипт. Конечно, мы могли бы поместить сценарий
+          реагирующий на события в <span><strong class="command">cron(8)</strong></span>, и он бы
+          разбирал журнальные файлы раз в полчаса, однако это привело бы к
+          снижению в оперативности и к неоправданному расходу ресурсов
+          системы.  Демон <span><strong class="command">syslogd(8)</strong></span> во многих
+          дистрибутивах <span class="acronym">Linux</span> умеет записывать только в
+          именованный канал. Возможности <span><strong class="command">syslogd(8)</strong></span> в
+          <span class="acronym">BSD</span> более привлекательны&nbsp;&#8212; он
+          позволяет писать непосредственно на стандартный ввод программе,
+          таким образом, он сам следит за тем, чтобы программа обработчик
+          событий была запущена.
+        </p><p>
+          Итак, в файл <code class="filename">/etc/syslog.conf(5)</code> помещаем
+          следующие строки:
+        </p><div class="informalexample"><pre class="programlisting">auth.info;authpriv.info                         /var/log/auth.log
+auth.info                                       | exec /root/bin/bfdefender -a
+          </pre></div><p>
+          Здесь подразумевается, что
+          <code class="filename">/root/bin/bfdefender</code> это программа
+          обработчик событий, которая читает стандартный ввод, если
+          вызвана с аргументом <code class="option">-a</code>. Поскольку, команда,
+          после знака <code class="code">|</code> выполняется
+          <span><strong class="command">syslogd(8)</strong></span> демоном через
+          <span><strong class="command">sh(1)</strong></span>, мы применили команду <code class="code">exec</code>. Она замещает процесс
+          <span><strong class="command">sh(1)</strong></span> на <span><strong class="command">bfdefender</strong></span>.
+        </p><p>
+          Вот как выглядит дерево процессов при использовании ключевого
+          слова <code class="code">exec</code>:
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">$</code> pgrep python2.5
+90433
+<code class="prompt">$</code> pstree -p 90433
+-+= 00000 root [swapper]
+ \-+= 00001 root /sbin/init --
+   \-+= 25867 root /usr/sbin/syslogd -l /var/run/log -l /var/named/var/run/log 
+     \--= 90433 root /usr/local/bin/python2.5 /root/bin/bfdefender -a
+          </pre></div><p>
+          А вот как оно выглядит, если про команду <code class="code">exec</code> забыть:
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">$</code> pgrep python2.5
+90385
+<code class="prompt">$</code> pstree -p 90385
+-+= 00000 root [swapper]
+ \-+= 00001 root /sbin/init --
+   \-+= 25867 root /usr/sbin/syslogd -l /var/run/log -l /var/named/var/run/log 
+     \-+= 90383 root sh -c  /root/bin/bfdefender -a
+       \--= 90385 root /usr/local/bin/python2.5 /root/bin/bfdefender -a
+          </pre></div></div><div class="section" lang="ru"><div class="titlepage"><div><div><h4 class="title"><a name="pf-ex2-pfconf"></a>C.4.1.4. Блокировка в пакетном фильтре</h4></div></div></div><p>
+          В пакетном фильтре необходимо создать две таблицы: таблицу с
+          &#171;хорошими&#187; адресами, дабы случайно не заблокировать
+          что-то не то, и таблицу с плохими адресами:
+        </p><div class="informalexample"><pre class="programlisting">table &lt;crackers&gt; persist file "/etc/crackers"
+table &lt;trusted_ip&gt; persist { \
+   62.117.108.0/26\
+   212.57.97.252\
+}
+.....
+pass in quick on $ext_if inet proto tcp from &lt;trusted_ip&gt; \
+    to $ext_if port ssh keep state
+block in log quick on $ext_if inet proto tcp from &lt;crackers&gt; \
+    to $ext_if port ssh
+          </pre></div><p>
+          Таблицу <code class="code">&lt;crackers&gt;</code> мы будем
+          на лету модифицировать при помощи скрипта, обрабатывающего
+          журнальные события.
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -t crackers -Ta 218.26.165.234 83.19.31.123
+2/2 addresses added.
+          </pre></div></div><div class="section" lang="ru"><div class="titlepage"><div><div><h4 class="title"><a name="pf-ex2-handler"></a>C.4.1.5. Обработчик событий</h4></div></div></div><p>
+          Что же должен делать обработчик событий?
+        </p><div class="orderedlist"><ol type="1"><li>
+            Обработчик должен вести некоторую базу в удобном (читай
+            быстром) для себя формате.
+          </li><li>
+            Он должен уметь инициализировать эту базу. Т.е. прочитать
+            журнальные файлы и занести в базу уже накопленную информацию.
+            При этом необходимо, чтобы база сохранялась от сеанса к
+            сеансу.
+          </li><li>
+            Обработчик должен уметь добавлять к базе новые события.
+          </li><li>
+            Обработчик должен принимать решения о блокировке IP-адреса и
+            заносить нарушителей на лету в таблицу пакетного фильтра при
+            помощи <span><strong class="command">pfctl(8)</strong></span>.
+          </li><li>
+            Наконец, обработчик должен заносить адреса в файл
+            <code class="filename">/etc/crackers</code> из которого будет брать
+            информацию пакетный фильтр при перезапуске.
+          </li></ol></div><p>
+          В каком виде обработчик должен хранить промежуточную информацию?
+          Сценарий на <span><strong class="command">python(1)</strong></span> может хранить
+          информацию в различных форматах. В виде конфигурационных файлов,
+          в виде сериализованных объектов, во внешних базах данных, таких
+          как MySQL и её аналоги. (Забегая вперёд, скажу, что сам я
+          предпочёл вариант с SQLite.)
+        </p><p>
+          Недостатком конфигурационных файлов является то, что их трудно
+          разбирать, это значит, что либо мы будем тратить несколько
+          драгоценных секунд (а может быть и минут) при каждом запуске
+          сценария, либо мы должны хранить уже &#171;пережёванную&#187;
+          информацию.
+        </p><p>
+          Дело в том, что, согласно поставленной задаче, мы должны
+          сохранять информацию не только о том, кто проштрафился (это
+          список из нескольких сот IP адресов), но и информацию о том, под
+          каким именем и сколько раз к нам подсоединялись злоумышленники.
+          Это усложнит строение конфигурационного файла.
+        </p><p>
+          Пожалуй лучшее решение, которое тут можно
+          предложить&nbsp;&#8212; на лету писать сценарий на
+          <span><strong class="command">python(1)</strong></span> и подгружать его в качестве модуля.
+          Т.е. использовать сам <span><strong class="command">python(1)</strong></span> в качестве
+          парсера конфигурационного файла.  Это и решит, отчасти, проблему
+          со скоростью, и упростит резервное копирование. Однако при этом
+          мы будем мусорить по диску прекомпилированными файлами
+          <code class="filename">.pyc</code> и <code class="filename">.pyo</code>, которые
+          будут содержать в себе секретную информацию, и нам придётся за
+          всем этим безобразием следить. Не лучший вариант.
+        </p><p>
+          Мы можем хранить информацию при помощи сериализованных объектов
+          <span><strong class="command">python(1)</strong></span>. Это позволит ещё сильнее ускорить
+          запуск. Однако работать с таким файлом не очень
+          удобно&nbsp;&#8212; его формат непрозрачен. Человек,
+          разбирающийся с <span><strong class="command">python(1)</strong></span> легко с ним сладит,
+          но не многие сочтут такой способ удобным. (Хотя в том, что
+          таковые найдутся&nbsp;&#8212; не сомневаюсь.)
+        </p><p>
+          Наконец, можно хранить данные во внешней базе данных.
+        </p><p>
+          Для этого мы можем использовать СУБД, типа MySQL или PostgreSQL.
+          Однако такое решение представляется слишком громоздким и
+          опасным&nbsp;&#8212; при выходе из строя базы данных
+          (конструкция, как ни крути, сложная и капризная) наш програмный
+          комплекс сломается.
+        </p><p>
+          Более разумным представляется использование сисемы SQLite.
+          SQLite не требует никакого демона, Python будет обращаться
+          непосредственно файлу с базой данных. Это достаточно быстро и
+          весьма надёжно.
+        </p></div><div class="section" lang="ru"><div class="titlepage"><div><div><h4 class="title"><a name="pf-ex2-script"></a>C.4.1.6. Скрипт и его применение</h4></div></div></div><p>
+          Я не могу здесь рассказывать о том, как программировать на
+          Python. Эта задача явно выходит за рамки данного учебника. Здесь
+          будет приведено описание принципов работы скрипта и HOWTO: как
+          его применять. Сам скрипт можно найти по следующей ссылке: <a href="http://house.hcn-strela.ru/download/bfdefender" target="_top">bfdefender&nbsp;&#8212;
+            скрипт для защиты от bruteforce атак</a>.
+        </p><p>
+          Для работы данного скрипта нам понадобится установить следующие
+          порты: <code class="code">lang/python25</code>, <code class="code">databases/sqlite3</code> и <code class="code">databases/py-sqlite3</code>.
+        </p><p>
+          Для начала, скрипт надо запустить с опцией <code class="option">-i</code>:
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> ./bfdefender -i
+          </pre></div><p>
+          Это приведёт к тому, что скрипт проанализирует все журнальные
+          файлы <code class="filename">/var/log/auth.log*</code>, включая сжатые
+          <span><strong class="command">bzip2</strong></span>, и создаст базу данных
+          <code class="filename">/var/db/crackers</code>. С этой базой в дальнейшем
+          можно общаться при помощи утилиты-клиента
+          <span><strong class="command">sqlite3(1)</strong></span>. Например, если нас одолеет
+          любопытство, когда к нам пытались зайти используя логин
+          закачивающийся на <code class="code">root</code> и сколькко раз
+          к нам пытались зайти под именем <code class="code">admin</code>, мы можем сделать к базе SQL
+          следующие запросы:
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> sqlite3 /var/db/crackers
+SQLite version 3.3.15
+Enter ".help" for instructions
+<code class="prompt">sqlite&gt;</code> .explain on
+<code class="prompt">sqlite&gt;</code> .width 20 15 15
+<code class="prompt">sqlite&gt;</code>  SELECT * FROM crackers WHERE login LIKE "%_root" LIMIT 10;
+date                  ip               login          
+--------------------  ---------------  ---------------
+2007-03-28 14:14:56   89.149.195.132   11root         
+2007-03-28 14:16:17   89.149.195.132   wwwroot        
+2007-03-28 14:16:37   89.149.195.132   xxxroot        
+2006-11-22 08:12:45   217.160.173.110  nfsroot        
+2006-11-22 08:14:15   217.160.173.110  webroot        
+2007-02-19 13:12:39   221.254.131.203  gamroot        
+2007-01-25 02:15:24   148.244.79.94    cvsroot        
+2007-01-25 02:15:27   148.244.79.94    cvsroot        
+2006-10-23 23:36:17   208.57.150.227   gamroot        
+2006-10-13 13:48:34   208.57.150.227   gamroot        
+<code class="prompt">sqlite&gt;</code> SELECT COUNT(*) FROM crackers WHERE login = "admin";
+COUNT(*)            
+--------------------
+1862                
+<code class="prompt">sqlite&gt;</code> .exit
+          </pre></div><p>
+          С помощью утилиты <span><strong class="command">sqlite3(1)</strong></span> можно делать
+          резервные копии базы, однако этот механизм в нашем случае
+          внедрён прямо в скрипт.
+        </p><p>
+          Следующее действие&nbsp;&#8212; мы модифицируем файлы
+          <code class="filename">/etc/pf.conf</code> и
+          <code class="filename">/etc/syslog.conf</code> как было показано выше.
+        </p><p>
+          <code class="filename">/etc/pf.conf</code>:
+        </p><div class="informalexample"><pre class="programlisting">table &lt;crackers&gt; persist file "/etc/crackers"
+table &lt;trusted_ip&gt; persist { \
+   62.117.108.0/26\
+   212.57.97.252\
+}
+.....
+pass in quick on $ext_if inet proto tcp from &lt;trusted_ip&gt; \
+    to $ext_if port ssh keep state
+block in log quick on $ext_if inet proto tcp from &lt;crackers&gt; \
+    to $ext_if port ssh
+          </pre></div><p>
+          <code class="filename">/etc/syslog.conf</code>:
+        </p><div class="informalexample"><pre class="programlisting">auth.info;authpriv.info                         /var/log/auth.log
+auth.info                                       | exec /root/bin/bfdefender -a
+          </pre></div><p>
+          В <span><strong class="command">crontab(8)</strong></span> помещаем следующее задание:
+        </p><div class="informalexample"><pre class="programlisting">@monthly                                /root/bin/bfdefender -b
+          </pre></div><p>
+          Это задание будет ежемесячно изготавливать резервную копию с
+          нашей базы данных. Сама база, как говорилось, находится в файле
+          <code class="filename">/var/db/crackers</code>, а резервная копия в файле
+          <code class="filename">/var/db/crackers.sql.bz2</code>&nbsp;&#8212; это
+          обычный текстовый файл. Восстановить базу можно командой
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> ./bfdefender -r
+          </pre></div><p>
+          Это всё, что касается установки скрипта. Дополнительные
+          возможности по его использованию, можно узнать передав скрипту
+          параметр <code class="option">-h</code> или <code class="option">--help</code>. Скрипт
+          позволяет собирать некоторую статистическую информацию:
+        </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> ./bfdefender -s
+===========================================================================
+                             bfdefender report                             
+===========================================================================
+Detected 62309 attacks
+user root: 161
+user toor: 0
+user daemon: 0
+user operator: 0
+user bin: 0
+user tty: 0
+user kmem: 0
+user games: 0
+user news: 0
+user man: 0
+user sshd: 0
+user smmsp: 0
+user mailnull: 0
+user bind: 0
+user proxy: 0
+user _pflogd: 0
+user _dhcp: 0
+user uucp: 0
+user pop: 0
+user www: 0
+user mailman: 0
+user mysql: 0
+user alias: 0
+user cyrus: 0
+===========================================================================
+2006 May:  3981 attacks
+2006 Jun:  2098 attacks
+2006 Jul:  2094 attacks
+2006 Aug:  6397 attacks
+2006 Sep: 11202 attacks
+2006 Oct: 11982 attacks
+2006 Nov:    12 attacks
+2006 Dec:  8921 attacks
+2007 Jan:  4861 attacks
+2007 Feb:  8693 attacks
+2007 Mar:  2068 attacks
+===========================================================================
+poplar logins: 20 top
+admin ................ 1862
+test .................. 985
+guest ................. 558
+apache ................ 427
+user .................. 403
+info .................. 295
+tester ................ 277
+oracle ................ 272
+webmaster ............. 271
+ftp ................... 267
+web ................... 252
+sales ................. 239
+adm ................... 231
+postgres .............. 230
+testing ............... 219
+ftpuser ............... 218
+administrator ......... 216
+alex .................. 193
+student ............... 168
+paul .................. 165
+          </pre></div><p>
+          Наслаждайтесь :)
+        </p></div></div></div><hr><div class="itemizedlist"><ul type="disc"><li><a href="http://house.hcn-strela.ru/BSDCert/">Легенда (условные обозначения)</a>.</li><li>Свежая версия данного <a href="http://house.hcn-strela.ru/BSDCert/">учебника по *BSD</a>.</li><li>Если вы нашли ошибку, выделите её в браузере и нажмите
+                    клавиши &lt;Ctrl&gt;+&lt;Enter&gt; (пожалуйста,
+                    &#171;зачёрпывайте&#187; окрестности ошибки, чтобы её было
+                    легче найти в тексте)</li><li>Замечания и предложения можно высылать по адресу <img src="pf_04_files/email.png"></li><li>Автор, <a href="http://house.hcn-strela.ru/%7Eemin/cv.html">Евгений Миньковский</a>, ведёт
+                    <a href="http://www.a-sys.ru/default.aspx?t13=7">курсы по администрированию
+                        <acronym class="acronym">FreeBSD</acronym> и
+                        <acronym class="acronym">Linux</acronym></a>.
+                    в Академии Корпоративных Систем:
+                    <a href="http://www.a-sys.ru/">http://www.a-sys.ru/</a></li></ul></div><div class="navfooter"><hr><table summary="Navigation footer" width="100%"><tbody><tr><td width="40%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs03.html"><img src="pf_04_files/prev.gif" alt="Пред."></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html"><img src="pf_04_files/up.gif" alt="Уровень выше"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs05.html"><img src="pf_04_files/next.gif" alt="След."></a></td></tr><tr><td valign="top" width="40%" align="left">C.3. Управление пакетным фильтром <span class="acronym">OpenBSD</span>
+      при помощи утилиты <span><strong class="command">pfctl(8)</strong></span>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html"><img src="pf_04_files/home.gif" alt="Начало"></a></td><td valign="top" width="40%" align="right">&nbsp;C.5. Программы для удобной работы с пакетным фильтром</td></tr></tbody></table></div></body></html>

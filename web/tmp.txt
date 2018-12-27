@@ -1,0 +1,28 @@
+Сделать, чтобы при клике на группу, открывалась страничка со списком пользователей в группе 
+
+настройки группы:
+- скорость 	Bandwidth
+- статус Status
+- порты allow_tcp_port, allow_udp_port 
+- лимит limit, out_limit, limit_type
+
+ <? if ($personal_opts): ?> disabled <? endif; ?>
+ 
+ sessions_1
+ 
+          if ($month == 'last') 
+         	$rotation = '2';
+         else if ($month == 'before_last')
+         	$rotation = '3';
+         else
+         	$rotation = '1';
+         	
+         	   	if (empty($month) OR $month == 'current') 
+	  	$rotation = '1';
+    if ($month == 'last') 
+       	$rotation = '2';
+    if ($month == 'before_last')
+        $rotation = '3';
+         	
+         	
+AND `Rotation` = '".$rotation."'     

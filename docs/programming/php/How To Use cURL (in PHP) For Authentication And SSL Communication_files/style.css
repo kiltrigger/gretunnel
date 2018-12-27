@@ -1,0 +1,1424 @@
+/*
+Theme Name: New Impact
+Theme URI: http://blog.taragana.com/
+Description: New Impact
+Version: 1.0
+Author: Angsuman Chakraborty
+Author URI: http://blog.taragana.com/ 
+Copyright 2005 Angsuman Chakraborty
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    position:relative;left:0px;top:0px;z-index:0;
+    background: #eeeeee;
+    font: 13px verdana, sans-serif, geneva, arial;
+}
+
+a:link {  
+    font-weight: semi-bold; 
+    text-decoration: none;
+    color: #990000;
+    outline: none;
+}
+a:visited {  
+    font-weight: normal; 
+    text-decoration: none;
+    color: #330000;
+}
+a:active {   
+    color: #333333;
+}
+a:hover {   
+    text-decoration: underline;
+}
+
+h3 {
+ margin: 0px; 
+ border-bottom:1px groove #ddd;
+ color: #000;
+}
+
+.titleLink {
+    width:100%;
+    margin: 0px;
+    font-size: 13pt;
+    font-weight: bold;
+    border-bottom:1px solid #ddd;
+    color: #000;
+}
+
+
+
+.titleDateText {
+ font: 8pt/16pt georgia, verdana, geneva, arial, sans serif;
+ color: #999;
+}
+
+.quote {
+ background: url(/wp-content/themes/impact/images/quote.gif) no-repeat left top; 
+    font-family: Verdana, Arial;
+    font-size: 8pt;
+    padding-left: 26px;
+    font-weight: normal;
+    color: #666666;
+}
+
+input, textarea, select {
+
+ font: Verdana, Arial, Helvetica, sans-serif 8pt;
+    font-weight: bold;
+ color: #333333;
+    padding: 0px;
+}
+
+blockquote {    
+    font-family: Verdana, Arial;
+    font-size: 9pt;
+    padding-left: 26px;
+    font-weight: normal;
+    color: #333333;
+    background: url(images/quote.gif) no-repeat top left;
+}
+
+blockquote cite {
+ margin: 5px 0 0;
+ display: block;
+}
+
+small, #sidebar ul ul li, #sidebar ul ol li, .nocomments, .postmetadata, blockquote, strike {
+ color: #333333;
+}
+
+small {
+    font-size: 8pt;
+}
+h1, h2, h3, h4 {
+ font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial,Sans-Serif;
+ font-weight: bold;
+}
+h1 {
+    /*font-family: Tahoma, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
+    font-weight: normal;
+	font-size: 22px;
+    line-height: 1.5;
+	color: #000;*/
+}
+
+.post {
+    clear: both;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.postTitle {
+    font-family: Tahoma, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    color: #000;
+}
+
+.postTitle a {
+    font-family: Tahoma, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
+    font-weight: normal;
+	font-size: 20px;
+	color: #000;
+}
+
+.postTitle a:hover {
+	color: #565252;
+	text-decoration: none;
+}
+h2 {
+    /* Entry titles */
+    font : normal 14px "Arial Black", "Futura", Arial, sans-serif;
+    margin: 0 0 0 0;
+    color : #992200;
+}
+
+h3 { 
+    font : normal 11pt "Arial Black", "Futura", Arial, sans-serif;
+}
+
+h4 { 
+    font : normal 9pt "Arial Black", "Futura", Arial, sans-serif;
+}
+
+h6 {
+    margin: 3px;
+}
+
+.footer {
+    border-top: dotted 1px #222222;
+}
+#ed_toolbar input {
+    background-color: #efefe7;
+    font-size: 10px;
+}
+.leftnav, .leftnav form select, .leftnav form textarea, .leftnav form input {
+    background: #ffffff;
+    font-size: 8pt;
+    // font-size: 8pt;
+}
+.rightnav table tr td {
+    font-size: 8pt;
+    // font-size: 8pt;        
+}
+.entry a:link {
+    font-weight: bold;
+}
+
+.readmore {
+    float: right; 
+    font-style: Italic;
+    font-size: 12px;
+    color: #880000;
+    font-weight: normal;
+}
+
+table {
+    cellspacing: 5;
+}
+
+.headline {
+    font: 11px verdana;
+}
+
+.floatLeftClear { 
+    float: left;
+    margin: 4px; 
+}
+
+.floatRightClear {
+    float: right;
+    clear: right;
+    margin: 4px; 
+}
+
+li {
+    margin-left: 10px;
+}
+html>body li.rss_item {
+    list-style: none;
+    list-style-position: inside;
+    text-indent: -1em;
+}
+
+html>body ul.rss_items {
+    padding: 0px;
+}
+li.rss_item:before {
+    content: "\00BB \0020";
+}
+
+/* For the Sociable Plugin */<br />
+.center{
+    text-align: center;
+	font-size: 1.5em;
+}
+img.socialbkmark{
+    vertical-align: middle;
+    border: 0px;
+    margin-bottom: 4px;
+}
+/* End For the Sociable Plugin */
+/* Blogads code */
+// First ad spot
+div#adspot_569814068.adspot {
+    border-spacing:0;
+    overflow:hidden;
+    background-color:#EEEEEE;
+    border-color:#000000;
+    border-width:1px;
+    border-style:solid;
+    width:152px !important;
+    font-size:10pt;
+}
+div#adspot_569814068 .adspot_head {
+    font-family:Arial;
+    font-size:10pt;
+    color:#000000;
+    font-weight:bold;
+    font-style:normal;
+    text-decoration:none;
+    text-align:left;
+}
+div#adspot_569814068 a.adspot_link , div#adspot_569814068 a.adspot_adurl {
+font-family:Arial;
+font-size:8pt;
+font-style:italic;
+color:#AA0000;
+font-weight:normal;
+margin:0;
+text-decoration:underline;
+text-align:left;
+}
+div#adspot_569814068 a.adspot_link:link, div#adspot_569814068 a.adspot_link:visited, div#adspot_569814068 a.adspot_adurl:link, div#adspot_569814068 a.adspot_adurl:visited {
+color:#AA0000;
+text-decoration:underline;
+font-size:8pt;
+font-style:italic;
+}
+div#adspot_569814068 a.adspot_link:active, div#adspot_569814068 a.adspot_link:hover, div#adspot_569814068 a.adspot_adurl:active, div#adspot_569814068 a.adspot_adurl:hover { 
+color:#AA0000; 
+text-decoration:none; 
+}
+div#adspot_569814068 * ul {
+list-style-position:outside;
+list-style-image:none;
+list-style-type:none;
+width:152px;
+margin:0;
+padding:0;
+}
+div#adspot_569814068 * li {
+background:#FFFFFF;
+width:150px;
+margin:0;
+padding:0;
+text-align:left;
+border-color:#BBBBBB;
+border-width:1px;
+border-style:solid;
+border-spacing:0;
+display:block;
+text-indent:0;
+overflow:hidden;
+}
+div#adspot_569814068 .adspot_adhead {
+text-align:left;
+font-family:Arial; 
+font-size:10pt; 
+font-weight:bold;
+color:#000000;
+margin:0;
+margin-top:8px;
+padding:2px;
+border-spacing:0;
+width:150px;
+display:block;
+}
+div#adspot_569814068 * img {
+border-width:0;
+border-spacing:0;
+}
+div#adspot_569814068 * li * img {
+text-align:left;
+display:block;
+clear:both;
+}
+div#adspot_569814068 .adspot_adtext {
+font-family:Arial; 
+font-size:8pt;
+font-weight:normal;
+font-style:normal;
+color:#000000; 
+margin:0;
+padding:2px;
+border-spacing:0;
+display:block;
+width:150px;
+text-align:left;
+}
+div#adspot_569814068 div.adspot_link {
+width:152px !important;
+text-align:left;
+}
+// Second ad spot
+div#adspot_165204439.adspot {
+border-spacing:0;
+overflow:hidden;
+background-color:#EEEEEE;
+border-color:#000000;
+border-width:1px;
+border-style:solid;
+width:152px !important;
+font-size:10pt;
+}
+div#adspot_165204439 .adspot_head {
+font-family:Arial;
+font-size:10pt;
+color:#000000;
+font-weight:bold;
+font-style:normal;
+text-decoration:none;
+text-align:left;
+}
+div#adspot_165204439 a.adspot_link , div#adspot_165204439 a.adspot_adurl {
+font-family:Arial;
+font-size:8pt;
+font-style:italic;
+color:#AA0000;
+font-weight:normal;
+margin:0;
+text-decoration:underline;
+text-align:left;
+}
+div#adspot_165204439 a.adspot_link:link, div#adspot_165204439 a.adspot_link:visited, div#adspot_165204439 a.adspot_adurl:link, div#adspot_165204439 a.adspot_adurl:visited {
+color:#AA0000;
+text-decoration:underline;
+font-size:8pt;
+font-style:italic;
+}
+div#adspot_165204439 a.adspot_link:active, div#adspot_165204439 a.adspot_link:hover, div#adspot_165204439 a.adspot_adurl:active, div#adspot_165204439 a.adspot_adurl:hover { 
+color:#AA0000; 
+text-decoration:none; 
+}
+div#adspot_165204439 * ul {
+list-style-position:outside;
+list-style-image:none;
+list-style-type:none;
+width:152px;
+margin:0;
+padding:0;
+}
+div#adspot_165204439 * li {
+background:#FFFFFF;
+width:150px;
+margin:0;
+padding:0;
+text-align:left;
+border-color:#BBBBBB;
+border-width:1px;
+border-style:solid;
+border-spacing:0;
+display:block;
+text-indent:0;
+overflow:hidden;
+}
+div#adspot_165204439 .adspot_adhead {
+text-align:left;
+font-family:Arial; 
+font-size:10pt; 
+font-weight:bold;
+color:#000000;
+margin:0;
+margin-top:8px;
+padding:2px;
+border-spacing:0;
+width:150px;
+display:block;
+}
+div#adspot_165204439 * img {
+border-width:0;
+border-spacing:0;
+}
+div#adspot_165204439 * li * img {
+text-align:left;
+display:block;
+clear:both;
+}
+div#adspot_165204439 .adspot_adtext {
+font-family:Arial; 
+font-size:8pt;
+font-weight:normal;
+font-style:normal;
+color:#000000; 
+margin:0;
+padding:2px;
+border-spacing:0;
+display:block;
+width:150px;
+text-align:left;
+}
+div#adspot_165204439 div.adspot_link {
+width:152px !important;
+text-align:left;
+}
+
+.trans-notice {
+font-family: "Trebuchet MS", Georgia, Arial, serif;
+font-size: 0.9em;
+border:#ccc 1px solid;
+background-color:#FAFAFA;
+margin: 0 5px;
+}
+.trans-notice p {
+margin: 7px;
+}
+
+
+/***************************************************************/
+/******* HEADER COMPONENTS ************************************/
+/***************************************************************/
+
+#header {
+    width: 94%;
+    background: #fff;
+    margin-left: 3%;
+    height: 70px;
+    padding-top: 10px;
+    min-width: 945px;
+}
+
+/*Opera hack Opera 7.x; Visible only Opera*/
+@media all and (min-width: 0) {
+    #header {
+        min-width: 940px;
+    }
+}
+
+#logo {
+    margin-left: 20px;
+}
+
+#subTitle {
+    margin-left: 20px;
+}
+
+#followMeWrapper {
+    width: 265px;
+    float: right;
+}
+
+#followMeOnTwitter {
+    float: left;
+    margin-top: -59px;
+}
+
+#translatorCombo, #headerAd {
+    float: right;
+    margin-top: -54px;
+    //margin-right: 6px;
+}
+
+#translatorCombo select {
+    border: 0px;
+    background-image: transparent url(images/comboButton.jpg) no-repeat;
+    width: 140px;
+    height: 24px;
+    padding: 3px;
+    font-weight: normal;
+    margin-bottom: 3px;
+}
+
+#tgComboBar {
+    border: 0px;
+    background: transparent url(images/comboButton.jpg) no-repeat;
+    width: 140px;
+    height: 24px;
+    padding: 3px;
+    font-weight: normal;
+    margin-bottom: 3px;
+}
+
+#translatorCombo option {
+    background: #e9e9e7;
+}
+
+#translatorCombo input {
+    border: 0px;
+    background: transparent url(images/comboButton.jpg) no-repeat;
+    width: 140px;
+    padding: 5px;
+    font-weight: normal;
+    //margin-top: -20px;
+}
+
+#subscribe input {
+    border: 0px;
+    background: transparent url(images/comboButton.jpg) no-repeat;
+    width: 140px;
+    padding: 5px;
+    font-weight: normal;
+    margin-top: -20px;
+}
+
+.submitButton {
+    display: none;
+}
+
+
+/***************************************************************/
+/******* TOP NAV COMPONENTS ************************************/
+/***************************************************************/
+
+
+#nav {
+    width: 94%;
+    background: url(images/menuRepeat.jpg);
+    margin-left: 3%;
+    height: 30px;
+    min-width: 945px;
+}
+
+/*Opera hack Opera 7.x; Visible only Opera*/
+@media all and (min-width: 0) {
+    #nav {
+        min-width: 940px;
+    }
+}
+
+#topNavLeft {
+    float: left;
+    background: url(images/menuLeft.jpg) left no-repeat;
+    width: 370px;
+    height: 30px;
+}
+
+#topNavLeft ul {
+    margin-top: 0px;
+    margin-left: -40px;
+    //margin-left: 0px;
+    _margin-left: 10px;    
+    float: left;
+    height: 30px;
+}
+
+#topNavLeft ul li {
+    list-style: none;
+    float: left;
+    height: 30px;
+}
+
+#topNavLeft ul li a {
+    display: block;
+    float: left;
+    //width: 70px;
+    color: #fdfdfd;
+    text-align: center;
+	font-family: "Trebuchet MS", "Lucida Grande", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+    padding-left: 6px;
+	padding-right: 10px;
+	//padding-left: 0px;
+	//padding-right: 0px;
+    padding-top: 5px;
+    height: 30px;
+}
+
+#topNavLeft ul li a:hover {
+    background: url(images/menuOver.jpg) left top repeat-x;
+    text-decoration: none;
+    height: 30px;
+}
+
+#topNavLeft ul li #active {
+    background: url(images/menuOver.jpg) left repeat-x;
+    height: 30px;
+}
+
+#topNav {
+    float: left;
+	color: #ffeacc;
+    height: 30px;
+	background: url(images/menuRepeat.jpg);
+	text-align: left;
+}
+
+#topNav ul {
+    margin-top: 0px;
+    margin-left: -80px;
+    //margin-left: -50px;
+    _margin-left: -120px;
+    float: left;
+    height: 30px;
+}
+
+#topNav ul li {
+    list-style: none;
+    float: left;
+    height: 30px;
+}
+
+#topNav ul li a {
+    display: block;
+    float: left;
+    //width: 80px;
+    color: #fdfdfd;
+    text-align: center;
+	font-family: "Trebuchet MS", "Lucida Grande", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+    padding-left: 5px;
+	padding-right: 5px;
+	//padding-left: 0px;
+	//padding-right: 0px;
+    padding-top: 5px;
+    height: 30px;
+}
+
+#topNav ul li a:hover {
+	color: #ffeacc;
+    background: url(images/menuOver.jpg) left top repeat-x;
+    text-decoration: none;
+    height: 30px;
+}
+
+#topNav ul li #active {
+	color: #fef0e1;
+	background: url(images/menuOver.jpg) left top repeat-x;
+    height: 30px;
+}
+
+.rss {
+    clear: right;
+    float: right;
+    margin-right: 0px;
+    //margin-right: 5px;
+}
+
+.rss img {
+    padding-top: 5px;
+    float: left;
+    margin-right: 10px;
+}
+
+.random {
+    float: left;
+    margin-top: 5px;
+}
+
+.random img {
+    border: 0px;
+}
+
+.spacer {
+    clear: both;
+    height: 10px;
+    background-color: #fff;
+    width: 94%;
+    margin-left: 3%;
+}
+
+
+
+
+/***************************************************************/
+/******* FOOTER COMPONENTS *************************************/
+/***************************************************************/
+
+#einsteinText {
+    clear: both;
+    width: 94%;
+    text-align: left;
+    background-color: #4C0E1C;
+    color: #feecc2;
+}
+
+#footer {
+	background: #4C0E1C;
+    width: 94%;
+    margin-left: 3%;
+	text-align: left;
+    min-width: 945px;
+}
+
+/*Opera hack Opera 7.x; Visible only Opera*/
+@media all and (min-width: 0) {
+    #footer {
+        min-width: 940px;
+    }
+}
+
+#footerText {
+	padding: 10px;
+    padding-left: 20px;
+    text-align: left;
+    color: #ffeacc;
+}
+
+#footerText a {
+    color: #ffeacc;
+}
+
+#network h2 a {
+    color: #fed78f;
+    font-size: 13px;
+    font-weight: bold;
+    font: 'Trebuchet MS', Verdana, Georgia, Arial, sans-serif;
+}
+
+.networkBox {
+    float: left;
+    width: 280px;
+    height: 250px;
+    text-align: justify;
+    margin-bottom: 20px;
+    margin-right: 5px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.networkBox h2 a {
+    color: #fed78f;
+    font-size: 14px;
+    font: 90% 'Trebuchet MS', Verdana, Georgia, Arial, sans-serif;
+}
+
+.networkBox a {
+    text-align: justify;
+    font-size: 12px;
+    text-align: left;
+    font: 90% 'Trebuchet MS', Verdana, Georgia, Arial, sans-serif;
+}
+
+.networkBox a:hover {
+    color: #ffeacc;
+}
+
+.networkBox ul {
+    list-style-image: url(images/li.jpg);
+    margin-left: 0px;
+    padding: 5px;
+}
+
+#copyright {
+    clear: left;
+    width: 94%;
+    text-align: right;
+    font-size: 10px;
+    height: 30px;
+    color: #fed78f;
+}
+
+#copyright a {
+    color: #fed78f;
+}
+
+#copyright a {
+    color: #ffeacc;
+}
+
+
+
+
+/*********************************************************************************/
+/************  POST COMPONENTS  **************************************************/
+/**********************************************************************************/
+
+
+.postAuthor {
+    float: left;
+    font-family: Tahoma, 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif; 
+    font-size: 13px;
+    color: #A598A0;
+    font-weight: normal;
+    margin-top: -10px;
+}
+
+.dateTime {
+    float: right;
+    text-align: right;
+    font-size: 13px;
+	margin-right: 20px;
+	color: #868383;
+    font-style: italic;
+    margin-top: -10px;
+}
+
+.postContent {
+	font-weight: normal;
+    padding-right: 10px;
+    text-align: justify;
+}
+
+.postContent img {
+    border: 0px;
+}
+
+.postContent a:link {
+    font-weight: bold;
+}
+
+.postTags {
+	margin-bottom: 10px;
+	font-family: times;
+	font-size: 12px;
+	font-weight: bold;
+	color: #034468;
+}
+
+#share {
+    clear: left;
+    float: left;
+    background: #fff;
+    width: 340px;
+}
+
+.shareItem {
+    float: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.wp-pagenavi {
+    height: 30px;
+}
+
+.alignleft {
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-right: 10px;
+}
+
+.alignright {
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.alignnone {
+    float: none;
+    margin: 10px;
+}
+
+.aligncenter {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 15%;
+}
+
+
+
+
+
+
+/***************************************************************************/
+/************ SEARCH COMPONENTS ********************************************/
+/***************************************************************************/
+
+#search {
+    float: right;
+    margin-right: 10px;
+    margin-top: 3px;
+    width: 110px;
+}
+
+#s {
+    float: right;
+    padding-left: 24px;
+    padding-right: 5px;
+    padding-top: 4px;
+    background: url(images/search.jpg) left no-repeat;
+    height: 21px;
+	width: 110px;
+    color: #222222;
+    font-weight: normal;
+    border: 0px;
+}
+
+/*Opera hack Opera 7.x; Visible only Opera*/
+@media all and (min-width: 0) {
+    #search {
+        margin-right: 35px;
+    }
+}
+
+#searchsubmit {
+    display: none;
+}
+
+#searchform {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+
+
+
+/***************************************************************/
+/******* COMMENTS COMPONENTS ***********************************/
+/***************************************************************/
+
+
+#respond {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: arial;
+    border-bottom: 1px groove #ddd;
+    color: #333;
+}
+
+#respond span {
+    font-size: 11px;
+    font-style: Italic;
+    font-weight: normal;
+    color: #444;
+}
+
+#commentform {
+    background: url(images/commentBack.jpg) top left no-repeat;
+    margin: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    padding-left: 30px;
+    font-family: courier new;
+    font-size: 12px; 
+    font-weight: normal;
+    color: #454a4f;
+}
+
+#commentform p {
+    font-family: utopia;
+    font-size: 13px;
+}
+
+#commentform p a {
+    font-family: utopia;
+    font-size: 13px;
+}
+
+#commentform input, textarea {
+    color: #454a4f;
+}
+
+#author {
+    background: url(images/textInput.gif) top left no-repeat;
+	//background: #e1f0ff;
+    width: 150px;
+    height: 20px;
+	//height: 11px;
+    border: 0px;
+	//border: 1px solid #fff;
+    padding: 5px;
+    vertical-align: baseline;
+    font-weight: normal;
+}
+
+#email {
+    background: url(images/textInput.gif) top left no-repeat;
+	//background: #e1f0ff;
+    width: 150px;
+    height: 20px;
+	//height: 11px;
+    border: 0px;
+	//border: 1px solid #fff;
+    padding: 5px;
+    vertical-align: baseline;
+    font-weight: normal;
+}
+
+#url {
+    background: url(images/textInput.gif) top left no-repeat;
+	//background: #e1f0ff;
+    width: 150px;
+    height: 20px;
+	//height: 11px;
+    border: 0px;
+	//border: 1px solid #fff;
+    padding: 5px;
+    vertical-align: baseline;
+    font-weight: normal;
+}
+
+#comment {
+    background: url(images/commentBox.jpg) top left no-repeat;
+	//background: #e1f0ff;
+    width: 445px;
+    height: 145px;
+	//height: 145px;
+    border: 0px;
+	//border: 1px solid #fff;
+    padding: 8px;
+    vertical-align: baseline;
+}
+
+#submit {
+	font-family: Trebuchet MS, Lucida Grande, Arial, Helvetica, sans;
+    font-size: 12px; 
+    font-weight: bold;
+	color: #fff;
+    background: url(images/submitButton.jpg) top left  no-repeat;
+    width: 115px;
+    height: 26px;
+    border: 0px;
+    vertical-align: middle;
+	text-align: center;
+}
+
+#comments {
+    font-family: Trebuchet MS, Lucida Grande, Arial, Helvetica, sans;
+    font-size: 12px;
+    color: #454a4f;
+    margin-left: 20px;
+    padding: 0px;
+}
+
+.commentlist li {
+    font-family: Trebuchet MS, Lucida Grande, Arial, Helvetica, sans;
+    font-size: 12px;
+    background: url(images/commentBack.jpg) no-repeat;
+    padding: 10px;
+    list-style: none;
+    margin-left: -20px;
+}
+
+.commentlist p {
+    color: #454a4f;
+    padding: 2px;
+}
+
+/** Begin Tab css **/
+
+/* $Id: example.css,v 1.5 2006/03/27 02:44:36 pat Exp $ */
+
+/*--------------------------------------------------
+  REQUIRED to hide the non-active tab content.
+  But do not hide them in the print stylesheet!
+  --------------------------------------------------*/
+.tabberlive .tabbertabhide {
+    display:none;
+}
+
+/*--------------------------------------------------
+  .tabber = before the tabber interface is set up
+  .tabberlive = after the tabber interface is set up
+  --------------------------------------------------*/
+.tabber {
+}
+.tabberlive {
+    margin-top: -10px;
+}
+
+/*--------------------------------------------------
+  ul.tabbernav = the tab navigation list
+  li.tabberactive = the active tab
+  --------------------------------------------------*/
+ul.tabbernav {
+    margin:0;
+    margin-left: 10px;
+    padding: 0;
+    font: 12px Verdana, sans-serif;
+}
+
+ul.tabbernav li {
+    list-style: none;
+    margin: 0;
+    float: left;
+    width: 120px;
+    color: #fff;
+    text-align: center;
+}
+
+ul.tabbernav li a {
+    padding: 3px 0px;
+    margin-left: 1px;
+    text-decoration: none;
+    font-size: 11px;
+    color: #000;
+    text-decoration: none;
+    width: 120px;
+    background: transparent url(images/tabsNormal.jpg) no-repeat left top;
+    display: block;
+}
+
+ul.tabbernav li a:hover {
+    color: #123456;
+    background: transparent url(images/tabsActive.jpg) no-repeat left top;
+}
+
+ul.tabbernav li.tabberactive a {
+    background: transparent url(images/tabsActive.jpg) no-repeat left top;
+    color: #123456;
+}
+
+ul.tabbernav li.tabberactive a:hover {
+    background: transparent url(images/tabsActive.jpg) no-repeat left top;
+    color: #123456;
+}
+
+/*--------------------------------------------------
+  .tabbertab = the tab content
+  Add style only after the tabber interface is set up (.tabberlive)
+  --------------------------------------------------*/
+.tabberlive {
+    padding: 5px;
+}
+
+.tabbertab {
+    clear: both;
+    padding: 5px;
+    background: #FFF url(images/tabsBack.jpg) repeat-x;
+    
+    /* If you don't want the tab size changing whenever a tab is changed
+    you can set a fixed height */
+    
+    /* height:200px; */
+    
+    /* If you set a fix height set overflow to auto and you will get a
+    scrollbar when necessary */
+    
+    /* overflow:auto; */
+}
+
+.tabbertab ul {
+    list-style-image: url(images/li.gif);
+}
+
+.tabbertab ul a {
+    font: 11px verdana;
+}
+
+.tabbertab ul li {
+    margin-left: -10px;
+    //margin-left: 0px;
+}
+
+
+/* If desired, hide the heading since a heading is provided by the tab */
+.tabberlive .tabbertab h2 {
+    display:none;
+}
+.tabberlive .tabbertab h3 {
+    display:none;
+}
+/** End Tab css **/
+
+
+#sideBar {
+    float: left;
+    width: 360px;
+    font-size: 11px;
+}
+
+#leftSideBar {
+	float: left;
+    width: 140px;
+}
+
+#leftSideBar div {
+	float: left;
+}
+
+#rightSideBar {
+	float: right;
+    width: 160px;
+}
+
+#rightSideBar div {
+	float: left;
+    margin-top: 10px;
+}
+
+.listStyleNone {
+    list-style-image: url(images/raquo.gif);
+    margin-left: -33px;
+    //margin-left: 0px;
+}
+
+.listStyleNone li {
+    margin-top: 3px;
+}
+
+.tgTopics {
+    width: 140px;
+}
+
+.tgTopics tr {
+    margin-top: 3px;
+}
+
+.tgTopics select {
+    width: 150px; 
+    font-size: 11px;
+}
+
+#translatorStats {
+    border: 1px groove;
+    padding: 1px;
+}
+
+.tgTranslatorBar img {
+    border: 0px;
+    margin: 1px;
+}
+.center { 
+    text-align: center;
+}
+
+.center table { 
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+.adButtons tr td {
+    padding: 10px;
+}
+.autoheight {
+    width: 550px;
+    height: auto; 
+    border: 0; 
+    background-color: #fefefe;
+    padding: 2px;
+}
+
+.rlDate {
+    font-style: Italic;
+	font-size: 9px;
+	color: #004064;
+}
+
+.excerpt {
+    margin-top: 2px;
+    font-size: 11px;
+}
+
+.relatedPosts {
+    margin-top: 5px; 
+    border-bottom: 1px groove #ddd;
+    color: #444;    
+}
+
+ul.relatedPosts {
+    padding: 0px;
+}
+
+ul.relatedPosts li {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.rlNews {
+    font-weight: bold;
+    font-size: 14px;
+    font-family: arial;
+    margin: 0px; 
+    border-bottom: 1px groove #ddd;
+    color: #333;
+}
+
+.divider {
+    clear: both;
+    border-bottom: 1px groove #bcbcbc;
+}
+
+.marginTop {
+    margin-top: 4px;
+}
+
+.relatedTopAd {
+    float: right;
+    margin: 6px 2px 2px 2px;
+    padding: 3px;
+}
+
+#sidebarBottom {
+    clear: both;
+}
+
+#catTagNews {
+    margin-bottom: 8px;
+}
+
+#catTagNews h2 {
+    color: #4F0E1C;
+    border: none;
+}
+
+#catTagNews h2 a {
+    color: #4F0E1C;
+}
+
+#catTagNews ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+#catTagNews ul li {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#catTagNews ul li a {
+    font: 11px verdana, sans-serif, geneva, arial;
+    color: #112511;
+}
+
+#catTagNews ul li a:hover {
+    text-decoration: none;
+    color: #000;
+}
+
+#catTagNews ul li a:visited {
+    color: #444;
+}
+
+#catTagNews td {
+    padding: 5px;
+    background-color: #efefef;
+    border: 1px ridge #efefef;
+    -moz-border-radius: 10px;
+}
+
+#rlTwits, #rlFriendFeeds {
+    margin: 6px, 0px, 6px, 0px;
+}
+
+#rlTwits h2, #rlFriendFeeds h2 {
+    text-align: center;
+    color: #330000;
+    border: none;
+    font: 10px sans-serif, geneva, arial;
+}
+
+#rlTwits h2 a, #rlFriendFeeds h2 a {
+    color: #330000;
+    font: 10px sans-serif, geneva, arial;
+}
+
+#rlTwits .twits, #rlFriendFeeds .friendFeeds {
+    margin-top: 6px;
+    padding: 3px 1px 0px 3px;
+    background-color: #efefef;
+    border: 1px ridge #efefef;
+    -moz-border-radius: 10px;
+}
+
+#rlTwits .twits ul, #rlFriendFeeds .friendFeeds ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+#rlTwits .twits ul li, #rlFriendFeeds .friendFeeds ul li {
+    list-style: none;
+    margin: 0px;
+    margin-top: 4px;
+    padding: 0px;
+    font: 9px verdana, sans-serif, geneva, arial;
+    color: #444;
+}
+
+#rlTwits .twits .name, #rlFriendFeeds .friendFeeds .name {
+    color: #0084B4;
+}
+
+#about {
+    float: right;
+    font-size: 9px;
+    margin-bottom: 2px;
+}
+
+.protectedByCGP {
+    font-size: 9px;
+    text-align: center;
+}
+
+#searchSection {
+    margin-top: 10px;
+}
+
+.imageBox {
+    margin-right: 2px;
+    float: left;
+}
+
+.moreImageLink {
+    float: left;
+    font-style: Italic;
+}
+

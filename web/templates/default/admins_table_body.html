@@ -1,0 +1,8 @@
+
+    <tr bgColor=ffffe1 align = center onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#ffffe1';">
+      <td><?=$admin_number;?></td>
+      <td><?=$row['username'];?></td>
+      <td>
+      <a href="index.php?module=Admin-cp&action=admins&subaction=delete&AdminName=<?=$row['username'];?>" onClick="return window.confirm('<?=$l_tables['admin_del'];?>')"><img src="templates/<?=$config['template'];?>/images/delete.gif" ></a>
+      </td>
+    </tr>

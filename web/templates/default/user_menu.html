@@ -1,0 +1,19 @@
+<p align=right>
+<select name="Map" onChange="{
+for (var i=0; i < this.length; i++) {
+if (this.options[i].selected) {
+if (i!=0) {
+top.window.location=this.options[i].value;
+break;
+}
+}
+}
+}
+">
+<option selected value="#"><?=$l_tables['user_menu_parts'];?>
+<option value="index.php?module=Balance&action=main"><?=$l_tables['main_about'];?>
+<option value="index.php?module=Balance&action=connects"><?=$l_tables['connections'];?>
+<option value="index.php?module=Balance&action=hosts"><?=$l_tables['hosts_info'];?>
+<option value="index.php?module=Balance&action=hourlystat"><?=$l_tables['time_info'];?>
+<option value="index.php?module=Balance&action=change_pass"><?=$l_tables['ch_pass'];?>
+</select></select></form> </p>

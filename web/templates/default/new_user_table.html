@@ -1,0 +1,462 @@
+<script>
+var logins = new Array();
+var ips = new Array();
+
+<?=$UsersOptsTpl['logins'];?>
+<?=$UsersOptsTpl['ips'];?>
+
+function checkReg() {
+var login_used = 0;
+var ip_used = 0;
+var filter = /^([0-9]{1,3})+\.([[0-9]{1,3})+\.([0-9]{1,3})+\.([0-9]{1,3})+$/;
+
+for (var i=0; i < logins.length; i++) {
+	if (document.forms['reg'].accountadd_login.value == logins[i]) 
+		login_used = 1;
+	if (document.forms['reg'].accountadd_ipaddr.value == ips[i]) 
+		ip_used = 1;
+}
+
+if (document.forms['reg'].accountadd_passwd.value!=document.forms['reg'].accountadd_confim.value){
+alert('<?=$l_forms['err_passwd'];?>');
+document.forms['reg'].accountadd_passwd.focus();
+return false;
+}
+
+if (document.forms['reg'].accountadd_login.value=='') {
+alert('<?=$l_forms['no_login'];?>');
+document.forms['reg'].accountadd_login.focus();
+return false;
+}
+
+if (login_used == '1')
+{
+	alert('<?=$l_forms['login_used'];?>');
+	document.forms['reg'].accountadd_login.focus();
+	return false;
+}
+
+if (ip_used == '1')
+{
+	alert('<?=$l_forms['ip_used'];?>');
+	document.forms['reg'].accountadd_ipaddr.focus();
+	return false;
+}
+
+if (document.forms['reg'].accountadd_ipaddr.value=='') 
+{
+	alert('<?=$l_forms['no_ip'];?>');
+	document.forms['reg'].accountadd_ipaddr.focus();
+	return false;
+}
+
+if (document.forms['reg'].accountadd_passwd.value=='') 
+{
+	alert('<?=$l_forms['no_passwd'];?>');
+	document.forms['reg'].accountadd_passwd.focus();
+	return false;
+}
+
+if (!filter.test(document.forms['reg'].accountadd_ipaddr.value)) {
+alert('<?=$l_forms['err_ip'];?>');
+document.forms['reg'].accountadd_ipaddr.focus();
+return false
+}
+
+if (!document.forms['reg'].accountadd_gr_opts.checked) 
+{
+	if (document.forms['reg'].accountadd_tcp.value=='') 
+	{
+		alert('<?=$l_forms['no_tcp_ports'];?>');
+		document.forms['reg'].accountadd_tcp.focus();
+		return false;
+	}
+
+	if (document.forms['reg'].accountadd_udp.value=='') 
+	{
+		alert('<?=$l_forms['no_dp_ports'];?>');
+		document.forms['reg'].accountadd_udp.focus();
+		return false;
+	}
+
+	if (document.forms['reg'].accountadd_limit_type.value=='limited') {
+		if (document.forms['reg'].accountadd_limit.value=='') 
+		{
+			alert('<?=$l_forms['no_limit'];?>');
+			document.forms['reg'].accountadd_limit.focus();
+			return false;
+		}
+		if (document.forms['reg'].accountadd_limit.value=='0') 
+		{
+			alert('<?=$l_forms['no_limit'];?>');
+			document.forms['reg'].accountadd_limit.focus();
+			return false;
+		}
+		if (document.forms['reg'].accountadd_out_limit.value=='') 
+		{
+			alert('<?=$l_forms['no_out_limit'];?>');
+			document.forms['reg'].accountadd_out_limit.focus();
+			return false;
+		}
+		if (document.forms['reg'].accountadd_out_limit.value=='0') 
+		{
+			alert('<?=$l_forms['no_out_limit'];?>');
+			document.forms['reg'].accountadd_out_limit.focus();
+			return false;
+		}
+	}
+}
+
+return true;
+
+}
+
+function personal_opts() 
+{
+	if (document.forms['reg'].accountadd_gr_opts.checked)
+	{
+		document.forms['reg'].accountadd_limit.disabled = true;
+		document.forms['reg'].accountadd_out_limit.disabled = true;
+		document.forms['reg'].accountadd_tcp.disabled = true;
+		document.forms['reg'].accountadd_udp.disabled = true;
+		document.forms['reg'].accountadd_limit_type.disabled = true;
+		document.forms['reg'].accountadd_bw.disabled = true;
+
+		document.forms['reg'].accountadd_limit.value = '';
+		document.forms['reg'].accountadd_out_limit.value = '';
+		document.forms['reg'].accountadd_tcp.value = '';
+		document.forms['reg'].accountadd_udp.value = '';
+	}
+	else
+	{
+		document.forms['reg'].accountadd_limit.disabled = false;
+		document.forms['reg'].accountadd_out_limit.disabled = false;
+		document.forms['reg'].accountadd_tcp.disabled = false;
+		document.forms['reg'].accountadd_udp.disabled = false;
+		document.forms['reg'].accountadd_limit_type.disabled = false;
+		document.forms['reg'].accountadd_bw.disabled = false;
+
+		document.forms['reg'].accountadd_limit.value = '100';
+		document.forms['reg'].accountadd_out_limit.value = '30';
+		document.forms['reg'].accountadd_tcp.value = '*';
+		document.forms['reg'].accountadd_udp.value = '*';
+	}
+}
+
+function chng_month()
+{
+	
+}
+
+</script>
+
+
+
+<form name='reg' onsubmit='return checkReg();' action='index.php?module=Users&action=accountadd' method='post' >
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="2">
+<tbody>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17% bgColor=#ffffe1>
+	<font color='red'> <b><?=$l_tables['sum_data'];?></>:</b></font>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['login'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_login maxlength=18 size=20 >
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_in'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_input;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['name'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_name maxlength=18 size=20  >
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_out'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_output;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['lastname'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_lastname maxlength=18 size=20  >
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_loc_in'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_local_input;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_limit maxlength=18 size=20  disabled>
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_loc_out'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_local_output;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['out_limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_out_limit maxlength=18 size=20 disabled>
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<a href="index.php?module=Users&group=<?=$_GET['group'];?>"><?=$l_tables['sum_users'];?></a>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$account_summ;?></b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['tcp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_tcp maxlength=250 size=20 disabled>
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<a href="index.php?module=Users&group=<?=$_GET['group'];?>&status=working"><?=$l_tables['sum_work'];?></a>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$working_accounts;?></b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['udp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_udp maxlength=250 size=20 disabled>
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<a href="index.php?module=Users&group=<?=$_GET['group'];?>&status=blocked"><?=$l_tables['sum_blocked'];?></a>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$blocked_accounts;?></b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['ip'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountadd_ipaddr maxlength=15 size=20>
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<a href="index.php?module=Users&group=<?=$_GET['group'];?>&status=local_only"><?=$l_tables['sum_loc_only'];?></a>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$localonly_accounts;?></b>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['type'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountadd_limit_type disabled>
+                      <OPTION VALUE='limited' SELECTED><?=$l_forms['limited'];?>
+                      <OPTION VALUE='unlimited'><?=$l_forms['unlimited'];?>
+    </SELECT>
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<a href="index.php?module=Users&group=<?=$_GET['group'];?>&status=limit_expire"><?=$l_tables['sum_limit_exp'];?></a>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$expire_accounts;?></b>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountadd_group>
+					<?=$UsersOptsTpl['groups'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['speed'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountadd_bw NAME disabled>
+					<?=$UsersOptsTpl['bandwidth'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+	
+	<select name="Map" onChange="{
+       for (var i=0; i < this.length; i++) {
+       if (this.options[i].selected) {
+       if (i!=0) {
+       top.window.location=this.options[i].value;
+        break;} } } } ">
+        <option selected value="#"><?=$l_forms['month'];?>:
+        <option value="index.php?module=Users&month=current"><?=$l_forms['current'];?>
+        <option value="index.php?module=Users&month=last"><?=$l_forms['last'];?>
+        <option value="index.php?module=Users&month=before_last"><?=$l_forms['before_last'];?>
+    </select>
+        
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group_opts'];?>
+	</td>
+	<td width=50%>
+	<input type="checkbox" checked name=accountadd_gr_opts onClick="personal_opts();">
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['pass'];?>
+	</td>
+	<td width=50%>
+	<input type=password name=accountadd_passwd maxlength=50 size=20 >
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['confim_pass'];?>
+	</td>
+	<td width=50%>
+	<input type=password name=accountadd_confim maxlength=50 size=20 >
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+
+
+<tr>
+	<td width=5%>	
+	</td>
+	<td width=15%>
+	<br>
+	<input type=submit value="<?=$l_forms['enter'];?>" >
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>

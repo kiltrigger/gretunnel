@@ -1,0 +1,2 @@
+valgrind --leak-check=full --leak-resolution=med --show-reachable=yes --log-file=/tmp/vpnms.debugs /usr/local/sbin/vpnmsd
+ 

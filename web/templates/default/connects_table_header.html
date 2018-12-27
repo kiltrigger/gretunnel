@@ -1,0 +1,60 @@
+<table border=1 cellpadding=2 cellspacing=0 bordercolor=#111111 width=100% align=center>
+  <tbody>
+    <tr bgColor=c0c0c0 align = center>
+      <td width=15%>
+      <?if($scriptname == 'showinfo.php'):?>
+      <strong><a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=connects&orderby=SessId><?=$l_tables['start'];?></a></strong>
+      <?endif;?>
+      <?if($scriptname == 'index.php'):?>
+      <strong><a href=index.php?module=Balance&action=connects&orderby=SessId><?=$l_tables['start'];?></a></strong>
+      <?endif;?>     
+      </td>
+      
+      <td width=15%><strong><?=$l_tables['end'];?></strong></td>
+      
+      <td width=10%>
+      <?if($scriptname == 'showinfo.php'):?>
+      <strong><a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=connects&orderby=SessionTime><?=$l_tables['in_online'];?></a></strong>
+      <?endif;?>
+      <?if($scriptname == 'index.php'):?>
+      <strong><a href=index.php?module=Balance&action=connects&orderby=SessionTime><?=$l_tables['in_online'];?></a></strong>
+      <?endif;?>     
+      </td>
+      
+      <td width=5%>
+      <?if($scriptname == 'showinfo.php'):?>
+      <strong><a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=connects&orderby=InternetIn><?=$l_tables['onl_in'];?></a></strong>
+      <?endif;?>
+      <?if($scriptname == 'index.php'):?>
+      <strong><a href=index.php?module=Balance&action=connects&orderby=InternetIn><?=$l_tables['onl_in'];?></a></strong>
+      <?endif;?>  
+      </td>
+      
+      <td width=5%>
+      <?if($scriptname == 'showinfo.php'):?>
+      <strong><a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=connects&orderby=InternetOut><?=$l_tables['onl_out'];?></a></strong>
+      <?endif;?>
+      <?if($scriptname == 'index.php'):?>
+      <strong><a href=index.php?module=Balance&action=connects&orderby=InternetOut><?=$l_tables['onl_out'];?></a></strong>
+      <?endif;?>  
+      </td>
+      
+      <td width=15%>
+      <?if($scriptname == 'showinfo.php'):?>
+      <strong><a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=connects&orderby=LocalIn><?=$l_tables['onl_loc_in'];?></a></strong>
+      <?endif;?>
+      <?if($scriptname == 'index.php'):?>
+      <strong><a href=index.php?module=Balance&action=connects&orderby=LocalIn><?=$l_tables['onl_loc_in'];?></a></strong>
+      <?endif;?>  
+      </td>
+      
+      <td width=15%>
+      <?if($scriptname == 'showinfo.php'):?>
+      <strong><a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=connects&orderby=LocalOut><?=$l_tables['onl_loc_out'];?></a></strong>
+      <?endif;?>
+      <?if($scriptname == 'index.php'):?>
+      <strong><a href=index.php?module=Balance&action=connects&orderby=LocalOut><?=$l_tables['onl_loc_out'];?></a></strong>
+      <?endif;?>  
+      </td>
+    </tr>
+    

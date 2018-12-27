@@ -1,0 +1,57 @@
+<script>
+function checkReg(){
+var filter = /^([0-9]{1,3})+\.([[0-9]{1,3})+\.([0-9]{1,3})+\.([0-9]{1,3})+$/;
+
+if (document.forms['new_subnet'].new_subnet_subnet.value=='') {
+alert('<?=$l_forms['no_net'];?>');
+document.forms['new_subnet'].new_subnet_subnet.focus();
+return false;
+}
+
+else if (document.forms['new_subnet'].new_subnet_mask.value=='') {
+alert('<?=$l_forms['no_mask'];?>');
+document.forms['new_subnet'].new_subnet_mask.focus();
+return false;
+}
+
+else if (!filter.test(document.forms['new_subnet'].new_subnet_subnet.value)) {
+alert('<?=$l_forms['err_net'];?>');
+document.forms['new_subnet'].new_subnet_subnet.focus();
+return false
+}
+
+else if (!filter.test(document.forms['new_subnet'].new_subnet_mask.value)) {
+alert('<?=$l_forms['err_mask'];?>');
+document.forms['new_subnet'].new_subnet_mask.focus();
+return false
+}
+
+
+else 
+	return true;
+}
+</script>
+
+
+
+<table border=0 cellpadding=2 cellspacing=0 width=100% align=center>
+  <tbody valign='top'>
+    <tr align = left >
+
+      <td width=30%>
+
+      </td>
+
+      <td width=70%>
+
+        <form name='new_subnet' onsubmit='return checkReg();' action='index.php?module=Admin-cp&action=subnets&subaction=add_subnet' method='post' >
+        <input type=submit value="<?=$l_forms['enter'];?>" >
+        <input type=text name=new_subnet_subnet maxlength=15 size=15 value="<?=$l_tables['net'];?>" >
+        / <input type=text name=new_subnet_mask maxlength=15 size=15 value="<?=$l_tables['mask'];?>">
+        </form>
+
+      </td>
+
+    </tr>
+  </tbody>
+</table>

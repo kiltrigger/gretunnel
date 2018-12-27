@@ -1,0 +1,13 @@
+#ALTQ
+device<><------>pf
+device<><------>pflog
+device><------->pfsync
+options><------>ALTQ
+options><------>ALTQ_CBQ
+options><------>ALTQ_RED
+options><------>ALTQ_RIO
+options><------>ALTQ_HFSC
+options><------>ALTQ_PRIQ
+options><------>ALTQ_NOPCC
+
+http://www.freebsd.org/doc/ru_RU.KOI8-R/books/handbook/firewalls-pf.html

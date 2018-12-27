@@ -1,0 +1,12 @@
+    <tr bgColor=#ffffe1 align = center id="row" onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#ffffe1';">
+      <td><?=$online['UserName'];?></td>
+      <td><?=$connection_time;?></td>
+      <td><?=$in;?></td>
+      <td><?=$out;?></td>
+      <td><?=$loc_in;?></td>
+      <td><?=$loc_out;?></td>
+      <td><?=$speed_in;?></td>
+      <td><?=$speed_out;?></td>
+      <td><?=$connected;?></td>
+      <td><a href=index.php?module=OnLine&action=disconnect&UserName=<?=$online['UserName'];?> onClick="return window.confirm('<?=$l_tables['ses_del'];?>')"><img src="templates/<?=$config['template'];?>/images/delete.gif" ></a></td>
+    </tr>

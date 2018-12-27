@@ -1,0 +1,259 @@
+<style>
+FONT {
+        FONT-SIZE: 12px; FONT-FAMILY: Verdana,Helvetica
+}
+TD {
+        FONT-SIZE: 12px; FONT-FAMILY: Verdana,Helvetica
+}
+BODY {
+        FONT-SIZE: 12px; FONT-FAMILY: Verdana,Helvetica
+}
+P {
+        FONT-SIZE: 12px; FONT-FAMILY: Verdana,Helvetica
+}
+DIV {
+        FONT-SIZE: 10px; FONT-FAMILY: Verdana,Helvetica
+}
+BODY {
+        PADDING-RIGHT: 0px; PADDING-LEFT: 0px; SCROLLBAR-FACE-COLOR: #c0c0c0; BACKGROUND: #eeeeee; PADDING-BOTTOM: 0px; MARGIN: 6px; FONT: 12px Verdana,Arial,Helvetica,sans-serif; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; SCROLLBAR-SHADOW-COLOR: #dee3e7; COLOR: #000000; SCROLLBAR-3DLIGHT-COLOR: #d1d7dc; SCROLLBAR-ARROW-COLOR: #006699; PADDING-TOP: 0px; SCROLLBAR-TRACK-COLOR: #efefef; SCROLLBAR-DARKSHADOW-COLOR: #98aab1
+}
+.gensmall {
+        FONT-SIZE: 12px
+}
+TD.genmed {
+        FONT-SIZE: 11px
+}
+.genmed {
+        FONT-SIZE: 11px
+}
+.bigheader {
+        FONT-WEIGHT: bold; FONT-SIZE: 15px; COLOR: #5c81b1
+}
+A:link {
+        COLOR: #006699; TEXT-DECORATION: none
+}
+A:active {
+        COLOR: #006699; TEXT-DECORATION: none
+}
+A:visited {
+        COLOR: #006699; TEXT-DECORATION: none
+}
+A.postlink {
+        COLOR: #006699; TEXT-DECORATION: none
+}
+A:hover {
+        COLOR: #dd6900
+}
+.topictitle {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px
+}
+A.topictitle:visited {
+        COLOR: #5493b4
+}
+A.topictitle:hover {
+        COLOR: #dd6900
+}
+.name {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px
+}
+HR {
+        BORDER-RIGHT: #ffffff 0px solid; BORDER-TOP: #ffffff 1px solid; BORDER-LEFT: #ffffff 0px solid; BORDER-BOTTOM: #ffffff 0px solid; HEIGHT: 0px
+}
+TD.cat {
+        FONT-WEIGHT: bold; BACKGROUND: url(images/cellpic1.gif) #d9e2ec; TEXT-INDENT: 4px; LETTER-SPACING: 1px; HEIGHT: 29px
+}
+.row1 {
+        BACKGROUND: #eaedf4
+}
+.row2 {
+        BACKGROUND: #d9e2ec
+}
+.helpline {
+        BACKGROUND: #d9e2ec
+}
+.row3 {
+        BACKGROUND: #cedcec
+}
+TD.spacerow {
+        BACKGROUND: #cad9ea
+}
+TD.rowpic {
+        BACKGROUND: url(images/cellpic2.jpg) #ffffff repeat-y
+}
+TH {
+        PADDING-RIGHT: 8px; PADDING-LEFT: 8px; FONT-WEIGHT: bold; FONT-SIZE: 11px; BACKGROUND: url(images/cellpic3.gif) #005eb2; COLOR: #deeef3; WHITE-SPACE: nowrap; HEIGHT: 27px; TEXT-ALIGN: center
+}
+.bodyline {
+        BORDER-RIGHT: #98aab1 1px solid; BORDER-TOP: #98aab1 1px solid; BACKGROUND: #ffffff; BORDER-LEFT: #98aab1 1px solid; BORDER-BOTTOM: #98aab1 1px solid
+}
+.forumline {
+        BORDER-RIGHT: #006699 1px solid; BORDER-TOP: #006699 1px solid; BACKGROUND: #ffffff; BORDER-LEFT: #006699 1px solid; BORDER-BOTTOM: #006699 1px solid
+}
+.maintitle {
+        FONT: bold 20px/120% "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif; COLOR: #5c81b1; TEXT-DECORATION: none
+}
+H1 {
+        FONT: bold 20px/120% "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif; COLOR: #5c81b1; TEXT-DECORATION: none
+}
+.subtitle {
+        FONT: bold 18px/180% "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif; TEXT-DECORATION: none
+}
+H2 {
+        FONT: bold 18px/180% "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif; TEXT-DECORATION: none
+}
+H3 {
+        FONT: bold 14px/120% "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif; TEXT-DECORATION: none
+}
+.nav {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px
+}
+.postbody {
+        FONT-SIZE: 12px; LINE-HEIGHT: 125%
+}
+.postdetails {
+        FONT-SIZE: 10px; COLOR: #00396a
+}
+.quote {
+        BORDER-RIGHT: #d1d7dc 1px solid; BORDER-TOP: #d1d7dc 1px solid; FONT-SIZE: 11px; BACKGROUND: #fafafa; BORDER-LEFT: #d1d7dc 1px solid; COLOR: #444444; LINE-HEIGHT: 125%; BORDER-BOTTOM: #d1d7dc 1px solid
+}
+.code {
+        BORDER-RIGHT: #d1d7dc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #d1d7dc 1px solid; PADDING-LEFT: 5px; BACKGROUND: #fafafa; PADDING-BOTTOM: 5px; FONT: 12px Courier,"Courier New",sans-serif; BORDER-LEFT: #d1d7dc 1px solid; COLOR: #006600; PADDING-TOP: 5px; BORDER-BOTTOM: #d1d7dc 1px solid
+}
+.errorline {
+        BORDER-RIGHT: #006699 1px solid; BORDER-TOP: #006699 1px solid; BACKGROUND: #add8e6; BORDER-LEFT: #006699 1px solid; BORDER-BOTTOM: #006699 1px solid
+}
+INPUT {
+        BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-WIDTH: 1px; BORDER-BOTTOM-COLOR: #000000; FONT: 11px Verdana,Arial,Helvetica,sans-serif; COLOR: #000000; BORDER-TOP-COLOR: #000000; BACKGROUND-COLOR: #eaedf4; BORDER-RIGHT-WIDTH: 1px; BORDER-RIGHT-COLOR: #000000
+}
+TEXTAREA {
+        BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-WIDTH: 1px; BORDER-BOTTOM-COLOR: #000000; FONT: 11px Verdana,Arial,Helvetica,sans-serif; COLOR: #000000; BORDER-TOP-COLOR: #000000; BACKGROUND-COLOR: #eaedf4; BORDER-RIGHT-WIDTH: 1px; BORDER-RIGHT-COLOR: #000000
+}
+SELECT {
+        BORDER-LEFT-COLOR: #000000; BORDER-BOTTOM-COLOR: #000000; FONT: 11px Verdana,Arial,Helvetica,sans-serif; COLOR: #000000; BORDER-TOP-COLOR: #000000; BORDER-RIGHT-COLOR: #000000
+}
+INPUT.post {
+        BACKGROUND: #eaedf4
+}
+TEXTAREA.post {
+        BACKGROUND: #eaedf4
+}
+SELECT {
+        BACKGROUND: #eaedf4
+}
+INPUT {
+        TEXT-INDENT: 2px
+}
+INPUT.button {
+        BACKGROUND: #000000; FONT: 11px Verdana,Arial,Helvetica,sans-serif; COLOR: #9999aa
+}
+INPUT.mainoption {
+        FONT-WEIGHT: bold; BACKGROUND: #000000
+}
+INPUT.liteoption {
+        FONT-WEIGHT: normal; BACKGROUND: #000000
+}
+.helpline {
+        BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+.topbkg {
+        BACKGROUND: url(images/cellpic_bkg.jpg) #dbe3ee repeat-x
+}
+.topnav {
+        BORDER-RIGHT: #91a0ae 0px solid; BORDER-TOP: #91a0ae 1px solid; FONT-SIZE: 10px; BACKGROUND: url(images/cellpic_nav.gif) #e5ebf3 repeat-x; BORDER-LEFT: #91a0ae 0px solid; COLOR: #dd6900; BORDER-BOTTOM: #91a0ae 1px solid; WHITE-SPACE: nowrap; HEIGHT: 21px
+}
+.topnav2 {
+        BORDER-RIGHT: 0px; BORDER-TOP: 0px; FONT-SIZE: 10px; BORDER-LEFT: 0px; COLOR: #dd6900; BORDER-BOTTOM: 0px; WHITE-SPACE: nowrap; HEIGHT: 21px
+}
+.admin {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px
+}
+.mod {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px
+}
+.admin {
+        COLOR: #ffa34f
+}
+A.admin {
+        COLOR: #ffa34f
+}
+A.admin:visited {
+        COLOR: #ffa34f
+}
+.mod {
+        COLOR: #006600
+}
+A.mod {
+        COLOR: #006600
+}
+A.mod:visited {
+        COLOR: #006600
+}
+A.admin:hover {
+        COLOR: #dd6900
+}
+A.mod:hover {
+        COLOR: #dd6900
+}
+.imgtopic {
+        MARGIN-LEFT: 3px
+}
+.imgicon {
+        MARGIN-LEFT: 3px
+}
+.imgspace {
+        MARGIN-LEFT: 1px; MARGIN-RIGHT: 2px
+}
+.imgfolder {
+        MARGIN: 1px 4px
+}
+IMG {
+        BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+.tbl {
+        WIDTH: 100%; BORDER-COLLAPSE: collapse; HEIGHT: 4px
+}
+.tbll {
+        BACKGROUND: url(images/tb4_l.gif) no-repeat; WIDTH: 8px
+}
+.tblbot {
+        BACKGROUND: url(images/tb4_m.gif) repeat-x; WIDTH: 100%
+}
+.tblr {
+        BACKGROUND: url(images/tb4_r.gif) no-repeat; WIDTH: 8px
+}
+.title {
+        FONT-WEIGHT: bold; FONT-SIZE: 13px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.content {
+        BACKGROUND: none transparent scroll repeat 0% 0%; FONT-FAMILY: Verdana, Helvetica
+}
+.block-title {
+        FONT-SIZE: 11px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica
+}
+.storytitle {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #deeef3; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.storycat {
+        FONT-WEIGHT: bold; FONT-SIZE: 11px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: underline
+}
+.boxtitle {
+        FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.boxcontent {
+        FONT-SIZE: 10px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica
+}
+.option {
+        FONT-WEIGHT: bold; FONT-SIZE: 10px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.tiny {
+        FONT-WEIGHT: normal; FONT-SIZE: 10px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.small {
+        FONT-WEIGHT: normal; FONT-SIZE: 9px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #006699; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+p.foot {color: black; font-size :8pt; text-align : center; font- family: arial, sans-serif ; font-weight: bold}
+
+.data {font-family:Tahoma,Verdana,Arial;color:#000000;font-size:9px;text-align:right;border-right:1px solid #000000;border-bottom:1px solid #000000; background-color:#f5f5f5}
+.data2 {font-family:Tahoma,Verdana,Arial;color:#000000;font-size:9px;border-right:1px solid #6A5ACD;border-bottom:1px solid #000000; background-color:#c0c0c0}
+
+</style>

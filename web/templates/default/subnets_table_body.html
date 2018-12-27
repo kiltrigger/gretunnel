@@ -1,0 +1,9 @@
+
+    <tr bgColor=#ffffe1 align = center onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#ffffe1';">
+      <td><? echo $subnet_number; ?></td>
+      <td><? echo $row['Subnet_Address']; ?></td>
+      <td><? echo $row['NetMask']; ?></td>
+      <td>
+      <a href="index.php?module=Admin-cp&action=subnets&subaction=del_subnet&SubNet=<?=$row['Subnet_Address'];?>" onClick="return window.confirm('<?=$l_tables['net_del'];?>')"><img src="templates/<?=$config['template'];?>/images/delete.gif" ></a>
+      </td>
+    </tr>

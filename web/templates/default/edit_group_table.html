@@ -1,0 +1,272 @@
+<script>
+
+function checkReg() {
+
+
+if (document.forms['reg'].groupedit_tcp.value=='') 
+{
+	alert('<?=$l_forms['no_tcp_ports'];?>');
+	document.forms['reg'].groupedit_tcp.focus();
+	return false;
+}
+
+if (document.forms['reg'].groupedit_udp.value=='') 
+{
+	alert('<?=$l_forms['no_dp_ports'];?>');
+	document.forms['reg'].groupedit_udp.focus();
+	return false;
+}
+
+if (document.forms['reg'].groupedit_limit_type.value=='limited') {
+	if (document.forms['reg'].groupedit_limit.value=='') 
+	{
+		alert('<?=$l_forms['no_limit'];?>');
+		document.forms['reg'].groupedit_limit.focus();
+		return false;
+	}
+	if (document.forms['reg'].groupedit_limit.value=='0') 
+	{
+		alert('<?=$l_forms['no_limit'];?>');
+		document.forms['reg'].groupedit_limit.focus();
+		return false;
+	}
+	if (document.forms['reg'].groupedit_out_limit.value=='') 
+	{
+		alert('<?=$l_forms['no_out_limit'];?>');
+		document.forms['reg'].groupedit_out_limit.focus();
+		return false;
+	}
+	if (document.forms['reg'].groupedit_out_limit.value=='0') 
+	{
+		alert('<?=$l_forms['no_out_limit'];?>');
+		document.forms['reg'].groupedit_out_limit.focus();
+		return false;
+	}
+
+}
+
+
+return true;
+
+}
+
+function limit_type()
+{
+	if (document.forms['reg'].groupedit_limit_type.value == 'limited')
+	{
+		document.forms['reg'].groupedit_limit.disabled = false;
+		document.forms['reg'].groupedit_out_limit.disabled = false;
+
+		document.forms['reg'].groupedit_limit.value = '100';
+		document.forms['reg'].groupedit_out_limit.value = '30';
+	}
+	if (document.forms['reg'].groupedit_limit_type.value == 'unlimited')
+	{
+		document.forms['reg'].groupedit_limit.disabled = true;
+		document.forms['reg'].groupedit_out_limit.disabled = true;
+
+		document.forms['reg'].groupedit_limit.value = '';
+		document.forms['reg'].groupedit_out_limit.value = '';
+	}
+}
+
+</script>
+
+
+
+<form name='reg' onsubmit='return checkReg();' action='index.php?module=Groups&action=save_edit' method='post' >
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="2">
+<tbody>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupedit_group maxlength=18 size=20 readonly value="<?=$info['groupname'];?>" >
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupedit_limit maxlength=18 size=20 value="<?=$limit;?>">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['out_limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupedit_out_limit maxlength=18 size=20 value="<?=$info['out_limit'];?>">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['tcp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupedit_tcp maxlength=250 size=20 value="<?=$info['allow_tcp_port'];?>">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['udp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=groupedit_udp maxlength=250 size=20 value="<?=$info['allow_udp_port'];?>">
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['type'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupedit_limit_type onChange="limit_type();">
+                      <OPTION VALUE='limited' <? if($info['limit_type'] == 'limited'): ?>SELECTED<? endif; ?>><?=$l_forms['limited'];?>
+                      <OPTION VALUE='unlimited' <? if($info['limit_type'] == 'unlimited'): ?>SELECTED<? endif; ?>><?=$l_forms['unlimited'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['auth_type'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupedit_auth_type>
+            <OPTION VALUE='PAP' <? if($info['auth_type'] == 'PAP'): ?>SELECTED<? endif; ?>>PAP
+            <OPTION VALUE='CHAP' <? if($info['auth_type'] == 'CHAP'): ?>SELECTED<? endif; ?>>CHAP
+            <OPTION VALUE='MS-CHAP' <? if($info['auth_type'] == 'MS-CHAP'): ?>SELECTED<? endif; ?>>MS-CHAP
+    </SELECT>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['speed'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=groupedit_bw>
+					<?=$tpl_bandwidth;?>
+    </SELECT>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['rewrite'];?>
+	</td>
+	<td width=50%>
+	<input type="checkbox" name=groupedit_rewrite>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['disconnect'];?>
+	</td>
+	<td width=50%>
+	<input type="checkbox" checked name=groupedit_disconnect>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+
+<tr>
+	<td width=5%>	
+	</td>
+	<td width=15%>
+	<br>
+	<input type=submit value="<?=$l_forms['enter'];?>" >
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>

@@ -1,0 +1,367 @@
+/*
++----------------------------------------------------------------+
+|																							|
+|	WordPress 2.7 Plugin: WP-Polls 2.40										|
+|	Copyright (c) 2008 Lester "GaMerZ" Chan									|
+|																							|
+|	File Written By:																	|
+|	- Lester "GaMerZ" Chan															|
+|	- http://lesterchan.net															|
+|																							|
+|	File Information:																	|
+|	- Polls CSS File																	|
+|	- wp-content/plugins/wp-polls/polls-css.css								|
+|																							|
++----------------------------------------------------------------+
+*/
+
+
+.wp-polls-archive {
+	/* background-color: #ffffff; */
+}
+.wp-polls, .wp-polls-form {
+	/* background-color: #ffffff; */
+}
+.wp-polls ul li, wp-polls-ul li, .wp-polls-ans ul li {
+	text-align: left;
+	background-image: none;
+	display: block;
+}
+.wp-polls ul, .wp-polls-ul, .wp-polls-ans ul  {
+	text-align: left;
+	list-style: none;
+}
+.wp-polls ul li:before, wp-polls-ul li, .wp-polls-ans ul li:before, #sidebar ul ul li:before {
+	content: '';
+}
+.wp-polls IMG, .wp-polls LABEL , .wp-polls INPUT, .wp-polls-loading IMG, .wp-polls-image IMG {
+	display: inline;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+.wp-polls-ul {
+	padding: 0px;
+	margin: 0px 0px 10px 10px;
+}
+.wp-polls-ans {
+	width:75%;
+	filter: alpha(opacity=100);
+	-moz-opacity: 1;
+	opacity: 1;
+	/* background-color: #ffffff; */
+}
+.wp-polls-loading {
+	display: none;
+	text-align: center;
+	height: 16px;
+	line-height: 16px;
+}
+.wp-polls-image {
+	border: 0px;
+}
+.wp-polls .Buttons {
+	border:1px solid #c8c8c8;
+	background-color: #f3f6f8;
+}
+/* Polls Archive Paging */
+.wp-polls-paging a, .wp-polls-paging a:link {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	border: 1px solid #0066cc;
+	color: #0066cc;
+	background-color: #FFFFFF;	
+}
+.wp-polls-paging a:visited {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	border: 1px solid #0066cc;
+	color: #0066cc;
+	background-color: #FFFFFF;	
+}
+.wp-polls-paging a:hover {	
+	border: 1px solid #000000;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+.wp-polls-paging a:active {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	border: 1px solid #0066cc;
+	color: #0066cc;
+	background-color: #FFFFFF;	
+}
+.wp-polls-paging span.pages {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px 2px 2px 2px;
+	color: #000000;
+	border: 1px solid #000000;
+	background-color: #FFFFFF;
+}
+.wp-polls-paging span.current {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	font-weight: bold;
+	border: 1px solid #000000;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+.wp-polls-paging span.extend {
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;	
+	border: 1px solid #000000;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+
+/* ----------- Background Box Div styles ----------- */ 
+
+.box{ 
+	width:270px;
+	color: #333;
+	background: #86858a url(images/pdb01-bottom-left.gif) no-repeat left bottom;
+	font-family: tahoma;
+	text-align: left;
+}
+.box-outer{
+	background: url(images/pdb01-bottom-right.gif) no-repeat right bottom;
+}
+.box-inner{
+	background: url(images/pdb01-top-left.gif) no-repeat left top;
+} 
+.box-top{
+	background: url(images/pdb01-top-right.gif) no-repeat right top;
+	padding: 20px 20px 20px 20px;
+}
+
+/* ----------- Question Box Div styles ----------- */ 
+ 
+.question { 
+ background: url(images/pdq01-bottom-left.gif) no-repeat left bottom; 
+ } 
+ 
+.question-outer { 
+ background: url(images/pdq01-bottom-right.gif) no-repeat right bottom; 
+ padding-bottom: 15px; 
+ } 
+ 
+.question-inner { 
+ background: url(images/pdq01-top-left.gif) no-repeat left top; 
+ } 
+ 
+.question-top { 
+ background: url(images/pdq01-top-right.gif) no-repeat right top; 
+ padding: 15px 15px 0px 15px; 
+ font-size: 12px; 
+ color: #ECBF00; 
+ } 
+ 
+ 
+ /* ----------- Answer Box Div styles ----------- */ 
+ 
+.answer { 
+ font-size: 10px; 
+ font-family: tahoma; 
+ /*line-height: 20px; */ 
+ text-align:right; 
+ color: #6F6F6F; 
+ padding: 10px 20px 15px 20px; 
+ } 
+ 
+ 
+ 
+ .buttonAsLink { 
+ width: 61px; 
+ height: 61px; 
+ background: url(images/pd01-votebutton1.gif) no-repeat; 
+ outline: none; 
+ float: right;
+} 
+.buttonAsLink_hover {
+	width: 61px; 
+	height: 61px; 
+	background: url(images/pd01-votebutton2.gif) no-repeat;
+	outline: none; 
+	float: right; 
+} 
+
+.display-links a {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+.display-links a:visited {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+ 	border-top-color: #CCCCCC;
+ 	border-bottom-color: #CCCCCC;
+ 	border-top-style: dotted; 
+ 	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+.display-links a:hover {
+	color: #848484;
+}
+
+.view-result a {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+
+.view-result a:visited {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC; 
+	border-bottom-color: #CCCCCC; 
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+.view-result a:hover {	
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC; 
+	border-bottom-color: #CCCCCC; 
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+
+
+.view-comment a {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+
+.view-comment a:visited {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC; 
+	border-bottom-color: #CCCCCC; 
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+.view-comment a:hover {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC; 
+	border-bottom-color: #CCCCCC; 
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+.return-to-poll a {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+
+.return-to-poll a:visited {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC; 
+	border-bottom-color: #CCCCCC; 
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+.return-to-poll a:hover {
+	font-size: 9px; 
+	border-top: 1px; 
+	border-bottom: 1px; 
+	border-top-color: #CCCCCC; 
+	border-bottom-color: #CCCCCC; 
+	border-top-style: dotted; 
+	border-bottom-style: dotted;
+	padding: 2px 4px 2px 4px; 
+	margin: 2px;
+	text-decoration: none;
+	color: #848484;
+}
+
+.wp-polls .wp-polls-form .question {
+	display: none;
+}
+
+.wp-polls .question {
+	display: none;
+}
+
+#activePoll .wp-polls .wp-polls-form .question {
+	display: block;
+}
+
+#activePoll .wp-polls .question {
+	display: block;
+}
+#activePoll .wp-polls-ans {
+	width:100%;
+}
+#haveAlreadyVoted {
+	font-size: 10px; 
+	font-family: tahoma; 
+    text-align:right; 
+	color: #6F6F6F;
+}

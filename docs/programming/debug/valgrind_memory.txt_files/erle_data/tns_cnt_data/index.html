@@ -1,0 +1,39 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251"></head><body>
+<script type="text/javascript">
+try{
+	var ar_ok	= 'http://st.adriver.ru/sett?t=239.108&store=30';
+
+	function send_pix(src){
+		if(document.createElement&&document.body){
+			var i=document.createElement('img');
+			i.style.position='absolute';i.style.width=i.style.height='0px';
+			i.src=src;
+			document.body.insertBefore(i, document.body.firstChild);
+		}
+		else{new Image().src = src}
+	}
+
+	if (window.ActiveXObject){
+		onload = function(){
+			setTimeout(function(){
+				var meta = document.getElementsByTagName('meta');
+				for(var i=0; i<meta.length; i++){
+					if (meta[i].name == 'SKYPE_PARSING_HAS_FINISHED'){
+						send_pix(ar_ok);
+						return;
+					}
+				}
+			}, 1000);
+		}
+	}
+	else if (window.netscape&&!window.opera) {
+		onload = function(){
+			setTimeout(function(){
+				if (document.getElementById('_skypeplugin_dropdownmenu_css')) send_pix(ar_ok);
+			}, 1000);
+		}
+	}
+}catch(e){}
+</script>
+</body></html>

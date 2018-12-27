@@ -1,0 +1,27 @@
+преобразование uint16_t и uint16_t в int
+http://www.opennet.ru/man.shtml?topic=ntohl&category=3&russian=0
+
+#include <netinet/in.h>
+
+uint32_t htonl(uint32_t hostlong);
+
+uint16_t htons(uint16_t hostshort);
+
+uint32_t ntohl(uint32_t netlong);
+
+uint16_t ntohs(uint16_t netshort);
+
+Пример:
+ntohs (pData->header.count)
+
+************************************************************************************
+MYSQL
+
+Для сборки с поддержкой mysql нужно поставить libmysqlclient и libmysqlclient-dev
+и собирать демона с опциями -lmysqlclient -lz
+
+************************************************************************************
+TODO
+
+* Сделать обновление списка локальных сетей
+* Исправить баг с крашем, когда пытаемся увеличить число элементов массива для локальных сетей

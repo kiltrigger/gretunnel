@@ -1,0 +1,16 @@
+<CENTER>
+<p class="bigheader"><?=$cur_date;?></p>
+
+<? if ($script_name == 'index.php'): ?>
+<a href=index.php?module=Balance&action=hosts&day=<?=$back_day;?>&subaction=<?=$_GET['subaction'];?>><<<?=$navbar['back'];?>&nbsp&nbsp</a>
+<a href=index.php?module=Balance&action=hosts><?=$navbar['rep_start'];?>&nbsp&nbsp</a>
+<a href=index.php?module=Balance&action=hosts&day=<?=$forward_day;?>&subaction=<?=$_GET['subaction'];?>><?=$navbar['forward'];?>>></a>
+<? endif; ?>
+
+<? if ($script_name == 'showinfo.php'): ?>
+<a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=hosts&day=<?=$back_day;?>&subaction=<?=$_GET['subaction'];?>><<<?=$navbar['back'];?>&nbsp&nbsp</a>
+<a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=hosts><?=$navbar['rep_start'];?>&nbsp&nbsp</a>
+<a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=hosts&day=<?=$forward_day;?>&subaction=<?=$_GET['subaction'];?>><?=$navbar['forward'];?>>></a>
+<? endif; ?>
+
+</CENTER>

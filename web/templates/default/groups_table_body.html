@@ -1,0 +1,54 @@
+<script LANGUAGE="JavaScript">
+function fullScreen(theURL) {
+window.open(theURL, '', 'width=1024, height=600, scrollbars=yes, resizable=yes');
+}
+</script>
+
+    <tr bgColor=ffffe1 align = center id="row" onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#ffffe1';">
+      <td><?=$group_number;?></td>
+      <td><a href="index.php?module=Users&group=<?=$row['groupname'];?>"><?=$row['groupname'];?></a></td>
+
+      <td>    
+	  <? if ( $row['limit_type'] =='unlimited' ): ?> 
+      unlimited
+      <? endif; ?>
+      <? if ( $row['limit_type'] =='limited' ): ?>
+	  <?=$gr_limit;?>
+	  <? endif; ?>
+      </td>
+
+      <td>    
+	  <? if ( $row['limit_type'] =='unlimited' ): ?> 
+      unlimited
+      <? endif; ?>
+      <? if ( $row['limit_type'] =='limited' ): ?>
+	  <?=$row['out_limit'];?>
+	  <? endif; ?>
+      </td>
+
+      <td><?=$bw_name['bandwidth_name'];?></td>
+      <td><?=$row['allow_tcp_port'];?></td>
+	  <td><?=$row['allow_udp_port'];?></td>      
+	  <td><?=$auth_row['Value'];?></td>
+      
+      <td>
+			<? if ($row['status']=='working'): ?>
+			<b><font color=green><?=$l_tables['working'];?></font></b>
+			<? endif; ?>
+			<? if ($row['status']=='blocked'): ?>
+			<b><font color=red><?=$l_tables['blocked'];?></font></b>
+			<? endif; ?>
+			<? if ($row['status']=='limit_expire'): ?>
+			<b><font color=red><?=$l_tables['limit_expire'];?></font></b>
+			<? endif; ?>
+			<? if ($row['status']=='local_only'): ?>
+			<b><font color=orange><?=$l_tables['local_only'];?></font></b>
+			<? endif; ?>
+      </td>
+      
+      <td>     
+	  <a href=index.php?module=Groups&action=edit&GroupName=<?=$row['groupname'];?>#bottom_label><img src="templates/<?=$config['template'];?>/images/edit.gif"></a>
+	  <a href=index.php?module=Groups&action=edit_status&GroupName=<?=$row['groupname'];?>#bottom_label><img src="templates/<?=$config['template'];?>/images/status.png"></a>	  
+	  <a href=index.php?module=Groups&action=delete&GroupName=<?=$row['groupname'];?> onClick="return window.confirm('<?=$l_tables['group_del'];?>')"><img src="templates/<?=$config['template'];?>/images/delete.gif"></a>      
+      </td>
+    </tr>

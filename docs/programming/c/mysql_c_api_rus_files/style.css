@@ -1,0 +1,13 @@
+HTML, TD, BODY {cursor: default}
+a:link {text-decoration: none; color:137DF5}
+a:visited {text-decoration: none; color:666DF5}
+a:active {text-decoration: none; color:137DF5}
+a:hover {text-decoration: none; color:3E608D}
+BODY, TD {font-family : Verdana, Geneva, Arial, Helvetica, sans-serif; color:000000; font-size: 13px;}
+
+.work {font:10px Verdana; color:000000; font-weight: bold;}
+.regular {font-size: 10px;}
+.regularb {font-size: 11px; font-weight: bold;}
+.small {font-size: 9px}
+.indexnews { font-size: text-decoration: none; 9px; font-family: Tahoma, Arial; font-weight: bold;}
+.add { color : #0000ff; font-size: 10px; font-family: Tahoma, Arial; font-weight: bold;}

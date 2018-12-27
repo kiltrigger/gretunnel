@@ -1,0 +1,69 @@
+<tr bgColor=f5f5f5 align = center id="row" onmouseover="this.style.background='#c0c0c0';" onmouseout="this.style.background='#f5f5f5';">
+      <td align=center>
+      	<? if ($script_name == 'index.php'): ?>
+      	<a href=index.php?module=Balance&action=<?=$_GET[action];?>&day=<?=$i;?>><?=$cur_date;?></a>
+      	<? endif; ?>
+      	<? if ($script_name == 'showinfo.php'): ?>
+      	<a href=showinfo.php?UserName=<?=$_GET['UserName'];?>&month=<?=$_GET['month'];?>&action=<?=$_GET[action];?>&day=<?=$i;?>><?=$cur_date;?></a>
+      	<? endif; ?>
+      </td>
+      
+      <td align=center>
+      	<? if ($http != 0): ?><?=$http;?><? endif; ?>
+      	<? if ($http == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($https != 0): ?><?=$https;?><? endif; ?>
+      	<? if ($https == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($ssh != 0): ?><?=$ssh;?><? endif; ?>
+      	<? if ($ssh == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($icq != 0): ?><?=$icq;?><? endif; ?>
+      	<? if ($icq == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($smtp != 0): ?><?=$smtp;?><? endif; ?>
+      	<? if ($smtp == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($ssmtp != 0): ?><?=$ssmtp;?><? endif; ?>
+      	<? if ($ssmtp == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($pop3 != 0): ?><?=$pop3;?><? endif; ?>
+      	<? if ($pop3 == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($pop3s != 0): ?><?=$pop3s;?><? endif; ?>
+      	<? if ($pop3s == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($imap != 0): ?><?=$imap;?><? endif; ?>
+      	<? if ($imap == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($imaps != 0): ?><?=$imaps;?><? endif; ?>
+      	<? if ($imaps == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($imapssl != 0): ?><?=$imapssl;?><? endif; ?>
+      	<? if ($imapssl == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($dns != 0): ?><?=$dns;?><? endif; ?>
+      	<? if ($dns == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($other != 0): ?><?=$other;?><? endif; ?>
+      	<? if ($other == 0): ?>.<? endif; ?>
+      </td>
+      <td align=center>
+      	<? if ($all != 0): ?><?=$all;?><? endif; ?>
+      	<? if ($all == 0): ?>.<? endif; ?>
+      </td>
+      
+ </tr>
+ 

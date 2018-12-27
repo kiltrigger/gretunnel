@@ -1,0 +1,81 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=KOI8-R"><title>
+        Учебник по FreeBSD, OpenBSD, NetBSD, DragonFly: C.1. Введение в работу с пакетным фильтром OpenBSD</title><link rel="stylesheet" href="ps_01_files/default.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><meta name="keywords" content="BSD, OpenBSD, FreeBSD, NetBSD, DragonFly"><link rel="start" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html" title="BSDA в вопросах и ответах"><link rel="up" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html" title="Приложение C. Пакетный фильтр OpenBSD&nbsp;&#8212; pf(4)"><link rel="prev" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html" title="Приложение C. Пакетный фильтр OpenBSD&nbsp;&#8212; pf(4)"><link rel="next" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html" title="C.2. Конфигурационный файл pf.conf(5)"></head><body link="#0000ff" text="black" vlink="#840084" alink="#0000ff" bgcolor="white"><div class="navheader"><table summary="Navigation header" width="100%"><tbody><tr><th></th><th align="center">C.1. Введение в работу с пакетным фильтром <span class="acronym">OpenBSD</span></th><th align="right"><script type="text/javascript" src="ps_01_files/orphus.js"></script><a title="Система Orphus" href="http://orphus.ru/" id="orphus" target="_blank"><img alt="Система Orphus" src="ps_01_files/orphus.gif" border="0"></a></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html"><img src="ps_01_files/prev.gif" alt="Пред."></a>&nbsp;</td><th width="60%" align="center">Приложение C. Пакетный фильтр <span class="acronym">OpenBSD</span>&nbsp;&#8212; <span><strong class="command">pf(4)</strong></span></th><td width="20%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html"><img src="ps_01_files/next.gif" alt="След."></a></td></tr></tbody></table><hr></div><div class="section" lang="ru"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="pf-intro"></a>C.1. Введение в работу с пакетным фильтром <span class="acronym">OpenBSD</span></h2></div></div></div><p>
+      Пакетный фильтр <span class="acronym">OpenBSD</span> в настоящий момент
+      успешно портирован во все рассматриваемые в этом курсе системы: в
+      <span class="acronym">FreeBSD</span>, <span class="acronym">NetBSD</span> и
+      <span class="acronym">DragonFly&nbsp;BSD</span>. Большинство описанных в
+      этом обзоре функций, таких как <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-authpf" title="C.2.3.4. Authpf: авторизация в пакетном фильтре"><span><strong class="command">authpf(8)</strong></span></a> или
+      <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html#pf-carp+pfsync" title="C.2.3.5. CARP и pfsync"><span class="acronym">CARP</span> и
+        pfsync</a> портированы во все четыре системы. (<code class="code">pfsync(4)</code>, кажется нет в
+      <span class="acronym">NetBSD</span>.) Но при этом самая свежая и наиболее
+      функциональная версия входит в <span class="acronym">OpenBSD</span>, а
+      остальные системы могут от неё отставать больше или меньше.
+    </p><p>
+
+    </p><p>
+      Здесь описана версия <span class="acronym">OpenBSD</span>&nbsp;4.0, и кое
+      где по тексту упоминаются отличия свойственные
+      <span class="acronym">FreeBSD</span>&nbsp;6.2.
+    </p>
+
+    <p></p>
+      Для активации пакетного фильтра в <span class="acronym">OpenBSD</span> надо
+      добавить строку <code class="code">pf=YES</code> в файл
+      <code class="filename">/etc/rc.conf.local(5)</code>. В
+      <span class="acronym">FreeBSD</span> понадобятся следующие строки в файле
+      <code class="filename">/etc/rc.conf(5)</code>:
+    <p></p><div class="informalexample"><pre class="programlisting">pf_enable="YES"                 # Включить PF (Подгрузить модуль, если требуется)
+pf_rules="/etc/pf.conf"         # Откуда подгружать правила для pf
+pf_flags=""                     # дополнительные флаги для управляющей программы pfctl(8)
+pflog_enable="YES"              # запуск pflogd(8) (система журналирования)
+pflog_logfile="/var/log/pflog"  # где pflogd должен хранить журнал
+pflog_flags=""                  # дополнительные флаги для pflogd
+      </pre></div><p>
+      Кроме того, пакетный фильтр можно запустить при помощи команды
+      </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -e
+        </pre></div>
+      а остановить при помощи команды
+      <div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -d
+        </pre></div>
+    <p></p><p>
+      Эти две команды не подгружают правила, а только запускают
+      брандмауэр. Для подгрузки правил надо воспользоваться командой
+    </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -f /etc/some-ruleset-file
+      </pre></div><p>
+      Вот некоторые примеры использования команды
+      <span><strong class="command">pfctl(8)</strong></span>:
+    </p><div class="informalexample"><pre class="screen"><code class="prompt">#</code> pfctl -f /etc/pf.conf     Загрузить файл pf.conf
+<code class="prompt">#</code> pfctl -nf /etc/pf.conf    Проверить синтаксис, но не загружать
+<code class="prompt">#</code> pfctl -Nf /etc/pf.conf    Загрузить только правила NAT
+<code class="prompt">#</code> pfctl -Rf /etc/pf.conf    Загрузить только фильтрующие правила
+
+<code class="prompt">#</code> pfctl -sn                 Показать текущие правила NAT 
+<code class="prompt">#</code> pfctl -sr                 Показать текущие правила фильтра
+<code class="prompt">#</code> pfctl -ss                 Показать текущую таблицу состояний (state table)
+<code class="prompt">#</code> pfctl -si                 Показать статистику
+<code class="prompt">#</code> pfctl -sa                 Показать ВСЁ что можно
+      </pre></div><p>
+      Для ведения журнала может использоваться система
+      <span><strong class="command">pflogd(8)</strong></span>, которая создаёт псевдо сетевой
+      интерфейс <code class="code">pflog0</code>. Это позволяет
+      слушать журнал &#171;на лету&#187; при помощи утилиты
+      <span><strong class="command">tcpdump(8)</strong></span> (см. <a href="http://house.hcn-strela.ru/BSDCert/BSDA-course/ch06s11.html" title="6.11. Демонстрация основных навыков работы с утилитой
+      tcpdump(1)">Раздел&nbsp;6.11, &#171;Демонстрация основных навыков работы с утилитой
+      <span><strong class="command">tcpdump(1)</strong></span>&#187;</a>).
+      Кроме того, <span><strong class="command">pflogd(8)</strong></span>сохраняет журнал в
+      отдельный файл, который пишется в двоичном формате. Для чтения
+      журнального файла тоже применяется утилита
+      <span><strong class="command">tcpdump(8)</strong></span>,&nbsp;&#8212; в ней, для этого,
+      предусмотрено несколько характерных условий, предназначенных
+      не для прослушивания сети (основное её предназначение), а
+      специально для анализа журнальных файлов
+      <span><strong class="command">pf(4)</strong></span>.
+    </p></div><hr><div class="itemizedlist"><ul type="disc"><li><a href="http://house.hcn-strela.ru/BSDCert/">Легенда (условные обозначения)</a>.</li><li>Свежая версия данного <a href="http://house.hcn-strela.ru/BSDCert/">учебника по *BSD</a>.</li><li>Если вы нашли ошибку, выделите её в браузере и нажмите
+                    клавиши &lt;Ctrl&gt;+&lt;Enter&gt; (пожалуйста,
+                    &#171;зачёрпывайте&#187; окрестности ошибки, чтобы её было
+                    легче найти в тексте)</li><li>Замечания и предложения можно высылать по адресу <img src="ps_01_files/email.png"></li><li>Автор, <a href="http://house.hcn-strela.ru/%7Eemin/cv.html">Евгений Миньковский</a>, ведёт
+                    <a href="http://www.a-sys.ru/default.aspx?t13=7">курсы по администрированию
+                        <acronym class="acronym">FreeBSD</acronym> и
+                        <acronym class="acronym">Linux</acronym></a>.
+                    в Академии Корпоративных Систем:
+                    <a href="http://www.a-sys.ru/">http://www.a-sys.ru/</a></li></ul></div><div class="navfooter"><hr><table summary="Navigation footer" width="100%"><tbody><tr><td width="40%" align="left"><a accesskey="p" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html"><img src="ps_01_files/prev.gif" alt="Пред."></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apc.html"><img src="ps_01_files/up.gif" alt="Уровень выше"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/apcs02.html"><img src="ps_01_files/next.gif" alt="След."></a></td></tr><tr><td valign="top" width="40%" align="left">Приложение C. Пакетный фильтр <span class="acronym">OpenBSD</span>&nbsp;&#8212; <span><strong class="command">pf(4)</strong></span>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="http://house.hcn-strela.ru/BSDCert/BSDA-course/index.html"><img src="ps_01_files/home.gif" alt="Начало"></a></td><td valign="top" width="40%" align="right">&nbsp;C.2. Конфигурационный файл <code class="filename">pf.conf(5)</code></td></tr></tbody></table></div></body></html>

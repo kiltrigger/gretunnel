@@ -1,0 +1,27 @@
+body { font-family: Verdana, Tahoma, Arial, Helvetica; }
+body, td { font-size: 90%; }
+body.tabular { margin-left: 0; margin-top: 0; margin-right: 15; }
+h1, h2, h3, h4, h5 { font-style: italic; }
+h1 { font-size: 200%; }
+h2 { font-size: 150%; }
+h3 { font-size: 125%; text-align: center; }
+h3.author, h3.corpauthor { text-align: left; font-style: normal; 
+font-size: 100%; margin-bottom: 0; }
+h1, h2, h3, h4, h5, 
+div.navheader th, .toc, .title,
+a:link, a:active, { color: #00a5a5; }
+a:visited { color: #666666; }
+.navtoc a:link, .navtoc a:visited, .navtoc a:active { color: #ffffff; }
+.content { padding-left: 15; padding-top: 10; vertical-align: top; }
+.programlisting, .screen, 
+.note, .warning, .caution, .tip, .important
+{ background-color: #dddddd; 
+border: thin solid #cccccc; padding: 0.25em 1em 0.25em 1em; }
+.prompt { color: #0000ff; }
+.filename { color: #007700; }
+.abstract { font-style: italic; }
+.abstract .title { font-style: normal; }
+.figure, .informalfigure { text-align: center; }
+div.blockquote { border-left: 3px double; }
+img{ border: none; }
+table{ brder-collapse: collapse; }

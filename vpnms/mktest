@@ -1,0 +1,5 @@
+#gcc -c mysql_test_f.c -o mysql_test_f.o
+#gcc -c mysql_test.c -o mysql_test.o
+#gcc -lmysqlclient -lz -o mysql_test mysql_test.o mysql_test_f.o
+
+gcc -lmysqlclient -lz -o mysql_test mysql_test.c

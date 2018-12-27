@@ -1,0 +1,29 @@
+<table width = "100%" bgcolor = white cellpadding = 1 cellspacing = 1>
+ <tr>
+	<td width = "12.5%" align = center>
+ 		<a href = "index.php?module=Start"><?=$navbar['start'];?></a>
+ 	</td>
+ 	<td width = "12.5%" align = center>
+ 		<a href = "index.php?module=Balance"><?=$navbar['balance'];?></a>
+ 	</td>
+ 	<td width = "12.5%" align = center>
+ 	<a href = "index.php?module=OnLine"><?=$navbar['online'];?></a>
+ 	</td>
+ 	<td width = "12.5%" align = center>
+ 		<a href = "index.php?module=Users"><?=$navbar['users'];?></a>
+ 	</td>
+ 	<td width = "12.5%" align = center>
+ 		<a href = "index.php?module=Groups"><?=$navbar['groups'];?></a>
+ 	</td>
+ 	<td width = "12.5%" align = center>
+ 		<a href = "index.php?module=Admin-cp"><?=$navbar['admin-cp'];?></a>
+ 	</td>
+ 	<td width = "12.5%" align = center>
+ 		<? if ($_SESSION['session_login']==""): ?>
+ 		<a href = "index.php?module=Login"><?=$navbar['login'];?></a>
+ 		<? else: ?>
+ 		<a href = "index.php?module=Logout"><?=$navbar['logout'];?>[<?=$_SESSION['session_login'];?>]</a>
+ 		<? endif; ?>
+ 	</td> 
+ </tr>
+</table>

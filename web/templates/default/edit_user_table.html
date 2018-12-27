@@ -1,0 +1,491 @@
+<script>
+var logins = new Array();
+var ips = new Array();
+
+<?=$UsersOptsTpl['ips'];?>
+
+function checkReg() {
+var login_used = 0;
+var ip_used = 0;
+var filter = /^([0-9]{1,3})+\.([[0-9]{1,3})+\.([0-9]{1,3})+\.([0-9]{1,3})+$/;
+
+for (var i=0; i < ips.length; i++) {
+	if (document.forms['reg'].accountedit_ipaddr.value == ips[i]) 
+		ip_used = 1;
+}
+
+if (document.forms['reg'].accountedit_passwd.value!=document.forms['reg'].accountedit_confim.value){
+alert('<?=$l_forms['err_passwd'];?>');
+document.forms['reg'].accountedit_passwd.focus();
+return false;
+}
+
+if (ip_used == '1')
+{
+	alert('<?=$l_forms['ip_used'];?>');
+	document.forms['reg'].accountedit_ipaddr.focus();
+	return false;
+}
+
+if (document.forms['reg'].accountedit_ipaddr.value=='') 
+{
+	alert('<?=$l_forms['no_ip'];?>');
+	document.forms['reg'].accountedit_ipaddr.focus();
+	return false;
+}
+
+if (document.forms['reg'].accountedit_bonus.value=='') 
+{
+	alert('<?=$l_forms['no_bonus'];?>');
+	document.forms['reg'].accountedit_bonus.focus();
+	return false;
+}
+
+if (document.forms['reg'].accountedit_passwd.value=='') 
+{
+	alert('<?=$l_forms['no_passwd'];?>');
+	document.forms['reg'].accountedit_passwd.focus();
+	return false;
+}
+
+if (!filter.test(document.forms['reg'].accountedit_ipaddr.value)) {
+alert('<?=$l_forms['err_ip'];?>');
+document.forms['reg'].accountedit_ipaddr.focus();
+return false
+}
+
+if (!document.forms['reg'].accountedit_gr_opts.checked) 
+{
+	if (document.forms['reg'].accountedit_tcp.value=='') 
+	{
+		alert('<?=$l_forms['no_tcp_ports'];?>');
+		document.forms['reg'].accountedit_tcp.focus();
+		return false;
+	}
+
+	if (document.forms['reg'].accountedit_udp.value=='') 
+	{
+		alert('<?=$l_forms['no_dp_ports'];?>');
+		document.forms['reg'].accountedit_udp.focus();
+		return false;
+	}
+
+	if (document.forms['reg'].accountedit_limit_type.value=='limited') {
+		if (document.forms['reg'].accountedit_limit.value=='') 
+		{
+			alert('<?=$l_forms['no_limit'];?>');
+			document.forms['reg'].accountedit_limit.focus();
+			return false;
+		}
+		if (document.forms['reg'].accountedit_limit.value=='0') 
+		{
+			alert('<?=$l_forms['no_limit'];?>');
+			document.forms['reg'].accountedit_limit.focus();
+			return false;
+		}
+		if (document.forms['reg'].accountedit_out_limit.value=='') 
+		{
+			alert('<?=$l_forms['no_out_limit'];?>');
+			document.forms['reg'].accountedit_out_limit.focus();
+			return false;
+		}
+		if (document.forms['reg'].accountedit_out_limit.value=='0') 
+		{
+			alert('<?=$l_forms['no_out_limit'];?>');
+			document.forms['reg'].accountedit_out_limit.focus();
+			return false;
+		}
+	}
+}
+
+return true;
+
+}
+
+function personal_opts() 
+{
+	if (document.forms['reg'].accountedit_gr_opts.checked)
+	{
+		document.forms['reg'].accountedit_limit.disabled = true;
+		document.forms['reg'].accountedit_out_limit.disabled = true;
+		document.forms['reg'].accountedit_tcp.disabled = true;
+		document.forms['reg'].accountedit_udp.disabled = true;
+		document.forms['reg'].accountedit_limit_type.disabled = true;
+		document.forms['reg'].accountedit_bw.disabled = true;
+
+		document.forms['reg'].accountedit_limit.value = '';
+		document.forms['reg'].accountedit_out_limit.value = '';
+		document.forms['reg'].accountedit_tcp.value = '';
+		document.forms['reg'].accountedit_udp.value = '';
+	}
+	else
+	{
+		document.forms['reg'].accountedit_limit.disabled = false;
+		document.forms['reg'].accountedit_out_limit.disabled = false;
+		document.forms['reg'].accountedit_tcp.disabled = false;
+		document.forms['reg'].accountedit_udp.disabled = false;
+		document.forms['reg'].accountedit_limit_type.disabled = false;
+		document.forms['reg'].accountedit_bw.disabled = false;
+
+		document.forms['reg'].accountedit_limit.value = '100';
+		document.forms['reg'].accountedit_out_limit.value = '30';
+		document.forms['reg'].accountedit_tcp.value = '*';
+		document.forms['reg'].accountedit_udp.value = '*';
+	}
+}
+
+</script>
+
+<a name="bottom_label">
+
+<form name='reg' onsubmit='return checkReg();' action='index.php?module=Users&action=save_edit&group=<?=$_GET['group'];?>' method='post' >
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="2">
+<tbody>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17% bgColor=#ffffe1>
+	<font color='red'> <b><?=$l_tables['sum_data'];?></>:</b></font>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['login'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_login maxlength=18 size=20 readonly value="<?=$_GET['UserName'];?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_in'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_input;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['name'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_name maxlength=18 size=20  value="<?=$info['name'];?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_out'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_output;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['lastname'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_lastname maxlength=18 size=20  value="<?=$info['lastname'];?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_loc_in'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_local_input;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_limit maxlength=18 size=20 <? if (!$personal_opts): ?> disabled <? endif; ?> value="<?=$user_limit;?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_loc_out'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$sum_local_output;?> Mb</b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['out_limit'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_out_limit maxlength=18 size=20 <? if (!$personal_opts): ?> disabled <? endif; ?> value="<?=$user_out_limit;?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_users'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$account_summ;?></b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['tcp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_tcp maxlength=250 size=20 <? if (!$personal_opts): ?> disabled <? endif; ?> value="<?=$user_tcp;?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_work'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$working_accounts;?></b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['udp_ports'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_udp maxlength=250 size=20 <? if (!$personal_opts): ?> disabled <? endif; ?> value="<?=$user_udp;?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_blocked'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$blocked_accounts;?></b>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['ip'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_ipaddr maxlength=15 size=20 value="<?=$ipaddress;?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_loc_only'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$localonly_accounts;?></b>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['bonus'];?>
+	</td>
+	<td width=50%>
+	<input type=text name=accountedit_bonus maxlength=15 size=20 value="<?=$bonus_mb;?>">
+	</td>
+	<td width=17% bgColor=#d0d0d0>
+	<?=$l_tables['sum_limit_exp'];?>
+	</td>
+	<td width=10% bgColor=#bdddc6>
+	<b><?=$expire_accounts;?></b>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['type'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountedit_limit_type  <? if (!$personal_opts): ?> disabled <? endif; ?>>
+                      <OPTION VALUE='limited' <? if($info['limit_type'] == 'limited'): ?>SELECTED<? endif; ?>><?=$l_forms['limited'];?>
+                      <OPTION VALUE='unlimited' <? if($info['limit_type'] == 'unlimited'): ?>SELECTED<? endif; ?>><?=$l_forms['unlimited'];?>
+    </SELECT>
+	</td>
+	<td width=17% >
+	
+	</td>
+	<td width=10%>
+	
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['status'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountedit_status>
+                      <OPTION VALUE='working' <? if($info['status'] == 'working'): ?>SELECTED<? endif; ?> ><?=$l_forms['status_work'];?>
+                      <OPTION VALUE='local_only' <? if($info['status'] == 'local_only'): ?>SELECTED<? endif; ?> ><?=$l_forms['status_loc_only'];?>
+                      <OPTION VALUE='blocked' <? if($info['status'] == 'blocked'): ?>SELECTED<? endif; ?>><?=$l_forms['status_blocked'];?>
+                      
+    </SELECT>
+	</td>
+	<td width=17% >
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%></td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountedit_group>
+					<?=$UsersOptsTpl['groups'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['speed'];?>
+	</td>
+	<td width=50%>
+	<SELECT NAME=accountedit_bw <? if (!$personal_opts): ?> disabled <? endif; ?>>
+					<?=$UsersOptsTpl['bandwidth'];?>
+    </SELECT>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['group_opts'];?>
+	</td>
+	<td width=50%>
+	<input type="checkbox" <? if (!$personal_opts): ?> checked <? endif; ?> name=accountedit_gr_opts onClick="personal_opts();">
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['disconnect'];?>
+	</td>
+	<td width=50%>
+	<input type="checkbox" checked name=accountedit_disconnect>
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['pass'];?>
+	</td>
+	<td width=50%>
+	<input type=password name=accountedit_passwd maxlength=50 size=20 value="<?=$info['value'];?>">
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+<tr>
+	<td width=5%>
+	</td>
+	<td width=15%>
+	<?=$l_forms['confim_pass'];?>
+	</td>
+	<td width=50%>
+	<input type=password name=accountedit_confim maxlength=50 size=20 value="<?=$info['value'];?>">
+	</td>
+	<td width=17%>
+
+	</td>
+	<td width=10%>
+
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+
+
+<tr>
+	<td width=5%>	
+	</td>
+	<td width=15%>
+	<br>
+	<input type=submit value="<?=$l_forms['enter'];?>" >
+	</td>
+	<td width=50%>
+	</td>
+	<td width=17%>
+	</td>
+	<td width=10%>
+	</td>
+	<td width=3%>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>

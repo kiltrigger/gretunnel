@@ -1,0 +1,39 @@
+.dwfwte {
+background:transparent url(http://www.ibm.com/developerworks/i/icon_gadget.gif) no-repeat scroll 0pt 6px;
+cursor:pointer;
+height:22px;
+width:16px;
+}
+
+.dwfwtc {
+background:transparent url(http://www.ibm.com/developerworks/i/icon_gadgetroll.gif) no-repeat scroll 0pt 6px;
+cursor:pointer;
+height:22px;
+width:16px;
+}
+
+.dwgooglegadget {
+background:transparent url(http://www.ibm.com/developerworks/i/add.gif) no-repeat scroll;
+cursor:pointer;
+width:104px;
+height:17px;
+padding-right:5px;
+}
+
+.dwmyyahoo {
+background:transparent url(http://www.ibm.com/developerworks/i/addtomyyahoo4.gif) no-repeat scroll;
+cursor:pointer;
+width:91px;
+height:17px;
+padding-right:5px;
+
+}
+
+.dwnetvibes {
+background:transparent url(http://www.ibm.com/developerworks/i/add2netvibes.gif) no-repeat scroll;
+cursor:pointer;
+width:91px;
+height:17px;
+padding-right:5px;
+
+}
